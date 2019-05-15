@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.0.1",
+  "version": "0.0.23",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "scripts": {
@@ -28,11 +28,6 @@
     "url": "https://github.com/victorgarciaesgi/simple-graphql-to-typescript/issues"
   },
   "homepage": "https://github.com/victorgarciaesgi/simple-graphql-to-typescript#readme",
-  "devDependencies": {
-    "apollo": "^2.11.1",
-    "chalk": "^2.4.2",
-    "ora": "^3.4.0"
-  },
   "bin": {
     "sgts": "./dist/index.js"
   },
@@ -40,6 +35,9 @@
     "@types/node": "^12.0.2",
     "commander": "^2.20.0",
     "prettier": "^1.17.1",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "apollo": "^2.11.1",
+    "chalk": "^2.4.2",
+    "ora": "^3.4.0"
   }
 }
