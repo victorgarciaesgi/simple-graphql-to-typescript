@@ -1,0 +1,45 @@
+{
+  "name": "simple-graphql-to-typescript",
+  "version": "0.0.1",
+  "description": "Simple Typescript interface generator from GraphQL Schemas",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf dist",
+    "compile": "tsc --pretty",
+    "build": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://victorgarciaesgi@github.com/victorgarciaesgi/simple-graphql-to-typescript.git"
+  },
+  "keywords": [
+    "graphql",
+    "typescript",
+    "ts",
+    "gql",
+    "gql-ts",
+    "graphql-typescript",
+    "graphql-ts"
+  ],
+  "author": "Victor Garcia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorgarciaesgi/simple-graphql-to-typescript/issues"
+  },
+  "homepage": "https://github.com/victorgarciaesgi/simple-graphql-to-typescript#readme",
+  "devDependencies": {
+    "apollo": "^2.11.1",
+    "chalk": "^2.4.2",
+    "ora": "^3.4.0"
+  },
+  "bin": {
+    "sgts": "./dist/index.js"
+  },
+  "dependencies": {
+    "@types/node": "^12.0.2",
+    "commander": "^2.20.0",
+    "prettier": "^1.17.1",
+    "rimraf": "^2.6.3"
+  }
+}
