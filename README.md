@@ -43,14 +43,14 @@ sgts
 
 ## **Documentation**
 
-| Option                      | Short syntax | Type                                         | Description                                                             |
-| --------------------------- | ------------ | -------------------------------------------- | ----------------------------------------------------------------------- |
-| --endpoint `<endpoint>`     | -e           | string(url)                                  | Your GraphQL api endpoint                                               |
-| --json `<path to json>`     | -j           | string(path)                                 | Path to your json schema file                                           |
-| --output `<path>`           | -o           | string(path) <br> *default* `./generated.ts` | Path where the file must be generated                                   |
-| --suffix `<suffix>`         | -            | string <br> *default* `null`                 | Add suffix to all your types (ex: User becomes IUser with --suffix I)   |
-| --header `<header>`         | -h           | string                                       | Additional header option to fetch your schema from endpoint schema file |
-| --customScalars `<scalars>` | -            | Array<{"myScalar": "MyType"} ...>            | Provide your custum scalars in format [{"myScalar": "MyType"} ...]      |
+| Option                      | Short syntax | Type                                         | Description                                                                               |
+| --------------------------- | ------------ | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| --endpoint `<endpoint>`     | -e           | string(url)                                  | Your GraphQL api endpoint                                                                 |
+| --json `<path to json>`     | -j           | string(path)                                 | Path to your json schema file                                                             |
+| --output `<path>`           | -o           | string(path) <br> *default* `./generated.ts` | Path where the file must be generated                                                     |
+| --suffix `<suffix>`         | -            | string <br> *default* `null`                 | Add suffix to all your types (ex: User becomes IUser with --suffix I)                     |
+| --header `<header>`         | -h           | string                                       | (Not working yet) Additional header option to fetch your schema from endpoint schema file |
+| --customScalars `<scalars>` | -            | Array<{"myScalar": "MyType"} ...>            | (Not working yet) Provide your custum scalars in format [{"myScalar": "MyType"} ...]      |
 ## Usage exemple
 
 ```bash
