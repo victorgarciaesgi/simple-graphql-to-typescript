@@ -10,14 +10,14 @@ export const downloadSchema = (schemaUrl: string, header: string) => {
       'service:download',
       '--endpoint',
       schemaUrl,
-      path.resolve(__dirname, `../schema.json`),
+      path.resolve(__dirname, `__schema.json`),
     ];
     if (header) {
       args.push('--header', header);
     }
     const fetchSchema = spawn(path.resolve(__dirname, '../node_modules/.bin/apollo'), args);
 
-    fetchSchema.on('error', err => {
+    fetchSchema.stderr.on('data', err => {
       download.text = err.message;
       download.fail();
       rej(err.message);

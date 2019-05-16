@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.0.41",
+  "version": "0.0.44",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "scripts": {
@@ -22,6 +22,9 @@
     "graphql-typescript",
     "graphql-ts"
   ],
+  "resolutions": {
+    "graphql": "^14.3.0"
+  },
   "author": "Victor Garcia",
   "license": "MIT",
   "bugs": {
@@ -29,7 +32,7 @@
   },
   "homepage": "https://github.com/victorgarciaesgi/simple-graphql-to-typescript#readme",
   "bin": {
-    "sgts": "./dist/index.js"
+    "sgts": "./dist/sgts-bin.js"
   },
   "dependencies": {
     "@types/node": "^12.0.2",

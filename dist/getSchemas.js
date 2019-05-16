@@ -50,13 +50,13 @@ exports.downloadSchema = function (schemaUrl, header) {
             'service:download',
             '--endpoint',
             schemaUrl,
-            path_1.default.resolve(__dirname, "../schema.json"),
+            path_1.default.resolve(__dirname, "__schema.json"),
         ];
         if (header) {
             args.push('--header', header);
         }
         var fetchSchema = child_process_1.spawn(path_1.default.resolve(__dirname, '../node_modules/.bin/apollo'), args);
-        fetchSchema.on('error', function (err) {
+        fetchSchema.stderr.on('data', function (err) {
             download.text = err.message;
             download.fail();
             rej(err.message);
