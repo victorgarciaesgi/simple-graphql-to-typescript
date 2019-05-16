@@ -62,15 +62,15 @@ sgts --endpoint https://json-placeholder-graphql.herokuapp.com/graphql --output 
 
 ```typescript
 ...
-export interface IPost {
-  user?: IUser;
+export interface IPostModel {
+  user?: IUserModel;
   userId?: number;
   id?: number;
   title?: string;
   body?: string;
 }
 
-export interface IUser {
+export interface IUserModel {
   id?: number;
   name?: string;
   username?: string;
@@ -79,14 +79,15 @@ export interface IUser {
   website?: string;
 }
 
-export interface IComment {
-  post?: IPost;
+export interface ICommentModel {
+  post?: IPostModel;
   postId?: number;
   id?: number;
   name?: string;
   email?: string;
   body?: string;
 }
+
 ...
 ```
 
