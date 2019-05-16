@@ -4,6 +4,7 @@ import program from 'commander';
 import { generate } from './generateModel';
 import path from 'path';
 import { downloadSchema } from './getSchemas';
+import fs from 'fs';
 
 const sgts = async () => {
   program
@@ -11,9 +12,14 @@ const sgts = async () => {
     .option('-s, --source <source>', 'GraphQl Api url')
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
+    .option('-h, --header <header>', 'Additional header option to fetch your schema from endpoint')
     .option(
       '--suffix <suffix>',
       'Add suffix to all your types (ex: User becomes IUser with --suffix I)'
+    )
+    .option(
+      '--curstomScalar <scalars>',
+      'Provide your custum scalars in format [{"myScalar": "MyType"} ...]'
     )
     .parse(process.argv);
 
@@ -29,7 +35,10 @@ const sgts = async () => {
 
   let output = path.resolve(process.cwd(), program.output || 'generated.ts');
 
-  generate(schemaSource, output);
+  await generate(schemaSource, output, program.suffix);
+  if (!program.json) {
+    fs.unlink(path.resolve(__dirname, '../schema.json'), err => {});
+  }
 };
 
 sgts();

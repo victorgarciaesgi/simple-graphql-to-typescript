@@ -44,6 +44,7 @@ var commander_1 = __importDefault(require("commander"));
 var generateModel_1 = require("./generateModel");
 var path_1 = __importDefault(require("path"));
 var getSchemas_1 = require("./getSchemas");
+var fs_1 = __importDefault(require("fs"));
 var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
     var schemaSource, output;
     return __generator(this, function (_a) {
@@ -72,7 +73,12 @@ var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
                 _a.label = 3;
             case 3:
                 output = path_1.default.resolve(process.cwd(), commander_1.default.output || 'generated.ts');
-                generateModel_1.generate(schemaSource, output);
+                return [4, generateModel_1.generate(schemaSource, output, commander_1.default.suffix)];
+            case 4:
+                _a.sent();
+                if (!commander_1.default.json) {
+                    fs_1.default.unlink(path_1.default.resolve(__dirname, '../schema.json'), function (err) { });
+                }
                 return [2];
         }
     });

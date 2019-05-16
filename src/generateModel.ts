@@ -20,7 +20,7 @@ const generatedTypes = {
   ENUM: [],
 };
 
-const getObjectTypes = (object): void => {
+const getObjectTypes = (object, suffix: string): void => {
   let ObjectName: string = object.name;
   let fieldsKey = object.kind === 'OBJECT' ? 'fields' : 'inputFields';
   const generatedFields = object[fieldsKey].map(field => {
@@ -41,7 +41,7 @@ const getObjectTypes = (object): void => {
         if (type.kind === 'SCALAR') {
           return scalarList[type.name];
         }
-        return 'I' + type.name;
+        return (suffix ? suffix : '') + type.name;
       }
     }
 
@@ -53,50 +53,52 @@ const getObjectTypes = (object): void => {
 
     return generatedProperty;
   });
-  const generatedInterface = `export interface I${ObjectName} {
+  const generatedInterface = `export interface ${suffix ? suffix : ''}${ObjectName} {
         ${generatedFields.join('\n')}
       }
     `;
   generatedTypes.OBJECT.push(generatedInterface);
 };
 
-const getEnumTypes = object => {
+const getEnumTypes = (object, suffix) => {
   let ObjectName: string = object.name;
   const generatedFields = object.enumValues.map(field => {
     return `| '${field.name}'`;
   });
-  const generatedInterface = `export type I${ObjectName} = 
+  const generatedInterface = `export type ${suffix ? suffix : ''}${ObjectName} = 
         ${generatedFields.join('\n')}
     `;
   generatedTypes.ENUM.push(generatedInterface);
 };
 
-export const generate = (origin: string, outfile: string) => {
-  const transpile = ora('Transpiling GraphQL schema to Typescript interfaces');
-  transpile.start();
+export const generate = (origin: string, outfile: string, suffix: string) => {
+  return new Promise((resolve, reject) => {
+    const transpile = ora('Transpiling GraphQL schema to Typescript interfaces');
+    transpile.start();
 
-  try {
-    const schemaTypes = require(origin).__schema.types;
+    try {
+      const schemaTypes = require(origin).__schema.types;
 
-    schemaTypes.forEach(item => {
-      if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
-        if (!/^_{2}/.test(item.name)) {
-          getObjectTypes(item);
+      schemaTypes.forEach(item => {
+        if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
+          if (!/^_{2}/.test(item.name)) {
+            getObjectTypes(item, suffix);
+          }
+        } else if (item.kind === 'ENUM') {
+          getEnumTypes(item, suffix);
         }
-      } else if (item.kind === 'ENUM') {
-        getEnumTypes(item);
-      }
-    });
-  } catch (e) {
-    transpile.text = e.message;
-    transpile.fail();
-  }
-  transpile.text = `Transpiling done`;
-  transpile.succeed();
-  const save = ora('Saving file...');
-  save.start();
+      });
+    } catch (e) {
+      transpile.text = e.message;
+      transpile.fail();
+      reject();
+    }
+    transpile.text = `Transpiling done`;
+    transpile.succeed();
+    const save = ora('Saving file...');
+    save.start();
 
-  const fileTemplate = `
+    const fileTemplate = `
     // *******************************************************
     // *******************************************************
     //
@@ -111,28 +113,29 @@ export const generate = (origin: string, outfile: string) => {
     ${generatedTypes.ENUM.join('\n')}
 `;
 
-  fs.writeFile(path.resolve(__dirname, outfile), fileTemplate, err => {
-    if (err) {
-      save.text = err.message;
-      save.fail();
-    } else {
-      const prettier = spawn(path.resolve(__dirname, '../node_modules/prettier/bin-prettier.js'), [
-        '--config',
-        path.resolve(__dirname, '../.prettierrc'),
-        '--write',
-        outfile,
-      ]);
-
-      prettier.on('error', err => {
+    fs.writeFile(path.resolve(__dirname, outfile), fileTemplate, err => {
+      if (err) {
         save.text = err.message;
         save.fail();
-      });
+      } else {
+        const prettier = spawn(
+          path.resolve(__dirname, '../node_modules/prettier/bin-prettier.js'),
+          ['--config', path.resolve(__dirname, '../.prettierrc'), '--write', outfile]
+        );
 
-      prettier.on('exit', () => {
-        save.text = `Models saved at ${chalk.bold(`${outfile}`)}`;
-        save.succeed();
-        console.log('');
-      });
-    }
+        prettier.on('error', err => {
+          save.text = err.message;
+          save.fail();
+          reject();
+        });
+
+        prettier.on('exit', () => {
+          save.text = `Models saved at ${chalk.bold(`${outfile}`)}`;
+          save.succeed();
+          resolve();
+          console.log('');
+        });
+      }
+    });
   });
 };
