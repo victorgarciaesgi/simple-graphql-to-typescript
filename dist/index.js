@@ -52,13 +52,15 @@ var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
             case 0:
                 commander_1.default
                     .version(require('../package.json').version)
-                    .option('-s, --source <source>', 'GraphQl Api url')
+                    .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
                     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
                     .option('-o, --output <output>', 'Output path of your generated file')
+                    .option('-h, --header <header>', 'Additional header option to fetch your schema from endpoint')
                     .option('--suffix <suffix>', 'Add suffix to all your types (ex: User becomes IUser with --suffix I)')
+                    .option('--customScalars <scalars>', 'Provide your custum scalars in format [{"myScalar": "MyType"} ...]')
                     .parse(process.argv);
-                if (!commander_1.default.source) return [3, 2];
-                return [4, getSchemas_1.downloadSchema(commander_1.default.source)];
+                if (!commander_1.default.endpoint) return [3, 2];
+                return [4, getSchemas_1.downloadSchema(commander_1.default.endpoint)];
             case 1:
                 _a.sent();
                 schemaSource = path_1.default.resolve(__dirname, '../schema.json');
@@ -73,6 +75,7 @@ var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
                 _a.label = 3;
             case 3:
                 output = path_1.default.resolve(process.cwd(), commander_1.default.output || 'generated.ts');
+                console.log(schemaSource);
                 return [4, generateModel_1.generate(schemaSource, output, commander_1.default.suffix)];
             case 4:
                 _a.sent();

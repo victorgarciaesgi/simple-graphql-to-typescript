@@ -9,7 +9,7 @@ import fs from 'fs';
 const sgts = async () => {
   program
     .version(require('../package.json').version)
-    .option('-s, --source <source>', 'GraphQl Api url')
+    .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
     .option('-h, --header <header>', 'Additional header option to fetch your schema from endpoint')
@@ -18,14 +18,14 @@ const sgts = async () => {
       'Add suffix to all your types (ex: User becomes IUser with --suffix I)'
     )
     .option(
-      '--curstomScalar <scalars>',
+      '--customScalars <scalars>',
       'Provide your custum scalars in format [{"myScalar": "MyType"} ...]'
     )
     .parse(process.argv);
 
   let schemaSource: string;
-  if (program.source) {
-    await downloadSchema(program.source);
+  if (program.endpoint) {
+    await downloadSchema(program.endpoint);
     schemaSource = path.resolve(__dirname, '../schema.json');
   } else if (program.json) {
     schemaSource = path.resolve(process.cwd(), program.json);
@@ -34,7 +34,7 @@ const sgts = async () => {
   }
 
   let output = path.resolve(process.cwd(), program.output || 'generated.ts');
-
+  console.log(schemaSource);
   await generate(schemaSource, output, program.suffix);
   if (!program.json) {
     fs.unlink(path.resolve(__dirname, '../schema.json'), err => {});

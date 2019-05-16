@@ -70,13 +70,13 @@ exports.generate = function (origin, outfile, suffix) {
         try {
             var schemaTypes = require(origin).__schema.types;
             schemaTypes.forEach(function (item) {
-                if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
-                    if (!/^_{2}/.test(item.name)) {
+                if (!/^_{2}/.test(item.name)) {
+                    if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
                         getObjectTypes(item, suffix);
                     }
-                }
-                else if (item.kind === 'ENUM') {
-                    getEnumTypes(item, suffix);
+                    else if (item.kind === 'ENUM') {
+                        getEnumTypes(item, suffix);
+                    }
                 }
             });
         }

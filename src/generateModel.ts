@@ -78,14 +78,13 @@ export const generate = (origin: string, outfile: string, suffix: string) => {
 
     try {
       const schemaTypes = require(origin).__schema.types;
-
       schemaTypes.forEach(item => {
-        if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
-          if (!/^_{2}/.test(item.name)) {
+        if (!/^_{2}/.test(item.name)) {
+          if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
             getObjectTypes(item, suffix);
+          } else if (item.kind === 'ENUM') {
+            getEnumTypes(item, suffix);
           }
-        } else if (item.kind === 'ENUM') {
-          getEnumTypes(item, suffix);
         }
       });
     } catch (e) {
