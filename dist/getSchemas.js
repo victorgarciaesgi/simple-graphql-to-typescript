@@ -43,15 +43,19 @@ var chalk_1 = __importDefault(require("chalk"));
 var ora_1 = __importDefault(require("ora"));
 var child_process_1 = require("child_process");
 var path_1 = __importDefault(require("path"));
-exports.downloadSchema = function (schemaUrl) {
+exports.downloadSchema = function (schemaUrl, header) {
     return new Promise(function (res, rej) {
         var download = ora_1.default("Downloading schemas from " + chalk_1.default.blue(schemaUrl)).start();
-        var fetchSchema = child_process_1.spawn(path_1.default.resolve(__dirname, '../node_modules/.bin/apollo'), [
+        var args = [
             'service:download',
             '--endpoint',
             schemaUrl,
             path_1.default.resolve(__dirname, "../schema.json"),
-        ]);
+        ];
+        if (header) {
+            args.push('--header', header);
+        }
+        var fetchSchema = child_process_1.spawn(path_1.default.resolve(__dirname, '../node_modules/.bin/apollo'), args);
         fetchSchema.on('error', function (err) {
             download.text = err.message;
             download.fail();

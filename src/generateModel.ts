@@ -4,7 +4,7 @@ import { spawn } from 'child_process';
 import ora from 'ora';
 import path from 'path';
 
-const scalarList = {
+let scalarList = {
   ID: 'string',
   String: 'string',
   DateTime: 'Date',
@@ -20,7 +20,7 @@ const generatedTypes = {
   ENUM: [],
 };
 
-const getObjectTypes = (object, suffix: string): void => {
+const getObjectTypes = (object, prefix: string, suffix: string, removeNodes: boolean): void => {
   let ObjectName: string = object.name;
   let fieldsKey = object.kind === 'OBJECT' ? 'fields' : 'inputFields';
   const generatedFields = object[fieldsKey].map(field => {
@@ -28,8 +28,10 @@ const getObjectTypes = (object, suffix: string): void => {
     let isOptional = true;
     let isArray = false;
     let isArrayOptional = false;
+    let isEdge = false;
 
     function getFieldInfos(type): string {
+      if (propertyName === 'edges') isEdge = true;
       if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
         if (type.kind === 'LIST') {
           isArray = true;
@@ -41,38 +43,55 @@ const getObjectTypes = (object, suffix: string): void => {
         if (type.kind === 'SCALAR') {
           return scalarList[type.name];
         }
-        return (suffix ? suffix : '') + type.name;
+        return (prefix ? prefix : '') + type.name + (suffix ? suffix : '');
       }
     }
 
     const typeName = getFieldInfos(field.type);
 
     const generatedProperty = `${propertyName}${isOptional ? '?' : ''}: ${typeName}${
-      isArray ? '[]' : ''
-    };`;
+      removeNodes && isEdge ? '["node"]' : ''
+    }${isArray ? '[]' : ''};`;
 
     return generatedProperty;
   });
-  const generatedInterface = `export interface ${suffix ? suffix : ''}${ObjectName} {
+  const generatedInterface = `export interface ${prefix ? prefix : ''}${ObjectName}${
+    suffix ? suffix : ''
+  } {
         ${generatedFields.join('\n')}
       }
     `;
   generatedTypes.OBJECT.push(generatedInterface);
 };
 
-const getEnumTypes = (object, suffix) => {
+const getEnumTypes = (object, prefix: string, suffix: string) => {
   let ObjectName: string = object.name;
   const generatedFields = object.enumValues.map(field => {
     return `| '${field.name}'`;
   });
-  const generatedInterface = `export type ${suffix ? suffix : ''}${ObjectName} = 
+  const generatedInterface = `export type ${prefix ? prefix : ''}${ObjectName}${
+    suffix ? suffix : ''
+  } = 
         ${generatedFields.join('\n')}
     `;
   generatedTypes.ENUM.push(generatedInterface);
 };
 
-export const generate = (origin: string, outfile: string, suffix: string) => {
+export const generate = (
+  origin: string,
+  outfile: string,
+  prefix: string,
+  suffix: string,
+  removeNodes: boolean,
+  customScalars: Array<{ [x: string]: any }>
+) => {
   return new Promise((resolve, reject) => {
+    if (customScalars) {
+      scalarList = {
+        ...scalarList,
+        ...customScalars,
+      };
+    }
     const transpile = ora('Transpiling GraphQL schema to Typescript interfaces');
     transpile.start();
 
@@ -81,9 +100,9 @@ export const generate = (origin: string, outfile: string, suffix: string) => {
       schemaTypes.forEach(item => {
         if (!/^_{2}/.test(item.name)) {
           if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
-            getObjectTypes(item, suffix);
+            getObjectTypes(item, prefix, suffix, removeNodes);
           } else if (item.kind === 'ENUM') {
-            getEnumTypes(item, suffix);
+            getEnumTypes(item, prefix, suffix);
           }
         }
       });

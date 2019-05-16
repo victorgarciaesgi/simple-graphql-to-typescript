@@ -46,7 +46,7 @@ var path_1 = __importDefault(require("path"));
 var getSchemas_1 = require("./getSchemas");
 var fs_1 = __importDefault(require("fs"));
 var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
-    var schemaSource, output;
+    var schemaSource, output, removeNodes;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -55,12 +55,14 @@ var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
                     .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
                     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
                     .option('-o, --output <output>', 'Output path of your generated file')
-                    .option('-h, --header <header>', 'Additional header option to fetch your schema from endpoint')
-                    .option('--suffix <suffix>', 'Add suffix to all your types (ex: User becomes IUser with --suffix I)')
+                    .option('-head, --header <header>', 'Additional header option to fetch your schema from endpoint')
+                    .option('-p, --prefix <prefix>', 'Add prefix to all your types (ex: User becomes IUser with --suffix I)')
+                    .option('-s, --suffix <suffix>', 'Add suffix to all your types (ex: User becomes UserModel with --suffix Model)')
+                    .option('-rmNodes, --removeNodes', 'Remove node property from all [edges] results')
                     .option('--customScalars <scalars>', 'Provide your custum scalars in format [{"myScalar": "MyType"} ...]')
                     .parse(process.argv);
                 if (!commander_1.default.endpoint) return [3, 2];
-                return [4, getSchemas_1.downloadSchema(commander_1.default.endpoint)];
+                return [4, getSchemas_1.downloadSchema(commander_1.default.endpoint, commander_1.default.header)];
             case 1:
                 _a.sent();
                 schemaSource = path_1.default.resolve(__dirname, '../schema.json');
@@ -75,8 +77,8 @@ var sgts = function () { return __awaiter(_this, void 0, void 0, function () {
                 _a.label = 3;
             case 3:
                 output = path_1.default.resolve(process.cwd(), commander_1.default.output || 'generated.ts');
-                console.log(schemaSource);
-                return [4, generateModel_1.generate(schemaSource, output, commander_1.default.suffix)];
+                removeNodes = commander_1.default.removeNodes;
+                return [4, generateModel_1.generate(schemaSource, output, commander_1.default.prefix, commander_1.default.suffix, removeNodes, commander_1.default.customScalars)];
             case 4:
                 _a.sent();
                 if (!commander_1.default.json) {

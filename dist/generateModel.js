@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -22,7 +33,7 @@ var generatedTypes = {
     OBJECT: [],
     ENUM: [],
 };
-var getObjectTypes = function (object, suffix) {
+var getObjectTypes = function (object, prefix, suffix, removeNodes) {
     var ObjectName = object.name;
     var fieldsKey = object.kind === 'OBJECT' ? 'fields' : 'inputFields';
     var generatedFields = object[fieldsKey].map(function (field) {
@@ -30,7 +41,10 @@ var getObjectTypes = function (object, suffix) {
         var isOptional = true;
         var isArray = false;
         var isArrayOptional = false;
+        var isEdge = false;
         function getFieldInfos(type) {
+            if (propertyName === 'edges')
+                isEdge = true;
             if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
                 if (type.kind === 'LIST') {
                     isArray = true;
@@ -45,26 +59,29 @@ var getObjectTypes = function (object, suffix) {
                 if (type.kind === 'SCALAR') {
                     return scalarList[type.name];
                 }
-                return (suffix ? suffix : '') + type.name;
+                return (prefix ? prefix : '') + type.name + (suffix ? suffix : '');
             }
         }
         var typeName = getFieldInfos(field.type);
-        var generatedProperty = "" + propertyName + (isOptional ? '?' : '') + ": " + typeName + (isArray ? '[]' : '') + ";";
+        var generatedProperty = "" + propertyName + (isOptional ? '?' : '') + ": " + typeName + (removeNodes && isEdge ? '["node"]' : '') + (isArray ? '[]' : '') + ";";
         return generatedProperty;
     });
-    var generatedInterface = "export interface " + (suffix ? suffix : '') + ObjectName + " {\n        " + generatedFields.join('\n') + "\n      }\n    ";
+    var generatedInterface = "export interface " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " {\n        " + generatedFields.join('\n') + "\n      }\n    ";
     generatedTypes.OBJECT.push(generatedInterface);
 };
-var getEnumTypes = function (object, suffix) {
+var getEnumTypes = function (object, prefix, suffix) {
     var ObjectName = object.name;
     var generatedFields = object.enumValues.map(function (field) {
         return "| '" + field.name + "'";
     });
-    var generatedInterface = "export type " + (suffix ? suffix : '') + ObjectName + " = \n        " + generatedFields.join('\n') + "\n    ";
+    var generatedInterface = "export type " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " = \n        " + generatedFields.join('\n') + "\n    ";
     generatedTypes.ENUM.push(generatedInterface);
 };
-exports.generate = function (origin, outfile, suffix) {
+exports.generate = function (origin, outfile, prefix, suffix, removeNodes, customScalars) {
     return new Promise(function (resolve, reject) {
+        if (customScalars) {
+            scalarList = __assign({}, scalarList, customScalars);
+        }
         var transpile = ora_1.default('Transpiling GraphQL schema to Typescript interfaces');
         transpile.start();
         try {
@@ -72,10 +89,10 @@ exports.generate = function (origin, outfile, suffix) {
             schemaTypes.forEach(function (item) {
                 if (!/^_{2}/.test(item.name)) {
                     if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
-                        getObjectTypes(item, suffix);
+                        getObjectTypes(item, prefix, suffix, removeNodes);
                     }
                     else if (item.kind === 'ENUM') {
-                        getEnumTypes(item, suffix);
+                        getEnumTypes(item, prefix, suffix);
                     }
                 }
             });
