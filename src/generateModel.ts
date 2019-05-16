@@ -117,10 +117,12 @@ export const generate = (origin: string, outfile: string, suffix: string) => {
         save.text = err.message;
         save.fail();
       } else {
-        const prettier = spawn(
-          path.resolve(__dirname, '../node_modules/prettier/bin-prettier.js'),
-          ['--config', path.resolve(__dirname, '../.prettierrc'), '--write', outfile]
-        );
+        const prettier = spawn(path.resolve(__dirname, '../node_modules/.bin/prettier'), [
+          '--config',
+          path.resolve(__dirname, '../.prettierrc'),
+          '--write',
+          outfile,
+        ]);
 
         prettier.on('error', err => {
           save.text = err.message;

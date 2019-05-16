@@ -16,7 +16,6 @@ I work a lot with GraphQL apis and typescript, and since now I was always writin
 I search many solutions for generating them for me (Apollo codegen, graphql-to-typescript ..etc ) but it was never the result I expected. I just wanted a single file with all my types in it, without complexity.
 
 
-
 ## **Installation**
 
 For global use

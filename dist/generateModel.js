@@ -96,7 +96,12 @@ exports.generate = function (origin, outfile, suffix) {
                 save.fail();
             }
             else {
-                var prettier = child_process_1.spawn(path_1.default.resolve(__dirname, '../node_modules/prettier/bin-prettier.js'), ['--config', path_1.default.resolve(__dirname, '../.prettierrc'), '--write', outfile]);
+                var prettier = child_process_1.spawn(path_1.default.resolve(__dirname, '../node_modules/.bin/prettier'), [
+                    '--config',
+                    path_1.default.resolve(__dirname, '../.prettierrc'),
+                    '--write',
+                    outfile,
+                ]);
                 prettier.on('error', function (err) {
                     save.text = err.message;
                     save.fail();
