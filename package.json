@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "scripts": {
