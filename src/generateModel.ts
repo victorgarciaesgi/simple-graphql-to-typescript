@@ -134,6 +134,11 @@ export const generate = (
     `;
     const formatedFile = prettier.format(fileTemplate, {
       config: path.resolve(__dirname, '../.prettierrc'),
+      semicolons: true,
+      singleQuote: true,
+      printWidth: 100,
+      bracketSpacing: true,
+      parser: 'typescript',
     });
 
     const outputfile = path.resolve(process.cwd(), outfile);

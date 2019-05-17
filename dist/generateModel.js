@@ -118,6 +118,11 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
         var fileTemplate = "\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n    ";
         var formatedFile = prettier.format(fileTemplate, {
             config: path_1.default.resolve(__dirname, '../.prettierrc'),
+            semicolons: true,
+            singleQuote: true,
+            printWidth: 100,
+            bracketSpacing: true,
+            parser: 'typescript',
         });
         var outputfile = path_1.default.resolve(process.cwd(), outfile);
         fs_1.default.writeFile(outputfile, formatedFile || fileTemplate, function (err) {
