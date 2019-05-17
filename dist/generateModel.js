@@ -132,7 +132,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
                 console.log(err.message);
             }
             else {
-                save.text = "Models saved at " + chalk_1.default.bold("" + outfile);
+                save.text = "Typescript models saved at " + chalk_1.default.bold("" + outfile);
                 save.succeed();
                 resolve(formatedFile);
             }

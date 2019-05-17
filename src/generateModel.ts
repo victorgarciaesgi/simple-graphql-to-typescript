@@ -149,7 +149,7 @@ export const generate = (
         save.fail();
         console.log(err.message);
       } else {
-        save.text = `Models saved at ${chalk.bold(`${outfile}`)}`;
+        save.text = `Typescript models saved at ${chalk.bold(`${outfile}`)}`;
         save.succeed();
         resolve(formatedFile);
       }
