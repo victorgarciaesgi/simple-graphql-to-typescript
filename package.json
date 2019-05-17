@@ -1,8 +1,9 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.0.45",
+  "version": "0.0.6",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
+  "typings": "types/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist",
@@ -13,6 +14,11 @@
     "type": "git",
     "url": "git+https://victorgarciaesgi@github.com/victorgarciaesgi/simple-graphql-to-typescript.git"
   },
+  "files": [
+    "dist",
+    "types/index.d.ts",
+    "types/runtime.d.ts"
+  ],
   "keywords": [
     "graphql",
     "typescript",
@@ -20,12 +26,17 @@
     "gql",
     "gql-ts",
     "graphql-typescript",
-    "graphql-ts"
+    "graphql-ts",
+    "graphql-ts-generator",
+    "graphql-to-typescript"
   ],
   "resolutions": {
     "graphql": "^14.3.0"
   },
-  "author": "Victor Garcia",
+  "author": {
+    "name": "Victor Garcia",
+    "url": "https://github.com/victorgarciaesgi"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/victorgarciaesgi/simple-graphql-to-typescript/issues"
@@ -35,12 +46,17 @@
     "sgts": "./dist/sgts-bin.js"
   },
   "dependencies": {
+    "@types/graphql": "^14.2.0",
     "@types/node": "^12.0.2",
-    "commander": "^2.20.0",
-    "prettier": "^1.17.1",
-    "rimraf": "^2.6.3",
     "apollo": "^2.11.1",
     "chalk": "^2.4.2",
-    "ora": "^3.4.0"
+    "commander": "^2.20.0",
+    "graphql": "^14.3.0",
+    "mkdirp": "^0.5.1",
+    "node-fetch": "^2.6.0",
+    "ora": "^3.4.0",
+    "prettier": "^1.17.1",
+    "querystringify": "^2.1.1",
+    "rimraf": "^2.6.3"
   }
 }

@@ -13,12 +13,19 @@ var __assign = (this && this.__assign) || function () {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var chalk_1 = __importDefault(require("chalk"));
 var fs_1 = __importDefault(require("fs"));
-var child_process_1 = require("child_process");
 var ora_1 = __importDefault(require("ora"));
 var path_1 = __importDefault(require("path"));
+var prettier = __importStar(require("prettier"));
 var scalarList = {
     ID: 'string',
     String: 'string',
@@ -77,7 +84,7 @@ var getEnumTypes = function (object, prefix, suffix) {
     var generatedInterface = "export type " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " = \n        " + generatedFields.join('\n') + "\n    ";
     generatedTypes.ENUM.push(generatedInterface);
 };
-exports.generate = function (origin, outfile, prefix, suffix, removeNodes, customScalars) {
+exports.generate = function (schema, outfile, prefix, suffix, removeNodes, customScalars) {
     return new Promise(function (resolve, reject) {
         if (customScalars) {
             scalarList = __assign({}, scalarList, customScalars);
@@ -85,7 +92,7 @@ exports.generate = function (origin, outfile, prefix, suffix, removeNodes, custo
         var transpile = ora_1.default('Transpiling GraphQL schema to Typescript interfaces');
         transpile.start();
         try {
-            var schemaTypes = require(origin).__schema.types;
+            var schemaTypes = schema.__schema.types;
             schemaTypes.forEach(function (item) {
                 if (!/^_{2}/.test(item.name)) {
                     if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
@@ -98,38 +105,31 @@ exports.generate = function (origin, outfile, prefix, suffix, removeNodes, custo
             });
         }
         catch (e) {
-            transpile.text = e.message;
+            transpile.text = 'Transpiling failed';
             transpile.fail();
-            reject();
+            console.log(e);
+            reject(e);
+            return;
         }
         transpile.text = "Transpiling done";
         transpile.succeed();
         var save = ora_1.default('Saving file...');
         save.start();
-        var fileTemplate = "\n    // *******************************************************\n    // *******************************************************\n    //\n    // GENERATED FILE, DO NOT MODIFY\n    //\n    // Made by Victor Garcia \u00AE\n    // https://github.com/victorgarciaesgi\n    // *******************************************************\n    // *******************************************************\n\n    " + generatedTypes.OBJECT.join('\n') + "\n    " + generatedTypes.ENUM.join('\n') + "\n";
-        fs_1.default.writeFile(path_1.default.resolve(__dirname, outfile), fileTemplate, function (err) {
+        var fileTemplate = "\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n    ";
+        var formatedFile = prettier.format(fileTemplate, {
+            config: path_1.default.resolve(__dirname, '../.prettierrc'),
+        });
+        var outputfile = path_1.default.resolve(process.cwd(), outfile);
+        fs_1.default.writeFile(outputfile, formatedFile || fileTemplate, function (err) {
             if (err) {
-                save.text = err.message;
+                save.text = 'Saving file failed:';
                 save.fail();
+                console.log(err.message);
             }
             else {
-                var prettier = child_process_1.spawn(path_1.default.resolve(__dirname, '../node_modules/.bin/prettier'), [
-                    '--config',
-                    path_1.default.resolve(__dirname, '../.prettierrc'),
-                    '--write',
-                    outfile,
-                ]);
-                prettier.on('error', function (err) {
-                    save.text = err.message;
-                    save.fail();
-                    reject();
-                });
-                prettier.on('exit', function () {
-                    save.text = "Models saved at " + chalk_1.default.bold("" + outfile);
-                    save.succeed();
-                    resolve();
-                    console.log('');
-                });
+                save.text = "Models saved at " + chalk_1.default.bold("" + outfile);
+                save.succeed();
+                resolve(formatedFile);
             }
         });
     });

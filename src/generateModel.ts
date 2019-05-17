@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import { spawn } from 'child_process';
 import ora from 'ora';
 import path from 'path';
-
+import mkdirp from 'mkdirp';
+import * as prettier from 'prettier';
 let scalarList = {
   ID: 'string',
   String: 'string',
@@ -78,13 +78,13 @@ const getEnumTypes = (object, prefix: string, suffix: string) => {
 };
 
 export const generate = (
-  origin: string,
+  schema: { [x: string]: any },
   outfile: string,
   prefix: string,
   suffix: string,
   removeNodes: boolean,
   customScalars: Array<{ [x: string]: any }>
-) => {
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (customScalars) {
       scalarList = {
@@ -96,7 +96,7 @@ export const generate = (
     transpile.start();
 
     try {
-      const schemaTypes = require(origin).__schema.types;
+      const schemaTypes = schema.__schema.types;
       schemaTypes.forEach(item => {
         if (!/^_{2}/.test(item.name)) {
           if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
@@ -107,9 +107,11 @@ export const generate = (
         }
       });
     } catch (e) {
-      transpile.text = e.message;
+      transpile.text = 'Transpiling failed';
       transpile.fail();
-      reject();
+      console.log(e);
+      reject(e);
+      return;
     }
     transpile.text = `Transpiling done`;
     transpile.succeed();
@@ -117,44 +119,34 @@ export const generate = (
     save.start();
 
     const fileTemplate = `
-    // *******************************************************
-    // *******************************************************
-    //
-    // GENERATED FILE, DO NOT MODIFY
-    //
-    // Made by Victor Garcia ®
-    // https://github.com/victorgarciaesgi
-    // *******************************************************
-    // *******************************************************
+      // *******************************************************
+      // *******************************************************
+      //
+      // GENERATED FILE, DO NOT MODIFY
+      //
+      // Made by Victor Garcia ®
+      // https://github.com/victorgarciaesgi
+      // *******************************************************
+      // *******************************************************
 
-    ${generatedTypes.OBJECT.join('\n')}
-    ${generatedTypes.ENUM.join('\n')}
-`;
+      ${generatedTypes.OBJECT.join('\n')}
+      ${generatedTypes.ENUM.join('\n')}
+    `;
+    const formatedFile = prettier.format(fileTemplate, {
+      config: path.resolve(__dirname, '../.prettierrc'),
+    });
 
-    fs.writeFile(path.resolve(__dirname, outfile), fileTemplate, err => {
+    const outputfile = path.resolve(process.cwd(), outfile);
+
+    fs.writeFile(outputfile, formatedFile || fileTemplate, err => {
       if (err) {
-        save.text = err.message;
+        save.text = 'Saving file failed:';
         save.fail();
+        console.log(err.message);
       } else {
-        const prettier = spawn(path.resolve(__dirname, '../node_modules/.bin/prettier'), [
-          '--config',
-          path.resolve(__dirname, '../.prettierrc'),
-          '--write',
-          outfile,
-        ]);
-
-        prettier.on('error', err => {
-          save.text = err.message;
-          save.fail();
-          reject();
-        });
-
-        prettier.on('exit', () => {
-          save.text = `Models saved at ${chalk.bold(`${outfile}`)}`;
-          save.succeed();
-          resolve();
-          console.log('');
-        });
+        save.text = `Models saved at ${chalk.bold(`${outfile}`)}`;
+        save.succeed();
+        resolve(formatedFile);
       }
     });
   });

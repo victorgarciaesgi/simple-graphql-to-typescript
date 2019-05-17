@@ -1,31 +1,93 @@
 import chalk from 'chalk';
+import fetch from 'node-fetch';
 import ora from 'ora';
-import { spawn } from 'child_process';
 import path from 'path';
+import * as query from 'querystringify';
+import { introspectionQuery } from 'graphql/utilities/introspectionQuery';
+import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
+import { printSchema } from 'graphql/utilities/schemaPrinter';
 
-export const downloadSchema = (schemaUrl: string, header: string) => {
-  return new Promise((res, rej) => {
-    const download = ora(`Downloading schemas from ${chalk.blue(schemaUrl)}`).start();
-    const args = [
-      'service:download',
-      '--endpoint',
-      schemaUrl,
-      path.resolve(__dirname, `__schema.json`),
-    ];
-    if (header) {
-      args.push('--header', header);
-    }
-    const fetchSchema = spawn(path.resolve(__dirname, '../node_modules/.bin/apollo'), args);
-
-    fetchSchema.stderr.on('data', err => {
-      download.text = err.message;
+export const downloadSchema = async (endpoint: string, header: string): Promise<string> => {
+  const download = ora(`Downloading schemas from ${chalk.blue(endpoint)}`).start();
+  try {
+    let formatedHeaders = getHeadersFromInput(header);
+    formatedHeaders = {
+      ...formatedHeaders,
+      'Content-Type': 'application/json',
+    };
+    const schema = await getRemoteSchema(endpoint, {
+      method: 'POST',
+      json: true,
+      headers: formatedHeaders,
+    });
+    if (schema.status === 'err') {
       download.fail();
-      rej(err.message);
-    });
-
-    fetchSchema.on('exit', async data => {
+      return Promise.reject(schema.message);
+    } else {
       download.succeed();
-      res();
-    });
-  });
+      return schema.schema;
+    }
+  } catch (e) {
+    download.text = e;
+    download.fail();
+    console.log(e.message);
+  }
 };
+
+function getHeadersFromInput(header: any): { [key: string]: string } {
+  switch (typeof header) {
+    case 'string': {
+      const keys = query.parse(header);
+      const key = Object.keys(keys)[0];
+      return { [key]: keys[key] };
+    }
+    case 'object': {
+      return header.map(header => {
+        const keys = query.parse(header);
+        const key = Object.keys(keys)[0];
+        return { [key]: keys[key] };
+      });
+    }
+    default: {
+      return {};
+    }
+  }
+}
+
+interface Options {
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  headers?: { [key: string]: string };
+  json?: boolean;
+}
+
+async function getRemoteSchema(
+  endpoint: string,
+  options: Options
+): Promise<{ status: 'ok'; schema: string } | { status: 'err'; message: string }> {
+  try {
+    const { data, errors } = await fetch(endpoint, {
+      method: options.method,
+      headers: options.headers,
+      body: JSON.stringify({ query: introspectionQuery }),
+    }).then(res => res.json());
+
+    if (errors) {
+      return { status: 'err', message: JSON.stringify(errors, null, 2) };
+    }
+
+    if (options.json) {
+      return {
+        status: 'ok',
+        schema: JSON.stringify(data, null, 2),
+      };
+    } else {
+      const schema = buildClientSchema(data);
+      return {
+        status: 'ok',
+        schema: printSchema(schema),
+      };
+    }
+  } catch (err) {
+    return { status: 'err', message: err.message };
+  }
+}

@@ -52,10 +52,48 @@ sgts
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file           |
 | --customScalars `<scalars>` | -            | Array<{"myScalar": "MyType"} ...>            | Provide your custum scalars in format [{"myScalar": "MyType"} ...]                |
 | --removeNodes               | -rmNodes     | boolean                                      | Remove node property from all [edges] results (To use if you clean your requests) |
-## Usage exemple
+## Simple usage exemple
 
 ```bash
-sgts --endpoint https://json-placeholder-graphql.herokuapp.com/graphql --output ./types.ts --prefix I --suffix Model
+sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -o generated.ts
+```
+
+*Generated result*
+
+```typescript
+...
+export interface Post {
+  user?: User;
+  userId?: number;
+  id?: number;
+  title?: string;
+  body?: string;
+}
+
+export interface User {
+  id?: number;
+  name?: string;
+  username?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+}
+
+export interface Comment {
+  post?: Post;
+  postId?: number;
+  id?: number;
+  name?: string;
+  email?: string;
+  body?: string;
+}
+...
+```
+
+## Advanced Usage exemple
+
+```bash
+sgts --endpoint https://json-placeholder-graphql.herokuapp.com/graphql --output generated.ts --prefix I --suffix Model
 ```
 
 *Generated result*
@@ -89,6 +127,19 @@ export interface ICommentModel {
 }
 
 ...
+```
+
+## Runtime usage
+
+```javascript
+const { sgtsGenerate } = require('simple-graphql-to-typescript');
+
+await sgtsGenerate({
+  endpoint: 'https://json-placeholder-graphql.herokuapp.com/graphql',
+  output: './types.ts',
+  prefix: 'I',
+  suffix: 'Model',
+});
 ```
 
 ## Help

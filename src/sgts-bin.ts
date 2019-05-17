@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 
 import program from 'commander';
-import { generate } from './generateModel';
-import path from 'path';
-import { downloadSchema } from './getSchemas';
-import fs from 'fs';
+import { sgtsGenerate } from './runtime';
 
-const sgts = async () => {
+const sgts = () => {
   program
     .version(require('../package.json').version)
     .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
@@ -31,29 +28,9 @@ const sgts = async () => {
     )
     .parse(process.argv);
 
-  let schemaSource: string;
-  if (program.endpoint) {
-    await downloadSchema(program.endpoint, program.header);
-    schemaSource = path.resolve(__dirname, './__schema.json');
-  } else if (program.json) {
-    schemaSource = path.resolve(process.cwd(), program.json);
-  } else {
-    console.warn('You need to either provite a source url or a path to your json schema file');
-  }
+  const { endpoint, json, output, customScalars, header, prefix, removeNodes, suffix } = program;
 
-  let output = path.resolve(process.cwd(), program.output || 'generated.ts');
-  const removeNodes: boolean = program.removeNodes;
-  await generate(
-    schemaSource,
-    output,
-    program.prefix,
-    program.suffix,
-    removeNodes,
-    program.customScalars
-  );
-  if (!program.json) {
-    fs.unlink(path.resolve(__dirname, './__schema.json'), err => {});
-  }
+  sgtsGenerate({ endpoint, json, output, customScalars, header, prefix, removeNodes, suffix });
 };
 
 sgts();
