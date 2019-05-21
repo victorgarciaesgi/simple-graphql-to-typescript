@@ -89,7 +89,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
         if (customScalars) {
             scalarList = __assign({}, scalarList, customScalars);
         }
-        var transpile = ora_1.default('Transpiling GraphQL schema to Typescript interfaces');
+        var transpile = ora_1.default('🔄 Transpiling GraphQL schema to Typescript interfaces');
         transpile.start();
         try {
             var schemaTypes = schema.__schema.types;
@@ -111,7 +111,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
             reject(e);
             return;
         }
-        transpile.text = "Transpiling done";
+        transpile.text = "\uD83D\uDD8BTranspiling done";
         transpile.succeed();
         var save = ora_1.default('Saving file...');
         save.start();
@@ -132,7 +132,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
                 console.log(err.message);
             }
             else {
-                save.text = "Typescript models saved at " + chalk_1.default.bold("" + outfile);
+                save.text = "\uD83D\uDDC3 Typescript models saved at " + chalk_1.default.bold("" + outfile);
                 save.succeed();
                 resolve(formatedFile);
             }

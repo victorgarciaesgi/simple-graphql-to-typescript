@@ -69,7 +69,7 @@ exports.downloadSchema = function (endpoint, header) { return __awaiter(_this, v
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                download = ora_1.default("Downloading schemas from " + chalk_1.default.blue(endpoint)).start();
+                download = ora_1.default("\u2B07\uFE0F Downloading schemas from " + chalk_1.default.blue(endpoint)).start();
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -87,6 +87,7 @@ exports.downloadSchema = function (endpoint, header) { return __awaiter(_this, v
                     return [2, Promise.reject(schema.message)];
                 }
                 else {
+                    download.text = '📐 Schemas succesfully downloaded';
                     download.succeed();
                     return [2, schema.schema];
                 }

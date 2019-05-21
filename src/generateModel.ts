@@ -92,7 +92,7 @@ export const generate = (
         ...customScalars,
       };
     }
-    const transpile = ora('Transpiling GraphQL schema to Typescript interfaces');
+    const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
     transpile.start();
 
     try {
@@ -113,7 +113,7 @@ export const generate = (
       reject(e);
       return;
     }
-    transpile.text = `Transpiling done`;
+    transpile.text = `🖋Transpiling done`;
     transpile.succeed();
     const save = ora('Saving file...');
     save.start();
@@ -149,7 +149,7 @@ export const generate = (
         save.fail();
         console.log(err.message);
       } else {
-        save.text = `Typescript models saved at ${chalk.bold(`${outfile}`)}`;
+        save.text = `🗃 Typescript models saved at ${chalk.bold(`${outfile}`)}`;
         save.succeed();
         resolve(formatedFile);
       }
