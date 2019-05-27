@@ -95,7 +95,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
             var schemaTypes = schema.__schema.types;
             schemaTypes.forEach(function (item) {
                 if (!/^_{2}/.test(item.name)) {
-                    if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
+                    if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
                         getObjectTypes(item, prefix, suffix, removeNodes);
                     }
                     else if (item.kind === 'ENUM') {

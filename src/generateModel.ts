@@ -99,7 +99,7 @@ export const generate = (
       const schemaTypes = schema.__schema.types;
       schemaTypes.forEach(item => {
         if (!/^_{2}/.test(item.name)) {
-          if (item.kind === 'OBJECT' || item.kind === 'INPUT_OBJECT') {
+          if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
             getObjectTypes(item, prefix, suffix, removeNodes);
           } else if (item.kind === 'ENUM') {
             getEnumTypes(item, prefix, suffix);
