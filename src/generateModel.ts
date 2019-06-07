@@ -2,12 +2,11 @@ import chalk from 'chalk';
 import fs from 'fs';
 import ora from 'ora';
 import path from 'path';
-import mkdirp from 'mkdirp';
 import * as prettier from 'prettier';
+
 let scalarList = {
   ID: 'string',
   String: 'string',
-  DateTime: 'Date',
   Int: 'number',
   Float: 'number',
   Upload: 'File',
@@ -84,7 +83,7 @@ export const generate = (
   prefix: string,
   suffix: string,
   removeNodes: boolean,
-  customScalars: Array<{ [x: string]: any }>
+  customScalars: { [x: string]: string }
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (customScalars) {
@@ -93,6 +92,7 @@ export const generate = (
         ...customScalars,
       };
     }
+    console.log(scalarList);
     const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
     transpile.start();
 

@@ -50,7 +50,7 @@ sgts
 | --prefix `<prefix>`         | -p           | string <br> *default* `null`                 | Add prefix to all your types (ex: User becomes IUser with --prefix I)             |
 | --suffix `<suffix>`         | -s           | string <br> *default* `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model)     |
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file           |
-| --customScalars `<scalars>` | -            | Array<{"myScalar": "MyType"} ...>            | Provide your custum scalars in format [{"myScalar": "MyType"} ...]                |
+| --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...}  (JSON)         |
 | --removeNodes               | -rmNodes     | boolean                                      | Remove node property from all [edges] results (To use if you clean your requests) |
 ## Simple usage exemple
 

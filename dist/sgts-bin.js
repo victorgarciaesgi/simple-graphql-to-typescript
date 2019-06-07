@@ -19,6 +19,15 @@ var sgts = function () {
         .option('--customScalars <scalars>', 'Provide your custum scalars in format [{"myScalar": "MyType"} ...]')
         .parse(process.argv);
     var endpoint = commander_1.default.endpoint, json = commander_1.default.json, output = commander_1.default.output, customScalars = commander_1.default.customScalars, header = commander_1.default.header, prefix = commander_1.default.prefix, removeNodes = commander_1.default.removeNodes, suffix = commander_1.default.suffix;
+    if (customScalars) {
+        try {
+            customScalars = JSON.parse(customScalars);
+        }
+        catch (e) {
+            console.error('Invalid custom scalars format');
+            return;
+        }
+    }
     runtime_1.sgtsGenerate({ endpoint: endpoint, json: json, output: output, customScalars: customScalars, header: header, prefix: prefix, removeNodes: removeNodes, suffix: suffix });
 };
 sgts();

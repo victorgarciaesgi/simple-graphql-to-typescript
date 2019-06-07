@@ -1,7 +1,6 @@
 import { generate } from './generateModel';
 import path from 'path';
 import { downloadSchema } from './getSchemas';
-import fs from 'fs';
 import chalk from 'chalk';
 
 interface generatePayload {
@@ -12,7 +11,7 @@ interface generatePayload {
   prefix?: string;
   suffix?: string;
   removeNodes?: boolean;
-  customScalars?: Array<{ [x: string]: string }>;
+  customScalars?: { [x: string]: string };
 }
 /**
  * Returns the transpiled file string

@@ -28,7 +28,15 @@ const sgts = () => {
     )
     .parse(process.argv);
 
-  const { endpoint, json, output, customScalars, header, prefix, removeNodes, suffix } = program;
+  let { endpoint, json, output, customScalars, header, prefix, removeNodes, suffix } = program;
+  if (customScalars) {
+    try {
+      customScalars = JSON.parse(customScalars);
+    } catch (e) {
+      console.error('Invalid custom scalars format');
+      return;
+    }
+  }
 
   sgtsGenerate({ endpoint, json, output, customScalars, header, prefix, removeNodes, suffix });
 };

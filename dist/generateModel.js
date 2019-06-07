@@ -29,7 +29,6 @@ var prettier = __importStar(require("prettier"));
 var scalarList = {
     ID: 'string',
     String: 'string',
-    DateTime: 'Date',
     Int: 'number',
     Float: 'number',
     Upload: 'File',
@@ -89,6 +88,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
         if (customScalars) {
             scalarList = __assign({}, scalarList, customScalars);
         }
+        console.log(scalarList);
         var transpile = ora_1.default('🔄 Transpiling GraphQL schema to Typescript interfaces');
         transpile.start();
         try {
