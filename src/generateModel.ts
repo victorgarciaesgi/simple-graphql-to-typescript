@@ -22,7 +22,8 @@ const generatedTypes = {
 
 const getObjectTypes = (object, prefix: string, suffix: string, removeNodes: boolean): void => {
   let ObjectName: string = object.name;
-  let fieldsKey = object.kind === 'OBJECT' ? 'fields' : 'inputFields';
+  let fieldsKey =
+    object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
   const generatedFields = object[fieldsKey].map(field => {
     let propertyName = field.name;
     let isOptional = true;

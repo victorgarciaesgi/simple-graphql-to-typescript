@@ -42,7 +42,7 @@ var generatedTypes = {
 };
 var getObjectTypes = function (object, prefix, suffix, removeNodes) {
     var ObjectName = object.name;
-    var fieldsKey = object.kind === 'OBJECT' ? 'fields' : 'inputFields';
+    var fieldsKey = object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
     var generatedFields = object[fieldsKey].map(function (field) {
         var propertyName = field.name;
         var isOptional = true;
