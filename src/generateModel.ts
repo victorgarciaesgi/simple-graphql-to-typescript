@@ -92,7 +92,6 @@ export const generate = (
         ...customScalars,
       };
     }
-    console.log(scalarList);
     const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
     transpile.start();
 
