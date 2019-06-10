@@ -6,9 +6,9 @@ interface generatePayload {
     prefix?: string;
     suffix?: string;
     removeNodes?: boolean;
-    customScalars?: Array<{
+    customScalars?: {
         [x: string]: string;
-    }>;
+    };
 }
 export declare function sgtsGenerate({ endpoint, json, output, customScalars, header, prefix, removeNodes, suffix, }: generatePayload): Promise<string>;
 export {};

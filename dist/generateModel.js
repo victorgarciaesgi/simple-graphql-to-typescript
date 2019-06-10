@@ -29,7 +29,6 @@ var prettier = __importStar(require("prettier"));
 var scalarList = {
     ID: 'string',
     String: 'string',
-    DateTime: 'Date',
     Int: 'number',
     Float: 'number',
     Upload: 'File',
