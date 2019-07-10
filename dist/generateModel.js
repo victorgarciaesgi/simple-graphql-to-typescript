@@ -114,7 +114,7 @@ exports.generate = function (schema, outfile, prefix, suffix, removeNodes, custo
         transpile.succeed();
         var save = ora_1.default('Saving file...');
         save.start();
-        var fileTemplate = "\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n    ";
+        var fileTemplate = "\n      /* eslint-disable */\n      /* tslint-disable */\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n    ";
         var formatedFile = prettier.format(fileTemplate, {
             config: path_1.default.resolve(__dirname, '../.prettierrc'),
             semicolons: true,

@@ -119,6 +119,8 @@ export const generate = (
     save.start();
 
     const fileTemplate = `
+      /* eslint-disable */
+      /* tslint-disable */
       // *******************************************************
       // *******************************************************
       //
