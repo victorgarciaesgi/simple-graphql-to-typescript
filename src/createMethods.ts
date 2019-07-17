@@ -29,7 +29,7 @@ export const createMethods = async ({ schema, prefix, suffix }) => {
   import { apolloMutation, apolloQuery } from '@services';
   import gql from 'graphql-tag';
 
-  export const Fragments: {[T in keyof (${queryKey} & ${mutationKey})]?: string} = {
+  const Fragments: {[T in keyof (${queryKey} & ${mutationKey})]?: string} = {
     ${[...new Set([...queriesKeys, ...mutationsKeys])].join('\n')}
   }
 
