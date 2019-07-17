@@ -84,7 +84,7 @@ exports.createMethods = function (_a) {
             mutationKey = (prefix ? prefix : '') + MutationType + (suffix ? suffix : '');
             queriesKeys = listQueries.map(function (query) { return query.name + ": '',"; });
             mutationsKeys = listMutations.map(function (mutation) { return mutation.name + ": '',"; });
-            finalMethods = "\n  import { apolloMutation, apolloQuery } from '@services';\n  import gql from 'graphql-tag';\n\n  const Fragments: {[T in keyof (" + queryKey + " & " + mutationKey + ")]?: string} = {\n    " + __spread(new Set(__spread(queriesKeys, mutationsKeys))).join('\n') + "\n  }\n\n  export const declareFragments = (fragments: { [T in keyof (" + queryKey + " & " + mutationKey + ")]?: string }) => {\n    Object.keys(fragments).map(key => {\n      Fragments[key] = fragments[key];\n    });\n  };\n\n  " + queries.join('\n') + "\n  " + mutations.join('\n') + "\n  ";
+            finalMethods = "\n  import { apolloMutation, apolloQuery } from '@services';\n  import graphQlTag from 'graphql-tag';\n\n  const Fragments: {[T in keyof (" + queryKey + " & " + mutationKey + ")]?: string} = {\n    " + __spread(new Set(__spread(queriesKeys, mutationsKeys))).join('\n') + "\n  }\n\n  export const declareFragments = (fragments: { [T in keyof (" + queryKey + " & " + mutationKey + ")]?: string }) => {\n    Object.keys(fragments).map(key => {\n      Fragments[key] = fragments[key];\n    });\n  };\n\n  " + queries.join('\n') + "\n  " + mutations.join('\n') + "\n  ";
             return [2, finalMethods];
         });
     });

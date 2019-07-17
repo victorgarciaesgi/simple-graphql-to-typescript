@@ -11,9 +11,9 @@
 // *******************************************************
 
 import { apolloMutation, apolloQuery } from '@services';
-import gql from 'graphql-tag';
+import graphQlTag from 'graphql-tag';
 
-export const Fragments: { [T in keyof (Query & Mutation)]?: string } = {
+const Fragments: { [T in keyof (Query & Mutation)]?: string } = {
   _empty: '',
   me: '',
   user: '',
@@ -51,7 +51,7 @@ export const declareFragments = (fragments: { [T in keyof (Query & Mutation)]?: 
 
 export const _emptyQuery = async () => {
   return apolloQuery<string>({
-    query: gql`
+    query: graphQlTag`
     query _empty  {
       _empty {
         ${Fragments._empty}
@@ -64,7 +64,7 @@ export const _emptyQuery = async () => {
 
 export const meQuery = async () => {
   return apolloQuery<User>({
-    query: gql`
+    query: graphQlTag`
     query me  {
       me {
         ${Fragments.me}
@@ -77,7 +77,7 @@ export const meQuery = async () => {
 
 export const userQuery = async () => {
   return apolloQuery<User>({
-    query: gql`
+    query: graphQlTag`
     query user  {
       user {
         ${Fragments.user}
@@ -94,7 +94,7 @@ export const nurseriesConnectionQuery = async (
   limit: number
 ) => {
   return apolloQuery<NurseryConnectionWithRevenues>({
-    query: gql`
+    query: graphQlTag`
     query nurseriesConnection ($where: NurseryConnectionWhereInput,$page: Int,$limit: Int) {
       nurseriesConnection(where: $where,page: $page,limit: $limit) {
         ${Fragments.nurseriesConnection}
@@ -111,7 +111,7 @@ export const nurseriesConnectionQuery = async (
 
 export const nurseryQuery = async (id: string) => {
   return apolloQuery<Nursery>({
-    query: gql`
+    query: graphQlTag`
     query nursery ($id: ID) {
       nursery(id: $id) {
         ${Fragments.nursery}
@@ -126,7 +126,7 @@ export const nurseryQuery = async (id: string) => {
 
 export const nurseryPlanningQuery = async (id: string, start: Date, end: Date) => {
   return apolloQuery<NurseryPlanning>({
-    query: gql`
+    query: graphQlTag`
     query nurseryPlanning ($id: ID!,$start: DateTime!,$end: DateTime!) {
       nurseryPlanning(id: $id,start: $start,end: $end) {
         ${Fragments.nurseryPlanning}
@@ -143,7 +143,7 @@ export const nurseryPlanningQuery = async (id: string, start: Date, end: Date) =
 
 export const nurseryKeyFiguresQuery = async (id: string, start: Date, end: Date) => {
   return apolloQuery<NurseryKeyFigures>({
-    query: gql`
+    query: graphQlTag`
     query nurseryKeyFigures ($id: ID!,$start: DateTime!,$end: DateTime!) {
       nurseryKeyFigures(id: $id,start: $start,end: $end) {
         ${Fragments.nurseryKeyFigures}
@@ -160,7 +160,7 @@ export const nurseryKeyFiguresQuery = async (id: string, start: Date, end: Date)
 
 export const documentQuery = async (id: string) => {
   return apolloQuery<Document>({
-    query: gql`
+    query: graphQlTag`
     query document ($id: ID) {
       document(id: $id) {
         ${Fragments.document}
@@ -175,7 +175,7 @@ export const documentQuery = async (id: string) => {
 
 export const childQuery = async (where: string) => {
   return apolloQuery<Child>({
-    query: gql`
+    query: graphQlTag`
     query child ($where: ID!) {
       child(where: $where) {
         ${Fragments.child}
@@ -190,7 +190,7 @@ export const childQuery = async (where: string) => {
 
 export const customerQuery = async () => {
   return apolloQuery<Customer>({
-    query: gql`
+    query: graphQlTag`
     query customer  {
       customer {
         ${Fragments.customer}
@@ -207,7 +207,7 @@ export const nurseryReservationsQuery = async (
   endDate: Date
 ) => {
   return apolloQuery<Reservation>({
-    query: gql`
+    query: graphQlTag`
     query nurseryReservations ($nurseryId: ID!,$startDate: DateTime!,$endDate: DateTime!) {
       nurseryReservations(nurseryId: $nurseryId,startDate: $startDate,endDate: $endDate) {
         ${Fragments.nurseryReservations}
@@ -224,7 +224,7 @@ export const nurseryReservationsQuery = async (
 
 export const uploadPictureMutation = async (picture: File) => {
   return apolloMutation<Picture>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation uploadPicture ($picture: Upload!) {
       uploadPicture(picture: $picture) {
         ${Fragments.uploadPicture}
@@ -239,7 +239,7 @@ export const uploadPictureMutation = async (picture: File) => {
 
 export const deletePictureMutation = async (id: string) => {
   return apolloMutation<boolean>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation deletePicture ($id: ID!) {
       deletePicture(id: $id) {
         ${Fragments.deletePicture}
@@ -254,7 +254,7 @@ export const deletePictureMutation = async (id: string) => {
 
 export const loginMutation = async (data: LoginInput) => {
   return apolloMutation<AuthPayload>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation login ($data: LoginInput) {
       login(data: $data) {
         ${Fragments.login}
@@ -269,7 +269,7 @@ export const loginMutation = async (data: LoginInput) => {
 
 export const updateUserMutation = async () => {
   return apolloMutation<User>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation updateUser  {
       updateUser {
         ${Fragments.updateUser}
@@ -282,7 +282,7 @@ export const updateUserMutation = async () => {
 
 export const deleteUserMutation = async () => {
   return apolloMutation<User>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation deleteUser  {
       deleteUser {
         ${Fragments.deleteUser}
@@ -295,7 +295,7 @@ export const deleteUserMutation = async () => {
 
 export const createUserMutation = async (user: CreateUserInput) => {
   return apolloMutation<User>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation createUser ($user: CreateUserInput) {
       createUser(user: $user) {
         ${Fragments.createUser}
@@ -310,7 +310,7 @@ export const createUserMutation = async (user: CreateUserInput) => {
 
 export const _emptyMutation = async () => {
   return apolloMutation<string>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation _empty  {
       _empty {
         ${Fragments._empty}
@@ -323,7 +323,7 @@ export const _emptyMutation = async () => {
 
 export const updateNurseryMutation = async (where: string, data: UpdateNurseryInput) => {
   return apolloMutation<Nursery>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation updateNursery ($where: ID!,$data: UpdateNurseryInput!) {
       updateNursery(where: $where,data: $data) {
         ${Fragments.updateNursery}
@@ -339,7 +339,7 @@ export const updateNurseryMutation = async (where: string, data: UpdateNurseryIn
 
 export const createDocumentMutation = async () => {
   return apolloMutation<Document>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation createDocument  {
       createDocument {
         ${Fragments.createDocument}
@@ -352,7 +352,7 @@ export const createDocumentMutation = async () => {
 
 export const updateDocumentMutation = async () => {
   return apolloMutation<Document>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation updateDocument  {
       updateDocument {
         ${Fragments.updateDocument}
@@ -365,7 +365,7 @@ export const updateDocumentMutation = async () => {
 
 export const createChildMutation = async (where: string, data: CreateChildInput) => {
   return apolloMutation<Child>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation createChild ($where: ID!,$data: CreateChildInput!) {
       createChild(where: $where,data: $data) {
         ${Fragments.createChild}
@@ -381,7 +381,7 @@ export const createChildMutation = async (where: string, data: CreateChildInput)
 
 export const updateChildMutation = async (where: string, data: UpdateChildInput) => {
   return apolloMutation<Child>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation updateChild ($where: ID!,$data: UpdateChildInput!) {
       updateChild(where: $where,data: $data) {
         ${Fragments.updateChild}
@@ -397,7 +397,7 @@ export const updateChildMutation = async (where: string, data: UpdateChildInput)
 
 export const deleteChildMutation = async (where: string) => {
   return apolloMutation<Child>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation deleteChild ($where: ID!) {
       deleteChild(where: $where) {
         ${Fragments.deleteChild}
@@ -412,7 +412,7 @@ export const deleteChildMutation = async (where: string) => {
 
 export const updateCustomerMutation = async () => {
   return apolloMutation<Customer>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation updateCustomer  {
       updateCustomer {
         ${Fragments.updateCustomer}
@@ -425,7 +425,7 @@ export const updateCustomerMutation = async () => {
 
 export const signUpMutation = async (customer: SignUpInput) => {
   return apolloMutation<Customer>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation signUp ($customer: SignUpInput) {
       signUp(customer: $customer) {
         ${Fragments.signUp}
@@ -440,7 +440,7 @@ export const signUpMutation = async (customer: SignUpInput) => {
 
 export const createReservationMutation = async () => {
   return apolloMutation<Reservation>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation createReservation  {
       createReservation {
         ${Fragments.createReservation}
@@ -453,7 +453,7 @@ export const createReservationMutation = async () => {
 
 export const updateReservationMutation = async () => {
   return apolloMutation<Reservation>({
-    mutation: gql`
+    mutation: graphQlTag`
     mutation updateReservation  {
       updateReservation {
         ${Fragments.updateReservation}

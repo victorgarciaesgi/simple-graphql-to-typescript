@@ -110,7 +110,7 @@ export const buildMethod = (data, type, prefix, suffix) => {
   const template = `
       export const ${methodName}${type.high} = async (${tsArgs.join(',')}) => {
         return apollo${type.high}<${returnedType}>({
-          ${type.little}: gql\`
+          ${type.little}: graphQlTag\`
     ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
       ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
         \${Fragments.${methodName}}

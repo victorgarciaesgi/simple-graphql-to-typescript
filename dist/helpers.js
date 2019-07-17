@@ -85,6 +85,6 @@ exports.buildMethod = function (data, type, prefix, suffix) {
         tsArgs: [],
     }), $args = _a.$args, args = _a.args, variables = _a.variables, tsArgs = _a.tsArgs;
     var returnedType = exports.getOneTSType({ field: data, prefix: prefix, suffix: suffix });
-    var template = "\n      export const " + methodName + type.high + " = async (" + tsArgs.join(',') + ") => {\n        return apollo" + type.high + "<" + returnedType + ">({\n          " + type.little + ": gql`\n    " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n      " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + " {\n        ${Fragments." + methodName + "}\n      }\n    }\n          `,\n          variables: {\n            " + variables.join(',') + "\n          }\n        });\n      };\n    ";
+    var template = "\n      export const " + methodName + type.high + " = async (" + tsArgs.join(',') + ") => {\n        return apollo" + type.high + "<" + returnedType + ">({\n          " + type.little + ": graphQlTag`\n    " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n      " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + " {\n        ${Fragments." + methodName + "}\n      }\n    }\n          `,\n          variables: {\n            " + variables.join(',') + "\n          }\n        });\n      };\n    ";
     return template;
 };

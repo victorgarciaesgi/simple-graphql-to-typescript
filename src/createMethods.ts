@@ -27,7 +27,7 @@ export const createMethods = async ({ schema, prefix, suffix }) => {
   const mutationsKeys = listMutations.map(mutation => `${mutation.name}: '',`);
   const finalMethods = `
   import { apolloMutation, apolloQuery } from '@services';
-  import gql from 'graphql-tag';
+  import graphQlTag from 'graphql-tag';
 
   const Fragments: {[T in keyof (${queryKey} & ${mutationKey})]?: string} = {
     ${[...new Set([...queriesKeys, ...mutationsKeys])].join('\n')}
