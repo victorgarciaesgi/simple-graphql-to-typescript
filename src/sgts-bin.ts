@@ -21,6 +21,10 @@ const sgts = () => {
       '-s, --suffix <suffix>',
       'Add suffix to all your types (ex: User becomes UserModel with --suffix Model)'
     )
+    .option(
+      '-G, --generateMethods',
+      'Generate all your queries and mutations typed functions (Personal use for now)'
+    )
     .option('-rmNodes, --removeNodes', 'Remove node property from all [edges] results')
     .option(
       '--customScalars <scalars>',
@@ -28,7 +32,17 @@ const sgts = () => {
     )
     .parse(process.argv);
 
-  let { endpoint, json, output, customScalars, header, prefix, removeNodes, suffix } = program;
+  let {
+    endpoint,
+    json,
+    output,
+    customScalars,
+    header,
+    prefix,
+    removeNodes,
+    suffix,
+    generateMethods = true,
+  } = program;
   if (customScalars) {
     try {
       customScalars = JSON.parse(customScalars);
@@ -38,7 +52,17 @@ const sgts = () => {
     }
   }
 
-  sgtsGenerate({ endpoint, json, output, customScalars, header, prefix, removeNodes, suffix });
+  sgtsGenerate({
+    endpoint,
+    json,
+    output,
+    customScalars,
+    header,
+    prefix,
+    removeNodes,
+    suffix,
+    generateMethods,
+  });
 };
 
 sgts();

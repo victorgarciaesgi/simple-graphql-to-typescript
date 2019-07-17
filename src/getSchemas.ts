@@ -1,7 +1,6 @@
 import chalk from 'chalk';
 import fetch from 'node-fetch';
 import ora from 'ora';
-import path from 'path';
 import * as query from 'querystringify';
 import { introspectionQuery } from 'graphql/utilities/introspectionQuery';
 import { buildClientSchema } from 'graphql/utilities/buildClientSchema';

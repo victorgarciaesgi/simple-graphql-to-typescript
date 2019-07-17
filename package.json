@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.0.67",
+  "version": "0.1.0",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist",
     "compile": "tsc --pretty",
+    "dev": "tsc --pretty --watch",
     "build": "npm run compile"
   },
   "repository": {

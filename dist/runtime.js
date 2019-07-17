@@ -43,7 +43,7 @@ var path_1 = __importDefault(require("path"));
 var getSchemas_1 = require("./getSchemas");
 var chalk_1 = __importDefault(require("chalk"));
 function sgtsGenerate(_a) {
-    var endpoint = _a.endpoint, json = _a.json, _b = _a.output, output = _b === void 0 ? './generated.ts' : _b, customScalars = _a.customScalars, header = _a.header, prefix = _a.prefix, removeNodes = _a.removeNodes, suffix = _a.suffix;
+    var endpoint = _a.endpoint, json = _a.json, _b = _a.output, output = _b === void 0 ? './generated.ts' : _b, customScalars = _a.customScalars, header = _a.header, prefix = _a.prefix, removeNodes = _a.removeNodes, suffix = _a.suffix, generateMethods = _a.generateMethods;
     return __awaiter(this, void 0, void 0, function () {
         var schema, JSONschema, outputPath, formatedFile, e_1;
         return __generator(this, function (_c) {
@@ -68,7 +68,7 @@ function sgtsGenerate(_a) {
                     _c.label = 3;
                 case 3:
                     outputPath = path_1.default.resolve(process.cwd(), output);
-                    return [4, generateModel_1.generate(schema, outputPath, prefix, suffix, removeNodes, customScalars)];
+                    return [4, generateModel_1.generate(schema, outputPath, prefix, suffix, removeNodes, customScalars, generateMethods)];
                 case 4:
                     formatedFile = _c.sent();
                     return [2, formatedFile];

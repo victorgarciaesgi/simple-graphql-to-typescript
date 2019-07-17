@@ -15,10 +15,11 @@ var sgts = function () {
         .option('-head, --header <header>', 'Additional header option to fetch your schema from endpoint')
         .option('-p, --prefix <prefix>', 'Add prefix to all your types (ex: User becomes IUser with --suffix I)')
         .option('-s, --suffix <suffix>', 'Add suffix to all your types (ex: User becomes UserModel with --suffix Model)')
+        .option('-G, --generateMethods', 'Generate all your queries and mutations typed functions (Personal use for now)')
         .option('-rmNodes, --removeNodes', 'Remove node property from all [edges] results')
         .option('--customScalars <scalars>', 'Provide your custum scalars in format [{"myScalar": "MyType"} ...]')
         .parse(process.argv);
-    var endpoint = commander_1.default.endpoint, json = commander_1.default.json, output = commander_1.default.output, customScalars = commander_1.default.customScalars, header = commander_1.default.header, prefix = commander_1.default.prefix, removeNodes = commander_1.default.removeNodes, suffix = commander_1.default.suffix;
+    var endpoint = commander_1.default.endpoint, json = commander_1.default.json, output = commander_1.default.output, customScalars = commander_1.default.customScalars, header = commander_1.default.header, prefix = commander_1.default.prefix, removeNodes = commander_1.default.removeNodes, suffix = commander_1.default.suffix, _a = commander_1.default.generateMethods, generateMethods = _a === void 0 ? true : _a;
     if (customScalars) {
         try {
             customScalars = JSON.parse(customScalars);
@@ -28,6 +29,16 @@ var sgts = function () {
             return;
         }
     }
-    runtime_1.sgtsGenerate({ endpoint: endpoint, json: json, output: output, customScalars: customScalars, header: header, prefix: prefix, removeNodes: removeNodes, suffix: suffix });
+    runtime_1.sgtsGenerate({
+        endpoint: endpoint,
+        json: json,
+        output: output,
+        customScalars: customScalars,
+        header: header,
+        prefix: prefix,
+        removeNodes: removeNodes,
+        suffix: suffix,
+        generateMethods: generateMethods,
+    });
 };
 sgts();

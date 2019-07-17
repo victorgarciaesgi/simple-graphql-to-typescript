@@ -3,8 +3,10 @@ import fs from 'fs';
 import ora from 'ora';
 import path from 'path';
 import * as prettier from 'prettier';
+import { createMethods } from './createMethods';
+import { getObjectTSInterfaces } from './helpers';
 
-let scalarList = {
+export let scalarList = {
   ID: 'string',
   String: 'string',
   Int: 'number',
@@ -15,53 +17,9 @@ let scalarList = {
 };
 
 const generatedTypes = {
+  METHODS: '',
   OBJECT: [],
   ENUM: [],
-};
-
-const getObjectTypes = (object, prefix: string, suffix: string, removeNodes: boolean): void => {
-  let ObjectName: string = object.name;
-  let fieldsKey =
-    object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
-  const generatedFields = object[fieldsKey].map(field => {
-    let propertyName = field.name;
-    let isOptional = true;
-    let isArray = false;
-    let isArrayOptional = false;
-    let isEdge = false;
-
-    function getFieldInfos(type): string {
-      if (propertyName === 'edges') isEdge = true;
-      if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
-        if (type.kind === 'LIST') {
-          isArray = true;
-          if (isOptional) isArrayOptional = true;
-        }
-        if (type.kind === 'NON_NULL' && !isArrayOptional) isOptional = false;
-        return getFieldInfos(type.ofType);
-      } else {
-        if (type.kind === 'SCALAR') {
-          return scalarList[type.name];
-        }
-        return (prefix ? prefix : '') + type.name + (suffix ? suffix : '');
-      }
-    }
-
-    const typeName = getFieldInfos(field.type);
-
-    const generatedProperty = `${propertyName}${isOptional ? '?' : ''}: ${typeName}${
-      removeNodes && isEdge ? '["node"]' : ''
-    }${isArray ? '[]' : ''};`;
-
-    return generatedProperty;
-  });
-  const generatedInterface = `export interface ${prefix ? prefix : ''}${ObjectName}${
-    suffix ? suffix : ''
-  } {
-        ${generatedFields.join('\n')}
-      }
-    `;
-  generatedTypes.OBJECT.push(generatedInterface);
 };
 
 const getEnumTypes = (object, prefix: string, suffix: string) => {
@@ -83,9 +41,10 @@ export const generate = (
   prefix: string,
   suffix: string,
   removeNodes: boolean,
-  customScalars: { [x: string]: string }
+  customScalars: { [x: string]: string },
+  generateMethods: boolean
 ): Promise<string> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (customScalars) {
       scalarList = {
         ...scalarList,
@@ -97,10 +56,16 @@ export const generate = (
 
     try {
       const schemaTypes = schema.__schema.types;
+
+      if (generateMethods) {
+        const methods = await createMethods({ schema, prefix, suffix });
+        generatedTypes.METHODS = methods;
+      }
       schemaTypes.forEach(item => {
         if (!/^_{2}/.test(item.name)) {
           if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
-            getObjectTypes(item, prefix, suffix, removeNodes);
+            const generatedInterface = getObjectTSInterfaces(item, prefix, suffix, removeNodes);
+            generatedTypes.OBJECT.push(generatedInterface);
           } else if (item.kind === 'ENUM') {
             getEnumTypes(item, prefix, suffix);
           }
@@ -130,7 +95,7 @@ export const generate = (
       // https://github.com/victorgarciaesgi
       // *******************************************************
       // *******************************************************
-
+      ${generatedTypes.METHODS}
       ${generatedTypes.OBJECT.join('\n')}
       ${generatedTypes.ENUM.join('\n')}
     `;

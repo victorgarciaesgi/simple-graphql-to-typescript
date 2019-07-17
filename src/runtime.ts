@@ -12,6 +12,7 @@ interface generatePayload {
   suffix?: string;
   removeNodes?: boolean;
   customScalars?: { [x: string]: string };
+  generateMethods: boolean;
 }
 /**
  * Returns the transpiled file string
@@ -25,6 +26,7 @@ export async function sgtsGenerate({
   prefix,
   removeNodes,
   suffix,
+  generateMethods,
 }: generatePayload): Promise<string> {
   try {
     let schema: { [x: string]: any };
@@ -49,7 +51,8 @@ export async function sgtsGenerate({
       prefix,
       suffix,
       removeNodes,
-      customScalars
+      customScalars,
+      generateMethods
     );
 
     return formatedFile;
