@@ -11,6 +11,7 @@ export declare const getOneTSType: ({ field, prefix, suffix }: {
     prefix: any;
     suffix: any;
 }) => any;
-export declare const getObjectTSInterfaces: (object: any, prefix: string, suffix: string, removeNodes: boolean) => string;
+export declare const getObjectTSInterfaces: (object: any, prefix: string, suffix: string) => string;
+export declare const getQueriesArgsTSInterfaces: (object: any, prefix: string, suffix: string) => string;
 export declare const getObjectGQLTypesArgs: (field: any) => string;
 export declare const buildMethod: (data: any, type: any, prefix: any, suffix: any) => string;

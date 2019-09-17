@@ -11,10 +11,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -45,24 +46,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var chalk_1 = __importDefault(require("chalk"));
-var fs_1 = __importDefault(require("fs"));
 var ora_1 = __importDefault(require("ora"));
-var path_1 = __importDefault(require("path"));
-var prettier = __importStar(require("prettier"));
-var createMethods_1 = require("./createMethods");
 var helpers_1 = require("./helpers");
 exports.scalarList = {
     ID: 'string',
@@ -77,85 +85,61 @@ var generatedTypes = {
     METHODS: '',
     OBJECT: [],
     ENUM: [],
+    METHODS_ARGS: [],
 };
+var transpile = ora_1.default('🔄 Transpiling GraphQL schema to Typescript interfaces');
 var getEnumTypes = function (object, prefix, suffix) {
     var ObjectName = object.name;
     var generatedFields = object.enumValues.map(function (field) {
         return "| '" + field.name + "'";
     });
-    var generatedInterface = "export type " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " = \n        " + generatedFields.join('\n') + "\n    ";
-    generatedTypes.ENUM.push(generatedInterface);
+    var generatedInterface = "type " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " = \n        " + generatedFields.join('\n') + "\n    ";
+    return generatedInterface;
 };
-exports.generate = function (schema, outfile, prefix, suffix, removeNodes, customScalars, generateMethods) {
-    return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-        var transpile, schemaTypes, methods, e_1, save, fileTemplate, formatedFile, outputfile;
+exports.generate = function (schema, prefix, suffix, customScalars) {
+    return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
+        var schemaTypes, QueryType_1, MutationType_1, listQueries, listMutations, signature, modelsTemplate;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    if (customScalars) {
-                        exports.scalarList = __assign({}, exports.scalarList, customScalars);
-                    }
-                    transpile = ora_1.default('🔄 Transpiling GraphQL schema to Typescript interfaces');
-                    transpile.start();
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 4, , 5]);
-                    schemaTypes = schema.__schema.types;
-                    if (!generateMethods) return [3, 3];
-                    return [4, createMethods_1.createMethods({ schema: schema, prefix: prefix, suffix: suffix })];
-                case 2:
-                    methods = _a.sent();
-                    generatedTypes.METHODS = methods;
-                    _a.label = 3;
-                case 3:
-                    schemaTypes.forEach(function (item) {
-                        if (!/^_{2}/.test(item.name)) {
-                            if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
-                                var generatedInterface = helpers_1.getObjectTSInterfaces(item, prefix, suffix, removeNodes);
-                                generatedTypes.OBJECT.push(generatedInterface);
-                            }
-                            else if (item.kind === 'ENUM') {
-                                getEnumTypes(item, prefix, suffix);
-                            }
-                        }
-                    });
-                    return [3, 5];
-                case 4:
-                    e_1 = _a.sent();
-                    transpile.text = 'Transpiling failed';
-                    transpile.fail();
-                    console.log(e_1);
-                    reject(e_1);
-                    return [2];
-                case 5:
-                    transpile.text = "\uD83D\uDD8BTranspiling done";
-                    transpile.succeed();
-                    save = ora_1.default('Saving file...');
-                    save.start();
-                    fileTemplate = "\n      /* eslint-disable */\n      /* tslint-disable */\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n      " + generatedTypes.METHODS + "\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n    ";
-                    formatedFile = prettier.format(fileTemplate, {
-                        config: path_1.default.resolve(__dirname, '../.prettierrc'),
-                        semicolons: true,
-                        singleQuote: true,
-                        printWidth: 100,
-                        bracketSpacing: true,
-                        parser: 'typescript',
-                    });
-                    outputfile = path_1.default.resolve(process.cwd(), outfile);
-                    fs_1.default.writeFile(outputfile, formatedFile || fileTemplate, function (err) {
-                        if (err) {
-                            save.text = 'Saving file failed:';
-                            save.fail();
-                            console.log(err.message);
-                        }
-                        else {
-                            save.text = "\uD83D\uDDC3 Typescript models saved at " + chalk_1.default.bold("" + outfile);
-                            save.succeed();
-                            resolve(formatedFile);
-                        }
-                    });
-                    return [2];
+            if (customScalars) {
+                exports.scalarList = __assign(__assign({}, exports.scalarList), customScalars);
             }
+            transpile.start();
+            try {
+                schemaTypes = schema.__schema.types;
+                QueryType_1 = schema.__schema.queryType.name;
+                MutationType_1 = schema.__schema.mutationType.name;
+                listQueries = schema.__schema.types.find(function (f) { return f.name === QueryType_1; }).fields;
+                listMutations = schema.__schema.types.find(function (f) { return f.name === MutationType_1; }).fields;
+                schemaTypes.forEach(function (item) {
+                    if (!/^_{1,2}/.test(item.name)) {
+                        if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
+                            var generatedInterface = helpers_1.getObjectTSInterfaces(item, prefix, suffix);
+                            generatedTypes.OBJECT.push("export " + generatedInterface);
+                        }
+                        else if (item.kind === 'ENUM') {
+                            var enumTypes = getEnumTypes(item, prefix, suffix);
+                            generatedTypes.ENUM.push("export " + enumTypes);
+                        }
+                    }
+                });
+                __spread(listQueries, listMutations).forEach(function (item) {
+                    if (!/^_{1,2}/.test(item.name)) {
+                        var generatedInterface = helpers_1.getQueriesArgsTSInterfaces(item, prefix, suffix);
+                        generatedTypes.METHODS_ARGS.push("export " + generatedInterface);
+                    }
+                });
+            }
+            catch (e) {
+                transpile.fail('Transpiling failed');
+                console.log(e);
+                reject(e);
+                return [2];
+            }
+            transpile.succeed("\uD83D\uDD8B Transpiling done");
+            signature = "\n      /* eslint-disable */\n      /* tslint-disable */\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      //\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n      // \uD83D\uDC99";
+            modelsTemplate = "\n      " + signature + "\n\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n      " + generatedTypes.METHODS_ARGS.join('\n') + "\n    ";
+            resolve(modelsTemplate);
+            return [2];
         });
     }); });
 };

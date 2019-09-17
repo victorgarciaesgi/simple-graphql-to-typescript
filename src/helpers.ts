@@ -44,30 +44,50 @@ export const getOneTSType = ({ field, prefix, suffix }) => {
     : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
 };
 
-export const getObjectTSInterfaces = (
-  object,
-  prefix: string,
-  suffix: string,
-  removeNodes: boolean
-) => {
+export const getObjectTSInterfaces = (object, prefix: string, suffix: string) => {
   let ObjectName: string = object.name;
   let fieldsKey =
     object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
   const generatedFields = object[fieldsKey].map(field => {
     let propertyName = field.name;
-    const { isArray, isEdge, isOptional, isScalar, typeName } = evaluateType(field);
+    const { isArray, isOptional, isScalar, typeName } = evaluateType(field);
     const TStypeName = isScalar
       ? scalarList[typeName]
       : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
 
     const generatedProperty = `${propertyName}${isOptional ? '?' : ''}: ${TStypeName}${
-      removeNodes && isEdge ? '["node"]' : ''
-    }${isArray ? '[]' : ''};`;
+      isArray ? '[]' : ''
+    };`;
 
     return generatedProperty;
   });
-  const generatedInterface = `export interface ${prefix ? prefix : ''}${ObjectName}${
+  const generatedInterface = `interface ${prefix ? prefix : ''}${ObjectName}${
     suffix ? suffix : ''
+  } {
+        ${generatedFields.join('\n')}
+      }
+    `;
+  return generatedInterface;
+};
+
+export const getQueriesArgsTSInterfaces = (object, prefix: string, suffix: string) => {
+  let ObjectName: string = object.name;
+  const parsedSuffix = 'Args' + (suffix ? suffix : '');
+  const generatedFields = object.args.map(field => {
+    let propertyName = field.name;
+    const { isArray, isOptional, isScalar, typeName } = evaluateType(field);
+    const TStypeName = isScalar
+      ? scalarList[typeName]
+      : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
+
+    const generatedProperty = `${propertyName}${isOptional ? '?' : ''}: ${TStypeName}${
+      isArray ? '[]' : ''
+    };`;
+
+    return generatedProperty;
+  });
+  const generatedInterface = `interface ${prefix ? prefix : ''}${ObjectName}${
+    parsedSuffix ? parsedSuffix : ''
   } {
         ${generatedFields.join('\n')}
       }
@@ -106,19 +126,38 @@ export const buildMethod = (data, type, prefix, suffix) => {
       tsArgs: [],
     }
   );
+  const { isScalar } = evaluateType(data);
   const returnedType = getOneTSType({ field: data, prefix, suffix });
+
+  let renderedArgs = '';
+  if (isScalar && tsArgs.length) {
+    renderedArgs = `args: {${tsArgs.join('\n')}}`;
+  } else if (!isScalar && tsArgs.length) {
+    renderedArgs = `{args, fragment}: {args: {${tsArgs.join('\n')}}, fragment: string}`;
+  } else if (!isScalar && !tsArgs.length) {
+    renderedArgs = `fragment: string`;
+  }
   const template = `
-      export const ${methodName}${type.high} = async (${tsArgs.join(',')}) => {
+      export const ${methodName} = async (${renderedArgs}) => {
+        ${!isScalar ? `const fragmentName = getFragmentName(fragment);` : ''}
         return apollo${type.high}<${returnedType}>({
           ${type.little}: graphQlTag\`
     ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
-      ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
-        \${Fragments.${methodName}}
-      }
-    }
-          \`,
+      ${methodName}${hasArgs ? `(${args.join(',')})` : ''} ${
+    isScalar
+      ? ''
+      : `{
+        \${fragmentName?\`...\${fragmentName}\`:\`\${fragment}\`}
+      }`
+  }
+    } ${
+      isScalar
+        ? ''
+        : `\${fragmentName? fragment :''}
+        `
+    }\`,
           variables: {
-            ${variables.join(',')}
+            ${variables.map(m => `${m}:args.${m}`).join(',')}
           }
         });
       };

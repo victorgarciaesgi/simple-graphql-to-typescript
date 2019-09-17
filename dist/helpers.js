@@ -46,19 +46,34 @@ exports.getOneTSType = function (_a) {
         ? generateModel_1.scalarList[typeName]
         : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
 };
-exports.getObjectTSInterfaces = function (object, prefix, suffix, removeNodes) {
+exports.getObjectTSInterfaces = function (object, prefix, suffix) {
     var ObjectName = object.name;
     var fieldsKey = object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
     var generatedFields = object[fieldsKey].map(function (field) {
         var propertyName = field.name;
-        var _a = exports.evaluateType(field), isArray = _a.isArray, isEdge = _a.isEdge, isOptional = _a.isOptional, isScalar = _a.isScalar, typeName = _a.typeName;
+        var _a = exports.evaluateType(field), isArray = _a.isArray, isOptional = _a.isOptional, isScalar = _a.isScalar, typeName = _a.typeName;
         var TStypeName = isScalar
             ? generateModel_1.scalarList[typeName]
             : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
-        var generatedProperty = "" + propertyName + (isOptional ? '?' : '') + ": " + TStypeName + (removeNodes && isEdge ? '["node"]' : '') + (isArray ? '[]' : '') + ";";
+        var generatedProperty = "" + propertyName + (isOptional ? '?' : '') + ": " + TStypeName + (isArray ? '[]' : '') + ";";
         return generatedProperty;
     });
-    var generatedInterface = "export interface " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " {\n        " + generatedFields.join('\n') + "\n      }\n    ";
+    var generatedInterface = "interface " + (prefix ? prefix : '') + ObjectName + (suffix ? suffix : '') + " {\n        " + generatedFields.join('\n') + "\n      }\n    ";
+    return generatedInterface;
+};
+exports.getQueriesArgsTSInterfaces = function (object, prefix, suffix) {
+    var ObjectName = object.name;
+    var parsedSuffix = 'Args' + (suffix ? suffix : '');
+    var generatedFields = object.args.map(function (field) {
+        var propertyName = field.name;
+        var _a = exports.evaluateType(field), isArray = _a.isArray, isOptional = _a.isOptional, isScalar = _a.isScalar, typeName = _a.typeName;
+        var TStypeName = isScalar
+            ? generateModel_1.scalarList[typeName]
+            : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
+        var generatedProperty = "" + propertyName + (isOptional ? '?' : '') + ": " + TStypeName + (isArray ? '[]' : '') + ";";
+        return generatedProperty;
+    });
+    var generatedInterface = "interface " + (prefix ? prefix : '') + ObjectName + (parsedSuffix ? parsedSuffix : '') + " {\n        " + generatedFields.join('\n') + "\n      }\n    ";
     return generatedInterface;
 };
 exports.getObjectGQLTypesArgs = function (field) {
@@ -84,7 +99,22 @@ exports.buildMethod = function (data, type, prefix, suffix) {
         variables: [],
         tsArgs: [],
     }), $args = _a.$args, args = _a.args, variables = _a.variables, tsArgs = _a.tsArgs;
+    var isScalar = exports.evaluateType(data).isScalar;
     var returnedType = exports.getOneTSType({ field: data, prefix: prefix, suffix: suffix });
-    var template = "\n      export const " + methodName + type.high + " = async (" + tsArgs.join(',') + ") => {\n        return apollo" + type.high + "<" + returnedType + ">({\n          " + type.little + ": graphQlTag`\n    " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n      " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + " {\n        ${Fragments." + methodName + "}\n      }\n    }\n          `,\n          variables: {\n            " + variables.join(',') + "\n          }\n        });\n      };\n    ";
+    var renderedArgs = '';
+    if (isScalar && tsArgs.length) {
+        renderedArgs = "args: {" + tsArgs.join('\n') + "}";
+    }
+    else if (!isScalar && tsArgs.length) {
+        renderedArgs = "{args, fragment}: {args: {" + tsArgs.join('\n') + "}, fragment: string}";
+    }
+    else if (!isScalar && !tsArgs.length) {
+        renderedArgs = "fragment: string";
+    }
+    var template = "\n      export const " + methodName + " = async (" + renderedArgs + ") => {\n        " + (!isScalar ? "const fragmentName = getFragmentName(fragment);" : '') + "\n        return apollo" + type.high + "<" + returnedType + ">({\n          " + type.little + ": graphQlTag`\n    " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n      " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + " " + (isScalar
+        ? ''
+        : "{\n        ${fragmentName?`...${fragmentName}`:`${fragment}`}\n      }") + "\n    } " + (isScalar
+        ? ''
+        : "${fragmentName? fragment :''}\n        ") + "`,\n          variables: {\n            " + variables.map(function (m) { return m + ":args." + m; }).join(',') + "\n          }\n        });\n      };\n    ";
     return template;
 };

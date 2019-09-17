@@ -9,6 +9,6 @@ export declare let scalarList: {
 };
 export declare const generate: (schema: {
     [x: string]: any;
-}, outfile: string, prefix: string, suffix: string, removeNodes: boolean, customScalars: {
+}, prefix: string, suffix: string, customScalars: {
     [x: string]: string;
-}, generateMethods: boolean) => Promise<string>;
+}) => Promise<string>;

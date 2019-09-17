@@ -1,4 +1,4 @@
-import { getObjectGQLTypesArgs, getOneTSType, buildMethod } from './helpers';
+import { buildMethod } from './helpers';
 
 export const createMethods = async ({ schema, prefix, suffix }) => {
   const QueryType = schema.__schema.queryType.name;
@@ -6,38 +6,34 @@ export const createMethods = async ({ schema, prefix, suffix }) => {
   const listQueries = schema.__schema.types.find(f => f.name === QueryType).fields;
   const listMutations = schema.__schema.types.find(f => f.name === MutationType).fields;
 
-  const queries = listQueries.map(query => {
-    const type = {
-      little: 'query',
-      high: 'Query',
-    };
-    return buildMethod(query, type, prefix, suffix);
-  });
-  const mutations = listMutations.map(mutation => {
-    const type = {
-      little: 'mutation',
-      high: 'Mutation',
-    };
-    return buildMethod(mutation, type, prefix, suffix);
-  });
-  const queryKey = (prefix ? prefix : '') + QueryType + (suffix ? suffix : '');
-  const mutationKey = (prefix ? prefix : '') + MutationType + (suffix ? suffix : '');
+  const queries = listQueries
+    .filter(query => !/^_{1,2}/.test(query.name))
+    .map(query => {
+      const type = {
+        little: 'query',
+        high: 'Query',
+      };
+      return buildMethod(query, type, prefix, suffix);
+    });
+  const mutations = listMutations
+    .filter(query => !/^_{1,2}/.test(query.name))
+    .map(mutation => {
+      const type = {
+        little: 'mutation',
+        high: 'Mutation',
+      };
+      return buildMethod(mutation, type, prefix, suffix);
+    });
 
-  const queriesKeys = listQueries.map(query => `${query.name}: '',`);
-  const mutationsKeys = listMutations.map(mutation => `${mutation.name}: '',`);
   const finalMethods = `
   import { apolloMutation, apolloQuery } from '@services';
   import graphQlTag from 'graphql-tag';
+  import { oc } from 'ts-optchain'
 
-  const Fragments: {[T in keyof (${queryKey} & ${mutationKey})]?: string} = {
-    ${[...new Set([...queriesKeys, ...mutationsKeys])].join('\n')}
+  function getFragmentName(fragment) {
+    return oc(fragment.definitions[0].name).value();
   }
 
-  export const declareFragments = (fragments: { [T in keyof (${queryKey} & ${mutationKey})]?: string }) => {
-    Object.keys(fragments).map(key => {
-      Fragments[key] = fragments[key];
-    });
-  };
 
   ${queries.join('\n')}
   ${mutations.join('\n')}

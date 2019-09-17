@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -37,49 +38,127 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var generateModel_1 = require("./generateModel");
 var path_1 = __importDefault(require("path"));
 var getSchemas_1 = require("./getSchemas");
 var chalk_1 = __importDefault(require("chalk"));
+var prettier = __importStar(require("prettier"));
+var fs_1 = __importStar(require("fs"));
+var ora = require("ora");
+var previousSchema = null;
+var watchInterval = null;
+var timeInterval = 2000;
+var saveModels = ora('Saving models file...');
 function sgtsGenerate(_a) {
-    var endpoint = _a.endpoint, json = _a.json, _b = _a.output, output = _b === void 0 ? './generated.ts' : _b, customScalars = _a.customScalars, header = _a.header, prefix = _a.prefix, removeNodes = _a.removeNodes, suffix = _a.suffix, generateMethods = _a.generateMethods;
+    var endpoint = _a.endpoint, json = _a.json, _b = _a.output, output = _b === void 0 ? './__generated.ts' : _b, customScalars = _a.customScalars, header = _a.header, prefix = _a.prefix, removeNodes = _a.removeNodes, suffix = _a.suffix, generateMethods = _a.generateMethods;
     return __awaiter(this, void 0, void 0, function () {
-        var schema, JSONschema, outputPath, formatedFile, e_1;
+        var schema_1, outputPath_1, generatedString_1, formatedString, e_1;
+        var _this = this;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    _c.trys.push([0, 5, , 6]);
-                    schema = void 0;
-                    if (!endpoint) return [3, 2];
-                    return [4, getSchemas_1.downloadSchema(endpoint, header)];
+                    _c.trys.push([0, 6, , 7]);
+                    return [4, fetchSchemas({ endpoint: endpoint, header: header, json: json })];
                 case 1:
-                    JSONschema = _c.sent();
-                    schema = JSON.parse(JSONschema);
-                    return [3, 3];
+                    schema_1 = _c.sent();
+                    if (!schema_1) return [3, 4];
+                    outputPath_1 = path_1.default.resolve(process.cwd(), output);
+                    return [4, generateModel_1.generate(schema_1, prefix, suffix, customScalars)];
                 case 2:
-                    if (json) {
-                        schema = require(path_1.default.resolve(process.cwd(), json));
-                    }
-                    else {
-                        console.warn(chalk_1.default.yellow('\n ⚠️ You need to either provite a source url or a path to your json schema file'));
-                        return [2];
-                    }
-                    _c.label = 3;
+                    generatedString_1 = _c.sent();
+                    return [4, saveFile(generatedString_1, outputPath_1)];
                 case 3:
-                    outputPath = path_1.default.resolve(process.cwd(), output);
-                    return [4, generateModel_1.generate(schema, outputPath, prefix, suffix, removeNodes, customScalars, generateMethods)];
+                    formatedString = _c.sent();
+                    if (fs_1.watch) {
+                        previousSchema = generatedString_1;
+                        watchInterval = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {
+                            var newString;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4, generateModel_1.generate(schema_1, prefix, suffix, customScalars)];
+                                    case 1:
+                                        newString = _a.sent();
+                                        if (newString !== previousSchema) {
+                                            previousSchema = newString;
+                                            saveFile(generatedString_1, outputPath_1);
+                                        }
+                                        timeInterval = 10000;
+                                        return [2];
+                                }
+                            });
+                        }); }, timeInterval);
+                    }
+                    return [2, formatedString];
                 case 4:
-                    formatedFile = _c.sent();
-                    return [2, formatedFile];
-                case 5:
+                    console.warn(chalk_1.default.yellow('\n ⚠️ You need to either provite a source url or a path to your json schema file'));
+                    _c.label = 5;
+                case 5: return [3, 7];
+                case 6:
                     e_1 = _c.sent();
                     Promise.reject(e_1);
                     console.log(e_1);
-                    return [3, 6];
-                case 6: return [2];
+                    return [3, 7];
+                case 7: return [2];
             }
         });
     });
 }
 exports.sgtsGenerate = sgtsGenerate;
+function saveFile(template, output) {
+    saveModels.start();
+    return new Promise(function (res, rej) {
+        var formatedModelsFile = prettier.format(template, {
+            config: path_1.default.resolve(__dirname, '../.prettierrc'),
+            semicolons: true,
+            singleQuote: true,
+            printWidth: 100,
+            bracketSpacing: true,
+            parser: 'typescript',
+        });
+        var outputfile = path_1.default.resolve(process.cwd(), output);
+        fs_1.default.writeFile(outputfile, formatedModelsFile || template, function (err) {
+            if (err) {
+                saveModels.fail('Saving models file failed: \n');
+                console.log(err.message);
+                rej('error in saving');
+            }
+            else {
+                saveModels.succeed("\uD83D\uDDC3 Typescript models saved at " + chalk_1.default.bold("" + output));
+                res(formatedModelsFile);
+            }
+        });
+    });
+}
+function fetchSchemas(_a) {
+    var endpoint = _a.endpoint, header = _a.header, json = _a.json;
+    return __awaiter(this, void 0, void 0, function () {
+        var JSONschema;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    if (!endpoint) return [3, 2];
+                    return [4, getSchemas_1.downloadSchema(endpoint, header)];
+                case 1:
+                    JSONschema = _b.sent();
+                    return [2, JSON.parse(JSONschema)];
+                case 2:
+                    if (json) {
+                        return [2, require(path_1.default.resolve(process.cwd(), json))];
+                    }
+                    else {
+                        return [2, null];
+                    }
+                    _b.label = 3;
+                case 3: return [2];
+            }
+        });
+    });
+}

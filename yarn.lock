@@ -2322,6 +2322,11 @@ ts-node@^7:
     source-map-support "^0.5.6"
     yn "^2.0.0"
 
+ts-optchain@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/ts-optchain/-/ts-optchain-0.1.7.tgz#525b8cde0909b06b4fe3258f7fc16eb6a9446895"
+  integrity sha512-akxVhbQjWFU9J4jbu+hWmJSou8yZmh6J0GynYlIOq2qNoVD02wQcMZlce6Gs3hShynMpUjKFy0ivqNH028oh3Q==
+
 tslib@^1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
@@ -2343,6 +2348,11 @@ type-fest@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.3.1.tgz#63d00d204e059474fe5e1b7c011112bbd1dc29e1"
   integrity sha512-cUGJnCdr4STbePCgqNFbpVNCepa+kAVohJs1sLhxzdH+gnEoOd8VhbYa7pD3zZYGiURWM2xzEII3fQcRizDkYQ==
+
+typescript@^3.6.3:
+  version "3.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
+  integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
 
 universalify@^0.1.0:
   version "0.1.2"
