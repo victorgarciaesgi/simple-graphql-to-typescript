@@ -52,6 +52,8 @@ sgts
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file           |
 | --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...}  (JSON)         |
 | --removeNodes               | -rmNodes     | boolean                                      | Remove node property from all [edges] results (To use if you clean your requests) |
+| --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma)                |
+
 ## Simple usage exemple
 
 ```bash
@@ -140,6 +142,20 @@ await sgtsGenerate({
   prefix: 'I',
   suffix: 'Model',
 });
+```
+
+# Generating methods using ApolloClient
+
+
+
+```typescript
+const apolloClient = new ApolloClient({
+  ...
+});
+
+export const sgts = apiProvider(apolloClient);
+
+sgts.userQuery({id: 'test'}).$fragment(userFragment).then(data => ...)
 ```
 
 ## Help

@@ -11,4 +11,4 @@ export declare const generate: (schema: {
     [x: string]: any;
 }, prefix: string, suffix: string, customScalars: {
     [x: string]: string;
-}) => Promise<string>;
+}, generateMethods?: boolean) => Promise<string>;

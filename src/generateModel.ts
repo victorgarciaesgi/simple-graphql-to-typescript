@@ -2,6 +2,9 @@ import chalk from 'chalk';
 import ora from 'ora';
 import { createMethods } from './createMethods';
 import { getObjectTSInterfaces, getQueriesArgsTSInterfaces } from './helpers';
+import * as prettier from 'prettier';
+import fs from 'fs';
+import path from 'path';
 
 export let scalarList = {
   ID: 'string',
@@ -37,7 +40,8 @@ export const generate = (
   schema: { [x: string]: any },
   prefix: string,
   suffix: string,
-  customScalars: { [x: string]: string }
+  customScalars: { [x: string]: string },
+  generateMethods?: boolean
 ): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     if (customScalars) {
@@ -54,10 +58,10 @@ export const generate = (
       const MutationType = schema.__schema.mutationType.name;
       const listQueries = schema.__schema.types.find(f => f.name === QueryType).fields;
       const listMutations = schema.__schema.types.find(f => f.name === MutationType).fields;
-      // if (generateMethods) {
-      //   const methods = await createMethods({ schema, prefix, suffix });
-      //   generatedTypes.METHODS = methods;
-      // }
+      if (generateMethods) {
+        const methods = await createMethods({ schema, prefix, suffix });
+        generatedTypes.METHODS = methods;
+      }
 
       schemaTypes.forEach(item => {
         if (!/^_{1,2}/.test(item.name)) {
@@ -107,43 +111,9 @@ export const generate = (
       ${generatedTypes.OBJECT.join('\n')}
       ${generatedTypes.ENUM.join('\n')}
       ${generatedTypes.METHODS_ARGS.join('\n')}
+      ${generateMethods ? generatedTypes.METHODS : ''}
     `;
 
-    // let methodsTemplate = null;
-    // if (generateMethods) {
-    //   methodsTemplate = `
-    //   ${signature}
-
-    //   ${generatedTypes.METHODS}
-    // `;
-    // }
-
     resolve(modelsTemplate);
-
-    // if (generateMethods) {
-    //   const saveMethods = ora('Saving methods file...').start();
-    //   const formatedMethodsFile = prettier.format(methodsTemplate, {
-    //     config: path.resolve(__dirname, '../.prettierrc'),
-    //     semicolons: true,
-    //     singleQuote: true,
-    //     printWidth: 100,
-    //     bracketSpacing: true,
-    //     parser: 'typescript',
-    //   });
-
-    //   const outputfile = path.resolve(process.cwd(), generateMethods);
-
-    //   fs.writeFile(outputfile, formatedMethodsFile || methodsTemplate, err => {
-    //     if (err) {
-    //       saveMethods.fail('Saving methods file failed: \n');
-    //       console.log(err.message);
-    //     } else {
-    //       saveMethods.succeed(
-    //         `🗃 Queries and Mutations saved at ${chalk.bold(`${generateMethods}`)}`
-    //       );
-    //       resolve(formatedMethodsFile);
-    //     }
-    //   });
-    // }
   });
 };

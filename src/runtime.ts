@@ -3,8 +3,8 @@ import path from 'path';
 import { downloadSchema } from './getSchemas';
 import chalk from 'chalk';
 import * as prettier from 'prettier';
-import fs, { watch } from 'fs';
 import ora = require('ora');
+import fs from 'fs';
 
 interface generatePayload {
   endpoint?: string;
@@ -14,9 +14,8 @@ interface generatePayload {
   prefix?: string;
   suffix?: string;
   removeNodes?: boolean;
-  watch?: boolean;
   customScalars?: { [x: string]: string };
-  generateMethods?: string;
+  generateMethods?: boolean;
 }
 
 let previousSchema: string = null;
@@ -43,21 +42,16 @@ export async function sgtsGenerate({
     if (schema) {
       let outputPath = path.resolve(process.cwd(), output);
 
-      const generatedString = await generate(schema, prefix, suffix, customScalars);
+      const generatedString = await generate(
+        schema,
+        prefix,
+        suffix,
+        customScalars,
+        generateMethods
+      );
 
       const formatedString = await saveFile(generatedString, outputPath);
 
-      if (watch) {
-        previousSchema = generatedString;
-        watchInterval = setInterval(async () => {
-          const newString = await generate(schema, prefix, suffix, customScalars);
-          if (newString !== previousSchema) {
-            previousSchema = newString;
-            saveFile(generatedString, outputPath);
-          }
-          timeInterval = 10000;
-        }, timeInterval);
-      }
       return formatedString;
     } else {
       console.warn(

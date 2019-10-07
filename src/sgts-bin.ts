@@ -17,13 +17,12 @@ const sgts = () => {
       '-p, --prefix <prefix>',
       'Add prefix to all your types (ex: User becomes IUser with --suffix I)'
     )
-    .option('-w, --watch', 'Fetch types every 5s and retranspile if models changes')
     .option(
       '-s, --suffix <suffix>',
       'Add suffix to all your types (ex: User becomes UserModel with --suffix Model)'
     )
     .option(
-      '-G, --generateMethods <path>',
+      '-G, --generateMethods',
       'Generate all your queries and mutations typed functions (Personal use for now)'
     )
     .option('-rmNodes, --removeNodes', 'Remove node property from all [edges] results')
@@ -43,7 +42,6 @@ const sgts = () => {
     removeNodes,
     suffix,
     generateMethods,
-    watch,
   } = program;
   if (customScalars) {
     try {
@@ -61,7 +59,6 @@ const sgts = () => {
     customScalars,
     header,
     prefix,
-    watch,
     removeNodes,
     suffix,
     generateMethods,

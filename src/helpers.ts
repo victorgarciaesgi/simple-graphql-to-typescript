@@ -130,37 +130,46 @@ export const buildMethod = (data, type, prefix, suffix) => {
   const returnedType = getOneTSType({ field: data, prefix, suffix });
 
   let renderedArgs = '';
-  if (isScalar && tsArgs.length) {
+  if (tsArgs.length) {
     renderedArgs = `args: {${tsArgs.join('\n')}}`;
-  } else if (!isScalar && tsArgs.length) {
-    renderedArgs = `{args, fragment}: {args: {${tsArgs.join('\n')}}, fragment: string}`;
   } else if (!isScalar && !tsArgs.length) {
-    renderedArgs = `fragment: string`;
+    renderedArgs = ``;
   }
-  const template = `
-      export const ${methodName} = async (${renderedArgs}) => {
-        ${!isScalar ? `const fragmentName = getFragmentName(fragment);` : ''}
-        return apollo${type.high}<${returnedType}>({
+
+  const scalarFunction = `
+    return abortable${type.high}<${returnedType}>({
+      ${type.little}: graphQlTag\`
+        ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
+          ${methodName}${hasArgs ? `(${args.join(',')})` : ''}
+        }\`,
+      variables: {
+        ${variables.map(m => `${m}:args.${m}`).join(',')}
+      }
+    });
+  `;
+  const nonScalarFunction = `
+    return {
+      $fragment: async (fragment: string | DocumentNode) => {
+        return abortable${type.high}<${returnedType}>({
           ${type.little}: graphQlTag\`
-    ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
-      ${methodName}${hasArgs ? `(${args.join(',')})` : ''} ${
-    isScalar
-      ? ''
-      : `{
-        \${fragmentName?\`...\${fragmentName}\`:\`\${fragment}\`}
-      }`
-  }
-    } ${
-      isScalar
-        ? ''
-        : `\${fragmentName? fragment :''}
-        `
-    }\`,
+            ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
+              ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
+                \${fragment}
+              }
+          }\`,
           variables: {
             ${variables.map(m => `${m}:args.${m}`).join(',')}
           }
         });
-      };
-    `;
+      }
+    }
+  `;
+  const template = `
+    ${methodName}: ${isScalar ? 'async' : ''} (${renderedArgs}): ${
+    isScalar ? `Promise<AbordableRequest<${returnedType}>>` : `Fragmentable<${returnedType}>`
+  } => {
+        ${isScalar ? scalarFunction : nonScalarFunction}
+      }
+    ,`;
   return template;
 };

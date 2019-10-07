@@ -102,19 +102,14 @@ exports.buildMethod = function (data, type, prefix, suffix) {
     var isScalar = exports.evaluateType(data).isScalar;
     var returnedType = exports.getOneTSType({ field: data, prefix: prefix, suffix: suffix });
     var renderedArgs = '';
-    if (isScalar && tsArgs.length) {
+    if (tsArgs.length) {
         renderedArgs = "args: {" + tsArgs.join('\n') + "}";
     }
-    else if (!isScalar && tsArgs.length) {
-        renderedArgs = "{args, fragment}: {args: {" + tsArgs.join('\n') + "}, fragment: string}";
-    }
     else if (!isScalar && !tsArgs.length) {
-        renderedArgs = "fragment: string";
+        renderedArgs = "";
     }
-    var template = "\n      export const " + methodName + " = async (" + renderedArgs + ") => {\n        " + (!isScalar ? "const fragmentName = getFragmentName(fragment);" : '') + "\n        return apollo" + type.high + "<" + returnedType + ">({\n          " + type.little + ": graphQlTag`\n    " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n      " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + " " + (isScalar
-        ? ''
-        : "{\n        ${fragmentName?`...${fragmentName}`:`${fragment}`}\n      }") + "\n    } " + (isScalar
-        ? ''
-        : "${fragmentName? fragment :''}\n        ") + "`,\n          variables: {\n            " + variables.map(function (m) { return m + ":args." + m; }).join(',') + "\n          }\n        });\n      };\n    ";
+    var scalarFunction = "\n    return abortable" + type.high + "<" + returnedType + ">({\n      " + type.little + ": graphQlTag`\n        " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n          " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + "\n        }`,\n      variables: {\n        " + variables.map(function (m) { return m + ":args." + m; }).join(',') + "\n      }\n    });\n  ";
+    var nonScalarFunction = "\n    return {\n      $fragment: async (fragment: string | DocumentNode) => {\n        return abortable" + type.high + "<" + returnedType + ">({\n          " + type.little + ": graphQlTag`\n            " + type.little + " " + methodName + " " + (hasArgs ? "(" + $args.join(',') + ")" : '') + " {\n              " + methodName + (hasArgs ? "(" + args.join(',') + ")" : '') + " {\n                ${fragment}\n              }\n          }`,\n          variables: {\n            " + variables.map(function (m) { return m + ":args." + m; }).join(',') + "\n          }\n        });\n      }\n    }\n  ";
+    var template = "\n    " + methodName + ": " + (isScalar ? 'async' : '') + " (" + renderedArgs + "): " + (isScalar ? "Promise<AbordableRequest<" + returnedType + ">>" : "Fragmentable<" + returnedType + ">") + " => {\n        " + (isScalar ? scalarFunction : nonScalarFunction) + "\n      }\n    ,";
     return template;
 };

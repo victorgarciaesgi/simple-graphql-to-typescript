@@ -51,8 +51,8 @@ var path_1 = __importDefault(require("path"));
 var getSchemas_1 = require("./getSchemas");
 var chalk_1 = __importDefault(require("chalk"));
 var prettier = __importStar(require("prettier"));
-var fs_1 = __importStar(require("fs"));
 var ora = require("ora");
+var fs_1 = __importDefault(require("fs"));
 var previousSchema = null;
 var watchInterval = null;
 var timeInterval = 2000;
@@ -60,42 +60,22 @@ var saveModels = ora('Saving models file...');
 function sgtsGenerate(_a) {
     var endpoint = _a.endpoint, json = _a.json, _b = _a.output, output = _b === void 0 ? './__generated.ts' : _b, customScalars = _a.customScalars, header = _a.header, prefix = _a.prefix, removeNodes = _a.removeNodes, suffix = _a.suffix, generateMethods = _a.generateMethods;
     return __awaiter(this, void 0, void 0, function () {
-        var schema_1, outputPath_1, generatedString_1, formatedString, e_1;
-        var _this = this;
+        var schema, outputPath, generatedString, formatedString, e_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     _c.trys.push([0, 6, , 7]);
                     return [4, fetchSchemas({ endpoint: endpoint, header: header, json: json })];
                 case 1:
-                    schema_1 = _c.sent();
-                    if (!schema_1) return [3, 4];
-                    outputPath_1 = path_1.default.resolve(process.cwd(), output);
-                    return [4, generateModel_1.generate(schema_1, prefix, suffix, customScalars)];
+                    schema = _c.sent();
+                    if (!schema) return [3, 4];
+                    outputPath = path_1.default.resolve(process.cwd(), output);
+                    return [4, generateModel_1.generate(schema, prefix, suffix, customScalars, generateMethods)];
                 case 2:
-                    generatedString_1 = _c.sent();
-                    return [4, saveFile(generatedString_1, outputPath_1)];
+                    generatedString = _c.sent();
+                    return [4, saveFile(generatedString, outputPath)];
                 case 3:
                     formatedString = _c.sent();
-                    if (fs_1.watch) {
-                        previousSchema = generatedString_1;
-                        watchInterval = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {
-                            var newString;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4, generateModel_1.generate(schema_1, prefix, suffix, customScalars)];
-                                    case 1:
-                                        newString = _a.sent();
-                                        if (newString !== previousSchema) {
-                                            previousSchema = newString;
-                                            saveFile(generatedString_1, outputPath_1);
-                                        }
-                                        timeInterval = 10000;
-                                        return [2];
-                                }
-                            });
-                        }); }, timeInterval);
-                    }
                     return [2, formatedString];
                 case 4:
                     console.warn(chalk_1.default.yellow('\n ⚠️ You need to either provite a source url or a path to your json schema file'));
