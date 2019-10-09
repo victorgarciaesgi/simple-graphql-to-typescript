@@ -41,38 +41,38 @@ export const createMethods = async ({
   import graphQlTag from 'graphql-tag';
 
 
-  type AbordableQueryWithArgs<T, A> = {
+  export type AbordableQueryWithArgs<T, A> = {
     $args(args: A): AbordableQuery<T>;
     $fetch(): Promise<T>;
     $abort(): void;
   };
   
-  type AbordableQuery<T> = {
+  export type AbordableQuery<T> = {
     $fetch(): Promise<T>;
     $abort(): void;
   };
-  interface FragmentableQueryWithArgs<T, A> {
+  export interface FragmentableQueryWithArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbordableQueryWithArgs<T, A>;
   }
-  interface FragmentableQuery<T> {
+  export interface FragmentableQuery<T> {
     $fragment(fragment: string | DocumentNode): AbordableQuery<T>;
   }
   
-  type AbordableMutationWithArgs<T, A> = {
+  export type AbordableMutationWithArgs<T, A> = {
     $args(args: A): AbordableMutation<T>;
     $post(): Promise<T>;
     $abort(): void;
   };
   
-  type AbordableMutation<T> = {
+  export type AbordableMutation<T> = {
     $post(): Promise<T>;
     $abort(): void;
   };
   
-  interface FragmentableMutationWithArgs<T, A> {
+  export interface FragmentableMutationWithArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbordableMutationWithArgs<T, A>;
   }
-  interface FragmentableMutation<T> {
+  export interface FragmentableMutation<T> {
     $fragment(fragment: string | DocumentNode): AbordableMutation<T>;
   }
   

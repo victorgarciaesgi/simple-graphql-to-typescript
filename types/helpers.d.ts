@@ -1,5 +1,5 @@
 import { Field, Type, InputField, Arg } from './schemaModel';
-export declare const evaluateType: (field: Field | InputField | Arg) => {
+export declare const evaluateType: (field: Arg | Field | InputField) => {
     isOptional: boolean;
     isArray: boolean;
     isArrayOptional: boolean;
@@ -8,7 +8,7 @@ export declare const evaluateType: (field: Field | InputField | Arg) => {
     typeName: string;
 };
 export declare const getOneTSType: ({ field, prefix, suffix, }: {
-    field: Field | InputField | Arg;
+    field: Arg | Field | InputField;
     prefix: string;
     suffix: string;
 }) => string;
