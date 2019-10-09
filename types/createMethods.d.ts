@@ -1,5 +1,6 @@
-export declare const createMethods: ({ schema, prefix, suffix }: {
-    schema: any;
-    prefix: any;
-    suffix: any;
+import { GraphQLJSONSchema } from './schemaModel';
+export declare const createMethods: ({ schema, prefix, suffix, }: {
+    schema: GraphQLJSONSchema;
+    prefix: string;
+    suffix: string;
 }) => Promise<string>;

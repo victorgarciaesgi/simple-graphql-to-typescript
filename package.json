@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.1.61",
+  "version": "0.1.72",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist",
     "dev": "tsc --pretty --watch",
-    "build": "tsc --pretty"
+    "build": "tsc --pretty",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -51,7 +52,6 @@
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "mkdirp": "^0.5.1",
-    "node-fetch": "^2.6.0",
     "ora": "^3.4.0",
     "prettier": "^1.17.1",
     "querystringify": "^2.1.1",
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "apollo-client": "^2.6.4",
-    "graphql": "^14.5.8"
+    "graphql": "^14.5.8",
+    "node-fetch": "^2.6.0"
   }
 }

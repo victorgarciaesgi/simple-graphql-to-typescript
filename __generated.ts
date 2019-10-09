@@ -12,47 +12,47 @@
 // *******************************************************
 // 💙
 
-export interface Query {
+export interface IQuery {
   _empty?: string;
-  me?: User;
-  user: User;
-  usersConnection: UserConnection;
+  me?: IUser;
+  user: IUser;
+  usersConnection: IUserConnection;
   requestResetUserPassword?: boolean;
-  nurseriesConnection: NurseryConnectionWithRevenues;
-  nursery: Nursery;
-  nurseryPlanning: NurseryPlanning;
-  nurseryKeyFigures: NurseryKeyFigures;
-  bansConnection?: BanConnection;
-  document: Document;
+  nurseriesConnection: INurseryConnectionWithRevenues;
+  nursery: INursery;
+  nurseryPlanning: INurseryPlanning;
+  nurseryKeyFigures: INurseryKeyFigures;
+  bansConnection?: IBanConnection;
+  document: IDocument;
   getDocumentUrl: string;
-  child: Child;
-  customerMe: Customer;
-  customer: CustomerWithRegistration;
-  customersConnection?: CustomersConnection;
-  reservationsConnection: ReservationConnection;
-  reservation: Reservation;
-  dashboard: Dashboard;
-  nurseryConfig: NurseryConfig;
-  registrationsConnection: RegistrationsConnection;
-  registration: Registration;
-  mailsConnection: MailConnection;
+  child: IChild;
+  customerMe: ICustomer;
+  customer: ICustomerWithRegistration;
+  customersConnection?: ICustomersConnection;
+  reservationsConnection: IReservationConnection;
+  reservation: IReservation;
+  dashboard: IDashboard;
+  nurseryConfig: INurseryConfig;
+  registrationsConnection: IRegistrationsConnection;
+  registration: IRegistration;
+  mailsConnection: IMailConnection;
 }
 
-export interface User {
+export interface IUser {
   id: string;
   email: string;
   password?: string;
   firstName: string;
   lastName: string;
   slug: string;
-  role: Role;
-  nurseries: Nursery[];
+  role: IRole;
+  nurseries: INursery[];
   active?: boolean;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Nursery {
+export interface INursery {
   id: string;
   analyticCode: string;
   name: string;
@@ -63,50 +63,50 @@ export interface Nursery {
   phone?: string;
   description?: string;
   totalCapacity: number;
-  type: NurseryType;
-  tags?: NurseryTag[];
-  sections?: Section[];
+  type: INurseryType;
+  tags?: INurseryTag[];
+  sections?: ISection[];
   price?: number;
-  schedule: Schedule;
-  visit: Visit;
-  pictures: Picture[];
+  schedule: ISchedule;
+  visit: IVisit;
+  pictures: IPicture[];
   responsibleName?: string;
   responsibleEmail?: string;
   mikadoId: string;
-  registrations?: Registration[];
-  closingDates?: ClosingDate[];
-  reservations?: Reservation[];
+  registrations?: IRegistration[];
+  closingDates?: IClosingDate[];
+  reservations?: IReservation[];
   active: boolean;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Section {
+export interface ISection {
   id: string;
   code: string;
   name: string;
   ageMin: number;
   ageMax: number;
   capacity: number;
-  availabilities: Availability[];
-  nursery: Nursery;
+  availabilities: IAvailability[];
+  nursery: INursery;
   polluxSectionId: number;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Availability {
+export interface IAvailability {
   id: string;
   compoundKey: string;
-  section: Section;
+  section: ISection;
   remainingPlaces: number;
-  date: undefined;
-  type: ReservationType;
-  createdAt: undefined;
-  updatedAt: undefined;
+  date: Date;
+  type: IReservationType;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Schedule {
+export interface ISchedule {
   id: string;
   morningStart: string;
   morningEnd: string;
@@ -114,65 +114,65 @@ export interface Schedule {
   afternoonEnd: string;
 }
 
-export interface Visit {
+export interface IVisit {
   id: string;
   weekDay: number;
   start: string;
   end: string;
 }
 
-export interface Picture {
+export interface IPicture {
   id: string;
   url: string;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Registration {
+export interface IRegistration {
   id: string;
-  child: Child;
-  nursery: Nursery;
-  status: RegistrationStatus;
-  registrationDate: undefined;
-  reservation?: Reservation;
-  welcoming?: Welcoming;
-  createdAt: undefined;
-  updatedAt: undefined;
+  child: IChild;
+  nursery: INursery;
+  status: IRegistrationStatus;
+  registrationDate: Date;
+  reservation?: IReservation;
+  welcoming?: IWelcoming;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Child {
+export interface IChild {
   id: string;
   firstName: string;
   lastName: string;
-  picture?: Picture;
-  documents: Document[];
-  allergies: Allergy[];
+  picture?: IPicture;
+  documents: IDocument[];
+  allergies: IAllergy[];
   notes: string[];
-  reservations?: Reservation[];
-  parent: Customer;
-  registrations?: Registration[];
-  birthDate: undefined;
-  createdAt: undefined;
-  updatedAt: undefined;
+  reservations?: IReservation[];
+  parent: ICustomer;
+  registrations?: IRegistration[];
+  birthDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Document {
+export interface IDocument {
   id: string;
   uuid: string;
-  type: DocumentType;
-  status: DocumentStatus;
-  format: DocumentFormat;
+  type: IDocumentType;
+  status: IDocumentStatus;
+  format: IDocumentFormat;
   extension: string;
-  expirationDate?: undefined;
-  reason?: DocumentRejectedReason;
+  expirationDate?: Date;
+  reason?: IDocumentRejectedReason;
   comment?: string;
-  child?: Child;
-  parent?: Customer;
-  createdAt: undefined;
-  updatedAt: undefined;
+  child?: IChild;
+  parent?: ICustomer;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Customer {
+export interface ICustomer {
   id: string;
   slug: string;
   email: string;
@@ -183,81 +183,81 @@ export interface Customer {
   city?: string;
   phone?: string;
   password: string;
-  children: Child[];
-  reservations: Reservation[];
-  documents: Document[];
-  picture?: Picture;
-  bans: Ban[];
+  children: IChild[];
+  reservations: IReservation[];
+  documents: IDocument[];
+  picture?: IPicture;
+  bans: IBan[];
   price?: number;
   isBanned: boolean;
-  banReason?: BanReason;
+  banReason?: IBanReason;
   banComment?: string;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Reservation {
+export interface IReservation {
   id: string;
-  status: ReservationStatus;
-  statusReason?: RejectReason;
+  status: IReservationStatus;
+  statusReason?: IRejectReason;
   reasonComment?: string;
-  child: Child;
-  nursery: Nursery;
-  section?: Section;
-  customer?: Customer;
+  child: IChild;
+  nursery: INursery;
+  section?: ISection;
+  customer?: ICustomer;
   price?: number;
-  type: ReservationType;
-  date: undefined;
-  validationDate?: undefined;
-  createdAt: undefined;
-  updatedAt: undefined;
+  type: IReservationType;
+  date: Date;
+  validationDate?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Ban {
+export interface IBan {
   id: string;
-  nursery: Nursery;
-  customer: Customer;
-  reason: BanReason;
+  nursery: INursery;
+  customer: ICustomer;
+  reason: IBanReason;
   description?: string;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Welcoming {
+export interface IWelcoming {
   id: string;
-  date: undefined;
-  nursery: Nursery;
-  child: Child;
-  status: WelcomingStatus;
-  registration: Registration;
-  createdAt: undefined;
-  updatedAt: undefined;
+  date: Date;
+  nursery: INursery;
+  child: IChild;
+  status: IWelcomingStatus;
+  registration: IRegistration;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface ClosingDate {
+export interface IClosingDate {
   id: string;
-  closingDateStart: undefined;
-  closingDateEnd: undefined;
+  closingDateStart: Date;
+  closingDateEnd: Date;
   polluxClosingDateId: number;
-  nursery?: Nursery;
+  nursery?: INursery;
 }
 
-export interface UserWhereUniqueInput {
+export interface IUserWhereUniqueInput {
   id: string;
 }
 
-export interface UserConnectionWhereInput {
-  role: Role;
+export interface IUserConnectionWhereInput {
+  role: IRole;
   searchQuery?: string;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges: UserEdge[];
+export interface IUserConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges: IUserEdge[];
 }
 
-export interface PageInfo {
+export interface IPageInfo {
   hasNextPage: boolean;
   hasPreviousPage: boolean;
   startCursor?: string;
@@ -265,31 +265,31 @@ export interface PageInfo {
   totalPage?: number;
 }
 
-export interface Aggregate {
+export interface IAggregate {
   count: number;
 }
 
-export interface UserEdge {
-  node: User;
+export interface IUserEdge {
+  node: IUser;
 }
 
-export interface NurseryConnectionWhereInput {
+export interface INurseryConnectionWhereInput {
   search?: string;
   active?: boolean;
-  orderBy?: NurseryConnectionFilterEnum;
+  orderBy?: INurseryConnectionFilterEnum;
 }
 
-export interface NurseryConnectionWithRevenues {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges: NurseryEdgeWithRevenues[];
+export interface INurseryConnectionWithRevenues {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges: INurseryEdgeWithRevenues[];
 }
 
-export interface NurseryEdgeWithRevenues {
-  node: NurseryWithRevenues;
+export interface INurseryEdgeWithRevenues {
+  node: INurseryWithRevenues;
 }
 
-export interface NurseryWithRevenues {
+export interface INurseryWithRevenues {
   id: string;
   name: string;
   pendingReservation: number;
@@ -299,59 +299,59 @@ export interface NurseryWithRevenues {
   active: boolean;
 }
 
-export interface NurseryPlanning {
-  reservations: Reservation[];
-  availabilities: Availability[];
-  registrations: Registration[];
-  welcomings?: WelcomingExtended[];
+export interface INurseryPlanning {
+  reservations: IReservation[];
+  availabilities: IAvailability[];
+  registrations: IRegistration[];
+  welcomings?: IWelcomingExtended[];
 }
 
-export interface WelcomingExtended {
+export interface IWelcomingExtended {
   id: string;
-  date: undefined;
-  child: ChildLight;
-  status: WelcomingStatus;
-  createdAt: undefined;
-  updatedAt: undefined;
+  date: Date;
+  child: IChildLight;
+  status: IWelcomingStatus;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface ChildLight {
+export interface IChildLight {
   firstName: string;
   lastName: string;
-  parent: ParentLight;
+  parent: IParentLight;
 }
 
-export interface ParentLight {
+export interface IParentLight {
   firstName: string;
   lastName: string;
 }
 
-export interface NurseryKeyFigures {
+export interface INurseryKeyFigures {
   availabilities?: number;
   revenues?: number;
   signUps?: number;
 }
 
-export interface BansConnectionInput {
+export interface IBansConnectionInput {
   search?: string;
   nursery?: string;
 }
 
-export interface BanConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges?: BanEdge[];
+export interface IBanConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges?: IBanEdge[];
 }
 
-export interface BanEdge {
-  node: Ban;
+export interface IBanEdge {
+  node: IBan;
 }
 
-export interface WhereUniqueInput {
+export interface IWhereUniqueInput {
   id: string;
 }
 
-export interface CustomerWithRegistration {
+export interface ICustomerWithRegistration {
   id: string;
   email: string;
   firstName: string;
@@ -361,35 +361,35 @@ export interface CustomerWithRegistration {
   city?: string;
   phone?: string;
   password: string;
-  children: Child[];
-  registrations?: Registration[];
+  children: IChild[];
+  registrations?: IRegistration[];
   nurseryNumber: number;
-  documents: Document[];
-  picture?: Picture;
-  bans: Ban[];
+  documents: IDocument[];
+  picture?: IPicture;
+  bans: IBan[];
   price?: number;
   isBanned?: boolean;
-  banReason?: BanReason;
+  banReason?: IBanReason;
   banComment?: string;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface CustomersConnectionWhereInput {
+export interface ICustomersConnectionWhereInput {
   search?: string;
 }
 
-export interface CustomersConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges?: CustomerEdge[];
+export interface ICustomersConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges?: ICustomerEdge[];
 }
 
-export interface CustomerEdge {
-  node: CustomerExtended;
+export interface ICustomerEdge {
+  node: ICustomerExtended;
 }
 
-export interface CustomerExtended {
+export interface ICustomerExtended {
   id: string;
   email: string;
   firstName: string;
@@ -399,47 +399,47 @@ export interface CustomerExtended {
   city?: string;
   phone?: string;
   password: string;
-  children: Child[];
-  reservations?: Reservation[];
+  children: IChild[];
+  reservations?: IReservation[];
   nurseryNumber: number;
-  documents: Document[];
-  picture?: Picture;
-  bans: Ban[];
+  documents: IDocument[];
+  picture?: IPicture;
+  bans: IBan[];
   price?: number;
   isBanned?: boolean;
-  createdAt: undefined;
-  updatedAt: undefined;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface ReservationConnectionWhereInput {
-  nursery?: NurseryWhereUniqueInput;
-  customer?: CustomerWhereUniqueInput;
-  startDate?: undefined;
-  endDate?: undefined;
-  status?: ReservationStatus;
+export interface IReservationConnectionWhereInput {
+  nursery?: INurseryWhereUniqueInput;
+  customer?: ICustomerWhereUniqueInput;
+  startDate?: Date;
+  endDate?: Date;
+  status?: IReservationStatus;
   noRegistration?: boolean;
 }
 
-export interface NurseryWhereUniqueInput {
+export interface INurseryWhereUniqueInput {
   id: string;
 }
 
-export interface CustomerWhereUniqueInput {
+export interface ICustomerWhereUniqueInput {
   id?: string;
   email?: string;
 }
 
-export interface ReservationConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges: ReservationEdge[];
+export interface IReservationConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges: IReservationEdge[];
 }
 
-export interface ReservationEdge {
-  node: Reservation;
+export interface IReservationEdge {
+  node: IReservation;
 }
 
-export interface Dashboard {
+export interface IDashboard {
   processedRegistrations?: number;
   processedReservations?: number;
   pendingRegistrations?: number;
@@ -451,370 +451,370 @@ export interface Dashboard {
   validatedRegistrations?: number;
 }
 
-export interface NurseryConfig {
+export interface INurseryConfig {
   id: string;
   price: number;
 }
 
-export interface RegistrationWhereInput {
-  nursery: NurseryWhereUniqueInput;
-  status?: RegistrationStatus;
+export interface IRegistrationWhereInput {
+  nursery: INurseryWhereUniqueInput;
+  status?: IRegistrationStatus;
 }
 
-export interface RegistrationsConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges?: RegistrationEdge[];
+export interface IRegistrationsConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges?: IRegistrationEdge[];
 }
 
-export interface RegistrationEdge {
-  node: Registration;
+export interface IRegistrationEdge {
+  node: IRegistration;
 }
 
-export interface RegistrationWhereUniqueInput {
+export interface IRegistrationWhereUniqueInput {
   id: string;
 }
 
-export interface MailWhereInput {
+export interface IMailWhereInput {
   search?: string;
-  type?: MailType;
+  type?: IMailType;
 }
 
-export interface MailConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges: MailEdge[];
+export interface IMailConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges: IMailEdge[];
 }
 
-export interface MailEdge {
-  node: Mail;
+export interface IMailEdge {
+  node: IMail;
 }
 
-export interface Mail {
+export interface IMail {
   id: string;
   slug: string;
   name: string;
   object: string;
   content: string;
-  type: MailType;
-  variables: Variable[];
-  createdAt: undefined;
-  updatedAt: undefined;
+  type: IMailType;
+  variables: IVariable[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface Variable {
+export interface IVariable {
   id: string;
   name: string;
   value: string;
 }
 
-export interface Mutation {
-  uploadPicture: Picture;
+export interface IMutation {
+  uploadPicture: IPicture;
   deletePicture: boolean;
-  login?: AuthPayload;
+  login?: IAuthPayload;
   resetUserPassword?: boolean;
-  updateUser?: User;
-  activateUser?: AuthPayload;
+  updateUser?: IUser;
+  activateUser?: IAuthPayload;
   deleteUser?: boolean;
-  createUser?: User;
+  createUser?: IUser;
   _empty?: string;
-  updateNursery?: Nursery;
-  createBan: Ban;
+  updateNursery?: INursery;
+  createBan: IBan;
   deleteBan: boolean;
-  createDocument: Document;
-  updateDocument: Document;
-  uploadDocument: Document;
-  createChild: Child;
-  updateChild: Child;
-  deleteChild: Child;
-  customerLogin?: CustomerLoginResponse;
-  updateCustomer?: Customer;
-  banCustomer: Customer;
-  createReservation?: Reservation;
-  updateReservation?: Reservation;
-  updateNurseryConfig: NurseryConfig;
-  updateRegistration: Registration;
-  updateMail: Mail;
+  createDocument: IDocument;
+  updateDocument: IDocument;
+  uploadDocument: IDocument;
+  createChild: IChild;
+  updateChild: IChild;
+  deleteChild: IChild;
+  customerLogin?: ICustomerLoginResponse;
+  updateCustomer?: ICustomer;
+  banCustomer: ICustomer;
+  createReservation?: IReservation;
+  updateReservation?: IReservation;
+  updateNurseryConfig: INurseryConfig;
+  updateRegistration: IRegistration;
+  updateMail: IMail;
 }
 
-export interface LoginInput {
+export interface ILoginInput {
   email: string;
   password: string;
 }
 
-export interface AuthPayload {
+export interface IAuthPayload {
   token: string;
-  user: User;
+  user: IUser;
 }
 
-export interface ResetUserPasswordInput {
+export interface IResetUserPasswordInput {
   userId: string;
   password?: string;
   token?: string;
 }
 
-export interface UpdateUserInput {
+export interface IUpdateUserInput {
   id?: string;
   password?: string;
   nurseries?: string[];
 }
 
-export interface ActivateUserInput {
+export interface IActivateUserInput {
   userId: string;
   password?: string;
   token?: string;
 }
 
-export interface CreateUserInput {
+export interface ICreateUserInput {
   firstName: string;
   lastName: string;
   email: string;
-  role: Role;
+  role: IRole;
   nurseries?: string[];
 }
 
-export interface UpdateNurseryInput {
+export interface IUpdateNurseryInput {
   picture?: File;
-  schedule?: ScheduleInput;
-  visit?: VisitInput;
-  tags?: NurseryTag[];
+  schedule?: IScheduleInput;
+  visit?: IVisitInput;
+  tags?: INurseryTag[];
   description?: string;
 }
 
-export interface ScheduleInput {
+export interface IScheduleInput {
   morningStart: string;
   morningEnd: string;
   afternoonStart: string;
   afternoonEnd: string;
 }
 
-export interface VisitInput {
+export interface IVisitInput {
   weekDay: number;
   start: string;
   end: string;
 }
 
-export interface CreateBanWhereInput {
+export interface ICreateBanWhereInput {
   customer: string;
   nursery: string;
 }
 
-export interface CreateBanInput {
-  reason: BanReason;
+export interface ICreateBanInput {
+  reason: IBanReason;
   description?: string;
 }
 
-export interface BanWhereUniqueInput {
+export interface IBanWhereUniqueInput {
   id: string;
 }
 
-export interface DocumentStatusUpdateDataInput {
-  status?: DocumentStatus;
-  reason?: DocumentRejectedReason;
+export interface IDocumentStatusUpdateDataInput {
+  status?: IDocumentStatus;
+  reason?: IDocumentRejectedReason;
   comment?: string;
-  reservation?: ReservationWhereUniqueInput;
-  registration?: RegistrationWhereUniqueInput;
+  reservation?: IReservationWhereUniqueInput;
+  registration?: IRegistrationWhereUniqueInput;
 }
 
-export interface ReservationWhereUniqueInput {
+export interface IReservationWhereUniqueInput {
   id: string;
 }
 
-export interface DocumentCreateInput {
+export interface IDocumentCreateInput {
   file: File;
-  type: DocumentType;
+  type: IDocumentType;
 }
 
-export interface CreateChildInput {
+export interface ICreateChildInput {
   id?: string;
   firstName: string;
   lastName: string;
-  birthDate: undefined;
-  allergies?: ChildAllergiesInput;
-  notes?: ChildNotesInput;
-  picture?: PictureConnect;
-  documents?: DocumentCreateManyInput;
-  parent: CustomerConnect;
+  birthDate: Date;
+  allergies?: IChildAllergiesInput;
+  notes?: IChildNotesInput;
+  picture?: IPictureConnect;
+  documents?: IDocumentCreateManyInput;
+  parent: ICustomerConnect;
 }
 
-export interface ChildAllergiesInput {
-  set?: Allergy[];
+export interface IChildAllergiesInput {
+  set?: IAllergy[];
 }
 
-export interface ChildNotesInput {
+export interface IChildNotesInput {
   set?: string[];
 }
 
-export interface PictureConnect {
-  create: PictureCreateInput;
+export interface IPictureConnect {
+  create: IPictureCreateInput;
 }
 
-export interface PictureCreateInput {
+export interface IPictureCreateInput {
   id?: string;
   url: string;
 }
 
-export interface DocumentCreateManyInput {
-  create?: DocumentCreateInput[];
+export interface IDocumentCreateManyInput {
+  create?: IDocumentCreateInput[];
 }
 
-export interface CustomerConnect {
-  connect: CustomerWhereUniqueInput;
+export interface ICustomerConnect {
+  connect: ICustomerWhereUniqueInput;
 }
 
-export interface UpdateChildInput {
+export interface IUpdateChildInput {
   firstName?: string;
   lastName?: string;
-  birthDate?: undefined;
-  allergies?: ChildAllergiesInput;
-  notes?: ChildNotesInput;
-  picture?: PictureUpdateOneInput;
-  documents?: DocumentUpdateInput;
+  birthDate?: Date;
+  allergies?: IChildAllergiesInput;
+  notes?: IChildNotesInput;
+  picture?: IPictureUpdateOneInput;
+  documents?: IDocumentUpdateInput;
 }
 
-export interface PictureUpdateOneInput {
-  update?: PictureUpdateDataInput;
+export interface IPictureUpdateOneInput {
+  update?: IPictureUpdateDataInput;
 }
 
-export interface PictureUpdateDataInput {
+export interface IPictureUpdateDataInput {
   url?: string;
 }
 
-export interface DocumentUpdateInput {
-  update?: DocumentUpdateWithWhereUniqueNestedInput[];
+export interface IDocumentUpdateInput {
+  update?: IDocumentUpdateWithWhereUniqueNestedInput[];
 }
 
-export interface DocumentUpdateWithWhereUniqueNestedInput {
-  where: WhereUniqueInput;
-  data: DocumentUpdateDataInput;
+export interface IDocumentUpdateWithWhereUniqueNestedInput {
+  where: IWhereUniqueInput;
+  data: IDocumentUpdateDataInput;
 }
 
-export interface DocumentUpdateDataInput {
+export interface IDocumentUpdateDataInput {
   url?: string;
-  type?: DocumentType;
-  format?: DocumentFormat;
-  expirationDate?: undefined;
-  status?: DocumentStatusUpdateOneRequiredInput;
+  type?: IDocumentType;
+  format?: IDocumentFormat;
+  expirationDate?: Date;
+  status?: IDocumentStatusUpdateOneRequiredInput;
 }
 
-export interface DocumentStatusUpdateOneRequiredInput {
-  update?: DocumentStatusUpdateDataInput;
+export interface IDocumentStatusUpdateOneRequiredInput {
+  update?: IDocumentStatusUpdateDataInput;
 }
 
-export interface CustomerLoginInput {
+export interface ICustomerLoginInput {
   email: string;
   password: string;
 }
 
-export interface CustomerLoginResponse {
-  customer: Customer;
+export interface ICustomerLoginResponse {
+  customer: ICustomer;
   token: string;
 }
 
-export interface CustomerUpdateInput {
+export interface ICustomerUpdateInput {
   price?: number;
   isBanned?: boolean;
 }
 
-export interface ReservationCreateInput {
+export interface IReservationCreateInput {
   childId: string;
   nurseryId: string;
   sectionId: string;
-  type: ReservationType;
-  date: undefined;
+  type: IReservationType;
+  date: Date;
 }
 
-export interface ReservationUpdateInput {
-  status?: ReservationStatus;
-  statusReason?: RejectReason;
+export interface IReservationUpdateInput {
+  status?: IReservationStatus;
+  statusReason?: IRejectReason;
   reasonComment?: string;
   price?: number;
 }
 
-export interface NurseryConfigInput {
+export interface INurseryConfigInput {
   price: number;
 }
 
-export interface RegistrationUpdateInput {
-  status: RegistrationStatus;
+export interface IRegistrationUpdateInput {
+  status: IRegistrationStatus;
 }
 
-export interface MailWhereUniqueInput {
+export interface IMailWhereUniqueInput {
   id: string;
 }
 
-export interface MailUpdateInput {
+export interface IMailUpdateInput {
   name?: string;
   object?: string;
   content?: string;
-  type?: MailType;
+  type?: IMailType;
 }
 
-export interface DocumentStatusCreateOneInput {
-  create?: DocumentStatusCreateInput;
-  connect?: WhereUniqueInput;
+export interface IDocumentStatusCreateOneInput {
+  create?: IDocumentStatusCreateInput;
+  connect?: IWhereUniqueInput;
 }
 
-export interface DocumentStatusCreateInput {
+export interface IDocumentStatusCreateInput {
   id?: string;
-  status: DocumentStatus;
-  reason?: DocumentRejectedReason;
+  status: IDocumentStatus;
+  reason?: IDocumentRejectedReason;
   comment?: string;
 }
 
-export interface NurseryReservationConnection {
-  pageInfo: PageInfo;
-  aggregate: Aggregate;
-  edges: ReservationEdge[];
+export interface INurseryReservationConnection {
+  pageInfo: IPageInfo;
+  aggregate: IAggregate;
+  edges: IReservationEdge[];
 }
 
-export interface SignupConnectionWhereInput {
+export interface ISignupConnectionWhereInput {
   nursery?: string;
-  status?: RegistrationStatus;
-  start?: undefined;
-  end?: undefined;
+  status?: IRegistrationStatus;
+  start?: Date;
+  end?: Date;
 }
 
-export interface ReservationExtended {
+export interface IReservationExtended {
   id: string;
-  status: ReservationStatus;
-  statusReason?: RejectReason;
-  requestType: RequestType;
-  child: Child;
-  nursery: Nursery;
-  section?: Section;
+  status: IReservationStatus;
+  statusReason?: IRejectReason;
+  requestType: IRequestType;
+  child: IChild;
+  nursery: INursery;
+  section?: ISection;
   price?: number;
-  type: ReservationType;
-  date: undefined;
-  createdAt: undefined;
-  updatedAt: undefined;
+  type: IReservationType;
+  date: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface SignUpInput {
+export interface ISignUpInput {
   firstName: string;
   email: string;
   password: string;
 }
 
-export interface CustomerAuthPayload {
+export interface ICustomerAuthPayload {
   token: string;
-  customer: Customer;
+  customer: ICustomer;
 }
 
-export interface DocumentConnectionWhereInput {
+export interface IDocumentConnectionWhereInput {
   name_contains?: string;
-  type?: DocumentType;
+  type?: IDocumentType;
 }
 
-export type Role = 'ADMIN' | 'DIRECTOR';
+export type IRole = 'ADMIN' | 'DIRECTOR';
 
-export type NurseryType = 'PAJE' | 'PSU';
+export type INurseryType = 'PAJE' | 'PSU';
 
-export type NurseryTag = 'BIO_ALIMENTATION' | 'INTERNATIONNAL' | 'OUTDOOR';
+export type INurseryTag = 'BIO_ALIMENTATION' | 'INTERNATIONNAL' | 'OUTDOOR';
 
-export type ReservationType = 'MORNING' | 'AFTERNOON';
+export type IReservationType = 'MORNING' | 'AFTERNOON';
 
-export type DocumentType =
+export type IDocumentType =
   | 'CHILD_HEALTH_RECORD'
   | 'MEDICAL_CERTIFICATE'
   | 'BIRTH_CERTIFICATE'
@@ -824,1167 +824,1239 @@ export type DocumentType =
   | 'INSURANCE_CERTIFICATE'
   | 'RIB';
 
-export type DocumentStatus = 'OK' | 'DECLINED' | 'PENDING' | 'EXPIRED';
+export type IDocumentStatus = 'OK' | 'DECLINED' | 'PENDING' | 'EXPIRED';
 
-export type DocumentFormat = 'PDF' | 'IMAGE';
+export type IDocumentFormat = 'PDF' | 'IMAGE';
 
-export type DocumentRejectedReason =
+export type IDocumentRejectedReason =
   | 'UNREADABLE'
   | 'DOCUMENT_ERROR'
   | 'INCOMPLETE'
   | 'OUTDATED'
   | 'MISSING';
 
-export type ReservationStatus = 'DONE' | 'REFUSED' | 'PENDING' | 'CANCELED' | 'EXPIRED';
+export type IReservationStatus = 'DONE' | 'REFUSED' | 'PENDING' | 'CANCELED' | 'EXPIRED';
 
-export type RejectReason = 'NO_STAFF' | 'NURSERY_CLOSED' | 'NO_SPACE' | 'BANNED_USER';
+export type IRejectReason = 'NO_STAFF' | 'NURSERY_CLOSED' | 'NO_SPACE' | 'BANNED_USER';
 
-export type BanReason = 'UNPAID' | 'CHILDREN_BEHAVIOR' | 'PARENT_BEHAVIOR' | 'RULES_FAILURE';
+export type IBanReason = 'UNPAID' | 'CHILDREN_BEHAVIOR' | 'PARENT_BEHAVIOR' | 'RULES_FAILURE';
 
-export type Allergy = 'GLUTEN' | 'MILK_AND_EGGS' | 'FISH' | 'SULFUR_DIOXIDE' | 'EGGS';
+export type IAllergy = 'GLUTEN' | 'MILK_AND_EGGS' | 'FISH' | 'SULFUR_DIOXIDE' | 'EGGS';
 
-export type RegistrationStatus = 'PENDING' | 'REFUSED' | 'DONE';
+export type IRegistrationStatus = 'PENDING' | 'REFUSED' | 'DONE';
 
-export type WelcomingStatus = 'PENDING' | 'DONE';
+export type IWelcomingStatus = 'PENDING' | 'DONE';
 
-export type NurseryConnectionFilterEnum =
+export type INurseryConnectionFilterEnum =
   | 'REGISTRATION_PENDING'
   | 'RESERVATION_PENDING'
   | 'REQUEST_HANDLED'
   | 'REVENUES'
   | 'NAME';
 
-export type MailType = 'REGISTRATION' | 'RESERVATION';
+export type IMailType = 'REGISTRATION' | 'RESERVATION';
 
-export type RequestType = 'REGISTRATION' | 'RESERVATION';
+export type IRequestType = 'REGISTRATION' | 'RESERVATION';
 
-export interface meArgs {}
+export interface ImeArgs {}
 
-export interface userArgs {
-  where: UserWhereUniqueInput;
+export interface IuserArgs {
+  where: IUserWhereUniqueInput;
 }
 
-export interface usersConnectionArgs {
-  where?: UserConnectionWhereInput;
+export interface IusersConnectionArgs {
+  where?: IUserConnectionWhereInput;
   page?: number;
   limit?: number;
 }
 
-export interface requestResetUserPasswordArgs {
+export interface IrequestResetUserPasswordArgs {
   userId?: string;
 }
 
-export interface nurseriesConnectionArgs {
-  where?: NurseryConnectionWhereInput;
+export interface InurseriesConnectionArgs {
+  where?: INurseryConnectionWhereInput;
   page?: number;
   limit?: number;
 }
 
-export interface nurseryArgs {
+export interface InurseryArgs {
   id?: string;
 }
 
-export interface nurseryPlanningArgs {
+export interface InurseryPlanningArgs {
   id: string;
-  start: undefined;
-  end: undefined;
+  start: Date;
+  end: Date;
 }
 
-export interface nurseryKeyFiguresArgs {
+export interface InurseryKeyFiguresArgs {
   id: string;
-  start: undefined;
-  end: undefined;
+  start: Date;
+  end: Date;
 }
 
-export interface bansConnectionArgs {
-  where?: BansConnectionInput;
+export interface IbansConnectionArgs {
+  where?: IBansConnectionInput;
   page?: number;
   limit?: number;
 }
 
-export interface documentArgs {
+export interface IdocumentArgs {
   id?: string;
 }
 
-export interface getDocumentUrlArgs {
-  where: WhereUniqueInput;
+export interface IgetDocumentUrlArgs {
+  where: IWhereUniqueInput;
 }
 
-export interface childArgs {
+export interface IchildArgs {
   where: string;
 }
 
-export interface customerMeArgs {}
+export interface IcustomerMeArgs {}
 
-export interface customerArgs {
+export interface IcustomerArgs {
   customerId: string;
 }
 
-export interface customersConnectionArgs {
-  where?: CustomersConnectionWhereInput;
+export interface IcustomersConnectionArgs {
+  where?: ICustomersConnectionWhereInput;
   page?: number;
   limit?: number;
 }
 
-export interface reservationsConnectionArgs {
-  where?: ReservationConnectionWhereInput;
+export interface IreservationsConnectionArgs {
+  where?: IReservationConnectionWhereInput;
   page?: number;
   limit?: number;
 }
 
-export interface reservationArgs {
+export interface IreservationArgs {
   id: string;
 }
 
-export interface dashboardArgs {
-  start?: undefined;
-  end?: undefined;
+export interface IdashboardArgs {
+  start?: Date;
+  end?: Date;
 }
 
-export interface nurseryConfigArgs {}
+export interface InurseryConfigArgs {}
 
-export interface registrationsConnectionArgs {
-  where: RegistrationWhereInput;
+export interface IregistrationsConnectionArgs {
+  where: IRegistrationWhereInput;
   page?: number;
   limit?: number;
 }
 
-export interface registrationArgs {
-  where: RegistrationWhereUniqueInput;
+export interface IregistrationArgs {
+  where: IRegistrationWhereUniqueInput;
 }
 
-export interface mailsConnectionArgs {
-  where?: MailWhereInput;
+export interface ImailsConnectionArgs {
+  where?: IMailWhereInput;
   page?: number;
   limit?: number;
 }
 
-export interface uploadPictureArgs {
+export interface IuploadPictureArgs {
   picture: File;
 }
 
-export interface deletePictureArgs {
+export interface IdeletePictureArgs {
   id: string;
 }
 
-export interface loginArgs {
-  data?: LoginInput;
+export interface IloginArgs {
+  data?: ILoginInput;
 }
 
-export interface resetUserPasswordArgs {
-  data?: ResetUserPasswordInput;
+export interface IresetUserPasswordArgs {
+  data?: IResetUserPasswordInput;
 }
 
-export interface updateUserArgs {
-  user?: UpdateUserInput;
+export interface IupdateUserArgs {
+  user?: IUpdateUserInput;
 }
 
-export interface activateUserArgs {
-  data?: ActivateUserInput;
+export interface IactivateUserArgs {
+  data?: IActivateUserInput;
 }
 
-export interface deleteUserArgs {
+export interface IdeleteUserArgs {
   userId: string;
 }
 
-export interface createUserArgs {
-  user: CreateUserInput;
+export interface IcreateUserArgs {
+  user: ICreateUserInput;
 }
 
-export interface updateNurseryArgs {
+export interface IupdateNurseryArgs {
   id: string;
-  data: UpdateNurseryInput;
+  data: IUpdateNurseryInput;
 }
 
-export interface createBanArgs {
-  where: CreateBanWhereInput;
-  data: CreateBanInput;
+export interface IcreateBanArgs {
+  where: ICreateBanWhereInput;
+  data: ICreateBanInput;
 }
 
-export interface deleteBanArgs {
-  where: BanWhereUniqueInput;
+export interface IdeleteBanArgs {
+  where: IBanWhereUniqueInput;
 }
 
-export interface createDocumentArgs {}
+export interface IcreateDocumentArgs {}
 
-export interface updateDocumentArgs {
-  where: WhereUniqueInput;
-  data: DocumentStatusUpdateDataInput;
+export interface IupdateDocumentArgs {
+  where: IWhereUniqueInput;
+  data: IDocumentStatusUpdateDataInput;
 }
 
-export interface uploadDocumentArgs {
-  data: DocumentCreateInput;
+export interface IuploadDocumentArgs {
+  data: IDocumentCreateInput;
 }
 
-export interface createChildArgs {
+export interface IcreateChildArgs {
   where: string;
-  data: CreateChildInput;
+  data: ICreateChildInput;
 }
 
-export interface updateChildArgs {
+export interface IupdateChildArgs {
   where: string;
-  data: UpdateChildInput;
+  data: IUpdateChildInput;
 }
 
-export interface deleteChildArgs {
+export interface IdeleteChildArgs {
   where: string;
 }
 
-export interface customerLoginArgs {
-  data?: CustomerLoginInput;
+export interface IcustomerLoginArgs {
+  data?: ICustomerLoginInput;
 }
 
-export interface updateCustomerArgs {
-  where: CustomerWhereUniqueInput;
-  data: CustomerUpdateInput;
+export interface IupdateCustomerArgs {
+  where: ICustomerWhereUniqueInput;
+  data: ICustomerUpdateInput;
 }
 
-export interface banCustomerArgs {
-  where: CustomerWhereUniqueInput;
-  data: CreateBanInput;
+export interface IbanCustomerArgs {
+  where: ICustomerWhereUniqueInput;
+  data: ICreateBanInput;
 }
 
-export interface createReservationArgs {
-  data?: ReservationCreateInput;
+export interface IcreateReservationArgs {
+  data?: IReservationCreateInput;
 }
 
-export interface updateReservationArgs {
-  where: ReservationWhereUniqueInput;
-  data: ReservationUpdateInput;
+export interface IupdateReservationArgs {
+  where: IReservationWhereUniqueInput;
+  data: IReservationUpdateInput;
 }
 
-export interface updateNurseryConfigArgs {
-  data: NurseryConfigInput;
+export interface IupdateNurseryConfigArgs {
+  data: INurseryConfigInput;
 }
 
-export interface updateRegistrationArgs {
-  where: RegistrationWhereUniqueInput;
-  data: RegistrationUpdateInput;
+export interface IupdateRegistrationArgs {
+  where: IRegistrationWhereUniqueInput;
+  data: IRegistrationUpdateInput;
 }
 
-export interface updateMailArgs {
-  where: MailWhereUniqueInput;
-  data?: MailUpdateInput;
+export interface IupdateMailArgs {
+  where: IMailWhereUniqueInput;
+  data?: IMailUpdateInput;
 }
 
-import ApolloClient, { QueryOptions, OperationVariables, MutationOptions } from 'apollo-client';
+import ApolloClient, {
+  QueryOptions,
+  OperationVariables,
+  MutationOptions,
+  ObservableQuery
+} from 'apollo-client';
+import { execute } from 'apollo-link';
 import { OperationDefinitionNode, DocumentNode } from 'graphql';
 import graphQlTag from 'graphql-tag';
 
-interface AbordableRequest<T> {
-  abort: () => void;
-  get: () => Promise<T>;
+type AbordableQueryWithArgs<T, A> = {
+  $args(args: A): AbordableQuery<T>;
+  $fetch(): Promise<T>;
+  $abort(): void;
+};
+
+type AbordableQuery<T> = {
+  $fetch(): Promise<T>;
+  $abort(): void;
+};
+interface FragmentableQueryWithArgs<T, A> {
+  $fragment(fragment: string | DocumentNode): AbordableQueryWithArgs<T, A>;
 }
-export interface Fragmentable<T> {
-  $fragment(fragment: string | DocumentNode): Promise<AbordableRequest<T>>;
+interface FragmentableQuery<T> {
+  $fragment(fragment: string | DocumentNode): AbordableQuery<T>;
 }
+
+type AbordableMutationWithArgs<T, A> = {
+  $args(args: A): AbordableMutation<T>;
+  $post(): Promise<T>;
+  $abort(): void;
+};
+
+type AbordableMutation<T> = {
+  $post(): Promise<T>;
+  $abort(): void;
+};
+
+interface FragmentableMutationWithArgs<T, A> {
+  $fragment(fragment: string | DocumentNode): AbordableMutationWithArgs<T, A>;
+}
+interface FragmentableMutation<T> {
+  $fragment(fragment: string | DocumentNode): AbordableMutation<T>;
+}
+
+const guessFragmentType = (fragment: string | DocumentNode) => {
+  let isString,
+    isFragment = false;
+  let fragmentName = '';
+  if (typeof fragment === 'string') {
+    isString = true;
+  } else if (fragment instanceof Object && fragment.definitions) {
+    isFragment = true;
+    if (fragment.definitions.length > 1) {
+      console.error('You can only pass one raw fragment to the function');
+      return;
+    }
+    const definition = fragment.definitions[0];
+    if (definition.kind === 'FragmentDefinition') {
+      fragmentName = definition.name.value;
+    } else {
+      console.error(
+        `The argument passed is not a fragment definition, got ${definition.kind} instead`
+      );
+      return;
+    }
+  }
+  return { isString, isFragment, fragmentName };
+};
 
 export const apiProvider = (apolloClient: ApolloClient<any>) => {
-  const abortableQuery = <T>(query: QueryOptions<OperationVariables>): AbordableRequest<T> => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+  const abortableQuery = <T, A = null>(
+    query: DocumentNode
+  ): A extends null ? AbordableQuery<T> : AbordableQueryWithArgs<T, A> => {
+    let observableQuery: ZenObservable.Subscription;
+    const parsedQuery = query.definitions[0] as OperationDefinitionNode;
+    const queryName = parsedQuery.name.value;
+    let variables: { [x: string]: any } = {};
 
+    function $abort() {
+      if (observableQuery && !observableQuery.closed) {
+        observableQuery.unsubscribe();
+      }
+    }
+    async function $fetch() {
+      return new Promise<T>((resolve, reject) => {
+        observableQuery = execute(apolloClient.link, {
+          query,
+          variables
+        }).subscribe({
+          next: ({ data, errors }) => {
+            if (data) {
+              resolve(data[queryName]);
+            } else {
+              reject(errors);
+            }
+          },
+          error: error => reject(error)
+        });
+      });
+    }
+    function $args(args) {
+      variables = args;
+      return {
+        $abort,
+        $fetch
+      };
+    }
     return {
-      abort: () => controller.abort(),
-      get: async () => {
-        try {
-          const { data, errors } = await apolloClient.query({
-            ...query,
-            context: {
-              fetchOptions: {
-                signal,
-              },
-            },
-          });
-          const parsedQuery = query.query.definitions[0] as OperationDefinitionNode;
-          const queryName = parsedQuery.name.value;
-          if (data) {
-            return Promise.resolve(data[queryName]);
-          } else {
-            return Promise.reject(errors);
-          }
-        } catch (e) {
-          return Promise.reject(e);
-        }
-      },
-    };
+      $abort,
+      $args
+    } as any;
   };
-  const abortableMutation = <T>(
-    mutation: MutationOptions<OperationVariables>
-  ): AbordableRequest<T> => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+  const abortableMutation = <T, A = null>(
+    mutation: DocumentNode
+  ): AbordableMutationWithArgs<T, A> => {
+    let observableQuery: ZenObservable.Subscription;
+    const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
+    const mutationName = parsedQuery.name.value;
+    let variables: { [x: string]: any } = {};
 
+    function $abort() {
+      if (observableQuery && !observableQuery.closed) {
+        observableQuery.unsubscribe();
+      }
+    }
+    async function $post() {
+      return new Promise<T>((resolve, reject) => {
+        observableQuery = execute(apolloClient.link, {
+          query: mutation,
+          variables
+        }).subscribe({
+          next: ({ data, errors }) => {
+            if (data) {
+              resolve(data[mutationName]);
+            } else {
+              reject(errors);
+            }
+          },
+          error: error => reject(error)
+        });
+      });
+    }
+    function $args(args) {
+      variables = args;
+      return {
+        $abort,
+        $post
+      };
+    }
     return {
-      abort: () => controller.abort(),
-      get: async () => {
-        try {
-          const { data, errors } = await apolloClient.mutate({
-            ...mutation,
-            context: {
-              fetchOptions: {
-                signal,
-              },
-            },
-          });
-          const parsedQuery = mutation.mutation.definitions[0] as OperationDefinitionNode;
-          const mutationName = parsedQuery.name.value;
-          if (data) {
-            return Promise.resolve(data[mutationName]);
-          } else {
-            return Promise.reject(errors);
-          }
-        } catch (e) {
-          return Promise.reject(e);
-        }
-      },
-    };
+      $abort,
+      $args
+    } as any;
   };
 
   return {
-    me: (): Fragmentable<User> => {
+    me: (): FragmentableQuery<IUser> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<User>({
-            query: graphQlTag`
-            query me  {
-              me {
-                ${fragment}
-              }
-          }`,
-            variables: {},
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query me  {
+          me {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IUser>(query);
+        }
       };
     },
-    user: (args: { where: UserWhereUniqueInput }): Fragmentable<User> => {
+    user: (): FragmentableQueryWithArgs<IUser, { where: IUserWhereUniqueInput }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<User>({
-            query: graphQlTag`
-            query user ($where: UserWhereUniqueInput!) {
-              user(where: $where) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query user ($where: UserWhereUniqueInput!) {
+          user(where: $where) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IUser, { where: IUserWhereUniqueInput }>(query);
+        }
       };
     },
-    usersConnection: (args: {
-      where: UserConnectionWhereInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<UserConnection> => {
+    usersConnection: (): FragmentableQueryWithArgs<
+      IUserConnection,
+      { where?: IUserConnectionWhereInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<UserConnection>({
-            query: graphQlTag`
-            query usersConnection ($where: UserConnectionWhereInput,$page: Int,$limit: Int) {
-              usersConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query usersConnection ($where: UserConnectionWhereInput,$page: Int,$limit: Int) {
+          usersConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            IUserConnection,
+            { where?: IUserConnectionWhereInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    requestResetUserPassword: async (args: {
-      userId: string;
-    }): Promise<AbordableRequest<boolean>> => {
-      return abortableQuery<boolean>({
-        query: graphQlTag`
-        query requestResetUserPassword ($userId: ID) {
-          requestResetUserPassword(userId: $userId)
-        }`,
-        variables: {
-          userId: args.userId,
-        },
-      });
+    requestResetUserPassword: (): AbordableQueryWithArgs<boolean, { userId?: string }> => {
+      const query = graphQlTag`
+      query requestResetUserPassword ($userId: ID) {
+        requestResetUserPassword(userId: $userId)
+      }`;
+      return abortableQuery<boolean, { userId?: string }>(query);
     },
-    nurseriesConnection: (args: {
-      where: NurseryConnectionWhereInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<NurseryConnectionWithRevenues> => {
+    nurseriesConnection: (): FragmentableQueryWithArgs<
+      INurseryConnectionWithRevenues,
+      { where?: INurseryConnectionWhereInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<NurseryConnectionWithRevenues>({
-            query: graphQlTag`
-            query nurseriesConnection ($where: NurseryConnectionWhereInput,$page: Int,$limit: Int) {
-              nurseriesConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query nurseriesConnection ($where: NurseryConnectionWhereInput,$page: Int,$limit: Int) {
+          nurseriesConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            INurseryConnectionWithRevenues,
+            { where?: INurseryConnectionWhereInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    nursery: (args: { id: string }): Fragmentable<Nursery> => {
+    nursery: (): FragmentableQueryWithArgs<INursery, { id?: string }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Nursery>({
-            query: graphQlTag`
-            query nursery ($id: ID) {
-              nursery(id: $id) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              id: args.id,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query nursery ($id: ID) {
+          nursery(id: $id) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<INursery, { id?: string }>(query);
+        }
       };
     },
-    nurseryPlanning: (args: {
-      id: string;
-      start: undefined;
-      end: undefined;
-    }): Fragmentable<NurseryPlanning> => {
+    nurseryPlanning: (): FragmentableQueryWithArgs<
+      INurseryPlanning,
+      { id: string; start: Date; end: Date }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<NurseryPlanning>({
-            query: graphQlTag`
-            query nurseryPlanning ($id: ID!,$start: DateTime!,$end: DateTime!) {
-              nurseryPlanning(id: $id,start: $start,end: $end) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              id: args.id,
-              start: args.start,
-              end: args.end,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query nurseryPlanning ($id: ID!,$start: DateTime!,$end: DateTime!) {
+          nurseryPlanning(id: $id,start: $start,end: $end) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<INurseryPlanning, { id: string; start: Date; end: Date }>(query);
+        }
       };
     },
-    nurseryKeyFigures: (args: {
-      id: string;
-      start: undefined;
-      end: undefined;
-    }): Fragmentable<NurseryKeyFigures> => {
+    nurseryKeyFigures: (): FragmentableQueryWithArgs<
+      INurseryKeyFigures,
+      { id: string; start: Date; end: Date }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<NurseryKeyFigures>({
-            query: graphQlTag`
-            query nurseryKeyFigures ($id: ID!,$start: DateTime!,$end: DateTime!) {
-              nurseryKeyFigures(id: $id,start: $start,end: $end) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              id: args.id,
-              start: args.start,
-              end: args.end,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query nurseryKeyFigures ($id: ID!,$start: DateTime!,$end: DateTime!) {
+          nurseryKeyFigures(id: $id,start: $start,end: $end) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<INurseryKeyFigures, { id: string; start: Date; end: Date }>(query);
+        }
       };
     },
-    bansConnection: (args: {
-      where: BansConnectionInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<BanConnection> => {
+    bansConnection: (): FragmentableQueryWithArgs<
+      IBanConnection,
+      { where?: IBansConnectionInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<BanConnection>({
-            query: graphQlTag`
-            query bansConnection ($where: BansConnectionInput,$page: Int,$limit: Int) {
-              bansConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query bansConnection ($where: BansConnectionInput,$page: Int,$limit: Int) {
+          bansConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            IBanConnection,
+            { where?: IBansConnectionInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    document: (args: { id: string }): Fragmentable<Document> => {
+    document: (): FragmentableQueryWithArgs<IDocument, { id?: string }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Document>({
-            query: graphQlTag`
-            query document ($id: ID) {
-              document(id: $id) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              id: args.id,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query document ($id: ID) {
+          document(id: $id) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IDocument, { id?: string }>(query);
+        }
       };
     },
-    getDocumentUrl: async (args: {
-      where: WhereUniqueInput;
-    }): Promise<AbordableRequest<string>> => {
-      return abortableQuery<string>({
-        query: graphQlTag`
-        query getDocumentUrl ($where: WhereUniqueInput!) {
-          getDocumentUrl(where: $where)
-        }`,
-        variables: {
-          where: args.where,
-        },
-      });
+    getDocumentUrl: (): AbordableQueryWithArgs<string, { where: IWhereUniqueInput }> => {
+      const query = graphQlTag`
+      query getDocumentUrl ($where: WhereUniqueInput!) {
+        getDocumentUrl(where: $where)
+      }`;
+      return abortableQuery<string, { where: IWhereUniqueInput }>(query);
     },
-    child: (args: { where: string }): Fragmentable<Child> => {
+    child: (): FragmentableQueryWithArgs<IChild, { where: string }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Child>({
-            query: graphQlTag`
-            query child ($where: ID!) {
-              child(where: $where) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query child ($where: ID!) {
+          child(where: $where) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IChild, { where: string }>(query);
+        }
       };
     },
-    customerMe: (): Fragmentable<Customer> => {
+    customerMe: (): FragmentableQuery<ICustomer> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Customer>({
-            query: graphQlTag`
-            query customerMe  {
-              customerMe {
-                ${fragment}
-              }
-          }`,
-            variables: {},
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query customerMe  {
+          customerMe {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<ICustomer>(query);
+        }
       };
     },
-    customer: (args: { customerId: string }): Fragmentable<CustomerWithRegistration> => {
+    customer: (): FragmentableQueryWithArgs<ICustomerWithRegistration, { customerId: string }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<CustomerWithRegistration>({
-            query: graphQlTag`
-            query customer ($customerId: ID!) {
-              customer(customerId: $customerId) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              customerId: args.customerId,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query customer ($customerId: ID!) {
+          customer(customerId: $customerId) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<ICustomerWithRegistration, { customerId: string }>(query);
+        }
       };
     },
-    customersConnection: (args: {
-      where: CustomersConnectionWhereInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<CustomersConnection> => {
+    customersConnection: (): FragmentableQueryWithArgs<
+      ICustomersConnection,
+      { where?: ICustomersConnectionWhereInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<CustomersConnection>({
-            query: graphQlTag`
-            query customersConnection ($where: CustomersConnectionWhereInput,$page: Int,$limit: Int) {
-              customersConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query customersConnection ($where: CustomersConnectionWhereInput,$page: Int,$limit: Int) {
+          customersConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            ICustomersConnection,
+            { where?: ICustomersConnectionWhereInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    reservationsConnection: (args: {
-      where: ReservationConnectionWhereInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<ReservationConnection> => {
+    reservationsConnection: (): FragmentableQueryWithArgs<
+      IReservationConnection,
+      { where?: IReservationConnectionWhereInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<ReservationConnection>({
-            query: graphQlTag`
-            query reservationsConnection ($where: ReservationConnectionWhereInput,$page: Int,$limit: Int) {
-              reservationsConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query reservationsConnection ($where: ReservationConnectionWhereInput,$page: Int,$limit: Int) {
+          reservationsConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            IReservationConnection,
+            { where?: IReservationConnectionWhereInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    reservation: (args: { id: string }): Fragmentable<Reservation> => {
+    reservation: (): FragmentableQueryWithArgs<IReservation, { id: string }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Reservation>({
-            query: graphQlTag`
-            query reservation ($id: ID!) {
-              reservation(id: $id) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              id: args.id,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query reservation ($id: ID!) {
+          reservation(id: $id) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IReservation, { id: string }>(query);
+        }
       };
     },
-    dashboard: (args: { start: undefined; end: undefined }): Fragmentable<Dashboard> => {
+    dashboard: (): FragmentableQueryWithArgs<IDashboard, { start?: Date; end?: Date }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Dashboard>({
-            query: graphQlTag`
-            query dashboard ($start: DateTime,$end: DateTime) {
-              dashboard(start: $start,end: $end) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              start: args.start,
-              end: args.end,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query dashboard ($start: DateTime,$end: DateTime) {
+          dashboard(start: $start,end: $end) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IDashboard, { start?: Date; end?: Date }>(query);
+        }
       };
     },
-    nurseryConfig: (): Fragmentable<NurseryConfig> => {
+    nurseryConfig: (): FragmentableQuery<INurseryConfig> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<NurseryConfig>({
-            query: graphQlTag`
-            query nurseryConfig  {
-              nurseryConfig {
-                ${fragment}
-              }
-          }`,
-            variables: {},
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query nurseryConfig  {
+          nurseryConfig {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<INurseryConfig>(query);
+        }
       };
     },
-    registrationsConnection: (args: {
-      where: RegistrationWhereInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<RegistrationsConnection> => {
+    registrationsConnection: (): FragmentableQueryWithArgs<
+      IRegistrationsConnection,
+      { where: IRegistrationWhereInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<RegistrationsConnection>({
-            query: graphQlTag`
-            query registrationsConnection ($where: RegistrationWhereInput!,$page: Int,$limit: Int) {
-              registrationsConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query registrationsConnection ($where: RegistrationWhereInput!,$page: Int,$limit: Int) {
+          registrationsConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            IRegistrationsConnection,
+            { where: IRegistrationWhereInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    registration: (args: { where: RegistrationWhereUniqueInput }): Fragmentable<Registration> => {
+    registration: (): FragmentableQueryWithArgs<
+      IRegistration,
+      { where: IRegistrationWhereUniqueInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<Registration>({
-            query: graphQlTag`
-            query registration ($where: RegistrationWhereUniqueInput!) {
-              registration(where: $where) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query registration ($where: RegistrationWhereUniqueInput!) {
+          registration(where: $where) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<IRegistration, { where: IRegistrationWhereUniqueInput }>(query);
+        }
       };
     },
-    mailsConnection: (args: {
-      where: MailWhereInput;
-      page: number;
-      limit: number;
-    }): Fragmentable<MailConnection> => {
+    mailsConnection: (): FragmentableQueryWithArgs<
+      IMailConnection,
+      { where?: IMailWhereInput; page?: number; limit?: number }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableQuery<MailConnection>({
-            query: graphQlTag`
-            query mailsConnection ($where: MailWhereInput,$page: Int,$limit: Int) {
-              mailsConnection(where: $where,page: $page,limit: $limit) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              page: args.page,
-              limit: args.limit,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const query = graphQlTag`
+           query mailsConnection ($where: MailWhereInput,$page: Int,$limit: Int) {
+          mailsConnection(where: $where,page: $page,limit: $limit) {
+            ${isString ? fragment : '...' + fragmentName}
+            
+          }
+        } ${isFragment ? fragment : ''}
+        `;
+          return abortableQuery<
+            IMailConnection,
+            { where?: IMailWhereInput; page?: number; limit?: number }
+          >(query);
+        }
       };
     },
-    uploadPicture: (args: { picture: File }): Fragmentable<Picture> => {
+    uploadPicture: (): FragmentableMutationWithArgs<IPicture, { picture: File }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Picture>({
-            mutation: graphQlTag`
-            mutation uploadPicture ($picture: Upload!) {
-              uploadPicture(picture: $picture) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              picture: args.picture,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation uploadPicture ($picture: Upload!) {
+        uploadPicture(picture: $picture) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IPicture, { picture: File }>(mutation);
+        }
       };
     },
-    deletePicture: async (args: { id: string }): Promise<AbordableRequest<boolean>> => {
-      return abortableMutation<boolean>({
-        mutation: graphQlTag`
-        mutation deletePicture ($id: ID!) {
-          deletePicture(id: $id)
-        }`,
-        variables: {
-          id: args.id,
-        },
-      });
+    deletePicture: (): AbordableMutationWithArgs<boolean, { id: string }> => {
+      const mutation = graphQlTag`
+      mutation deletePicture ($id: ID!) {
+        deletePicture(id: $id)
+      }`;
+      return abortableMutation<boolean>(mutation);
     },
-    login: (args: { data: LoginInput }): Fragmentable<AuthPayload> => {
+    login: (): FragmentableMutationWithArgs<IAuthPayload, { data?: ILoginInput }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<AuthPayload>({
-            mutation: graphQlTag`
-            mutation login ($data: LoginInput) {
-              login(data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation login ($data: LoginInput) {
+        login(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IAuthPayload, { data?: ILoginInput }>(mutation);
+        }
       };
     },
-    resetUserPassword: async (args: {
-      data: ResetUserPasswordInput;
-    }): Promise<AbordableRequest<boolean>> => {
-      return abortableMutation<boolean>({
-        mutation: graphQlTag`
-        mutation resetUserPassword ($data: ResetUserPasswordInput) {
-          resetUserPassword(data: $data)
-        }`,
-        variables: {
-          data: args.data,
-        },
-      });
+    resetUserPassword: (): AbordableMutationWithArgs<
+      boolean,
+      { data?: IResetUserPasswordInput }
+    > => {
+      const mutation = graphQlTag`
+      mutation resetUserPassword ($data: ResetUserPasswordInput) {
+        resetUserPassword(data: $data)
+      }`;
+      return abortableMutation<boolean>(mutation);
     },
-    updateUser: (args: { user: UpdateUserInput }): Fragmentable<User> => {
+    updateUser: (): FragmentableMutationWithArgs<IUser, { user?: IUpdateUserInput }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<User>({
-            mutation: graphQlTag`
-            mutation updateUser ($user: UpdateUserInput) {
-              updateUser(user: $user) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              user: args.user,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateUser ($user: UpdateUserInput) {
+        updateUser(user: $user) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IUser, { user?: IUpdateUserInput }>(mutation);
+        }
       };
     },
-    activateUser: (args: { data: ActivateUserInput }): Fragmentable<AuthPayload> => {
+    activateUser: (): FragmentableMutationWithArgs<IAuthPayload, { data?: IActivateUserInput }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<AuthPayload>({
-            mutation: graphQlTag`
-            mutation activateUser ($data: ActivateUserInput) {
-              activateUser(data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation activateUser ($data: ActivateUserInput) {
+        activateUser(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IAuthPayload, { data?: IActivateUserInput }>(mutation);
+        }
       };
     },
-    deleteUser: async (args: { userId: string }): Promise<AbordableRequest<boolean>> => {
-      return abortableMutation<boolean>({
-        mutation: graphQlTag`
-        mutation deleteUser ($userId: ID!) {
-          deleteUser(userId: $userId)
-        }`,
-        variables: {
-          userId: args.userId,
-        },
-      });
+    deleteUser: (): AbordableMutationWithArgs<boolean, { userId: string }> => {
+      const mutation = graphQlTag`
+      mutation deleteUser ($userId: ID!) {
+        deleteUser(userId: $userId)
+      }`;
+      return abortableMutation<boolean>(mutation);
     },
-    createUser: (args: { user: CreateUserInput }): Fragmentable<User> => {
+    createUser: (): FragmentableMutationWithArgs<IUser, { user: ICreateUserInput }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<User>({
-            mutation: graphQlTag`
-            mutation createUser ($user: CreateUserInput!) {
-              createUser(user: $user) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              user: args.user,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation createUser ($user: CreateUserInput!) {
+        createUser(user: $user) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IUser, { user: ICreateUserInput }>(mutation);
+        }
       };
     },
-    updateNursery: (args: { id: string; data: UpdateNurseryInput }): Fragmentable<Nursery> => {
+    updateNursery: (): FragmentableMutationWithArgs<
+      INursery,
+      { id: string; data: IUpdateNurseryInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Nursery>({
-            mutation: graphQlTag`
-            mutation updateNursery ($id: ID!,$data: UpdateNurseryInput!) {
-              updateNursery(id: $id,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              id: args.id,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateNursery ($id: ID!,$data: UpdateNurseryInput!) {
+        updateNursery(id: $id,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<INursery, { id: string; data: IUpdateNurseryInput }>(mutation);
+        }
       };
     },
-    createBan: (args: { where: CreateBanWhereInput; data: CreateBanInput }): Fragmentable<Ban> => {
+    createBan: (): FragmentableMutationWithArgs<
+      IBan,
+      { where: ICreateBanWhereInput; data: ICreateBanInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Ban>({
-            mutation: graphQlTag`
-            mutation createBan ($where: CreateBanWhereInput!,$data: CreateBanInput!) {
-              createBan(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation createBan ($where: CreateBanWhereInput!,$data: CreateBanInput!) {
+        createBan(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IBan, { where: ICreateBanWhereInput; data: ICreateBanInput }>(
+            mutation
+          );
+        }
       };
     },
-    deleteBan: async (args: { where: BanWhereUniqueInput }): Promise<AbordableRequest<boolean>> => {
-      return abortableMutation<boolean>({
-        mutation: graphQlTag`
-        mutation deleteBan ($where: BanWhereUniqueInput!) {
-          deleteBan(where: $where)
-        }`,
-        variables: {
-          where: args.where,
-        },
-      });
+    deleteBan: (): AbordableMutationWithArgs<boolean, { where: IBanWhereUniqueInput }> => {
+      const mutation = graphQlTag`
+      mutation deleteBan ($where: BanWhereUniqueInput!) {
+        deleteBan(where: $where)
+      }`;
+      return abortableMutation<boolean>(mutation);
     },
-    createDocument: (): Fragmentable<Document> => {
+    createDocument: (): FragmentableMutation<IDocument> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Document>({
-            mutation: graphQlTag`
-            mutation createDocument  {
-              createDocument {
-                ${fragment}
-              }
-          }`,
-            variables: {},
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation createDocument  {
+        createDocument {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IDocument>(mutation);
+        }
       };
     },
-    updateDocument: (args: {
-      where: WhereUniqueInput;
-      data: DocumentStatusUpdateDataInput;
-    }): Fragmentable<Document> => {
+    updateDocument: (): FragmentableMutationWithArgs<
+      IDocument,
+      { where: IWhereUniqueInput; data: IDocumentStatusUpdateDataInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Document>({
-            mutation: graphQlTag`
-            mutation updateDocument ($where: WhereUniqueInput!,$data: DocumentStatusUpdateDataInput!) {
-              updateDocument(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateDocument ($where: WhereUniqueInput!,$data: DocumentStatusUpdateDataInput!) {
+        updateDocument(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<
+            IDocument,
+            { where: IWhereUniqueInput; data: IDocumentStatusUpdateDataInput }
+          >(mutation);
+        }
       };
     },
-    uploadDocument: (args: { data: DocumentCreateInput }): Fragmentable<Document> => {
+    uploadDocument: (): FragmentableMutationWithArgs<IDocument, { data: IDocumentCreateInput }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Document>({
-            mutation: graphQlTag`
-            mutation uploadDocument ($data: DocumentCreateInput!) {
-              uploadDocument(data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation uploadDocument ($data: DocumentCreateInput!) {
+        uploadDocument(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IDocument, { data: IDocumentCreateInput }>(mutation);
+        }
       };
     },
-    createChild: (args: { where: string; data: CreateChildInput }): Fragmentable<Child> => {
+    createChild: (): FragmentableMutationWithArgs<
+      IChild,
+      { where: string; data: ICreateChildInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Child>({
-            mutation: graphQlTag`
-            mutation createChild ($where: ID!,$data: CreateChildInput!) {
-              createChild(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation createChild ($where: ID!,$data: CreateChildInput!) {
+        createChild(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IChild, { where: string; data: ICreateChildInput }>(mutation);
+        }
       };
     },
-    updateChild: (args: { where: string; data: UpdateChildInput }): Fragmentable<Child> => {
+    updateChild: (): FragmentableMutationWithArgs<
+      IChild,
+      { where: string; data: IUpdateChildInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Child>({
-            mutation: graphQlTag`
-            mutation updateChild ($where: ID!,$data: UpdateChildInput!) {
-              updateChild(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateChild ($where: ID!,$data: UpdateChildInput!) {
+        updateChild(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IChild, { where: string; data: IUpdateChildInput }>(mutation);
+        }
       };
     },
-    deleteChild: (args: { where: string }): Fragmentable<Child> => {
+    deleteChild: (): FragmentableMutationWithArgs<IChild, { where: string }> => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Child>({
-            mutation: graphQlTag`
-            mutation deleteChild ($where: ID!) {
-              deleteChild(where: $where) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation deleteChild ($where: ID!) {
+        deleteChild(where: $where) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IChild, { where: string }>(mutation);
+        }
       };
     },
-    customerLogin: (args: { data: CustomerLoginInput }): Fragmentable<CustomerLoginResponse> => {
+    customerLogin: (): FragmentableMutationWithArgs<
+      ICustomerLoginResponse,
+      { data?: ICustomerLoginInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<CustomerLoginResponse>({
-            mutation: graphQlTag`
-            mutation customerLogin ($data: CustomerLoginInput) {
-              customerLogin(data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation customerLogin ($data: CustomerLoginInput) {
+        customerLogin(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<ICustomerLoginResponse, { data?: ICustomerLoginInput }>(
+            mutation
+          );
+        }
       };
     },
-    updateCustomer: (args: {
-      where: CustomerWhereUniqueInput;
-      data: CustomerUpdateInput;
-    }): Fragmentable<Customer> => {
+    updateCustomer: (): FragmentableMutationWithArgs<
+      ICustomer,
+      { where: ICustomerWhereUniqueInput; data: ICustomerUpdateInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Customer>({
-            mutation: graphQlTag`
-            mutation updateCustomer ($where: CustomerWhereUniqueInput!,$data: CustomerUpdateInput!) {
-              updateCustomer(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateCustomer ($where: CustomerWhereUniqueInput!,$data: CustomerUpdateInput!) {
+        updateCustomer(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<
+            ICustomer,
+            { where: ICustomerWhereUniqueInput; data: ICustomerUpdateInput }
+          >(mutation);
+        }
       };
     },
-    banCustomer: (args: {
-      where: CustomerWhereUniqueInput;
-      data: CreateBanInput;
-    }): Fragmentable<Customer> => {
+    banCustomer: (): FragmentableMutationWithArgs<
+      ICustomer,
+      { where: ICustomerWhereUniqueInput; data: ICreateBanInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Customer>({
-            mutation: graphQlTag`
-            mutation banCustomer ($where: CustomerWhereUniqueInput!,$data: CreateBanInput!) {
-              banCustomer(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation banCustomer ($where: CustomerWhereUniqueInput!,$data: CreateBanInput!) {
+        banCustomer(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<
+            ICustomer,
+            { where: ICustomerWhereUniqueInput; data: ICreateBanInput }
+          >(mutation);
+        }
       };
     },
-    createReservation: (args: { data: ReservationCreateInput }): Fragmentable<Reservation> => {
+    createReservation: (): FragmentableMutationWithArgs<
+      IReservation,
+      { data?: IReservationCreateInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Reservation>({
-            mutation: graphQlTag`
-            mutation createReservation ($data: ReservationCreateInput) {
-              createReservation(data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation createReservation ($data: ReservationCreateInput) {
+        createReservation(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<IReservation, { data?: IReservationCreateInput }>(mutation);
+        }
       };
     },
-    updateReservation: (args: {
-      where: ReservationWhereUniqueInput;
-      data: ReservationUpdateInput;
-    }): Fragmentable<Reservation> => {
+    updateReservation: (): FragmentableMutationWithArgs<
+      IReservation,
+      { where: IReservationWhereUniqueInput; data: IReservationUpdateInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Reservation>({
-            mutation: graphQlTag`
-            mutation updateReservation ($where: ReservationWhereUniqueInput!,$data: ReservationUpdateInput!) {
-              updateReservation(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateReservation ($where: ReservationWhereUniqueInput!,$data: ReservationUpdateInput!) {
+        updateReservation(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<
+            IReservation,
+            { where: IReservationWhereUniqueInput; data: IReservationUpdateInput }
+          >(mutation);
+        }
       };
     },
-    updateNurseryConfig: (args: { data: NurseryConfigInput }): Fragmentable<NurseryConfig> => {
+    updateNurseryConfig: (): FragmentableMutationWithArgs<
+      INurseryConfig,
+      { data: INurseryConfigInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<NurseryConfig>({
-            mutation: graphQlTag`
-            mutation updateNurseryConfig ($data: NurseryConfigInput!) {
-              updateNurseryConfig(data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateNurseryConfig ($data: NurseryConfigInput!) {
+        updateNurseryConfig(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<INurseryConfig, { data: INurseryConfigInput }>(mutation);
+        }
       };
     },
-    updateRegistration: (args: {
-      where: RegistrationWhereUniqueInput;
-      data: RegistrationUpdateInput;
-    }): Fragmentable<Registration> => {
+    updateRegistration: (): FragmentableMutationWithArgs<
+      IRegistration,
+      { where: IRegistrationWhereUniqueInput; data: IRegistrationUpdateInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Registration>({
-            mutation: graphQlTag`
-            mutation updateRegistration ($where: RegistrationWhereUniqueInput!,$data: RegistrationUpdateInput!) {
-              updateRegistration(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateRegistration ($where: RegistrationWhereUniqueInput!,$data: RegistrationUpdateInput!) {
+        updateRegistration(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<
+            IRegistration,
+            { where: IRegistrationWhereUniqueInput; data: IRegistrationUpdateInput }
+          >(mutation);
+        }
       };
     },
-    updateMail: (args: {
-      where: MailWhereUniqueInput;
-      data: MailUpdateInput;
-    }): Fragmentable<Mail> => {
+    updateMail: (): FragmentableMutationWithArgs<
+      IMail,
+      { where: IMailWhereUniqueInput; data?: IMailUpdateInput }
+    > => {
       return {
-        $fragment: async (fragment: string | DocumentNode) => {
-          return abortableMutation<Mail>({
-            mutation: graphQlTag`
-            mutation updateMail ($where: MailWhereUniqueInput!,$data: MailUpdateInput) {
-              updateMail(where: $where,data: $data) {
-                ${fragment}
-              }
-          }`,
-            variables: {
-              where: args.where,
-              data: args.data,
-            },
-          });
-        },
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const mutation = graphQlTag`
+         mutation updateMail ($where: MailWhereUniqueInput!,$data: MailUpdateInput) {
+        updateMail(where: $where,data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+          
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+          return abortableMutation<
+            IMail,
+            { where: IMailWhereUniqueInput; data?: IMailUpdateInput }
+          >(mutation);
+        }
       };
-    },
+    }
   };
 };

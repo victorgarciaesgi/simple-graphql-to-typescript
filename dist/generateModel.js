@@ -99,7 +99,7 @@ var getEnumTypes = function (object, prefix, suffix) {
 };
 exports.generate = function (schema, prefix, suffix, customScalars, generateMethods) {
     return new Promise(function (resolve, reject) { return __awaiter(void 0, void 0, void 0, function () {
-        var schemaTypes, QueryType_1, MutationType_1, listQueries, listMutations, methods, e_1, signature, modelsTemplate;
+        var schemaTypes, QueryType_1, MutationType_1, listQueries, listMutations, oraMethods, methods, e_1, e_2, signature, modelsTemplate;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -109,19 +109,29 @@ exports.generate = function (schema, prefix, suffix, customScalars, generateMeth
                     transpile.start();
                     _a.label = 1;
                 case 1:
-                    _a.trys.push([1, 4, , 5]);
+                    _a.trys.push([1, 6, , 7]);
                     schemaTypes = schema.__schema.types;
                     QueryType_1 = schema.__schema.queryType.name;
                     MutationType_1 = schema.__schema.mutationType.name;
                     listQueries = schema.__schema.types.find(function (f) { return f.name === QueryType_1; }).fields;
                     listMutations = schema.__schema.types.find(function (f) { return f.name === MutationType_1; }).fields;
-                    if (!generateMethods) return [3, 3];
-                    return [4, createMethods_1.createMethods({ schema: schema, prefix: prefix, suffix: suffix })];
+                    if (!generateMethods) return [3, 5];
+                    oraMethods = ora_1.default('Generating queries and mutations...').start();
+                    _a.label = 2;
                 case 2:
+                    _a.trys.push([2, 4, , 5]);
+                    return [4, createMethods_1.createMethods({ schema: schema, prefix: prefix, suffix: suffix })];
+                case 3:
                     methods = _a.sent();
                     generatedTypes.METHODS = methods;
-                    _a.label = 3;
-                case 3:
+                    oraMethods.succeed('🏗 Queries and mutations successfully generated');
+                    return [3, 5];
+                case 4:
+                    e_1 = _a.sent();
+                    oraMethods.fail('Methods generation failed');
+                    console.log(e_1);
+                    return [3, 5];
+                case 5:
                     schemaTypes.forEach(function (item) {
                         if (!/^_{1,2}/.test(item.name)) {
                             if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
@@ -140,14 +150,14 @@ exports.generate = function (schema, prefix, suffix, customScalars, generateMeth
                             generatedTypes.METHODS_ARGS.push("export " + generatedInterface);
                         }
                     });
-                    return [3, 5];
-                case 4:
-                    e_1 = _a.sent();
+                    return [3, 7];
+                case 6:
+                    e_2 = _a.sent();
                     transpile.fail('Transpiling failed');
-                    console.log(e_1);
-                    reject(e_1);
+                    console.log(e_2);
+                    reject(e_2);
                     return [2];
-                case 5:
+                case 7:
                     transpile.succeed("\uD83D\uDD8B Transpiling done");
                     signature = "\n      /* eslint-disable */\n      /* tslint-disable */\n      // *******************************************************\n      // *******************************************************\n      //\n      // GENERATED FILE, DO NOT MODIFY\n      //\n      // Made by Victor Garcia \u00AE\n      //\n      // https://github.com/victorgarciaesgi\n      // *******************************************************\n      // *******************************************************\n      // \uD83D\uDC99";
                     modelsTemplate = "\n      " + signature + "\n\n      " + generatedTypes.OBJECT.join('\n') + "\n      " + generatedTypes.ENUM.join('\n') + "\n      " + generatedTypes.METHODS_ARGS.join('\n') + "\n      " + (generateMethods ? generatedTypes.METHODS : '') + "\n    ";

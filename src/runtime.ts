@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import * as prettier from 'prettier';
 import ora = require('ora');
 import fs from 'fs';
+import { GraphQLJSONSchema } from './schemaModel';
 
 interface generatePayload {
   endpoint?: string;
@@ -17,10 +18,6 @@ interface generatePayload {
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
 }
-
-let previousSchema: string = null;
-let watchInterval = null;
-let timeInterval = 2000;
 const saveModels = ora('Saving models file...');
 
 /**
@@ -40,8 +37,6 @@ export async function sgtsGenerate({
   try {
     const schema = await fetchSchemas({ endpoint, header, json });
     if (schema) {
-      let outputPath = path.resolve(process.cwd(), output);
-
       const generatedString = await generate(
         schema,
         prefix,
@@ -50,7 +45,7 @@ export async function sgtsGenerate({
         generateMethods
       );
 
-      const formatedString = await saveFile(generatedString, outputPath);
+      const formatedString = await saveFile(generatedString, output);
 
       return formatedString;
     } else {
@@ -93,7 +88,7 @@ function saveFile(template: string, output: string): Promise<string> {
   });
 }
 
-async function fetchSchemas({ endpoint, header, json }): Promise<{ [x: string]: any }> {
+async function fetchSchemas({ endpoint, header, json }): Promise<GraphQLJSONSchema> {
   if (endpoint) {
     const JSONschema = await downloadSchema(endpoint, header);
     return JSON.parse(JSONschema);

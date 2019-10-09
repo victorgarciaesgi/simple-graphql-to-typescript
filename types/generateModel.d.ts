@@ -1,3 +1,4 @@
+import { GraphQLJSONSchema } from './schemaModel';
 export declare let scalarList: {
     ID: string;
     String: string;
@@ -7,8 +8,6 @@ export declare let scalarList: {
     Boolean: string;
     Json: string;
 };
-export declare const generate: (schema: {
-    [x: string]: any;
-}, prefix: string, suffix: string, customScalars: {
+export declare const generate: (schema: GraphQLJSONSchema, prefix: string, suffix: string, customScalars: {
     [x: string]: string;
 }, generateMethods?: boolean) => Promise<string>;

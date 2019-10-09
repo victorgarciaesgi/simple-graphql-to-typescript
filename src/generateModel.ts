@@ -1,10 +1,7 @@
-import chalk from 'chalk';
 import ora from 'ora';
 import { createMethods } from './createMethods';
 import { getObjectTSInterfaces, getQueriesArgsTSInterfaces } from './helpers';
-import * as prettier from 'prettier';
-import fs from 'fs';
-import path from 'path';
+import { GraphQLJSONSchema, Type } from './schemaModel';
 
 export let scalarList = {
   ID: 'string',
@@ -25,7 +22,7 @@ const generatedTypes = {
 
 const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
 
-const getEnumTypes = (object, prefix: string, suffix: string) => {
+const getEnumTypes = (object: Type, prefix: string, suffix: string) => {
   let ObjectName: string = object.name;
   const generatedFields = object.enumValues.map(field => {
     return `| '${field.name}'`;
@@ -37,7 +34,7 @@ const getEnumTypes = (object, prefix: string, suffix: string) => {
 };
 
 export const generate = (
-  schema: { [x: string]: any },
+  schema: GraphQLJSONSchema,
   prefix: string,
   suffix: string,
   customScalars: { [x: string]: string },
@@ -59,8 +56,16 @@ export const generate = (
       const listQueries = schema.__schema.types.find(f => f.name === QueryType).fields;
       const listMutations = schema.__schema.types.find(f => f.name === MutationType).fields;
       if (generateMethods) {
-        const methods = await createMethods({ schema, prefix, suffix });
-        generatedTypes.METHODS = methods;
+        const oraMethods = ora('Generating queries and mutations...').start();
+
+        try {
+          const methods = await createMethods({ schema, prefix, suffix });
+          generatedTypes.METHODS = methods;
+          oraMethods.succeed('🏗 Queries and mutations successfully generated');
+        } catch (e) {
+          oraMethods.fail('Methods generation failed');
+          console.log(e);
+        }
       }
 
       schemaTypes.forEach(item => {

@@ -7,6 +7,7 @@ import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
 import { printSchema } from 'graphql/utilities/schemaPrinter';
 
 export const downloadSchema = async (endpoint: string, header: string): Promise<string> => {
+  console.log('\n');
   const download = ora(`⬇️ Downloading schemas from ${chalk.blue(endpoint)}`).start();
   try {
     let formatedHeaders = getHeadersFromInput(header);
@@ -23,14 +24,12 @@ export const downloadSchema = async (endpoint: string, header: string): Promise<
       download.fail();
       return Promise.reject(schema.message);
     } else {
-      download.text = '📐 Schemas succesfully downloaded';
-      download.succeed();
+      download.succeed(`💯 Schemas successfully downloaded from ${chalk.blue(endpoint)}`);
       return schema.schema;
     }
   } catch (e) {
-    download.text = e;
-    download.fail();
-    console.log(e.message);
+    download.fail(e.message);
+    console.log(e);
   }
 };
 

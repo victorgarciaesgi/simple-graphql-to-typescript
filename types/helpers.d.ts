@@ -1,4 +1,5 @@
-export declare const evaluateType: (field: any) => {
+import { Field, Type, InputField, Arg } from './schemaModel';
+export declare const evaluateType: (field: Field | InputField | Arg) => {
     isOptional: boolean;
     isArray: boolean;
     isArrayOptional: boolean;
@@ -6,12 +7,15 @@ export declare const evaluateType: (field: any) => {
     isScalar: boolean;
     typeName: string;
 };
-export declare const getOneTSType: ({ field, prefix, suffix }: {
-    field: any;
-    prefix: any;
-    suffix: any;
-}) => any;
-export declare const getObjectTSInterfaces: (object: any, prefix: string, suffix: string) => string;
-export declare const getQueriesArgsTSInterfaces: (object: any, prefix: string, suffix: string) => string;
-export declare const getObjectGQLTypesArgs: (field: any) => string;
-export declare const buildMethod: (data: any, type: any, prefix: any, suffix: any) => string;
+export declare const getOneTSType: ({ field, prefix, suffix, }: {
+    field: Field | InputField | Arg;
+    prefix: string;
+    suffix: string;
+}) => string;
+export declare const getObjectTSInterfaces: (object: Type, prefix: string, suffix: string) => string;
+export declare const getQueriesArgsTSInterfaces: (object: Field, prefix: string, suffix: string) => string;
+export declare const getObjectGQLTypesArgs: (field: Arg) => string;
+export declare const buildMethod: (data: Field, type: {
+    little: "query" | "mutation";
+    high: "Query" | "Mutation";
+}, prefix: string, suffix: string) => string;

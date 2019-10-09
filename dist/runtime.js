@@ -53,14 +53,11 @@ var chalk_1 = __importDefault(require("chalk"));
 var prettier = __importStar(require("prettier"));
 var ora = require("ora");
 var fs_1 = __importDefault(require("fs"));
-var previousSchema = null;
-var watchInterval = null;
-var timeInterval = 2000;
 var saveModels = ora('Saving models file...');
 function sgtsGenerate(_a) {
     var endpoint = _a.endpoint, json = _a.json, _b = _a.output, output = _b === void 0 ? './__generated.ts' : _b, customScalars = _a.customScalars, header = _a.header, prefix = _a.prefix, removeNodes = _a.removeNodes, suffix = _a.suffix, generateMethods = _a.generateMethods;
     return __awaiter(this, void 0, void 0, function () {
-        var schema, outputPath, generatedString, formatedString, e_1;
+        var schema, generatedString, formatedString, e_1;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -69,11 +66,10 @@ function sgtsGenerate(_a) {
                 case 1:
                     schema = _c.sent();
                     if (!schema) return [3, 4];
-                    outputPath = path_1.default.resolve(process.cwd(), output);
                     return [4, generateModel_1.generate(schema, prefix, suffix, customScalars, generateMethods)];
                 case 2:
                     generatedString = _c.sent();
-                    return [4, saveFile(generatedString, outputPath)];
+                    return [4, saveFile(generatedString, output)];
                 case 3:
                     formatedString = _c.sent();
                     return [2, formatedString];

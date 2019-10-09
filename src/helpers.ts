@@ -1,6 +1,9 @@
 import { scalarList } from './generateModel';
+import { Field, Type, InputField, Arg } from './schemaModel';
+import { types } from 'util';
 
-export const evaluateType = field => {
+// Get strucuture properties from a field
+export const evaluateType = (field: Field | InputField | Arg) => {
   let propertyName = field.name;
   let isOptional = true;
   let isArray = false;
@@ -37,14 +40,24 @@ export const evaluateType = field => {
   };
 };
 
-export const getOneTSType = ({ field, prefix, suffix }) => {
+// Get the ts type from a Field
+export const getOneTSType = ({
+  field,
+  prefix,
+  suffix,
+}: {
+  field: Field | InputField | Arg;
+  prefix: string;
+  suffix: string;
+}): string => {
   const { isScalar, typeName } = evaluateType(field);
   return isScalar
     ? scalarList[typeName]
     : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
 };
 
-export const getObjectTSInterfaces = (object, prefix: string, suffix: string) => {
+// Generates TS interface of a given GraphqlType
+export const getObjectTSInterfaces = (object: Type, prefix: string, suffix: string): string => {
   let ObjectName: string = object.name;
   let fieldsKey =
     object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
@@ -70,7 +83,8 @@ export const getObjectTSInterfaces = (object, prefix: string, suffix: string) =>
   return generatedInterface;
 };
 
-export const getQueriesArgsTSInterfaces = (object, prefix: string, suffix: string) => {
+// Generate methods args interfaces
+export const getQueriesArgsTSInterfaces = (object: Field, prefix: string, suffix: string) => {
   let ObjectName: string = object.name;
   const parsedSuffix = 'Args' + (suffix ? suffix : '');
   const generatedFields = object.args.map(field => {
@@ -95,7 +109,7 @@ export const getQueriesArgsTSInterfaces = (object, prefix: string, suffix: strin
   return generatedInterface;
 };
 
-export const getObjectGQLTypesArgs = field => {
+export const getObjectGQLTypesArgs = (field: Arg) => {
   const { isArray, isArrayOptional, isEdge, isOptional, isScalar, typeName } = evaluateType(field);
   const generatedType = `${isArray ? '[' : ''}${typeName}${isOptional ? '' : '!'}${
     isArray ? ']' : ''
@@ -104,19 +118,25 @@ export const getObjectGQLTypesArgs = field => {
   return generatedType;
 };
 
-export const buildMethod = (data, type, prefix, suffix) => {
+export const buildMethod = (
+  data: Field,
+  type: { little: 'query' | 'mutation'; high: 'Query' | 'Mutation' },
+  prefix: string,
+  suffix: string
+) => {
   const hasArgs = data.args.length > 0;
   const methodName = data.name;
 
   const { $args, args, variables, tsArgs } = data.args.reduce(
     (acc, arg) => {
       const argName = arg.name;
+      const { isScalar, isOptional, isArray } = evaluateType(arg);
       const type = getObjectGQLTypesArgs(arg);
       const tsArg = getOneTSType({ field: arg, prefix, suffix });
       acc.$args.push(`$${argName}: ${type}`);
       acc.args.push(`${argName}: $${argName}`);
       acc.variables.push(argName);
-      acc.tsArgs.push(`${argName}: ${tsArg}`);
+      acc.tsArgs.push(`${argName}${isOptional ? '?' : ''}: ${tsArg}${isArray ? '[]' : ''};`);
       return acc;
     },
     {
@@ -126,47 +146,84 @@ export const buildMethod = (data, type, prefix, suffix) => {
       tsArgs: [],
     }
   );
-  const { isScalar } = evaluateType(data);
+  const { isScalar, isEdge } = evaluateType(data);
   const returnedType = getOneTSType({ field: data, prefix, suffix });
 
   let renderedArgs = '';
   if (tsArgs.length) {
-    renderedArgs = `args: {${tsArgs.join('\n')}}`;
-  } else if (!isScalar && !tsArgs.length) {
-    renderedArgs = ``;
+    renderedArgs = `{${tsArgs.join('\n')}}`;
   }
 
-  const scalarFunction = `
-    return abortable${type.high}<${returnedType}>({
-      ${type.little}: graphQlTag\`
-        ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
-          ${methodName}${hasArgs ? `(${args.join(',')})` : ''}
-        }\`,
-      variables: {
-        ${variables.map(m => `${m}:args.${m}`).join(',')}
-      }
-    });
+  let scalarFunction = '';
+  let nonScalarFunction = '';
+
+  if (type.little === 'mutation') {
+    scalarFunction = `
+    const mutation = graphQlTag\`
+      mutation ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
+        ${methodName}${hasArgs ? `(${args.join(',')})` : ''}
+      }\`,
+    return abortableMutation<${returnedType}>(mutation);
   `;
-  const nonScalarFunction = `
+    nonScalarFunction = `
+  return {
+    $fragment: (fragment: string | DocumentNode) => {
+      const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+      const mutation = graphQlTag\`
+         mutation ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
+        ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
+          ${isEdge ? '' : `\${isString ? fragment : '...' + fragmentName}`}
+          
+        }
+      } \${isFragment? fragment: ''}
+      \`
+
+      return abortableMutation<${returnedType}${
+      renderedArgs.length ? ',' + renderedArgs : ''
+    }>(mutation);
+    }
+  }
+`;
+  } else {
+    scalarFunction = `
+    const query = graphQlTag\`
+      query ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
+        ${methodName}${hasArgs ? `(${args.join(',')})` : ''}
+      }\`,
+      return abortableQuery<${returnedType}${renderedArgs.length ? ',' + renderedArgs : ''}>(query);
+    `;
+
+    nonScalarFunction = `
     return {
-      $fragment: async (fragment: string | DocumentNode) => {
-        return abortable${type.high}<${returnedType}>({
-          ${type.little}: graphQlTag\`
-            ${type.little} ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
-              ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
-                \${fragment}
-              }
-          }\`,
-          variables: {
-            ${variables.map(m => `${m}:args.${m}`).join(',')}
+      $fragment: (fragment: string | DocumentNode) => {
+        const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+        const query = graphQlTag\`
+           query ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
+          ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
+            ${isEdge ? '' : `\${isString ? fragment : '...' + fragmentName}`}
+            
           }
-        });
+        } \${isFragment? fragment: ''}
+        \`
+        return abortable${type.high}<${returnedType}${
+      renderedArgs.length ? ',' + renderedArgs : ''
+    }>(query);
       }
     }
   `;
+  }
+
+  const withArgs = tsArgs.length ? 'WithArgs' : '';
+
   const template = `
-    ${methodName}: ${isScalar ? 'async' : ''} (${renderedArgs}): ${
-    isScalar ? `Promise<AbordableRequest<${returnedType}>>` : `Fragmentable<${returnedType}>`
+    ${methodName}: (): ${
+    isScalar
+      ? `Abordable${type.high}${withArgs}<${returnedType}${
+          renderedArgs.length ? ',' + renderedArgs : ''
+        }>`
+      : `Fragmentable${type.high}${withArgs}<${returnedType}${
+          renderedArgs.length ? ',' + renderedArgs : ''
+        }>`
   } => {
         ${isScalar ? scalarFunction : nonScalarFunction}
       }
