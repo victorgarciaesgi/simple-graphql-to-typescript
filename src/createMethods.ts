@@ -48,8 +48,8 @@ export const createMethods = async ({
 
 
   export type AbordableQueryWithArgs<T, A> = {
-    $args(args: A): AbordableQuery<T>;
     $fetch(): Promise<T>;
+    $args(args: A): AbordableQuery<T>;
     $abort(): void;
   };
   
@@ -65,8 +65,8 @@ export const createMethods = async ({
   }
   
   export type AbordableMutationWithArgs<T, A> = {
-    $args(args: A): AbordableMutation<T>;
     $post(): Promise<T>;
+    $args(args: A): AbordableMutation<T>;
     $abort(): void;
   };
   
