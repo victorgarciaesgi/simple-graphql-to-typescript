@@ -1,7 +1,7 @@
 import ora from 'ora';
 import { createMethods } from './createMethods';
 import { getObjectTSInterfaces, getQueriesArgsTSInterfaces } from './helpers';
-import { GraphQLJSONSchema, Type } from './schemaModel';
+import { GraphQLJSONSchema, Type, Field } from './schemaModel';
 
 export let scalarList = {
   ID: 'string',
@@ -52,9 +52,12 @@ export const generate = (
     try {
       const schemaTypes = schema.__schema.types;
       const QueryType = schema.__schema.queryType.name;
-      const MutationType = schema.__schema.mutationType.name;
+      const MutationType = schema.__schema.mutationType ? schema.__schema.mutationType.name : '';
       const listQueries = schema.__schema.types.find(f => f.name === QueryType).fields;
-      const listMutations = schema.__schema.types.find(f => f.name === MutationType).fields;
+      let listMutations: Field[] = [];
+      if (MutationType) {
+        listMutations = schema.__schema.types.find(f => f.name === MutationType).fields;
+      }
       if (generateMethods) {
         const oraMethods = ora('Generating queries and mutations...').start();
 

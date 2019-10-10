@@ -1,6 +1,6 @@
 import { scalarList } from './generateModel';
 import { Field, Type, InputField, Arg } from './schemaModel';
-import { types } from 'util';
+import { types, isArray } from 'util';
 
 // Get strucuture properties from a field
 export const evaluateType = (field: Field | InputField | Arg) => {
@@ -50,10 +50,10 @@ export const getOneTSType = ({
   prefix: string;
   suffix: string;
 }): string => {
-  const { isScalar, typeName } = evaluateType(field);
+  const { isScalar, typeName, isArray } = evaluateType(field);
   return isScalar
     ? scalarList[typeName]
-    : (prefix ? prefix : '') + typeName + (suffix ? suffix : '');
+    : `${prefix ? prefix : ''}${typeName}${suffix ? suffix : ''}${isArray ? '[]' : ''}`;
 };
 
 // Generates TS interface of a given GraphqlType
@@ -136,7 +136,7 @@ export const buildMethod = (
       acc.$args.push(`$${argName}: ${type}`);
       acc.args.push(`${argName}: $${argName}`);
       acc.variables.push(argName);
-      acc.tsArgs.push(`${argName}${isOptional ? '?' : ''}: ${tsArg}${isArray ? '[]' : ''};`);
+      acc.tsArgs.push(`${argName}${isOptional ? '?' : ''}: ${tsArg};`);
       return acc;
     },
     {
