@@ -1,5 +1,5 @@
 import { scalarList } from './generateModel';
-import { Field, Type, InputField, Arg } from './schemaModel';
+import { Field, Type, InputField, Arg, OfType } from './schemaModel';
 import { types, isArray } from 'util';
 
 // Get strucuture properties from a field
@@ -10,9 +10,10 @@ export const evaluateType = (field: Field | InputField | Arg) => {
   let isArrayOptional = false;
   let isEdge = false;
   let isScalar = false;
+  let isEnum = false;
   let typeName = '';
 
-  function getFieldInfos(type): string {
+  function getFieldInfos(type: OfType): string {
     if (propertyName === 'edges') isEdge = true;
     if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
       if (type.kind === 'LIST') {
@@ -24,6 +25,8 @@ export const evaluateType = (field: Field | InputField | Arg) => {
     } else {
       if (type.kind === 'SCALAR') {
         isScalar = true;
+      } else if (type.kind === 'ENUM') {
+        isEnum = true;
       }
       typeName = type.name;
     }
@@ -37,11 +40,12 @@ export const evaluateType = (field: Field | InputField | Arg) => {
     isEdge,
     isScalar,
     typeName,
+    isEnum,
   };
 };
 
 // Get the ts type from a Field
-export const getOneTSType = ({
+export const getOneTSTypeDisplay = ({
   field,
   prefix,
   suffix,
@@ -109,6 +113,30 @@ export const getQueriesArgsTSInterfaces = (object: Field, prefix: string, suffix
   return generatedInterface;
 };
 
+export const createConnectionFragment = (typeName: string, allTypes: Type[], fragment: string) => {
+  const { fields } = allTypes.find(f => f.name === typeName);
+  let outputFragment = '';
+
+  function createLines(field: Field) {
+    outputFragment += `
+    ${field.name}`;
+    const { typeName, isScalar } = evaluateType(field);
+    if (!isScalar) {
+      if (field.name === 'node') {
+        outputFragment += `{${fragment}}`;
+      } else {
+        outputFragment += ` {
+        `;
+        const type = allTypes.find(f => f.name === typeName);
+        type.fields.forEach(createLines);
+        outputFragment += ` }`;
+      }
+    }
+  }
+  fields.map(createLines);
+  return outputFragment;
+};
+
 export const getObjectGQLTypesArgs = (field: Arg) => {
   const { isArray, isArrayOptional, isEdge, isOptional, isScalar, typeName } = evaluateType(field);
   const generatedType = `${isArray ? '[' : ''}${typeName}${isOptional ? '' : '!'}${
@@ -118,21 +146,13 @@ export const getObjectGQLTypesArgs = (field: Arg) => {
   return generatedType;
 };
 
-export const buildMethod = (
-  data: Field,
-  type: { little: 'query' | 'mutation'; high: 'Query' | 'Mutation' },
-  prefix: string,
-  suffix: string
-) => {
-  const hasArgs = data.args.length > 0;
-  const methodName = data.name;
-
-  const { $args, args, variables, tsArgs } = data.args.reduce(
+export const createMethodsArgs = (args: Arg[], prefix: string, suffix: string) => {
+  return args.reduce(
     (acc, arg) => {
       const argName = arg.name;
       const { isScalar, isOptional, isArray } = evaluateType(arg);
       const type = getObjectGQLTypesArgs(arg);
-      const tsArg = getOneTSType({ field: arg, prefix, suffix });
+      const tsArg = getOneTSTypeDisplay({ field: arg, prefix, suffix });
       acc.$args.push(`$${argName}: ${type}`);
       acc.args.push(`${argName}: $${argName}`);
       acc.variables.push(argName);
@@ -146,12 +166,40 @@ export const buildMethod = (
       tsArgs: [],
     }
   );
-  const { isScalar, isEdge } = evaluateType(data);
-  const returnedType = getOneTSType({ field: data, prefix, suffix });
+};
+
+export const buildMethod = (
+  field: Field,
+  type: { little: 'query' | 'mutation'; high: 'Query' | 'Mutation' },
+  prefix: string,
+  suffix: string,
+  ObjectTypes: Type[]
+) => {
+  const hasArgs = field.args.length > 0;
+  const methodName = field.name;
+
+  const { $args, args, variables, tsArgs } = createMethodsArgs(field.args, prefix, suffix);
+  const { isScalar, isEnum, typeName } = evaluateType(field);
+  const returnedTypeDisplay = getOneTSTypeDisplay({ field, prefix, suffix });
 
   let renderedArgs = '';
   if (tsArgs.length) {
     renderedArgs = `{${tsArgs.join('\n')}}`;
+  }
+
+  let renderedFragmentInner = `\${isString ? fragment : '...' + fragmentName}`;
+  if (!isScalar && !isEnum) {
+    const isEdge = ObjectTypes.find(f => f.name === typeName)
+      .fields.map(evaluateType)
+      .some(s => s.isEdge);
+
+    if (isEdge) {
+      renderedFragmentInner = createConnectionFragment(
+        typeName,
+        ObjectTypes,
+        `\${isString ? fragment : '...' + fragmentName}`
+      );
+    }
   }
 
   let scalarFunction = '';
@@ -163,7 +211,7 @@ export const buildMethod = (
       mutation ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${args.join(',')})` : ''}
       }\`,
-    return abortableMutation<${returnedType}>(mutation);
+    return abortableMutation<${returnedTypeDisplay}>(mutation, ${!!renderedArgs.length});
   `;
     nonScalarFunction = `
   return {
@@ -172,15 +220,15 @@ export const buildMethod = (
       const mutation = graphQlTag\`
          mutation ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
-          ${isEdge ? '' : `\${isString ? fragment : '...' + fragmentName}`}
+          ${renderedFragmentInner}
           
         }
       } \${isFragment? fragment: ''}
       \`
 
-      return abortableMutation<${returnedType}${
+      return abortableMutation<${returnedTypeDisplay}${
       renderedArgs.length ? ',' + renderedArgs : ''
-    }>(mutation);
+    }>(mutation, ${!!renderedArgs.length});
     }
   }
 `;
@@ -190,7 +238,9 @@ export const buildMethod = (
       query ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${args.join(',')})` : ''}
       }\`,
-      return abortableQuery<${returnedType}${renderedArgs.length ? ',' + renderedArgs : ''}>(query);
+      return abortableQuery<${returnedTypeDisplay}${
+      renderedArgs.length ? ',' + renderedArgs : ''
+    }>(query, ${!!renderedArgs.length});
     `;
 
     nonScalarFunction = `
@@ -200,14 +250,14 @@ export const buildMethod = (
         const query = graphQlTag\`
            query ${methodName} ${hasArgs ? `(${$args.join(',')})` : ''} {
           ${methodName}${hasArgs ? `(${args.join(',')})` : ''} {
-            ${isEdge ? '' : `\${isString ? fragment : '...' + fragmentName}`}
+            ${renderedFragmentInner}
             
           }
         } \${isFragment? fragment: ''}
         \`
-        return abortable${type.high}<${returnedType}${
+        return abortable${type.high}<${returnedTypeDisplay}${
       renderedArgs.length ? ',' + renderedArgs : ''
-    }>(query);
+    }>(query, ${!!renderedArgs.length});
       }
     }
   `;
@@ -218,10 +268,10 @@ export const buildMethod = (
   const template = `
     ${methodName}: (): ${
     isScalar
-      ? `Abordable${type.high}${withArgs}<${returnedType}${
+      ? `Abordable${type.high}${withArgs}<${returnedTypeDisplay}${
           renderedArgs.length ? ',' + renderedArgs : ''
         }>`
-      : `Fragmentable${type.high}${withArgs}<${returnedType}${
+      : `Fragmentable${type.high}${withArgs}<${returnedTypeDisplay}${
           renderedArgs.length ? ',' + renderedArgs : ''
         }>`
   } => {

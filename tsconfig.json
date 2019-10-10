@@ -19,6 +19,16 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "outDir": "./dist",
+    "lib": [
+      "esnext",
+      "scripthost",
+      "es5",
+      "es2015",
+      "es2015.promise",
+      "es2017",
+      "es2017.object",
+      "es7"
+    ],
     "types": ["node"]
   },
   "include": ["src/**/*.ts"]

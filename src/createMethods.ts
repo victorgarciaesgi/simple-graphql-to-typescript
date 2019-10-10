@@ -1,5 +1,6 @@
 import { buildMethod } from './helpers';
 import { GraphQLJSONSchema, Field } from './schemaModel';
+import { oc } from 'ts-optchain';
 
 export const createMethods = async ({
   schema,
@@ -17,6 +18,9 @@ export const createMethods = async ({
   if (MutationType) {
     listMutations = schema.__schema.types.find(f => f.name === MutationType).fields;
   }
+  const objectTypes = oc(schema)
+    .__schema.types()
+    .filter(f => f.kind === 'OBJECT');
   const queries = listQueries
     .filter(query => !/^_{1,2}/.test(query.name))
     .map(query => {
@@ -24,7 +28,7 @@ export const createMethods = async ({
         little: 'query' as const,
         high: 'Query' as const,
       };
-      return buildMethod(query, type, prefix, suffix);
+      return buildMethod(query, type, prefix, suffix, objectTypes);
     });
   const mutations = listMutations
     .filter(query => !/^_{1,2}/.test(query.name))
@@ -33,7 +37,7 @@ export const createMethods = async ({
         little: 'mutation' as const,
         high: 'Mutation' as const,
       };
-      return buildMethod(mutation, type, prefix, suffix);
+      return buildMethod(mutation, type, prefix, suffix, objectTypes);
     });
 
   const finalMethods = `
@@ -87,10 +91,6 @@ export const createMethods = async ({
       isString = true;
     } else if (fragment instanceof Object && fragment.definitions) {
       isFragment = true;
-      if (fragment.definitions.length > 1) {
-        console.error('You can only pass one raw fragment to the function');
-        return;
-      }
       const definition = fragment.definitions[0];
       if (definition.kind === 'FragmentDefinition') {
         fragmentName = definition.name.value;
@@ -106,7 +106,8 @@ export const createMethods = async ({
   
   export const apiProvider = (apolloClient: ApolloClient<any>) => {
     const abortableQuery = <T, A = null>(
-      query: DocumentNode
+      query: DocumentNode,
+      args: boolean
     ): A extends null ? AbordableQuery<T> : AbordableQueryWithArgs<T, A> => {
       let observableQuery: ZenObservable.Subscription;
       const parsedQuery = query.definitions[0] as OperationDefinitionNode;
@@ -142,13 +143,21 @@ export const createMethods = async ({
           $fetch,
         };
       }
-      return {
-        $abort,
-        $args,
-      } as any;
+      if (args) {
+        return {
+          $abort,
+          $args,
+        } as any;
+      } else {
+        return {
+          $abort,
+          $fetch,
+        } as any;
+      }
     };
     const abortableMutation = <T, A = null>(
-      mutation: DocumentNode
+      mutation: DocumentNode,
+      args: boolean
     ): AbordableMutationWithArgs<T, A> => {
       let observableQuery: ZenObservable.Subscription;
       const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
@@ -184,10 +193,17 @@ export const createMethods = async ({
           $post,
         };
       }
-      return {
-        $abort,
-        $args,
-      } as any;
+      if (args) {
+        return {
+          $abort,
+          $args,
+        } as any;
+      } else {
+        return {
+          $abort,
+          $post,
+        } as any;
+      }
     };
 
     return {

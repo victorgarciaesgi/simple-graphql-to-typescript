@@ -7,66 +7,26 @@ export interface MutationType {
 export interface OfType {
     kind: string;
     name: string;
-    ofType?: any;
-}
-export interface Type2 {
-    kind: string;
-    name: string;
-    ofType: OfType;
+    ofType?: OfType;
 }
 export interface Arg {
     name: string;
     description?: any;
-    type: Type2;
+    type: OfType;
     defaultValue: string;
-}
-export interface OfType4 {
-    kind: string;
-    name: string;
-    ofType?: any;
-}
-export interface OfType3 {
-    kind: string;
-    name: string;
-    ofType: OfType4;
-}
-export interface OfType2 {
-    kind: string;
-    name: string;
-    ofType: OfType3;
-}
-export interface Type3 {
-    kind: string;
-    name: string;
-    ofType: OfType2;
 }
 export interface Field {
     name: string;
     description: string;
     args: Arg[];
-    type: Type3;
+    type: OfType;
     isDeprecated: boolean;
     deprecationReason?: any;
-}
-export interface OfType6 {
-    kind: string;
-    name: string;
-    ofType?: any;
-}
-export interface OfType5 {
-    kind: string;
-    name: string;
-    ofType: OfType6;
-}
-export interface Type4 {
-    kind: string;
-    name: string;
-    ofType: OfType5;
 }
 export interface InputField {
     name: string;
     description?: any;
-    type: Type4;
+    type: OfType;
     defaultValue?: any;
 }
 export interface EnumValue {
@@ -85,32 +45,11 @@ export interface Type {
     enumValues: EnumValue[];
     possibleTypes?: any;
 }
-export interface OfType8 {
-    kind: string;
-    name: string;
-    ofType?: any;
-}
-export interface OfType7 {
-    kind: string;
-    name: string;
-    ofType: OfType8;
-}
-export interface Type5 {
-    kind: string;
-    name: string;
-    ofType: OfType7;
-}
-export interface Arg2 {
-    name: string;
-    description: string;
-    type: Type5;
-    defaultValue: string;
-}
 export interface Directive {
     name: string;
     description: string;
     locations: string[];
-    args: Arg2[];
+    args: Arg[];
 }
 export interface Schema {
     queryType: QueryType;

@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.1.9",
+  "version": "0.1.93",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -53,10 +53,10 @@
     "commander": "^2.20.0",
     "mkdirp": "^0.5.1",
     "ora": "^3.4.0",
-    "prettier": "^1.17.1",
+    "prettier": "^1.18.2",
     "querystringify": "^2.1.1",
     "rimraf": "^2.6.3",
-    "ts-optchain": "^0.1.7",
+    "ts-optchain": "^0.1.8",
     "typescript": "^3.6.3"
   },
   "dependencies": {
