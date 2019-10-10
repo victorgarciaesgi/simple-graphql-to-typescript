@@ -6,6 +6,7 @@ import * as prettier from 'prettier';
 import ora = require('ora');
 import fs from 'fs';
 import { GraphQLJSONSchema } from './schemaModel';
+import * as ts from 'typescript';
 
 interface generatePayload {
   endpoint?: string;
@@ -15,6 +16,7 @@ interface generatePayload {
   prefix?: string;
   suffix?: string;
   removeNodes?: boolean;
+  jsMode?: boolean;
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
 }
@@ -32,6 +34,7 @@ export async function sgtsGenerate({
   prefix,
   removeNodes,
   suffix,
+  jsMode,
   generateMethods,
 }: generatePayload): Promise<string> {
   try {
@@ -45,7 +48,7 @@ export async function sgtsGenerate({
         generateMethods
       );
 
-      const formatedString = await saveFile(generatedString, output);
+      const formatedString = await saveFile(generatedString, output, jsMode);
 
       return formatedString;
     } else {
@@ -61,7 +64,7 @@ export async function sgtsGenerate({
   }
 }
 
-function saveFile(template: string, output: string): Promise<string> {
+function saveFile(template: string, output: string, jsMode: boolean): Promise<string> {
   saveModels.start();
   return new Promise((res, rej) => {
     const formatedModelsFile = prettier.format(template, {
@@ -82,7 +85,35 @@ function saveFile(template: string, output: string): Promise<string> {
         rej('error in saving');
       } else {
         saveModels.succeed(`🗃 Typescript models saved at ${chalk.bold(`${output}`)}`);
-        res(formatedModelsFile);
+        if (jsMode) {
+          try {
+            compile([outputfile], {
+              module: ts.ModuleKind.CommonJS,
+              target: ts.ScriptTarget.ESNext,
+              moduleResolution: ts.ModuleResolutionKind.NodeJs,
+              allowSyntheticDefaultImports: true,
+              experimentalDecorators: true,
+              emitDecoratorMetadata: true,
+              resolveJsonModule: true,
+              esModuleInterop: true,
+              removeComments: true,
+              noImplicitAny: false,
+              noUnusedLocals: false,
+              pretty: true,
+              sourceMap: false,
+              downlevelIteration: true,
+              declaration: true,
+              skipLibCheck: true,
+              types: ['node'],
+            });
+            fs.unlinkSync(outputfile);
+            res(formatedModelsFile);
+          } catch (e) {
+            rej(e);
+          }
+        } else {
+          res(formatedModelsFile);
+        }
       }
     });
   });
@@ -97,4 +128,21 @@ async function fetchSchemas({ endpoint, header, json }): Promise<GraphQLJSONSche
   } else {
     return null;
   }
+}
+
+function compile(fileNames: string[], options: ts.CompilerOptions): void {
+  let program = ts.createProgram(fileNames, options);
+  let emitResult = program.emit();
+
+  let allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
+
+  allDiagnostics.forEach(diagnostic => {
+    if (diagnostic.file) {
+      let { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
+      let message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+      console.log(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+    } else {
+      console.log(`${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`);
+    }
+  });
 }

@@ -23,8 +23,9 @@ const sgts = () => {
     )
     .option(
       '-G, --generateMethods',
-      'Generate all your queries and mutations typed functions (Personal use for now)'
+      'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
+    .option('-J, --jsMode', 'Generate the methods in Js with declaration files instead of Ts')
     .option('-rmNodes, --removeNodes', 'Remove node property from all [edges] results')
     .option(
       '--customScalars <scalars>',
@@ -42,6 +43,7 @@ const sgts = () => {
     removeNodes,
     suffix,
     generateMethods,
+    jsMode,
   } = program;
   if (customScalars) {
     try {
@@ -62,6 +64,7 @@ const sgts = () => {
     removeNodes,
     suffix,
     generateMethods,
+    jsMode,
   });
 };
 
