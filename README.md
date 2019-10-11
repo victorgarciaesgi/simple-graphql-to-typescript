@@ -56,6 +56,14 @@ sgts
 | --removeNodes               | -rmNodes     | boolean                                      | Remove node property from all [edges] results (To use if you clean your requests) |
 
 
+## Roadmap
+
+I don't have much free time to develop feature I don't use, but feel free to send a PR!
+
+* [ ] Support Subscriptions
+* [ ] Split interfaces and methods into two sepeated files
+* [ ] Highlight new generated, modified or deleted types in terminal
+
 ## Simple usage exemple
 
 ```bash
@@ -191,3 +199,5 @@ sgts -h
 # License
 
 MIT
+
+Victor Garcia
