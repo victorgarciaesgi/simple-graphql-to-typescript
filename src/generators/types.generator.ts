@@ -24,9 +24,11 @@ export const getOneTSTypeDisplay = ({
   scalarList: { [x: string]: string };
 }): string => {
   const { isScalar, typeName, isArray } = evaluateType(field);
-  return isScalar
+  const returnedName = isScalar
     ? scalarList[typeName]
-    : `${prefix ? prefix : ''}${typeName}${suffix ? suffix : ''}${isArray ? '[]' : ''}`;
+    : `${prefix ? prefix : ''}${typeName}${suffix ? suffix : ''}`;
+
+  return returnedName + (isArray ? '[]' : '');
 };
 
 /** Generate interface fields (ex: ['firstName: string', 'birthDate: Date']) */
