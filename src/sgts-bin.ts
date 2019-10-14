@@ -9,10 +9,7 @@ const sgts = () => {
     .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
-    .option(
-      '-head, --header <header>',
-      'Additional header option to fetch your schema from endpoint'
-    )
+    .option('-H, --headers <header>', 'Additional header option to fetch your schema from endpoint')
     .option(
       '-p, --prefix <prefix>',
       'Add prefix to all your types (ex: User becomes IUser with --suffix I)'
@@ -38,7 +35,7 @@ const sgts = () => {
     json,
     output,
     customScalars,
-    header,
+    headers,
     prefix,
     removeNodes,
     suffix,
@@ -49,7 +46,7 @@ const sgts = () => {
     try {
       customScalars = JSON.parse(customScalars);
     } catch (e) {
-      console.error('Invalid custom scalars format');
+      console.error('Invalid custom scalars format, expected [{"myScalar": "MyType"} ...]');
       return;
     }
   }
@@ -59,7 +56,7 @@ const sgts = () => {
     json,
     output,
     customScalars,
-    header,
+    headers,
     prefix,
     removeNodes,
     suffix,

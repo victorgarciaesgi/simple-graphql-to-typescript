@@ -1,1 +1,1 @@
-export { sgtsGenerate } from './runtime';
+export { sgtsGenerate, fetchSchemas } from './runtime';

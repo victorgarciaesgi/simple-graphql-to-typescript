@@ -1,15 +1,17 @@
-import { buildMethod } from './helpers';
-import { GraphQLJSONSchema, Field } from './schemaModel';
+import { Field, GraphQLJSONSchema } from '../models/schema.models';
 import { oc } from 'ts-optchain';
+import { buildMethod } from '../generators/methods.generator';
 
 export const createMethods = async ({
   schema,
   prefix,
   suffix,
+  scalarList,
 }: {
   schema: GraphQLJSONSchema;
   prefix: string;
   suffix: string;
+  scalarList: { [x: string]: string };
 }) => {
   const QueryType = schema.__schema.queryType.name;
   const MutationType = schema.__schema.mutationType ? schema.__schema.mutationType.name : '';
@@ -28,7 +30,7 @@ export const createMethods = async ({
         little: 'query' as const,
         high: 'Query' as const,
       };
-      return buildMethod(query, type, prefix, suffix, objectTypes);
+      return buildMethod(query, type, prefix, suffix, objectTypes, scalarList);
     });
   const mutations = listMutations
     .filter(query => !/^_{1,2}/.test(query.name))
@@ -37,7 +39,7 @@ export const createMethods = async ({
         little: 'mutation' as const,
         high: 'Mutation' as const,
       };
-      return buildMethod(mutation, type, prefix, suffix, objectTypes);
+      return buildMethod(mutation, type, prefix, suffix, objectTypes, scalarList);
     });
 
   const finalMethods = `
@@ -48,6 +50,11 @@ export const createMethods = async ({
 
 
   export type AbordableQueryWithArgs<T, A> = {
+    $args(args: A): AbordableQuery<T>;
+    $abort(): void;
+  };
+
+  export type AbordableQueryWithOptionalArgs<T, A> = {
     $fetch(): Promise<T>;
     $args(args: A): AbordableQuery<T>;
     $abort(): void;
@@ -60,11 +67,19 @@ export const createMethods = async ({
   export interface FragmentableQueryWithArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbordableQueryWithArgs<T, A>;
   }
+  export interface FragmentableQueryWithOptionalArgs<T, A> {
+    $fragment(fragment: string | DocumentNode): AbordableQueryWithOptionalArgs<T, A>;
+  }
   export interface FragmentableQuery<T> {
     $fragment(fragment: string | DocumentNode): AbordableQuery<T>;
   }
   
   export type AbordableMutationWithArgs<T, A> = {
+    $args(args: A): AbordableMutation<T>;
+    $abort(): void;
+  };
+
+  export type AbordableMutationWithOptionalArgs<T, A> = {
     $post(): Promise<T>;
     $args(args: A): AbordableMutation<T>;
     $abort(): void;
@@ -77,6 +92,9 @@ export const createMethods = async ({
   
   export interface FragmentableMutationWithArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbordableMutationWithArgs<T, A>;
+  }
+  export interface FragmentableMutationWithOptionalArgs<T, A> {
+    $fragment(fragment: string | DocumentNode): AbordableMutationWithOptionalArgs<T, A>;
   }
   export interface FragmentableMutation<T> {
     $fragment(fragment: string | DocumentNode): AbordableMutation<T>;

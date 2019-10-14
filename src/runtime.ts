@@ -1,18 +1,18 @@
 import { generate } from './generateModel';
 import path from 'path';
-import { downloadSchema } from './getSchemas';
 import chalk from 'chalk';
 import * as prettier from 'prettier';
 import ora = require('ora');
 import fs from 'fs';
-import { GraphQLJSONSchema } from './schemaModel';
 import * as ts from 'typescript';
+import { GraphQLJSONSchema } from './models/schema.models';
+import { downloadSchema } from './utilities/provider';
 
 interface generatePayload {
   endpoint?: string;
   json?: string;
   output?: string;
-  header?: string;
+  headers?: string;
   prefix?: string;
   suffix?: string;
   removeNodes?: boolean;
@@ -30,15 +30,14 @@ export async function sgtsGenerate({
   json,
   output = './__generated.ts',
   customScalars,
-  header,
+  headers,
   prefix,
-  removeNodes,
   suffix,
   jsMode,
   generateMethods,
 }: generatePayload): Promise<string> {
   try {
-    const schema = await fetchSchemas({ endpoint, header, json });
+    const schema = await fetchSchemas({ endpoint, headers, json });
     if (schema) {
       const generatedString = await generate(
         schema,
@@ -119,9 +118,17 @@ function saveFile(template: string, output: string, jsMode: boolean): Promise<st
   });
 }
 
-async function fetchSchemas({ endpoint, header, json }): Promise<GraphQLJSONSchema> {
+export async function fetchSchemas({
+  endpoint,
+  headers,
+  json,
+}: {
+  endpoint: string;
+  headers: string;
+  json: string;
+}): Promise<GraphQLJSONSchema> {
   if (endpoint) {
-    const JSONschema = await downloadSchema(endpoint, header);
+    const JSONschema = await downloadSchema(endpoint, headers);
     return JSON.parse(JSONschema);
   } else if (json) {
     return require(path.resolve(process.cwd(), json));
@@ -132,5 +139,5 @@ async function fetchSchemas({ endpoint, header, json }): Promise<GraphQLJSONSche
 
 function compile(fileNames: string[], options: ts.CompilerOptions): void {
   let program = ts.createProgram(fileNames, options);
-  let emitResult = program.emit();
+  program.emit();
 }

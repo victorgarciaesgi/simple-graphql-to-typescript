@@ -1,9 +1,13 @@
 import ora from 'ora';
-import { createMethods } from './createMethods';
-import { getObjectTSInterfaces, getQueriesArgsTSInterfaces } from './helpers';
-import { GraphQLJSONSchema, Type, Field } from './schemaModel';
+import {
+  generateEnumType,
+  getObjectTSInterfaces,
+  getQueriesArgsTSInterfaces,
+} from './generators/types.generator';
+import { GraphQLJSONSchema, Field } from './models/schema.models';
+import { createMethods } from './builders/methods.builder';
 
-export let scalarList = {
+export let scalarList: { [x: string]: string } = {
   ID: 'string',
   String: 'string',
   Int: 'number',
@@ -21,17 +25,6 @@ const generatedTypes = {
 };
 
 const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
-
-const getEnumTypes = (object: Type, prefix: string, suffix: string) => {
-  let ObjectName: string = object.name;
-  const generatedFields = object.enumValues.map(field => {
-    return `| '${field.name}'`;
-  });
-  const generatedInterface = `type ${prefix ? prefix : ''}${ObjectName}${suffix ? suffix : ''} = 
-        ${generatedFields.join('\n')}
-    `;
-  return generatedInterface;
-};
 
 export const generate = (
   schema: GraphQLJSONSchema,
@@ -62,7 +55,7 @@ export const generate = (
         const oraMethods = ora('Generating queries and mutations...').start();
 
         try {
-          const methods = await createMethods({ schema, prefix, suffix });
+          const methods = await createMethods({ schema, prefix, suffix, scalarList });
           generatedTypes.METHODS = methods;
           oraMethods.succeed('🏗 Queries and mutations successfully generated');
         } catch (e) {
@@ -74,11 +67,11 @@ export const generate = (
       schemaTypes.forEach(item => {
         if (!/^_{1,2}/.test(item.name)) {
           if (['OBJECT', 'INPUT_OBJECT', 'INTERFACE'].includes(item.kind)) {
-            const generatedInterface = getObjectTSInterfaces(item, prefix, suffix);
+            const generatedInterface = getObjectTSInterfaces(item, prefix, suffix, scalarList);
             // generatedTypes.LOCAL_OBJECT.push(`${generatedInterface}`);
             generatedTypes.OBJECT.push(`export ${generatedInterface}`);
           } else if (item.kind === 'ENUM') {
-            const enumTypes = getEnumTypes(item, prefix, suffix);
+            const enumTypes = generateEnumType(item, prefix, suffix);
             generatedTypes.ENUM.push(`export ${enumTypes}`);
             // generatedTypes.LOCAL_ENUM.push(`${enumTypes}`);
           }
@@ -86,7 +79,7 @@ export const generate = (
       });
       [...listQueries, ...listMutations].forEach(item => {
         if (!/^_{1,2}/.test(item.name)) {
-          const generatedInterface = getQueriesArgsTSInterfaces(item, prefix, suffix);
+          const generatedInterface = getQueriesArgsTSInterfaces(item, prefix, suffix, scalarList);
           generatedTypes.METHODS_ARGS.push(`export ${generatedInterface}`);
         }
       });

@@ -71,3 +71,5 @@ export interface Schema {
 export interface GraphQLJSONSchema {
   __schema: Schema;
 }
+
+export type MethodType = { little: 'query' | 'mutation'; high: 'Query' | 'Mutation' };
