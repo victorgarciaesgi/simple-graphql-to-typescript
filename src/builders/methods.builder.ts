@@ -107,7 +107,7 @@ export const createMethods = async ({
     let fragmentName = '';
     if (typeof fragment === 'string') {
       isString = true;
-    } else if (fragment instanceof Object && fragment.definitions) {
+    } else if (typeof fragment === 'object' && fragment.definitions.length) {
       isFragment = true;
       const definition = fragment.definitions[0];
       if (definition.kind === 'FragmentDefinition') {
