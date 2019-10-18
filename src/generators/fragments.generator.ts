@@ -1,5 +1,5 @@
-import { Type, Field } from '../models/schema.models';
-import { evaluateType } from '../utilities/type.analyser';
+import { Type, Field } from '../models';
+import { evaluateType } from '../utilities';
 
 export const createConnectionFragment = (
   typeName: string,

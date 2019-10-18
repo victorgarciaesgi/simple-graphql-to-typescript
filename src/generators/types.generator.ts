@@ -1,5 +1,5 @@
-import { Field, InputField, Arg, Type } from '../models/schema.models';
-import { evaluateType } from '../utilities/type.analyser';
+import { Field, InputField, Arg, Type } from '../models';
+import { evaluateType } from '../utilities';
 
 export const generateEnumType = (object: Type, prefix: string, suffix: string): string => {
   let ObjectName: string = object.name;

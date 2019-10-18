@@ -5,8 +5,8 @@ import * as prettier from 'prettier';
 import ora = require('ora');
 import fs from 'fs';
 import * as ts from 'typescript';
-import { GraphQLJSONSchema } from './models/schema.models';
-import { downloadSchema } from './utilities/provider';
+import { GraphQLJSONSchema } from './models';
+import { downloadSchema } from './utilities';
 
 interface generatePayload {
   endpoint?: string;
@@ -15,10 +15,10 @@ interface generatePayload {
   headers?: string;
   prefix?: string;
   suffix?: string;
-  removeNodes?: boolean;
   jsMode?: boolean;
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
+  onlyDefinition: boolean;
 }
 const saveModels = ora('Saving models file...');
 
@@ -28,13 +28,14 @@ const saveModels = ora('Saving models file...');
 export async function sgtsGenerate({
   endpoint,
   json,
-  output = './__generated.ts',
+  output,
   customScalars,
   headers,
   prefix,
   suffix,
   jsMode,
   generateMethods,
+  onlyDefinition,
 }: generatePayload): Promise<string> {
   try {
     const schema = await fetchSchemas({ endpoint, headers, json });
@@ -44,10 +45,11 @@ export async function sgtsGenerate({
         prefix,
         suffix,
         customScalars,
-        generateMethods
+        generateMethods,
+        onlyDefinition
       );
 
-      const formatedString = await saveFile(generatedString, output, jsMode);
+      const formatedString = await saveFile(generatedString, output, jsMode, onlyDefinition);
 
       return formatedString;
     } else {
@@ -63,7 +65,12 @@ export async function sgtsGenerate({
   }
 }
 
-function saveFile(template: string, output: string, jsMode: boolean): Promise<string> {
+function saveFile(
+  template: string,
+  output: string = './__generated.ts',
+  jsMode: boolean,
+  onlyDefinition: boolean
+): Promise<string> {
   saveModels.start();
   return new Promise((res, rej) => {
     const formatedModelsFile = prettier.format(template, {

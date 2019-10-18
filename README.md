@@ -15,7 +15,6 @@
 I work a lot with GraphQL apis and typescript, and since now I was always writing by hand all my interfaces/enums and input types.
 I search many solutions for generating them for me (Apollo codegen, graphql-to-typescript ..etc ) but it was never the result I expected. I just wanted a single file with all my types in it, without complexity.
 
-
 ## **Installation**
 
 For global use
@@ -46,23 +45,23 @@ sgts
 | --------------------------- | ------------ | -------------------------------------------- | --------------------------------------------------------------------------------- |
 | --endpoint `<endpoint>`     | -e           | string(url)                                  | Your GraphQL api endpoint                                                         |
 | --json `<path to json>`     | -j           | string(path)                                 | Path to your json schema file                                                     |
-| --output `<path>`           | -o           | string(path) <br> *default* `./generated.ts` | Path where the file must be generated                                             |
-| --prefix `<prefix>`         | -p           | string <br> *default* `null`                 | Add prefix to all your types (ex: User becomes IUser with --prefix I)             |
-| --suffix `<suffix>`         | -s           | string <br> *default* `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model)     |
+| --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | Path where the file must be generated                                             |
+| --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | Add prefix to all your types (ex: User becomes IUser with --prefix I)             |
+| --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model)     |
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file           |
 | --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma)                |
-| --js                        | -jsMode      | boolean                                      | Generate the methods in Js with declaration files instead of Ts                   |
-| --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...}  (JSON)         |
+| --onlyDefinition            | -            | boolean                                      | Generate only the gql schema of the query                                         |
+| --js                        | -            | boolean                                      | Generate the methods in Js with declaration files instead of Ts                   |
+| --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...} (JSON)          |
 | --removeNodes               | -rmNodes     | boolean                                      | Remove node property from all [edges] results (To use if you clean your requests) |
-
 
 ## Roadmap
 
 I don't have much free time to develop feature I don't use, but feel free to send a PR!
 
-* [ ] Support Subscriptions
-* [ ] Split interfaces and methods into two sepeated files
-* [ ] Highlight new generated, modified or deleted types in terminal
+- [ ] Support Subscriptions
+- [ ] Split interfaces and methods into two sepeated files
+- [ ] Highlight new generated, modified or deleted types in terminal
 
 ## Simple usage exemple
 
@@ -70,7 +69,7 @@ I don't have much free time to develop feature I don't use, but feel free to sen
 sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -o generated.ts
 ```
 
-*Generated result*
+_Generated result_
 
 ```typescript
 ...
@@ -115,7 +114,6 @@ try it with
 sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -G
 ```
 
-
 ```typescript
 const apolloClient = new ApolloClient({
   ...
@@ -133,15 +131,13 @@ commentsQuery.$abort();
 
 ```
 
-
-
 ## Advanced Usage exemple
 
 ```bash
 sgts --endpoint https://json-placeholder-graphql.herokuapp.com/graphql --output generated.ts --prefix I --suffix Model
 ```
 
-*Generated result*
+_Generated result_
 
 ```typescript
 ...
@@ -187,14 +183,11 @@ await sgtsGenerate({
 });
 ```
 
-
-
 ## Help
 
 ```bash
 sgts -h
 ```
-
 
 # License
 

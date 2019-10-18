@@ -1,4 +1,4 @@
-import { GraphQLJSONSchema } from './models/schema.models';
+import { GraphQLJSONSchema } from './models';
 interface generatePayload {
     endpoint?: string;
     json?: string;
@@ -6,14 +6,14 @@ interface generatePayload {
     headers?: string;
     prefix?: string;
     suffix?: string;
-    removeNodes?: boolean;
     jsMode?: boolean;
     customScalars?: {
         [x: string]: string;
     };
     generateMethods?: boolean;
+    onlyDefinition: boolean;
 }
-export declare function sgtsGenerate({ endpoint, json, output, customScalars, headers, prefix, suffix, jsMode, generateMethods, }: generatePayload): Promise<string>;
+export declare function sgtsGenerate({ endpoint, json, output, customScalars, headers, prefix, suffix, jsMode, generateMethods, onlyDefinition, }: generatePayload): Promise<string>;
 export declare function fetchSchemas({ endpoint, headers, json, }: {
     endpoint: string;
     headers: string;

@@ -1,11 +1,7 @@
 import ora from 'ora';
-import {
-  generateEnumType,
-  getObjectTSInterfaces,
-  getQueriesArgsTSInterfaces,
-} from './generators/types.generator';
-import { GraphQLJSONSchema, Field } from './models/schema.models';
-import { createMethods } from './builders/methods.builder';
+import { generateEnumType, getObjectTSInterfaces, getQueriesArgsTSInterfaces } from './generators';
+import { GraphQLJSONSchema, Field } from './models';
+import { createMethods } from './builders';
 
 export let scalarList: { [x: string]: string } = {
   ID: 'string',
@@ -31,7 +27,8 @@ export const generate = (
   prefix: string,
   suffix: string,
   customScalars: { [x: string]: string },
-  generateMethods?: boolean
+  generateMethods?: boolean,
+  onlyDefinition?: boolean
 ): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     if (customScalars) {
@@ -55,7 +52,13 @@ export const generate = (
         const oraMethods = ora('Generating queries and mutations...').start();
 
         try {
-          const methods = await createMethods({ schema, prefix, suffix, scalarList });
+          const methods = await createMethods({
+            schema,
+            prefix,
+            suffix,
+            scalarList,
+            onlyDefinition,
+          });
           generatedTypes.METHODS = methods;
           oraMethods.succeed('🏗 Queries and mutations successfully generated');
         } catch (e) {
@@ -109,9 +112,9 @@ export const generate = (
     const modelsTemplate = `
       ${signature}
 
-      ${generatedTypes.OBJECT.join('\n')}
-      ${generatedTypes.ENUM.join('\n')}
-      ${generatedTypes.METHODS_ARGS.join('\n')}
+      ${!onlyDefinition ? generatedTypes.OBJECT.join('\n') : ''}
+      ${!onlyDefinition ? generatedTypes.ENUM.join('\n') : ''}
+      ${!onlyDefinition ? generatedTypes.METHODS_ARGS.join('\n') : ''}
       ${generateMethods ? generatedTypes.METHODS : ''}
     `;
 

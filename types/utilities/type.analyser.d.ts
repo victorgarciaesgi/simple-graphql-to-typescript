@@ -1,4 +1,4 @@
-import { Field, InputField, Arg, Type } from '../models/schema.models';
+import { Field, InputField, Arg, Type } from '../models';
 export declare const evaluateType: (field: Arg | Field | InputField) => {
     isOptional: boolean;
     isArray: boolean;

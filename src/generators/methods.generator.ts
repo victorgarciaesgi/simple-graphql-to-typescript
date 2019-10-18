@@ -1,7 +1,8 @@
-import { Field, Type, Arg, MethodType } from '../models/schema.models';
+import { Field, Type, Arg, MethodType } from '../models';
 import { getOneTSTypeDisplay, generateQGLArg } from './types.generator';
-import { evaluateType, isReturnTypeEdge, areAllArgsOptional } from '../utilities/type.analyser';
+import { evaluateType, isReturnTypeEdge, areAllArgsOptional } from '../utilities';
 import { createConnectionFragment } from './fragments.generator';
+import { queryBuilder } from './query.generator';
 
 export const createMethodsArgs = (
   field: Field,
@@ -44,6 +45,7 @@ interface ScalarArgs {
   ObjectTypes: Type[];
   type: MethodType;
   scalarList: { [x: string]: string };
+  renderedFragmentInner: string;
 }
 
 export const createGraphQLFunction = ({
@@ -53,45 +55,46 @@ export const createGraphQLFunction = ({
   suffix,
   type,
   scalarList,
+  renderedFragmentInner,
 }: ScalarArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
-  const fragmentDisplay = `\${isString ? fragment : '...' + fragmentName}`;
 
-  const { GQLArgs, GQLVariables, methodArgsType } = createMethodsArgs(field, prefix, suffix);
-  const { isScalar, isEnum, typeName } = evaluateType(field);
+  const { methodArgsType } = createMethodsArgs(field, prefix, suffix);
+  const { isScalar } = evaluateType(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({ field, prefix, suffix, scalarList });
 
-  let renderedFragmentInner = fragmentDisplay;
-  if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
-    renderedFragmentInner = createConnectionFragment(typeName, ObjectTypes, fragmentDisplay);
-  }
+  const Query = queryBuilder({ field, isScalar, prefix, suffix, renderedFragmentInner, type });
+
+  const withArgs = hasArgs
+    ? areAllArgsOptional(field.args)
+      ? 'WithOptionalArgs'
+      : 'WithArgs'
+    : '';
 
   if (isScalar) {
     return `
-    const ${type.little} = graphQlTag\`
-      ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
-        ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
-      }\`,
+    ${methodName}(): Abordable${type.high}${withArgs}<${returnedTypeDisplay}${
+      hasArgs ? ',' + methodArgsType : ''
+    }> {
+      const ${type.little} = ${Query}
     return abortable${type.high}(${type.little}, ${hasArgs}) as any;
-  `;
+        }
+    ,`;
   } else {
-    return `
+    return `${methodName}(): Fragmentable${type.high}${withArgs}<${returnedTypeDisplay}${
+      hasArgs ? ',' + methodArgsType : ''
+    }> {
     return {
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-        const ${type.little} = graphQlTag\`
-          ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
-            ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
-              ${renderedFragmentInner}
-            }
-          } \${isFragment? fragment: ''}
-          \`
+        const ${type.little} = ${Query}
 
         return abortable${type.high}(${type.little}, ${hasArgs}) as any;
       }
     }
-  `;
+      }
+  ,`;
   }
 };
 
@@ -101,48 +104,27 @@ export const buildMethod = (
   prefix: string,
   suffix: string,
   ObjectTypes: Type[],
-  scalarList: { [x: string]: string }
+  scalarList: { [x: string]: string },
+  onlyDefinition: boolean
 ) => {
-  const hasArgs = field.args.length > 0;
-  const methodName = field.name;
+  const { isScalar, isEnum, typeName } = evaluateType(field);
 
-  const { isScalar } = evaluateType(field);
-  const { methodArgsType } = createMethodsArgs(field, prefix, suffix);
-  const returnedTypeDisplay = getOneTSTypeDisplay({ field, prefix, suffix, scalarList });
-
-  const genereratedFunction = createGraphQLFunction({
-    ObjectTypes,
-    field,
-    prefix,
-    suffix,
-    type,
-    scalarList,
-  });
-
-  const withArgs = hasArgs
-    ? areAllArgsOptional(field.args)
-      ? 'WithOptionalArgs'
-      : 'WithArgs'
-    : '';
-
-  const template = `
-    ${methodName}(): ${
-    isScalar
-      ? `Abordable${type.high}${withArgs}<${returnedTypeDisplay}${
-          hasArgs ? ',' + methodArgsType : ''
-        }>`
-      : `Fragmentable${type.high}${withArgs}<${returnedTypeDisplay}${
-          hasArgs ? ',' + methodArgsType : ''
-        }>`
-  } {
-        ${genereratedFunction}
-      }
-    ,`;
-  return template;
-};
-
-const lol = {
-  me(): string {
-    return '';
-  },
+  const fragmentDisplay = `\${isString ? fragment : '...' + fragmentName}`;
+  let renderedFragmentInner = fragmentDisplay;
+  if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
+    renderedFragmentInner = createConnectionFragment(typeName, ObjectTypes, fragmentDisplay);
+  }
+  if (onlyDefinition) {
+    return queryBuilder({ field, prefix, suffix, type, isScalar, renderedFragmentInner });
+  } else {
+    return createGraphQLFunction({
+      ObjectTypes,
+      field,
+      prefix,
+      suffix,
+      type,
+      scalarList,
+      renderedFragmentInner,
+    });
+  }
 };

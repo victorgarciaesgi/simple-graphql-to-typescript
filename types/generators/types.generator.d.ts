@@ -1,4 +1,4 @@
-import { Field, InputField, Arg, Type } from '../models/schema.models';
+import { Field, InputField, Arg, Type } from '../models';
 export declare const generateEnumType: (object: Type, prefix: string, suffix: string) => string;
 export declare const getOneTSTypeDisplay: ({ field, prefix, suffix, scalarList, }: {
     field: Arg | Field | InputField;

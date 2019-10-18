@@ -1,4 +1,4 @@
-import { Field, InputField, Arg, OfType, Type } from '../models/schema.models';
+import { Field, InputField, Arg, OfType, Type } from '../models';
 
 /** Get strucuture properties from a field */
 export const evaluateType = (field: Field | InputField | Arg) => {

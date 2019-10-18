@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.2.1",
+  "version": "0.2.31",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -49,9 +49,7 @@
   "devDependencies": {
     "@types/graphql": "^14.5.0",
     "@types/node": "^12.7.12",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^3.0.0",
-    "ts-optchain": "^0.1.8"
+    "rimraf": "^3.0.0"
   },
   "dependencies": {
     "apollo-client": "^2.6.4",
@@ -62,6 +60,8 @@
     "typescript": "^3.6.4",
     "commander": "^3.0.2",
     "chalk": "^2.4.2",
-    "ora": "^4.0.2"
+    "ora": "^4.0.2",
+    "mkdirp": "^0.5.1",
+    "ts-optchain": "^0.1.8"
   }
 }

@@ -1,2 +1,2 @@
-import { Type } from '../models/schema.models';
+import { Type } from '../models';
 export declare const createConnectionFragment: (typeName: string, allTypes: Type[], fragment: string) => string;

@@ -22,8 +22,8 @@ const sgts = () => {
       '-G, --generateMethods',
       'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
+    .option('--onlyDefinition', 'Generate only the gql schema of the query')
     .option('-J, --jsMode', 'Generate the methods in Js with declaration files instead of Ts')
-    .option('-rmNodes, --removeNodes', 'Remove node property from all [edges] results')
     .option(
       '--customScalars <scalars>',
       'Provide your custum scalars in format [{"myScalar": "MyType"} ...]'
@@ -37,10 +37,10 @@ const sgts = () => {
     customScalars,
     headers,
     prefix,
-    removeNodes,
     suffix,
     generateMethods,
     jsMode,
+    onlyDefinition,
   } = program;
   if (customScalars) {
     try {
@@ -58,10 +58,10 @@ const sgts = () => {
     customScalars,
     headers,
     prefix,
-    removeNodes,
     suffix,
     generateMethods,
     jsMode,
+    onlyDefinition,
   });
 };
 
