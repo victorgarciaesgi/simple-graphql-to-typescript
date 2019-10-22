@@ -51,6 +51,7 @@ sgts
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file           |
 | --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma)                |
 | --onlyDefinition            | -            | boolean                                      | Generate only the gql schema of the query                                         |
+| --apolloHooks               | -A           | boolean                                      | Generate useMutation and useQuery hooks typed                                     |
 | --js                        | -            | boolean                                      | Generate the methods in Js with declaration files instead of Ts                   |
 | --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...} (JSON)          |
 | --removeNodes               | -rmNodes     | boolean                                      | Remove node property from all [edges] results (To use if you clean your requests) |
@@ -129,6 +130,20 @@ commentsQuery.$args({postId: 5}).$fetch().then(data => console.log(data))
 
 commentsQuery.$abort();
 
+```
+
+# Generating hooks using Apollo React hooks
+
+```bash
+sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -G -A
+```
+
+```typescript
+const Hello = () => {
+  const { loading, error, data } = usePosts(`id title`);
+  if (loading) return <p>Loading ...</p>;
+  return <h1>Hello {data.posts.title}!</h1>;
+};
 ```
 
 ## Advanced Usage exemple

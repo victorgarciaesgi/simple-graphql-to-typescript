@@ -28,7 +28,9 @@ export const generate = (
   suffix: string,
   customScalars: { [x: string]: string },
   generateMethods?: boolean,
-  onlyDefinition?: boolean
+  onlyDefinition?: boolean,
+  jsMode?: boolean,
+  apolloHooks?: boolean
 ): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     if (customScalars) {
@@ -58,6 +60,7 @@ export const generate = (
             suffix,
             scalarList,
             onlyDefinition,
+            apolloHooks,
           });
           generatedTypes.METHODS = methods;
           oraMethods.succeed('🏗 Queries and mutations successfully generated');
@@ -112,9 +115,9 @@ export const generate = (
     const modelsTemplate = `
       ${signature}
 
-      ${!onlyDefinition ? generatedTypes.OBJECT.join('\n') : ''}
-      ${!onlyDefinition ? generatedTypes.ENUM.join('\n') : ''}
-      ${!onlyDefinition ? generatedTypes.METHODS_ARGS.join('\n') : ''}
+      ${onlyDefinition && jsMode ? '' : generatedTypes.OBJECT.join('\n')}
+      ${onlyDefinition && jsMode ? '' : generatedTypes.ENUM.join('\n')}
+      ${onlyDefinition && jsMode ? '' : generatedTypes.METHODS_ARGS.join('\n')}
       ${generateMethods ? generatedTypes.METHODS : ''}
     `;
 

@@ -22,22 +22,17 @@ export const queryBuilder = ({
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
   if (isScalar) {
-    return `${methodName}() {
-      return graphQlTag\`
+    return `graphQlTag\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
-      }\`
-    },`;
+      }\``;
   } else {
-    return `${methodName}(fragment: string | DocumentNode) {
-      const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-      return graphQlTag\`
+    return ` graphQlTag\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${renderedFragmentInner}
         }
       } \${isFragment? fragment: ''}
-      \`
-    },`;
+      \``;
   }
 };

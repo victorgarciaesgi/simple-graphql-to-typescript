@@ -1,7 +1,7 @@
 import { Field, GraphQLJSONSchema } from '../models';
 import { oc } from 'ts-optchain';
 import { buildMethod } from '../generators';
-import { withApolloTemplate, withDefinitionsTemplate } from '../templates';
+import { withApolloTemplate, withDefinitionsTemplate, withHooksTemplate } from '../templates';
 
 export const createMethods = async ({
   schema,
@@ -9,12 +9,14 @@ export const createMethods = async ({
   suffix,
   scalarList,
   onlyDefinition,
+  apolloHooks,
 }: {
   schema: GraphQLJSONSchema;
   prefix: string;
   suffix: string;
   scalarList: { [x: string]: string };
   onlyDefinition: boolean;
+  apolloHooks: boolean;
 }) => {
   const QueryType = schema.__schema.queryType.name;
   const MutationType = schema.__schema.mutationType ? schema.__schema.mutationType.name : '';
@@ -33,7 +35,16 @@ export const createMethods = async ({
         little: 'query' as const,
         high: 'Query' as const,
       };
-      return buildMethod(query, type, prefix, suffix, objectTypes, scalarList, onlyDefinition);
+      return buildMethod(
+        query,
+        type,
+        prefix,
+        suffix,
+        objectTypes,
+        scalarList,
+        onlyDefinition,
+        apolloHooks
+      );
     });
   const mutations = listMutations
     .filter(query => !/^_{1,2}/.test(query.name))
@@ -42,11 +53,22 @@ export const createMethods = async ({
         little: 'mutation' as const,
         high: 'Mutation' as const,
       };
-      return buildMethod(mutation, type, prefix, suffix, objectTypes, scalarList, onlyDefinition);
+      return buildMethod(
+        mutation,
+        type,
+        prefix,
+        suffix,
+        objectTypes,
+        scalarList,
+        onlyDefinition,
+        apolloHooks
+      );
     });
 
   if (onlyDefinition) {
     return withDefinitionsTemplate(queries, mutations);
+  } else if (apolloHooks) {
+    return withHooksTemplate(queries, mutations);
   } else {
     return withApolloTemplate(queries, mutations);
   }

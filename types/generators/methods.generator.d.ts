@@ -4,7 +4,7 @@ export declare const createMethodsArgs: (field: Field, prefix: string, suffix: s
     GQLArgs: string[];
     methodArgsType: string;
 };
-interface ScalarArgs {
+interface graphQLFunctionArgs {
     field: Field;
     prefix: string;
     suffix: string;
@@ -15,8 +15,8 @@ interface ScalarArgs {
     };
     renderedFragmentInner: string;
 }
-export declare const createGraphQLFunction: ({ field, ObjectTypes, prefix, suffix, type, scalarList, renderedFragmentInner, }: ScalarArgs) => string;
+export declare const createGraphQLFunction: ({ field, ObjectTypes, prefix, suffix, type, scalarList, renderedFragmentInner, }: graphQLFunctionArgs) => string;
 export declare const buildMethod: (field: Field, type: MethodType, prefix: string, suffix: string, ObjectTypes: Type[], scalarList: {
     [x: string]: string;
-}, onlyDefinition: boolean) => string;
+}, onlyDefinition: boolean, apolloHooks: boolean) => string;
 export {};

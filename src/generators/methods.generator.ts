@@ -3,6 +3,7 @@ import { getOneTSTypeDisplay, generateQGLArg } from './types.generator';
 import { evaluateType, isReturnTypeEdge, areAllArgsOptional } from '../utilities';
 import { createConnectionFragment } from './fragments.generator';
 import { queryBuilder } from './query.generator';
+import { createApolloHook } from './hooks.generator';
 
 export const createMethodsArgs = (
   field: Field,
@@ -38,7 +39,7 @@ export const createMethodsArgs = (
   };
 };
 
-interface ScalarArgs {
+interface graphQLFunctionArgs {
   field: Field;
   prefix: string;
   suffix: string;
@@ -56,7 +57,7 @@ export const createGraphQLFunction = ({
   type,
   scalarList,
   renderedFragmentInner,
-}: ScalarArgs): string => {
+}: graphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
 
@@ -105,7 +106,8 @@ export const buildMethod = (
   suffix: string,
   ObjectTypes: Type[],
   scalarList: { [x: string]: string },
-  onlyDefinition: boolean
+  onlyDefinition: boolean,
+  apolloHooks: boolean
 ) => {
   const { isScalar, isEnum, typeName } = evaluateType(field);
 
@@ -116,6 +118,16 @@ export const buildMethod = (
   }
   if (onlyDefinition) {
     return queryBuilder({ field, prefix, suffix, type, isScalar, renderedFragmentInner });
+  } else if (apolloHooks) {
+    return createApolloHook({
+      ObjectTypes,
+      field,
+      prefix,
+      suffix,
+      type,
+      scalarList,
+      renderedFragmentInner,
+    });
   } else {
     return createGraphQLFunction({
       ObjectTypes,

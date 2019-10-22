@@ -19,6 +19,7 @@ interface generatePayload {
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
   onlyDefinition: boolean;
+  apolloHooks: boolean;
 }
 const saveModels = ora('Saving models file...');
 
@@ -36,6 +37,7 @@ export async function sgtsGenerate({
   jsMode,
   generateMethods,
   onlyDefinition,
+  apolloHooks,
 }: generatePayload): Promise<string> {
   try {
     const schema = await fetchSchemas({ endpoint, headers, json });
@@ -46,7 +48,9 @@ export async function sgtsGenerate({
         suffix,
         customScalars,
         generateMethods,
-        onlyDefinition
+        onlyDefinition,
+        jsMode,
+        apolloHooks
       );
 
       const formatedString = await saveFile(generatedString, output, jsMode, onlyDefinition);
