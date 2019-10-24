@@ -7,7 +7,6 @@ import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
 import { printSchema } from 'graphql/utilities/schemaPrinter';
 
 export const downloadSchema = async (endpoint: string, header: string): Promise<string> => {
-  console.log('\n');
   const download = ora(`⬇️ Downloading schemas from ${chalk.blue(endpoint)}`).start();
   try {
     let formatedHeaders = getHeadersFromInput(header);
@@ -28,8 +27,10 @@ export const downloadSchema = async (endpoint: string, header: string): Promise<
       return schema.schema;
     }
   } catch (e) {
-    download.fail(e.message);
-    console.log(e);
+    download.fail();
+    return Promise.reject(
+      'Unable to request from the GraphQL Api, please verify that the server is online'
+    );
   }
 };
 
@@ -87,6 +88,6 @@ async function getRemoteSchema(
       };
     }
   } catch (err) {
-    return { status: 'err', message: err.message };
+    return Promise.reject();
   }
 }

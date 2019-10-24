@@ -11,8 +11,8 @@ interface generatePayload {
         [x: string]: string;
     };
     generateMethods?: boolean;
-    onlyDefinition: boolean;
-    apolloHooks: boolean;
+    onlyDefinition?: boolean;
+    apolloHooks?: boolean;
 }
 export declare function sgtsGenerate({ endpoint, json, output, customScalars, headers, prefix, suffix, jsMode, generateMethods, onlyDefinition, apolloHooks, }: generatePayload): Promise<string>;
 export declare function fetchSchemas({ endpoint, headers, json, }: {

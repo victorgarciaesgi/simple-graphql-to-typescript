@@ -2,6 +2,7 @@
 
 import program from 'commander';
 import { sgtsGenerate } from './runtime';
+import chalk from 'chalk';
 
 const sgts = () => {
   program
@@ -48,24 +49,32 @@ const sgts = () => {
     try {
       customScalars = JSON.parse(customScalars);
     } catch (e) {
-      console.error('Invalid custom scalars format, expected [{"myScalar": "MyType"} ...]');
+      console.error(
+        chalk.red('Invalid custom scalars format, expected [{"myScalar": "MyType"} ...]')
+      );
       return;
     }
   }
 
-  sgtsGenerate({
-    endpoint,
-    json,
-    output,
-    customScalars,
-    headers,
-    prefix,
-    suffix,
-    generateMethods,
-    jsMode,
-    onlyDefinition,
-    apolloHooks,
-  });
+  try {
+    sgtsGenerate({
+      endpoint,
+      json,
+      output,
+      customScalars,
+      headers,
+      prefix,
+      suffix,
+      generateMethods,
+      jsMode,
+      onlyDefinition,
+      apolloHooks,
+    });
+  } catch (e) {
+    return;
+  }
 };
 
-sgts();
+try {
+  sgts();
+} catch (e) {}

@@ -18,8 +18,8 @@ interface generatePayload {
   jsMode?: boolean;
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
-  onlyDefinition: boolean;
-  apolloHooks: boolean;
+  onlyDefinition?: boolean;
+  apolloHooks?: boolean;
 }
 const saveModels = ora('Saving models file...');
 
@@ -40,6 +40,7 @@ export async function sgtsGenerate({
   apolloHooks,
 }: generatePayload): Promise<string> {
   try {
+    console.log('');
     const schema = await fetchSchemas({ endpoint, headers, json });
     if (schema) {
       const generatedString = await generate(
@@ -64,8 +65,7 @@ export async function sgtsGenerate({
       );
     }
   } catch (e) {
-    Promise.reject(e);
-    console.log(e);
+    console.error(chalk.red(e));
   }
 }
 
@@ -138,13 +138,28 @@ export async function fetchSchemas({
   headers: string;
   json: string;
 }): Promise<GraphQLJSONSchema> {
-  if (endpoint) {
-    const JSONschema = await downloadSchema(endpoint, headers);
-    return JSON.parse(JSONschema);
-  } else if (json) {
-    return require(path.resolve(process.cwd(), json));
-  } else {
-    return null;
+  try {
+    if (endpoint) {
+      const graphqlRegxp = /[^\/]+(?=\/$|$)/;
+      const [result] = graphqlRegxp.exec(endpoint);
+
+      if (result === 'graphql') {
+        const JSONschema = await downloadSchema(endpoint, headers);
+        return JSON.parse(JSONschema);
+      } else {
+        return Promise.reject(
+          ` ⛔️ The endpoint is not a GraphQl Api, try to add ${chalk.green(
+            '/graphql'
+          )} at the end of your url`
+        );
+      }
+    } else if (json) {
+      return require(path.resolve(process.cwd(), json));
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return Promise.reject(e);
   }
 }
 
