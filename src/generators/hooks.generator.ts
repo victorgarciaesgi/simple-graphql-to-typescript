@@ -40,7 +40,9 @@ export const createApolloHook = ({
     return `
     use${capitalize(field.name)}()  {
       const ${type.little} = ${Query}
-      return use${type.high}<{${methodName}: ${returnedTypeDisplay}}>(${type.little});
+      return use${type.high}<{${methodName}: ${returnedTypeDisplay}}${
+      hasArgs ? ', ' + methodArgsType : ''
+    }>(${type.little});
       }
     ,`;
   } else {
