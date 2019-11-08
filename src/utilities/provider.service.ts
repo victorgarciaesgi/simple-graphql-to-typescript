@@ -5,6 +5,8 @@ import * as query from 'querystringify';
 import { introspectionQuery } from 'graphql/utilities/introspectionQuery';
 import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
 import { printSchema } from 'graphql/utilities/schemaPrinter';
+import { GraphQLJSONSchema } from '../models';
+import path from 'path';
 
 export const downloadSchema = async (endpoint: string, header: string): Promise<string> => {
   const download = ora(`⬇️ Downloading schemas from ${chalk.blue(endpoint)}`).start();
@@ -89,5 +91,39 @@ async function getRemoteSchema(
     }
   } catch (err) {
     return Promise.reject();
+  }
+}
+
+export async function fetchSchemas({
+  endpoint,
+  headers,
+  json,
+}: {
+  endpoint: string;
+  headers: string;
+  json: string;
+}): Promise<GraphQLJSONSchema> {
+  try {
+    if (endpoint) {
+      const graphqlRegxp = /[^\/]+(?=\/$|$)/;
+      const [result] = graphqlRegxp.exec(endpoint);
+
+      if (result === 'graphql') {
+        const JSONschema = await downloadSchema(endpoint, headers);
+        return JSON.parse(JSONschema);
+      } else {
+        return Promise.reject(
+          ` ⛔️ The endpoint is not a GraphQl Api, try to add ${chalk.green(
+            '/graphql'
+          )} at the end of your url`
+        );
+      }
+    } else if (json) {
+      return require(path.resolve(process.cwd(), json));
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return Promise.reject(e);
   }
 }

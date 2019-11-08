@@ -18,5 +18,5 @@ interface graphQLFunctionArgs {
 export declare const createGraphQLFunction: ({ field, ObjectTypes, prefix, suffix, type, scalarList, renderedFragmentInner, }: graphQLFunctionArgs) => string;
 export declare const buildMethod: (field: Field, type: MethodType, prefix: string, suffix: string, ObjectTypes: Type[], scalarList: {
     [x: string]: string;
-}, onlyDefinition: boolean, apolloHooks: boolean) => string;
+}, withGqlQueries: boolean, apolloHooks: boolean) => string;
 export {};

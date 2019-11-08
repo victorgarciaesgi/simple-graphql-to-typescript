@@ -4,4 +4,4 @@ export declare let scalarList: {
 };
 export declare const generate: (schema: GraphQLJSONSchema, prefix: string, suffix: string, customScalars: {
     [x: string]: string;
-}, generateMethods?: boolean, onlyDefinition?: boolean, jsMode?: boolean, apolloHooks?: boolean) => Promise<string>;
+}, generateMethods?: boolean, apolloHooks?: boolean, withGqlQueries?: boolean) => Promise<string>;

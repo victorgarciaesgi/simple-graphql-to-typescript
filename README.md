@@ -52,7 +52,6 @@ sgts
 | --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | Add prefix to all your types (ex: User becomes IUser with --prefix I)         |
 | --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model) |
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file       |
-| --onlyDefinition            | -            | boolean                                      | Generate only the gql schema of the query                                     |
 | --jsMode                    | -J           | boolean                                      | Generate the methods in Js with declaration files instead of Ts               |
 
 ## Roadmap

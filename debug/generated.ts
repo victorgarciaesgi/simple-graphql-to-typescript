@@ -95,6 +95,7 @@ export interface Mutation {
   registerWithFacebook: LoginPayload;
   forgotPassword?: boolean;
   resetPassword: LoginPayload;
+  updateProfile: User;
   createGoal: Goal;
   createTraining: Training;
   completeTraining: Training;
@@ -122,6 +123,7 @@ export interface RegisterInput {
   password: string;
   confirmPassword: string;
   profilePicture?: string;
+  location: string;
 }
 
 export interface RegisterFacebookInput {
@@ -132,6 +134,7 @@ export interface RegisterFacebookInput {
   weight: number;
   height: number;
   profilePicture?: string;
+  location: string;
 }
 
 export interface ForgotPasswordInput {
@@ -142,6 +145,17 @@ export interface ResetPasswordInput {
   resetPasswordToken: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface UpdateProfileInput {
+  name?: string;
+  surname?: string;
+  birth?: undefined;
+  gender?: UserGender;
+  weight?: number;
+  height?: number;
+  profilePicture?: string;
+  location?: string;
 }
 
 export interface CreateGoalInput {
@@ -250,6 +264,10 @@ export interface resetPasswordArgs {
   data: ResetPasswordInput;
 }
 
+export interface updateProfileArgs {
+  data: UpdateProfileInput;
+}
+
 export interface createGoalArgs {
   data: CreateGoalInput;
 }
@@ -268,7 +286,7 @@ export interface setTrainingReactionArgs {
 
 import { DocumentNode } from 'graphql';
 import graphQlTag from 'graphql-tag';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery, QueryHookOptions, MutationHookOptions } from '@apollo/react-hooks';
 
 const guessFragmentType = (fragment: string | DocumentNode) => {
   let isString,
@@ -292,7 +310,7 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
 };
 
 export const ApiHooks = {
-  useMe(fragment: string | DocumentNode) {
+  useMe(fragment: string | DocumentNode, options: QueryHookOptions<{ me: User }>) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query me  {
@@ -302,16 +320,19 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useQuery<{ me: User }>(query);
+    return useQuery<{ me: User }>(query, options);
   },
-  useEmailExists() {
+  useEmailExists(options: QueryHookOptions<{ emailExists: boolean }, emailExistsArgs>) {
     const query = graphQlTag`
       query emailExists ($data: EmailExistsInput!) {
         emailExists(data: $data)
       }`;
-    return useQuery<{ emailExists: boolean }>(query);
+    return useQuery<{ emailExists: boolean }, emailExistsArgs>(query, options);
   },
-  useGetCurrentGoal(fragment: string | DocumentNode) {
+  useGetCurrentGoal(
+    fragment: string | DocumentNode,
+    options: QueryHookOptions<{ getCurrentGoal: Goal }>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query getCurrentGoal  {
@@ -321,9 +342,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useQuery<{ getCurrentGoal: Goal }>(query);
+    return useQuery<{ getCurrentGoal: Goal }>(query, options);
   },
-  useGetLastTrainings(fragment: string | DocumentNode) {
+  useGetLastTrainings(
+    fragment: string | DocumentNode,
+    options: QueryHookOptions<{ getLastTrainings: TrainingConnection }, getLastTrainingsArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query getLastTrainings ($take: Int) {
@@ -339,9 +363,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useQuery<{ getLastTrainings: TrainingConnection }, getLastTrainingsArgs>(query);
+    return useQuery<{ getLastTrainings: TrainingConnection }, getLastTrainingsArgs>(query, options);
   },
-  useGetTrainings(fragment: string | DocumentNode) {
+  useGetTrainings(
+    fragment: string | DocumentNode,
+    options: QueryHookOptions<{ getTrainings: TrainingConnection }, getTrainingsArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query getTrainings ($take: Int,$skip: Int) {
@@ -357,9 +384,15 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useQuery<{ getTrainings: TrainingConnection }, getTrainingsArgs>(query);
+    return useQuery<{ getTrainings: TrainingConnection }, getTrainingsArgs>(query, options);
   },
-  useGetMonthlyCalendarActivities(fragment: string | DocumentNode) {
+  useGetMonthlyCalendarActivities(
+    fragment: string | DocumentNode,
+    options: QueryHookOptions<
+      { getMonthlyCalendarActivities: CalendarActivity[] },
+      getMonthlyCalendarActivitiesArgs
+    >
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query getMonthlyCalendarActivities ($date: Date!) {
@@ -372,9 +405,12 @@ export const ApiHooks = {
     return useQuery<
       { getMonthlyCalendarActivities: CalendarActivity[] },
       getMonthlyCalendarActivitiesArgs
-    >(query);
+    >(query, options);
   },
-  useLogin(fragment: string | DocumentNode) {
+  useLogin(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ login: LoginPayload }, loginArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation login ($data: LoginInput!) {
@@ -384,9 +420,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ login: LoginPayload }, loginArgs>(mutation);
+    return useMutation<{ login: LoginPayload }, loginArgs>(mutation, options);
   },
-  useLoginWithFacebook(fragment: string | DocumentNode) {
+  useLoginWithFacebook(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ loginWithFacebook: LoginPayload }, loginWithFacebookArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation loginWithFacebook ($accessToken: String!) {
@@ -396,9 +435,15 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ loginWithFacebook: LoginPayload }, loginWithFacebookArgs>(mutation);
+    return useMutation<{ loginWithFacebook: LoginPayload }, loginWithFacebookArgs>(
+      mutation,
+      options
+    );
   },
-  useRegister(fragment: string | DocumentNode) {
+  useRegister(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ register: LoginPayload }, registerArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation register ($data: RegisterInput!) {
@@ -408,9 +453,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ register: LoginPayload }, registerArgs>(mutation);
+    return useMutation<{ register: LoginPayload }, registerArgs>(mutation, options);
   },
-  useRegisterWithFacebook(fragment: string | DocumentNode) {
+  useRegisterWithFacebook(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ registerWithFacebook: LoginPayload }, registerWithFacebookArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation registerWithFacebook ($accessToken: String!,$data: RegisterFacebookInput!) {
@@ -420,16 +468,22 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ registerWithFacebook: LoginPayload }, registerWithFacebookArgs>(mutation);
+    return useMutation<{ registerWithFacebook: LoginPayload }, registerWithFacebookArgs>(
+      mutation,
+      options
+    );
   },
-  useForgotPassword() {
+  useForgotPassword(options: MutationHookOptions<{ forgotPassword: boolean }, forgotPasswordArgs>) {
     const mutation = graphQlTag`
       mutation forgotPassword ($redirectUrl: String!,$data: ForgotPasswordInput!) {
         forgotPassword(redirectUrl: $redirectUrl,data: $data)
       }`;
-    return useMutation<{ forgotPassword: boolean }>(mutation);
+    return useMutation<{ forgotPassword: boolean }, forgotPasswordArgs>(mutation, options);
   },
-  useResetPassword(fragment: string | DocumentNode) {
+  useResetPassword(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ resetPassword: LoginPayload }, resetPasswordArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation resetPassword ($data: ResetPasswordInput!) {
@@ -439,9 +493,27 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ resetPassword: LoginPayload }, resetPasswordArgs>(mutation);
+    return useMutation<{ resetPassword: LoginPayload }, resetPasswordArgs>(mutation, options);
   },
-  useCreateGoal(fragment: string | DocumentNode) {
+  useUpdateProfile(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ updateProfile: User }, updateProfileArgs>
+  ) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    const mutation = graphQlTag`
+      mutation updateProfile ($data: UpdateProfileInput!) {
+        updateProfile(data: $data) {
+          ${isString ? fragment : '...' + fragmentName}
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+
+    return useMutation<{ updateProfile: User }, updateProfileArgs>(mutation, options);
+  },
+  useCreateGoal(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ createGoal: Goal }, createGoalArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation createGoal ($data: CreateGoalInput!) {
@@ -451,9 +523,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ createGoal: Goal }, createGoalArgs>(mutation);
+    return useMutation<{ createGoal: Goal }, createGoalArgs>(mutation, options);
   },
-  useCreateTraining(fragment: string | DocumentNode) {
+  useCreateTraining(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ createTraining: Training }, createTrainingArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation createTraining ($data: TrainingCreateInput!) {
@@ -463,9 +538,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ createTraining: Training }, createTrainingArgs>(mutation);
+    return useMutation<{ createTraining: Training }, createTrainingArgs>(mutation, options);
   },
-  useCompleteTraining(fragment: string | DocumentNode) {
+  useCompleteTraining(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ completeTraining: Training }, completeTrainingArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation completeTraining ($where: TrainingWhereUniqueInput!) {
@@ -475,9 +553,12 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ completeTraining: Training }, completeTrainingArgs>(mutation);
+    return useMutation<{ completeTraining: Training }, completeTrainingArgs>(mutation, options);
   },
-  useSetTrainingReaction(fragment: string | DocumentNode) {
+  useSetTrainingReaction(
+    fragment: string | DocumentNode,
+    options: MutationHookOptions<{ setTrainingReaction: Training }, setTrainingReactionArgs>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation setTrainingReaction ($where: TrainingWhereUniqueInput!) {
@@ -487,6 +568,80 @@ export const ApiHooks = {
       } ${isFragment ? fragment : ''}
       `;
 
-    return useMutation<{ setTrainingReaction: Training }, setTrainingReactionArgs>(mutation);
+    return useMutation<{ setTrainingReaction: Training }, setTrainingReactionArgs>(
+      mutation,
+      options
+    );
+  }
+};
+
+export const GqlQueries = {
+  me(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return graphQlTag`
+      query me  {
+        me {
+          ${isString ? fragment : '...' + fragmentName}
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+  },
+  emailExists() {
+    return graphQlTag`
+      query emailExists ($data: EmailExistsInput!) {
+        emailExists(data: $data)
+      }`;
+  },
+  getCurrentGoal(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return graphQlTag`
+      query getCurrentGoal  {
+        getCurrentGoal {
+          ${isString ? fragment : '...' + fragmentName}
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+  },
+  getLastTrainings(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return graphQlTag`
+      query getLastTrainings ($take: Int) {
+        getLastTrainings(take: $take) {
+          
+    pageInfo {
+        
+    hasNextPage }
+    edges {
+        
+    node{${isString ? fragment : '...' + fragmentName}} }
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+  },
+  getTrainings(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return graphQlTag`
+      query getTrainings ($take: Int,$skip: Int) {
+        getTrainings(take: $take,skip: $skip) {
+          
+    pageInfo {
+        
+    hasNextPage }
+    edges {
+        
+    node{${isString ? fragment : '...' + fragmentName}} }
+        }
+      } ${isFragment ? fragment : ''}
+      `;
+  },
+  getMonthlyCalendarActivities(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return graphQlTag`
+      query getMonthlyCalendarActivities ($date: Date!) {
+        getMonthlyCalendarActivities(date: $date) {
+          ${isString ? fragment : '...' + fragmentName}
+        }
+      } ${isFragment ? fragment : ''}
+      `;
   }
 };

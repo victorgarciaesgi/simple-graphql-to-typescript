@@ -3,6 +3,7 @@ import { createMethodsArgs } from './methods.generator';
 import { evaluateType, areAllArgsOptional } from '../utilities';
 import { getOneTSTypeDisplay } from './types.generator';
 import { queryBuilder } from './query.generator';
+import { types } from 'util';
 
 function capitalize(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -36,23 +37,25 @@ export const createApolloHook = ({
 
   const Query = queryBuilder({ field, isScalar, prefix, suffix, renderedFragmentInner, type });
 
+  const TOptions = `{${methodName}: ${returnedTypeDisplay}}${hasArgs ? ', ' + methodArgsType : ''}`;
+
   if (isScalar) {
     return `
-    use${capitalize(field.name)}()  {
+    use${capitalize(field.name)}(options: ${type.high}HookOptions<${TOptions}>)  {
       const ${type.little} = ${Query}
-      return use${type.high}<{${methodName}: ${returnedTypeDisplay}}${
-      hasArgs ? ', ' + methodArgsType : ''
-    }>(${type.little});
+      return use${type.high}<${TOptions}>(${type.little}, options);
       }
     ,`;
   } else {
-    return `use${capitalize(field.name)}(fragment: string | DocumentNode)  {
+    return `use${capitalize(field.name)}(fragment: string | DocumentNode, options: ${
+      type.high
+    }HookOptions<${TOptions}>)  {
       const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
       const ${type.little} = ${Query}
 
       return use${type.high}<{${methodName}: ${returnedTypeDisplay}}${
       hasArgs ? ', ' + methodArgsType : ''
-    }>(${type.little});
+    }>(${type.little}, options);
       }
   ,`;
   }

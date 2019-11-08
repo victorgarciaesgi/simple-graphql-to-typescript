@@ -24,8 +24,8 @@ const sgts = () => {
       'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
     .option('-A, --apolloHooks', 'Generate useMutation and useQuery hooks typed')
-    .option('--onlyDefinition', 'Generate only the gql schema of the query')
     .option('-J, --jsMode', 'Generate the methods in Js with declaration files instead of Ts')
+    .option('--withGqlQueries', 'Add gql query strings to the generated output')
     .option(
       '--customScalars <scalars>',
       'Provide your custum scalars in format [{"myScalar": "MyType"} ...]'
@@ -42,8 +42,8 @@ const sgts = () => {
     suffix,
     generateMethods,
     jsMode,
-    onlyDefinition,
     apolloHooks,
+    withGqlQueries,
   } = program;
   if (customScalars) {
     try {
@@ -67,14 +67,12 @@ const sgts = () => {
       suffix,
       generateMethods,
       jsMode,
-      onlyDefinition,
       apolloHooks,
+      withGqlQueries,
     });
   } catch (e) {
     return;
   }
 };
 
-try {
-  sgts();
-} catch (e) {}
+sgts();

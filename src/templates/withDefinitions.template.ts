@@ -1,15 +1,9 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
 
-export const withDefinitionsTemplate = (queries: string[], mutations: string[]): string => {
+export const withDefinitionsTemplate = (queries: string[], mutations?: string[]): string => {
   return `
-    import { DocumentNode } from 'graphql';
-    import graphQlTag from 'graphql-tag';
-
-    ${guessFragmentTypeTemplate}
-
-    export const ApiQueryDefinitions = {
+    export const GqlQueries = {
       ${queries.join('\n')}
-      ${mutations.join('\n')}
     }
   `;
 };

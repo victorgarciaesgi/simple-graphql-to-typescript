@@ -2,8 +2,9 @@ import { Field, Type, Arg, MethodType } from '../models';
 import { getOneTSTypeDisplay, generateQGLArg } from './types.generator';
 import { evaluateType, isReturnTypeEdge, areAllArgsOptional } from '../utilities';
 import { createConnectionFragment } from './fragments.generator';
-import { queryBuilder } from './query.generator';
+import { queryBuilder, createQueryFunction } from './query.generator';
 import { createApolloHook } from './hooks.generator';
+import { withDefinitionsTemplate } from 'src/templates';
 
 export const createMethodsArgs = (
   field: Field,
@@ -106,7 +107,7 @@ export const buildMethod = (
   suffix: string,
   ObjectTypes: Type[],
   scalarList: { [x: string]: string },
-  onlyDefinition: boolean,
+  withGqlQueries: boolean,
   apolloHooks: boolean
 ) => {
   const { isScalar, isEnum, typeName } = evaluateType(field);
@@ -116,8 +117,8 @@ export const buildMethod = (
   if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
     renderedFragmentInner = createConnectionFragment(typeName, ObjectTypes, fragmentDisplay);
   }
-  if (onlyDefinition) {
-    return queryBuilder({ field, prefix, suffix, type, isScalar, renderedFragmentInner });
+  if (withGqlQueries) {
+    return createQueryFunction({ field, prefix, suffix, type, renderedFragmentInner });
   } else if (apolloHooks) {
     return createApolloHook({
       ObjectTypes,
