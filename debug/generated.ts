@@ -209,13 +209,13 @@ export interface ExerciseUpdateMultipleInput {
   connect: ExerciseWhereUniqueInput[];
 }
 
-export type UserGender = 'M' | 'F';
+export type UserGender = "M" | "F";
 
-export type ExerciseLocale = 'EN' | 'FR';
+export type ExerciseLocale = "EN" | "FR";
 
-export type OrderDirection = 'ASC' | 'DESC';
+export type OrderDirection = "ASC" | "DESC";
 
-export type UserRole = 'USER' | 'ADMIN';
+export type UserRole = "USER" | "ADMIN";
 
 export interface meArgs {}
 
@@ -284,26 +284,26 @@ export interface setTrainingReactionArgs {
   where: TrainingWhereUniqueInput;
 }
 
-import { DocumentNode } from 'graphql';
-import graphQlTag from 'graphql-tag';
+import { DocumentNode } from "graphql";
+import graphQlTag from "graphql-tag";
 import {
   useMutation,
   useQuery,
   QueryHookOptions,
   MutationHookOptions,
   MutationTuple
-} from '@apollo/react-hooks';
+} from "@apollo/react-hooks";
 
 const guessFragmentType = (fragment: string | DocumentNode) => {
   let isString,
     isFragment = false;
-  let fragmentName = '';
-  if (typeof fragment === 'string') {
+  let fragmentName = "";
+  if (typeof fragment === "string") {
     isString = true;
-  } else if (typeof fragment === 'object' && fragment.definitions.length) {
+  } else if (typeof fragment === "object" && fragment.definitions.length) {
     isFragment = true;
     const definition = fragment.definitions[0];
-    if (definition.kind === 'FragmentDefinition') {
+    if (definition.kind === "FragmentDefinition") {
       fragmentName = definition.name.value;
     } else {
       console.error(
@@ -316,25 +316,26 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
 };
 
 export const ApiHooks = {
-  useMe(fragment: string | DocumentNode, options?: QueryHookOptions<User>) {
+  useMe(
+    fragment: string | DocumentNode,
+    options?: QueryHookOptions<{ me: User }>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query me  {
         me {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = query.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const { data, ...rest } = useQuery<User>(query, options);
-    return {
-      data: (data ? data[queryName] : null) as User,
-      ...rest
-    };
+    return useQuery<{ me: User }>(query, options);
   },
-  useEmailExists(options?: QueryHookOptions<boolean, emailExistsArgs>) {
+  useEmailExists(
+    options?: QueryHookOptions<{ emailExists: boolean }, emailExistsArgs>
+  ) {
     const query = graphQlTag`
       query emailExists ($data: EmailExistsInput!) {
         emailExists(data: $data)
@@ -342,33 +343,31 @@ export const ApiHooks = {
     const parsedQuery = query.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const { data, ...rest } = useQuery<boolean, emailExistsArgs>(query, options);
-    return {
-      data: (data ? data[queryName] : null) as boolean,
-      ...rest
-    };
+    return useQuery<{ emailExists: boolean }, emailExistsArgs>(query, options);
   },
-  useGetCurrentGoal(fragment: string | DocumentNode, options?: QueryHookOptions<Goal>) {
+  useGetCurrentGoal(
+    fragment: string | DocumentNode,
+    options?: QueryHookOptions<{ getCurrentGoal: Goal }>
+  ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query getCurrentGoal  {
         getCurrentGoal {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = query.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const { data, ...rest } = useQuery<Goal>(query, options);
-    return {
-      data: (data ? data[queryName] : null) as Goal,
-      ...rest
-    };
+    return useQuery<{ getCurrentGoal: Goal }>(query, options);
   },
   useGetLastTrainings(
     fragment: string | DocumentNode,
-    options?: QueryHookOptions<TrainingConnection, getLastTrainingsArgs>
+    options?: QueryHookOptions<
+      { getLastTrainings: TrainingConnection },
+      getLastTrainingsArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
@@ -380,22 +379,24 @@ export const ApiHooks = {
     hasNextPage }
     edges {
         
-    node{${isString ? fragment : '...' + fragmentName}} }
+    node{${isString ? fragment : "..." + fragmentName}} }
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = query.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const { data, ...rest } = useQuery<TrainingConnection, getLastTrainingsArgs>(query, options);
-    return {
-      data: (data ? data[queryName] : null) as TrainingConnection,
-      ...rest
-    };
+    return useQuery<
+      { getLastTrainings: TrainingConnection },
+      getLastTrainingsArgs
+    >(query, options);
   },
   useGetTrainings(
     fragment: string | DocumentNode,
-    options?: QueryHookOptions<TrainingConnection, getTrainingsArgs>
+    options?: QueryHookOptions<
+      { getTrainings: TrainingConnection },
+      getTrainingsArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
@@ -407,237 +408,268 @@ export const ApiHooks = {
     hasNextPage }
     edges {
         
-    node{${isString ? fragment : '...' + fragmentName}} }
+    node{${isString ? fragment : "..." + fragmentName}} }
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = query.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const { data, ...rest } = useQuery<TrainingConnection, getTrainingsArgs>(query, options);
-    return {
-      data: (data ? data[queryName] : null) as TrainingConnection,
-      ...rest
-    };
+    return useQuery<{ getTrainings: TrainingConnection }, getTrainingsArgs>(
+      query,
+      options
+    );
   },
   useGetMonthlyCalendarActivities(
     fragment: string | DocumentNode,
-    options?: QueryHookOptions<CalendarActivity[], getMonthlyCalendarActivitiesArgs>
+    options?: QueryHookOptions<
+      { getMonthlyCalendarActivities: CalendarActivity[] },
+      getMonthlyCalendarActivitiesArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const query = graphQlTag`
       query getMonthlyCalendarActivities ($date: Date!) {
         getMonthlyCalendarActivities(date: $date) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = query.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const { data, ...rest } = useQuery<CalendarActivity[], getMonthlyCalendarActivitiesArgs>(
-      query,
-      options
-    );
-    return {
-      data: (data ? data[queryName] : null) as CalendarActivity[],
-      ...rest
-    };
+    return useQuery<
+      { getMonthlyCalendarActivities: CalendarActivity[] },
+      getMonthlyCalendarActivitiesArgs
+    >(query, options);
   },
   useLogin(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<LoginPayload, loginArgs>
+    options?: MutationHookOptions<{ login: LoginPayload }, loginArgs>
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation login ($data: LoginInput!) {
         login(data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<LoginPayload, loginArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<LoginPayload, loginArgs>;
+    return useMutation<{ login: LoginPayload }, loginArgs>(mutation, options);
   },
   useLoginWithFacebook(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<LoginPayload, loginWithFacebookArgs>
+    options?: MutationHookOptions<
+      { loginWithFacebook: LoginPayload },
+      loginWithFacebookArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation loginWithFacebook ($accessToken: String!) {
         loginWithFacebook(accessToken: $accessToken) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<LoginPayload, loginWithFacebookArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<
-      LoginPayload,
+    return useMutation<
+      { loginWithFacebook: LoginPayload },
       loginWithFacebookArgs
-    >;
+    >(mutation, options);
   },
   useRegister(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<LoginPayload, registerArgs>
+    options?: MutationHookOptions<{ register: LoginPayload }, registerArgs>
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation register ($data: RegisterInput!) {
         register(data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<LoginPayload, registerArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<LoginPayload, registerArgs>;
+    return useMutation<{ register: LoginPayload }, registerArgs>(
+      mutation,
+      options
+    );
   },
   useRegisterWithFacebook(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<LoginPayload, registerWithFacebookArgs>
+    options?: MutationHookOptions<
+      { registerWithFacebook: LoginPayload },
+      registerWithFacebookArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation registerWithFacebook ($accessToken: String!,$data: RegisterFacebookInput!) {
         registerWithFacebook(accessToken: $accessToken,data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<LoginPayload, registerWithFacebookArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<
-      LoginPayload,
+    return useMutation<
+      { registerWithFacebook: LoginPayload },
       registerWithFacebookArgs
-    >;
+    >(mutation, options);
   },
-  useForgotPassword(options?: MutationHookOptions<boolean, forgotPasswordArgs>) {
+  useForgotPassword(
+    options?: MutationHookOptions<
+      { forgotPassword: boolean },
+      forgotPasswordArgs
+    >
+  ) {
     const mutation = graphQlTag`
       mutation forgotPassword ($redirectUrl: String!,$data: ForgotPasswordInput!) {
         forgotPassword(redirectUrl: $redirectUrl,data: $data)
       }`;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
-    const [mut, data] = useMutation<boolean, forgotPasswordArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<boolean, forgotPasswordArgs>;
+    return useMutation<{ forgotPassword: boolean }, forgotPasswordArgs>(
+      mutation,
+      options
+    );
   },
   useResetPassword(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<LoginPayload, resetPasswordArgs>
+    options?: MutationHookOptions<
+      { resetPassword: LoginPayload },
+      resetPasswordArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation resetPassword ($data: ResetPasswordInput!) {
         resetPassword(data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<LoginPayload, resetPasswordArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<LoginPayload, resetPasswordArgs>;
+    return useMutation<{ resetPassword: LoginPayload }, resetPasswordArgs>(
+      mutation,
+      options
+    );
   },
   useUpdateProfile(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<User, updateProfileArgs>
+    options?: MutationHookOptions<{ updateProfile: User }, updateProfileArgs>
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation updateProfile ($data: UpdateProfileInput!) {
         updateProfile(data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<User, updateProfileArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<User, updateProfileArgs>;
+    return useMutation<{ updateProfile: User }, updateProfileArgs>(
+      mutation,
+      options
+    );
   },
   useCreateGoal(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<Goal, createGoalArgs>
+    options?: MutationHookOptions<{ createGoal: Goal }, createGoalArgs>
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation createGoal ($data: CreateGoalInput!) {
         createGoal(data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<Goal, createGoalArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<Goal, createGoalArgs>;
+    return useMutation<{ createGoal: Goal }, createGoalArgs>(mutation, options);
   },
   useCreateTraining(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<Training, createTrainingArgs>
+    options?: MutationHookOptions<
+      { createTraining: Training },
+      createTrainingArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation createTraining ($data: TrainingCreateInput!) {
         createTraining(data: $data) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<Training, createTrainingArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<Training, createTrainingArgs>;
+    return useMutation<{ createTraining: Training }, createTrainingArgs>(
+      mutation,
+      options
+    );
   },
   useCompleteTraining(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<Training, completeTrainingArgs>
+    options?: MutationHookOptions<
+      { completeTraining: Training },
+      completeTrainingArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation completeTraining ($where: TrainingWhereUniqueInput!) {
         completeTraining(where: $where) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<Training, completeTrainingArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<Training, completeTrainingArgs>;
+    return useMutation<{ completeTraining: Training }, completeTrainingArgs>(
+      mutation,
+      options
+    );
   },
   useSetTrainingReaction(
     fragment: string | DocumentNode,
-    options?: MutationHookOptions<Training, setTrainingReactionArgs>
+    options?: MutationHookOptions<
+      { setTrainingReaction: Training },
+      setTrainingReactionArgs
+    >
   ) {
     const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
     const mutation = graphQlTag`
       mutation setTrainingReaction ($where: TrainingWhereUniqueInput!) {
         setTrainingReaction(where: $where) {
-          ${isString ? fragment : '...' + fragmentName}
+          ${isString ? fragment : "..." + fragmentName}
         }
-      } ${isFragment ? fragment : ''}
+      } ${isFragment ? fragment : ""}
       `;
     const parsedQuery = mutation.definitions[0];
     const queryName = parsedQuery.name.value;
 
-    const [mut, data] = useMutation<Training, setTrainingReactionArgs>(mutation, options);
-    return [mut, data ? data[queryName] : null] as MutationTuple<Training, setTrainingReactionArgs>;
+    return useMutation<
+      { setTrainingReaction: Training },
+      setTrainingReactionArgs
+    >(mutation, options);
   }
 };

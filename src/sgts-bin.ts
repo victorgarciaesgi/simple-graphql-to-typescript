@@ -6,7 +6,6 @@ import chalk from "chalk";
 import path from "path";
 
 const sgts = () => {
-  const configFile = require(path.resolve(process.cwd(), ".sgtsrc.js"));
   program
     .version(require("../package.json").version)
     .option("generate", "Generate using config file '.sgtsrc.js'")
@@ -60,7 +59,16 @@ const sgts = () => {
   } = program;
 
   if (generate) {
-    sgtsGenerate(configFile);
+    try {
+      const configFile = require(path.resolve(process.cwd(), ".sgtsrc.js"));
+      sgtsGenerate(configFile);
+    } catch (e) {
+      console.error(
+        chalk.red(
+          "Couldn't find .sgtsrc.js. Please check that the file is present"
+        )
+      );
+    }
   } else {
     if (customScalars) {
       try {

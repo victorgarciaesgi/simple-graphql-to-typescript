@@ -179,7 +179,7 @@ sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -G -A
 const Hello = () => {
   const { loading, error, data } = usePosts(`id title`);
   if (loading) return <p>Loading ...</p>;
-  return <h1>Hello {data.title}!</h1>;
+  return <h1>Hello {data.posts.title}!</h1>;
 };
 ```
 
