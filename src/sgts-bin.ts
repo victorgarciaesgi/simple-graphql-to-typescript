@@ -1,38 +1,51 @@
 #!/usr/bin/env node
 
-import program from 'commander';
-import { sgtsGenerate } from './runtime';
-import chalk from 'chalk';
+import program from "commander";
+import { sgtsGenerate } from "./runtime";
+import chalk from "chalk";
+import path from "path";
 
 const sgts = () => {
+  const configFile = require(path.resolve(process.cwd(), ".sgtsrc.js"));
   program
-    .version(require('../package.json').version)
-    .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
-    .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
-    .option('-o, --output <output>', 'Output path of your generated file')
-    .option('-H, --headers <header>', 'Additional header option to fetch your schema from endpoint')
+    .version(require("../package.json").version)
+    .option("generate", "Generate using config file '.sgtsrc.js'")
+    .option("-e, --endpoint <endpoint>", "GraphQl Api endpoint")
+    .option("-j, --json <json>", "Json file of your GraphQL Api schema")
+    .option("-o, --output <output>", "Output path of your generated file")
     .option(
-      '-p, --prefix <prefix>',
-      'Add prefix to all your types (ex: User becomes IUser with --suffix I)'
+      "-H, --headers <header>",
+      "Additional header option to fetch your schema from endpoint"
     )
     .option(
-      '-s, --suffix <suffix>',
-      'Add suffix to all your types (ex: User becomes UserModel with --suffix Model)'
+      "-p, --prefix <prefix>",
+      "Add prefix to all your types (ex: User becomes IUser with --suffix I)"
     )
     .option(
-      '-G, --generateMethods',
-      'Generate all your graphQL methods fully typed (Inspired by Prisma)'
+      "-s, --suffix <suffix>",
+      "Add suffix to all your types (ex: User becomes UserModel with --suffix Model)"
     )
-    .option('-A, --apolloHooks', 'Generate useMutation and useQuery hooks typed')
-    .option('-J, --jsMode', 'Generate the methods in Js with declaration files instead of Ts')
-    .option('--withGqlQueries', 'Add gql query strings to the generated output')
     .option(
-      '--customScalars <scalars>',
-      'Provide your custum scalars in format [{"myScalar": "MyType"} ...]'
+      "-G, --generateMethods",
+      "Generate all your graphQL methods fully typed (Inspired by Prisma)"
+    )
+    .option(
+      "-A, --apolloHooks",
+      "Generate useMutation and useQuery hooks typed"
+    )
+    .option(
+      "-J, --jsMode",
+      "Generate the methods in Js with declaration files instead of Ts"
+    )
+    .option("--withGqlQueries", "Add gql query strings to the generated output")
+    .option(
+      "--customScalars <scalars>",
+      'Provide your custum scalars in format {"myScalar": "MyType"...}'
     )
     .parse(process.argv);
 
   let {
+    generate,
     endpoint,
     json,
     output,
@@ -43,35 +56,42 @@ const sgts = () => {
     generateMethods,
     jsMode,
     apolloHooks,
-    withGqlQueries,
+    withGqlQueries
   } = program;
-  if (customScalars) {
+
+  if (generate) {
+    sgtsGenerate(configFile);
+  } else {
+    if (customScalars) {
+      try {
+        customScalars = JSON.parse(customScalars);
+      } catch (e) {
+        console.error(
+          chalk.red(
+            'Invalid custom scalars format, expected {"myScalar": "MyType" ...}'
+          )
+        );
+        return;
+      }
+    }
+
     try {
-      customScalars = JSON.parse(customScalars);
+      sgtsGenerate({
+        endpoint,
+        json,
+        output,
+        customScalars,
+        headers,
+        prefix,
+        suffix,
+        generateMethods,
+        jsMode,
+        apolloHooks,
+        withGqlQueries
+      });
     } catch (e) {
-      console.error(
-        chalk.red('Invalid custom scalars format, expected [{"myScalar": "MyType"} ...]')
-      );
       return;
     }
-  }
-
-  try {
-    sgtsGenerate({
-      endpoint,
-      json,
-      output,
-      customScalars,
-      headers,
-      prefix,
-      suffix,
-      generateMethods,
-      jsMode,
-      apolloHooks,
-      withGqlQueries,
-    });
-  } catch (e) {
-    return;
   }
 };
 

@@ -48,6 +48,7 @@ sgts
 | --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | Path where the file must be generated                                         |
 | --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma)            |
 | --apolloHooks               | -A           | boolean                                      | Generate useMutation and useQuery hooks typed                                 |
+| --withGqlQueries            | -            | boolean                                      | Add gql query strings to the generated output                                 |
 | --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...} (JSON)      |
 | --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | Add prefix to all your types (ex: User becomes IUser with --prefix I)         |
 | --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model) |
@@ -58,8 +59,11 @@ sgts
 
 I don't have much free time to develop feature I don't use, but feel free to send a PR!
 
+- [x] Export only Gql string
+- [x] Removed Query and mutation name in Apollo Hooks data
+- [x] Config file `.sgtsrc.js`
 - [ ] Support Subscriptions
-- [ ] Split interfaces and methods into two sepeated files
+- [ ] Support UseLazyQuery Apollo Hook
 - [ ] Highlight new generated, modified or deleted types in terminal
 
 ## Simple usage exemple
@@ -98,6 +102,41 @@ export interface Comment {
   body?: string;
 }
 ...
+```
+
+# Configuration file
+
+You can also use a `.sgtsrc.js` file
+
+```
+sgts generate
+```
+
+`.sgtsrc.js`
+
+```javascript
+module.exports = {
+  endpoint: "https://json-placeholder-graphql.herokuapp.com/graphql",
+  output: "./generated.ts"
+};
+```
+
+Available options
+
+```typescript
+{
+  endpoint?: string;
+  json?: string;
+  output?: string;
+  headers?: string;
+  prefix?: string;
+  suffix?: string;
+  jsMode?: boolean;
+  customScalars?: { [x: string]: string };
+  generateMethods?: boolean;
+  apolloHooks?: boolean;
+  withGqlQueries?: boolean;
+}
 ```
 
 # Generating methods using ApolloClient
@@ -140,7 +179,7 @@ sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -G -A
 const Hello = () => {
   const { loading, error, data } = usePosts(`id title`);
   if (loading) return <p>Loading ...</p>;
-  return <h1>Hello {data.posts.title}!</h1>;
+  return <h1>Hello {data.title}!</h1>;
 };
 ```
 
@@ -186,13 +225,13 @@ export interface ICommentModel {
 ## Runtime usage
 
 ```javascript
-const { sgtsGenerate } = require('simple-graphql-to-typescript');
+const { sgtsGenerate } = require("simple-graphql-to-typescript");
 
 await sgtsGenerate({
-  endpoint: 'https://json-placeholder-graphql.herokuapp.com/graphql',
-  output: './types.ts',
-  prefix: 'I',
-  suffix: 'Model',
+  endpoint: "https://json-placeholder-graphql.herokuapp.com/graphql",
+  output: "./types.ts",
+  prefix: "I",
+  suffix: "Model"
 });
 ```
 

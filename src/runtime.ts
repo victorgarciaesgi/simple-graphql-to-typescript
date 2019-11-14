@@ -34,7 +34,7 @@ export async function sgtsGenerate({
   withGqlQueries,
 }: generatePayload): Promise<string> {
   try {
-    console.log(`\n Sgts v${process.env.npm_package_version}`);
+    console.log(`\n Sgts v${require('../package.json').version}`);
     const schema = await fetchSchemas({ endpoint, headers, json });
     if (schema) {
       const generatedString = await generate(

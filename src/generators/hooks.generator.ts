@@ -37,26 +37,44 @@ export const createApolloHook = ({
 
   const Query = queryBuilder({ field, isScalar, prefix, suffix, renderedFragmentInner, type });
 
-  const TOptions = `{${methodName}: ${returnedTypeDisplay}}${hasArgs ? ', ' + methodArgsType : ''}`;
+  const TOptions = `${returnedTypeDisplay}${hasArgs ? ', ' + methodArgsType : ''}`;
+
+  let useHookOutput = '';
+
+  if (type.little === 'query') {
+    useHookOutput = `
+      const {data, ...rest} = use${type.high}<${TOptions}>(${type.little}, options);
+      return {
+        data: (data ? data[queryName]: null) as ${returnedTypeDisplay},
+        ...rest
+      }`;
+  } else {
+    useHookOutput = `const [mut, data] = use${type.high}<${TOptions}>(${type.little}, options);
+      return [
+        mut,
+        (data ? data[queryName]: null)
+      ] as MutationTuple<${returnedTypeDisplay}${hasArgs ? ', ' + methodArgsType : ''}>`;
+  }
 
   if (isScalar) {
     return `
-    use${capitalize(field.name)}(options: ${type.high}HookOptions<${TOptions}>)  {
+    use${capitalize(field.name)}(options?: ${type.high}HookOptions<${TOptions}>)   {
       const ${type.little} = ${Query}
-      return use${type.high}<${TOptions}>(${type.little}, options);
-      }
-    ,`;
+      const parsedQuery = ${type.little}.definitions[0];
+      const queryName = parsedQuery.name.value;
+      ${useHookOutput}
+    },`;
   } else {
-    return `use${capitalize(field.name)}(fragment: string | DocumentNode, options: ${
+    return `use${capitalize(field.name)}(fragment: string | DocumentNode, options?: ${
       type.high
-    }HookOptions<${TOptions}>)  {
+    }HookOptions<${TOptions}>) {
       const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
       const ${type.little} = ${Query}
+      const parsedQuery = ${type.little}.definitions[0];
+      const queryName = parsedQuery.name.value;
 
-      return use${type.high}<{${methodName}: ${returnedTypeDisplay}}${
-      hasArgs ? ', ' + methodArgsType : ''
-    }>(${type.little}, options);
-      }
+      ${useHookOutput}
+    }
   ,`;
   }
 };
