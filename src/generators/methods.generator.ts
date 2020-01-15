@@ -76,7 +76,7 @@ export const createGraphQLFunction = ({
 
   if (isScalar) {
     return `
-    ${methodName}(): Abordable${type.high}${withArgs}<${returnedTypeDisplay}${
+    ${methodName}(): Abortable${type.high}${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
       const ${type.little} = ${Query}
