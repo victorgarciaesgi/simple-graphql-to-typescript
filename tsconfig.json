@@ -12,6 +12,7 @@
     "noImplicitAny": false,
     "noUnusedLocals": false,
     "pretty": true,
+    "strict": true,
     "sourceMap": false,
     "downlevelIteration": true,
     "declaration": true,
@@ -29,7 +30,8 @@
       "es2017.object",
       "es7"
     ],
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.spec.ts"]
 }

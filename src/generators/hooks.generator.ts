@@ -11,8 +11,8 @@ function capitalize(string: string): string {
 
 interface graphQLFunctionArgs {
   field: Field;
-  prefix: string;
-  suffix: string;
+  prefix?: string;
+  suffix?: string;
   ObjectTypes: Type[];
   type: MethodType;
   scalarList: { [x: string]: string };

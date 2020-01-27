@@ -1,8 +1,8 @@
 import { Field, MethodType, Type } from "src/models";
 interface graphQLFunctionArgs {
     field: Field;
-    prefix: string;
-    suffix: string;
+    prefix?: string;
+    suffix?: string;
     ObjectTypes: Type[];
     type: MethodType;
     scalarList: {

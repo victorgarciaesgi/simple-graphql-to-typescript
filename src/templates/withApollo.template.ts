@@ -1,7 +1,7 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
 
 export const withApolloTemplate = (queries: string[], mutations: string[]): string => {
-  return `  import ApolloClient, { QueryOptions, OperationVariables, MutationOptions, ObservableQuery } from 'apollo-client';
+  return `import ApolloClient, { QueryOptions, OperationVariables, MutationOptions, ObservableQuery } from 'apollo-client';
   import { execute } from 'apollo-link';
   import { OperationDefinitionNode, DocumentNode } from 'graphql';
   import graphQlTag from 'graphql-tag';
@@ -83,10 +83,10 @@ export const withApolloTemplate = (queries: string[], mutations: string[]): stri
             variables,
           }).subscribe({
             next: ({ data, errors }) => {
-              if (data) {
-                resolve(data[queryName]);
-              } else {
+              if (errors) {
                 reject(errors);
+              } else {
+                resolve(data[queryName]);
               }
             },
             error: error => reject(error),
@@ -133,10 +133,10 @@ export const withApolloTemplate = (queries: string[], mutations: string[]): stri
             variables,
           }).subscribe({
             next: ({ data, errors }) => {
-              if (data) {
-                resolve(data[mutationName]);
-              } else {
+              if (errors) {
                 reject(errors);
+              } else {
+                resolve(data[mutationName]);
               }
             },
             error: error => reject(error),

@@ -1,6 +1,6 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
 
-export const withHooksTemplate = (queries: string[], mutations: string[]): string => {
+export const withReactHooksTemplate = (queries: string[], mutations: string[]): string => {
   return `
     import { DocumentNode } from 'graphql';
     import graphQlTag from 'graphql-tag';

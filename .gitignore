@@ -24,6 +24,8 @@ coverage
 .grunt
 
 __generated.ts
+GQLSchema.json
+debug
 
 dist
 types

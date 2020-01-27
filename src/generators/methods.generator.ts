@@ -8,8 +8,8 @@ import { withDefinitionsTemplate } from 'src/templates';
 
 export const createMethodsArgs = (
   field: Field,
-  prefix: string,
-  suffix: string
+  prefix?: string,
+  suffix?: string
 ): {
   GQLVariables: string[];
   GQLArgs: string[];
@@ -24,8 +24,8 @@ export const createMethodsArgs = (
       return acc;
     },
     {
-      GQLVariables: [],
-      GQLArgs: [],
+      GQLVariables: [] as string[],
+      GQLArgs: [] as string[],
     }
   );
   let methodArgsType = '';
@@ -42,8 +42,8 @@ export const createMethodsArgs = (
 
 interface graphQLFunctionArgs {
   field: Field;
-  prefix: string;
-  suffix: string;
+  prefix?: string;
+  suffix?: string;
   ObjectTypes: Type[];
   type: MethodType;
   scalarList: { [x: string]: string };
@@ -100,22 +100,26 @@ export const createGraphQLFunction = ({
   }
 };
 
-export const buildMethod = (
+export type buildMethodsArgs = {
   field: Field,
   type: MethodType,
-  prefix: string,
-  suffix: string,
   ObjectTypes: Type[],
   scalarList: { [x: string]: string },
-  withGqlQueries: boolean,
-  apolloHooks: boolean
+  withGqlQueries?: boolean,
+  apolloHooks?: boolean,
+  prefix?: string,
+  suffix?: string,
+}
+
+export const buildMethod = (
+  {field, type, ObjectTypes, scalarList, withGqlQueries, apolloHooks, prefix, suffix}: buildMethodsArgs
 ) => {
   const { isScalar, isEnum, typeName } = evaluateType(field);
 
   const fragmentDisplay = `\${isString ? fragment : '...' + fragmentName}`;
   let renderedFragmentInner = fragmentDisplay;
   if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
-    renderedFragmentInner = createConnectionFragment(typeName, ObjectTypes, fragmentDisplay);
+    renderedFragmentInner = createConnectionFragment(typeName, ObjectTypes, fragmentDisplay) ?? fragmentDisplay;
   }
   if (withGqlQueries) {
     return createQueryFunction({ field, prefix, suffix, type, renderedFragmentInner });

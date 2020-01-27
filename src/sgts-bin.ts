@@ -13,8 +13,20 @@ const sgts = () => {
     .option("-j, --json <json>", "Json file of your GraphQL Api schema")
     .option("-o, --output <output>", "Output path of your generated file")
     .option(
+      "-G, --generateMethods",
+      "Generate all your graphQL methods fully typed (Inspired by Prisma)"
+    )
+    .option(
+      "-A, --apolloHooks",
+      "Generate useMutation and useQuery hooks typed"
+    )
+    .option(
       "-H, --headers <header>",
       "Additional header option to fetch your schema from endpoint"
+    )
+    .option(
+      "--customScalars <scalars>",
+      'Provide your custum scalars in format {"myScalar": "MyType"...}'
     )
     .option(
       "-p, --prefix <prefix>",
@@ -25,22 +37,12 @@ const sgts = () => {
       "Add suffix to all your types (ex: User becomes UserModel with --suffix Model)"
     )
     .option(
-      "-G, --generateMethods",
-      "Generate all your graphQL methods fully typed (Inspired by Prisma)"
-    )
-    .option(
-      "-A, --apolloHooks",
-      "Generate useMutation and useQuery hooks typed"
-    )
-    .option(
       "-J, --jsMode",
       "Generate the methods in Js with declaration files instead of Ts"
     )
     .option("--withGqlQueries", "Add gql query strings to the generated output")
-    .option(
-      "--customScalars <scalars>",
-      'Provide your custum scalars in format {"myScalar": "MyType"...}'
-    )
+    .option("-D, --download <download>", "Specify the path to download the GraphQL intropection schema")
+
     .parse(process.argv);
 
   let {
@@ -55,7 +57,8 @@ const sgts = () => {
     generateMethods,
     jsMode,
     apolloHooks,
-    withGqlQueries
+    withGqlQueries,
+    download,
   } = program;
 
   if (generate) {
@@ -95,7 +98,8 @@ const sgts = () => {
         generateMethods,
         jsMode,
         apolloHooks,
-        withGqlQueries
+        withGqlQueries,
+        download
       });
     } catch (e) {
       return;

@@ -2,6 +2,7 @@ import ora from 'ora';
 import { generateInterfaces, generateMethodsArgsTypes } from './generators';
 import { GraphQLJSONSchema, Field } from './models';
 import { createMethods, createGqlQueries } from './builders';
+import { sharedTemplate } from './templates/shared.template';
 
 export let scalarList: { [x: string]: string } = {
   ID: 'string',
@@ -15,9 +16,9 @@ export let scalarList: { [x: string]: string } = {
 
 const generatedInterfaces = {
   METHODS: '',
-  OBJECT: [],
-  ENUM: [],
-  METHODS_ARGS: [],
+  OBJECT: [] as string[],
+  ENUM: []  as string[],
+  METHODS_ARGS: []  as string[],
   QUERIES: '',
 };
 
@@ -25,9 +26,9 @@ const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces'
 
 export const generate = (
   schema: GraphQLJSONSchema,
-  prefix: string,
-  suffix: string,
-  customScalars: { [x: string]: string },
+  prefix?: string,
+  suffix?: string,
+  customScalars?: { [x: string]: string },
   generateMethods?: boolean,
   apolloHooks?: boolean,
   withGqlQueries?: boolean
@@ -44,11 +45,11 @@ export const generate = (
     try {
       const { generatedEnums, generatedTypes } = generateInterfaces(
         schema,
+        scalarList,
         prefix,
         suffix,
-        scalarList
       );
-      const generatedMethodsArgs = generateMethodsArgsTypes(schema, prefix, suffix, scalarList);
+      const generatedMethodsArgs = generateMethodsArgsTypes(schema, scalarList, prefix, suffix);
       generatedInterfaces.OBJECT = generatedTypes;
       generatedInterfaces.ENUM = generatedEnums;
       generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
@@ -71,7 +72,7 @@ export const generate = (
       }
       if (withGqlQueries) {
         try {
-          const methods = await createGqlQueries(schema, prefix, suffix, scalarList);
+          const methods = await createGqlQueries(schema,scalarList, prefix, suffix );
           generatedInterfaces.QUERIES = methods;
         } catch (e) {
           return Promise.reject(e);
@@ -83,20 +84,7 @@ export const generate = (
     }
     transpile.succeed(`🖋 Transpiling done`);
 
-    const signature = `
-      /* eslint-disable */
-      /* tslint-disable */
-      // *******************************************************
-      // *******************************************************
-      //
-      // GENERATED FILE, DO NOT MODIFY
-      //
-      // Made by Victor Garcia ®
-      //
-      // https://github.com/victorgarciaesgi
-      // *******************************************************
-      // *******************************************************
-      // 💙`;
+    const signature = sharedTemplate;
 
     const modelsTemplate = `
       ${signature}

@@ -6,8 +6,8 @@ interface QueryBuilderArgs {
   isScalar: boolean;
   field: Field;
   type: MethodType;
-  prefix: string;
-  suffix: string;
+  prefix?: string;
+  suffix?: string;
   renderedFragmentInner: string;
 }
 
@@ -41,8 +41,8 @@ export const queryBuilder = ({
 interface createQueryFunctionArgs {
   field: Field;
   type: MethodType;
-  prefix: string;
-  suffix: string;
+  prefix?: string;
+  suffix?: string;
   renderedFragmentInner: string;
 }
 

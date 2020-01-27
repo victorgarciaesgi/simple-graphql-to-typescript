@@ -10,7 +10,8 @@ const saveModels = ora('Saving models file...');
 export function saveFile(
   template: string,
   output: string = './__generated.ts',
-  jsMode: boolean
+  jsMode?: boolean,
+  json?: boolean
 ): Promise<string> {
   saveModels.start();
   return new Promise((res, rej) => {
@@ -29,7 +30,7 @@ export function saveFile(
         if (err) {
           saveModels.fail('Saving models file failed');
           console.log(err.message);
-          return rej('error in saving');
+          return rej('Error in saving file');
         } else {
           saveModels.succeed(`🗃 Typescript models saved at ${chalk.bold(`${output}`)}`);
           if (jsMode) {

@@ -7,8 +7,9 @@ import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
 import { printSchema } from 'graphql/utilities/schemaPrinter';
 import { GraphQLJSONSchema } from '../models';
 import path from 'path';
+import fs from 'fs';
 
-export const downloadSchema = async (endpoint: string, header: string): Promise<string> => {
+export const downloadSchema = async (endpoint: string, header?: string): Promise<string> => {
   const download = ora(`⬇️ Downloading schemas from ${chalk.blue(endpoint)}`).start();
   try {
     let formatedHeaders = getHeadersFromInput(header);
@@ -94,27 +95,38 @@ async function getRemoteSchema(
   }
 }
 
+const possibleGraphQLSuffix = ['graphql', 'api', '__graphql', '__api']
+
 export async function fetchSchemas({
   endpoint,
   headers,
-  json,
+  json,download
 }: {
-  endpoint: string;
-  headers: string;
-  json: string;
-}): Promise<GraphQLJSONSchema> {
+  endpoint?: string;
+  headers?: string;
+  json?: string;
+  download?: string
+}): Promise<GraphQLJSONSchema | null> {
   try {
     if (endpoint) {
       const graphqlRegxp = /[^\/]+(?=\/$|$)/;
       const [result] = graphqlRegxp.exec(endpoint);
-
-      if (result === 'graphql') {
+      if (possibleGraphQLSuffix.includes(result)) {
         const JSONschema = await downloadSchema(endpoint, headers);
+        if (download) {
+          const outputfile = path.resolve(process.cwd(), download);
+          try {
+            await fs.writeFileSync(outputfile, JSONschema);
+            console.log(chalk.green(`Graphql intropesction schema saved at ${download}`))
+          } catch(e) {
+            console.error(e);
+          }
+        }
         return JSON.parse(JSONschema);
       } else {
         return Promise.reject(
           ` ⛔️ The endpoint is not a GraphQl Api, try to add ${chalk.green(
-            '/graphql'
+            possibleGraphQLSuffix.join(',')
           )} at the end of your url`
         );
       }

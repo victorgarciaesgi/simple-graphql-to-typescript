@@ -5,9 +5,10 @@ export const createConnectionFragment = (
   typeName: string,
   allTypes: Type[],
   fragment: string
-): string => {
-  const { fields } = allTypes.find(f => f.name === typeName);
-  let outputFragment = '';
+): string | null => {
+  const foundType = allTypes.find(f => f.name === typeName);
+  if (foundType) {
+    let outputFragment = '';
 
   const createLines = (field: Field) => {
     outputFragment += `
@@ -20,11 +21,14 @@ export const createConnectionFragment = (
         outputFragment += ` {
         `;
         const type = allTypes.find(f => f.name === typeName);
-        type.fields.forEach(createLines);
+        type?.fields?.forEach(createLines);
         outputFragment += ` }`;
       }
     }
   };
-  fields.map(createLines);
+  foundType.fields.map(createLines);
   return outputFragment;
+  }
+  return null
+  
 };

@@ -14,6 +14,7 @@ interface generatePayload {
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
   apolloHooks?: boolean;
+  download?: string;
   withGqlQueries?: boolean;
 }
 
@@ -32,10 +33,11 @@ export async function sgtsGenerate({
   generateMethods,
   apolloHooks,
   withGqlQueries,
-}: generatePayload): Promise<string> {
+  download
+}: generatePayload): Promise<string | undefined> {
   try {
     console.log(`\n Sgts v${require('../package.json').version}`);
-    const schema = await fetchSchemas({ endpoint, headers, json });
+    const schema = await fetchSchemas({ endpoint, headers, json, download });
     if (schema) {
       const generatedString = await generate(
         schema,

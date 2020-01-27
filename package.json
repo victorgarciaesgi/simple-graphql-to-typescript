@@ -1,11 +1,12 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.3.34",
+  "version": "0.3.37",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "generate": "node ./dist/sgts-bin.js -e https://graphqlzero.almansi.me/api -G -o ./debug/__generated.ts -D ./GQLSchema.json",
     "clean": "rimraf dist",
     "dev": "tsc --pretty --watch",
     "build": "tsc --pretty",
@@ -50,20 +51,23 @@
   },
   "devDependencies": {
     "@types/graphql": "^14.5.0",
-    "@types/node": "^12.12.7",
-    "@types/node-fetch": "^2.5.3",
-    "rimraf": "^3.0.0"
+    "@types/jest": "^24.9.1",
+    "@types/node": "^13.5.0",
+    "@types/node-fetch": "^2.5.4",
+    "jest": "^25.1.0",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^25.0.0"
   },
   "dependencies": {
-    "apollo-client": "^2.6.4",
+    "apollo-client": "^2.6.8",
     "chalk": "^3.0.0",
-    "commander": "^4.0.1",
-    "graphql": "^14.5.8",
-    "mkdirp": "^0.5.1",
+    "commander": "^4.1.0",
+    "graphql": "^14.6.0",
+    "mkdirp": "^1.0.3",
     "node-fetch": "^2.6.0",
     "ora": "^4.0.3",
     "prettier": "^1.19.1",
     "querystringify": "^2.1.1",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.5"
   }
 }

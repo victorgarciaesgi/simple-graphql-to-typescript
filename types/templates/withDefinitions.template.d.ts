@@ -1,1 +1,1 @@
-export declare const withDefinitionsTemplate: (queries: string[], mutations?: string[]) => string;
+export declare const withDefinitionsTemplate: (queries: string[], mutations?: string[] | undefined) => string;

@@ -11,7 +11,7 @@ export const evaluateType = (field: Field | InputField | Arg) => {
   let isEnum = false;
   let typeName = '';
 
-  function getFieldInfos(type: OfType): string {
+  function getFieldInfos(type: OfType): string | null {
     if (propertyName === 'edges') isEdge = true;
     if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
       if (type.kind === 'LIST') {
@@ -19,7 +19,8 @@ export const evaluateType = (field: Field | InputField | Arg) => {
         if (isOptional) isArrayOptional = true;
       }
       if (type.kind === 'NON_NULL' && !isArrayOptional) isOptional = false;
-      return getFieldInfos(type.ofType);
+      if (type.ofType) return getFieldInfos(type.ofType);
+      return null;
     } else {
       if (type.kind === 'SCALAR') {
         isScalar = true;
@@ -27,6 +28,7 @@ export const evaluateType = (field: Field | InputField | Arg) => {
         isEnum = true;
       }
       typeName = type.name;
+      return null;
     }
   }
   getFieldInfos(field.type);
@@ -43,9 +45,13 @@ export const evaluateType = (field: Field | InputField | Arg) => {
 };
 
 export const isReturnTypeEdge = (ObjectTypes: Type[], typeName: string): boolean => {
-  return ObjectTypes.find(f => f.name === typeName)
-    .fields.map(evaluateType)
-    .some(s => s.isEdge);
+  const type = ObjectTypes.find(f => f.name === typeName);
+  if (type) {
+    return type.fields.map(evaluateType)
+        .some(s => s.isEdge);
+  }
+  return false;
+    
 };
 
 export const areAllArgsOptional = (args: Arg[]): boolean => {
