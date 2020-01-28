@@ -1,12 +1,11 @@
 import { Field, InputField, Arg, Type } from '../models';
 import { evaluateType, capitalize } from '../utilities';
 
-
 export const generateEnumType = (object: Type, prefix?: string, suffix?: string): string => {
   let ObjectName: string = object.name;
   const generatedFields = object.enumValues.map(field => field.name);
   return `enum ${prefix ? prefix : ''}${ObjectName}${suffix ? suffix : ''} {
-        ${generatedFields.map( enumType => `${capitalize(enumType)} = ${enumType}`).join(',\n')}
+        ${generatedFields.map(enumType => `${capitalize(enumType)} = "${enumType}"`).join(',\n')}
   }`;
 };
 
@@ -19,7 +18,7 @@ export const getOneTSTypeDisplay = ({
 }: {
   field: Field | InputField | Arg;
 
-  scalarList: { [x: string]: string },
+  scalarList: { [x: string]: string };
   prefix?: string;
   suffix?: string;
 }): string => {
@@ -36,13 +35,15 @@ export const generatedTsFields = (
   fields: (Field | InputField)[],
   scalarList: { [x: string]: string },
   prefix?: string,
-  suffix?: string,
+  suffix?: string
 ): string[] => {
   return fields.map(field => {
     let propertyName = field.name;
     const { isOptional } = evaluateType(field);
     const TStypeName = getOneTSTypeDisplay({ field, prefix, suffix, scalarList });
-    return `${propertyName}${isOptional ? '?' : ''}: ${isOptional? `Maybe<${TStypeName}>`: TStypeName};`;
+    return `${propertyName}${isOptional ? '?' : ''}: ${
+      isOptional ? `Maybe<${TStypeName}>` : TStypeName
+    };`;
   });
 };
 
@@ -59,12 +60,12 @@ export const getObjectTSInterfaces = (
   object: Type,
   scalarList: { [x: string]: string },
   prefix?: string,
-  suffix?: string,
+  suffix?: string
 ): string => {
   let ObjectName: string = object.name;
   let fieldsKey =
     object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
-  const generatedFields = generatedTsFields(object[fieldsKey],scalarList, prefix, suffix );
+  const generatedFields = generatedTsFields(object[fieldsKey], scalarList, prefix, suffix);
   return buildTsInterfaceString(ObjectName, generatedFields, prefix, suffix);
 };
 
@@ -73,12 +74,11 @@ export const getQueriesArgsTSInterfaces = (
   object: Field,
   scalarList: { [x: string]: string },
   prefix?: string,
-  suffix?: string,
-  
+  suffix?: string
 ) => {
   let ObjectName: string = object.name;
   const parsedSuffix = 'Args' + (suffix ? suffix : '');
-  const generatedFields = generatedTsFields(object.args,scalarList, prefix, suffix );
+  const generatedFields = generatedTsFields(object.args, scalarList, prefix, suffix);
   return buildTsInterfaceString(ObjectName, generatedFields, prefix, parsedSuffix);
 };
 
