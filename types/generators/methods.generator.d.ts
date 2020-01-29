@@ -28,5 +28,5 @@ export declare type buildMethodsArgs = {
     prefix?: string;
     suffix?: string;
 };
-export declare const buildMethod: ({ field, type, ObjectTypes, scalarList, withGqlQueries, apolloHooks, prefix, suffix }: buildMethodsArgs) => string;
+export declare const buildMethod: ({ field, type, ObjectTypes, scalarList, withGqlQueries, apolloHooks, prefix, suffix, }: buildMethodsArgs) => string;
 export {};

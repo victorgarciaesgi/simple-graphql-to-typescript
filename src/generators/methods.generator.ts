@@ -76,6 +76,7 @@ export const createGraphQLFunction = ({
 
   if (isScalar) {
     return `
+    ${field.description ? `/** ${field.description} */` : ''}
     ${methodName}(): Abortable${type.high}${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
@@ -84,7 +85,9 @@ export const createGraphQLFunction = ({
         }
     ,`;
   } else {
-    return `${methodName}(): Fragmentable${type.high}${withArgs}<${returnedTypeDisplay}${
+    return `
+    ${field.description ? `/** ${field.description} */` : ''}
+    ${methodName}(): Fragmentable${type.high}${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
     return {
@@ -101,25 +104,33 @@ export const createGraphQLFunction = ({
 };
 
 export type buildMethodsArgs = {
-  field: Field,
-  type: MethodType,
-  ObjectTypes: Type[],
-  scalarList: { [x: string]: string },
-  withGqlQueries?: boolean,
-  apolloHooks?: boolean,
-  prefix?: string,
-  suffix?: string,
-}
+  field: Field;
+  type: MethodType;
+  ObjectTypes: Type[];
+  scalarList: { [x: string]: string };
+  withGqlQueries?: boolean;
+  apolloHooks?: boolean;
+  prefix?: string;
+  suffix?: string;
+};
 
-export const buildMethod = (
-  {field, type, ObjectTypes, scalarList, withGqlQueries, apolloHooks, prefix, suffix}: buildMethodsArgs
-) => {
+export const buildMethod = ({
+  field,
+  type,
+  ObjectTypes,
+  scalarList,
+  withGqlQueries,
+  apolloHooks,
+  prefix,
+  suffix,
+}: buildMethodsArgs) => {
   const { isScalar, isEnum, typeName } = evaluateType(field);
 
   const fragmentDisplay = `\${isString ? fragment : '...' + fragmentName}`;
   let renderedFragmentInner = fragmentDisplay;
   if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
-    renderedFragmentInner = createConnectionFragment(typeName, ObjectTypes, fragmentDisplay) ?? fragmentDisplay;
+    renderedFragmentInner =
+      createConnectionFragment(typeName, ObjectTypes, fragmentDisplay) ?? fragmentDisplay;
   }
   if (withGqlQueries) {
     return createQueryFunction({ field, prefix, suffix, type, renderedFragmentInner });
