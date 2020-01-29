@@ -1,9 +1,9 @@
-import { Field, MethodType, Type } from "src/models";
-import { createMethodsArgs } from "./methods.generator";
-import { evaluateType, areAllArgsOptional } from "../utilities";
-import { getOneTSTypeDisplay } from "./types.generator";
-import { queryBuilder } from "./query.generator";
-import { types } from "util";
+import { Field, MethodType, Type } from 'src/models';
+import { createMethodsArgs } from './methods.generator';
+import { evaluateType, areAllArgsOptional } from '../utilities';
+import { getOneTSTypeDisplay } from './types.generator';
+import { queryBuilder } from './query.generator';
+import { types } from 'util';
 
 function capitalize(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -26,7 +26,7 @@ export const createApolloHook = ({
   suffix,
   type,
   scalarList,
-  renderedFragmentInner
+  renderedFragmentInner,
 }: graphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
@@ -37,7 +37,7 @@ export const createApolloHook = ({
     field,
     prefix,
     suffix,
-    scalarList
+    scalarList,
   });
 
   const Query = queryBuilder({
@@ -46,16 +46,14 @@ export const createApolloHook = ({
     prefix,
     suffix,
     renderedFragmentInner,
-    type
+    type,
   });
 
-  const TOptions = `{${methodName}: ${returnedTypeDisplay}}${
-    hasArgs ? ", " + methodArgsType : ""
-  }`;
+  const TOptions = `{${methodName}: ${returnedTypeDisplay}}${hasArgs ? ', ' + methodArgsType : ''}`;
 
-  let useHookOutput = "";
+  let useHookOutput = '';
 
-  if (type.little === "query") {
+  if (type.little === 'query') {
     useHookOutput = `
       return use${type.high}<${TOptions}>(${type.little}, options);`;
   } else {
@@ -64,16 +62,15 @@ export const createApolloHook = ({
 
   if (isScalar) {
     return `
-    use${capitalize(field.name)}(options?: ${
-      type.high
-    }HookOptions<${TOptions}>)   {
+    ${field.description ? `/** ${field.description} */` : ''}
+    use${capitalize(field.name)}(options?: ${type.high}HookOptions<${TOptions}>)   {
       const ${type.little} = ${Query}
       ${useHookOutput}
     },`;
   } else {
-    return `use${capitalize(
-      field.name
-    )}(fragment: string | DocumentNode, options?: ${
+    return `
+    ${field.description ? `/** ${field.description} */` : ''}
+    use${capitalize(field.name)}(fragment: string | DocumentNode, options?: ${
       type.high
     }HookOptions<${TOptions}>) {
       const { isString, isFragment, fragmentName } = guessFragmentType(fragment);

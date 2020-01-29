@@ -1,4 +1,4 @@
-import { Field, MethodType, Type } from "src/models";
+import { Field, MethodType, Type } from 'src/models';
 interface graphQLFunctionArgs {
     field: Field;
     prefix?: string;
@@ -10,5 +10,5 @@ interface graphQLFunctionArgs {
     };
     renderedFragmentInner: string;
 }
-export declare const createApolloHook: ({ field, ObjectTypes, prefix, suffix, type, scalarList, renderedFragmentInner }: graphQLFunctionArgs) => string;
+export declare const createApolloHook: ({ field, ObjectTypes, prefix, suffix, type, scalarList, renderedFragmentInner, }: graphQLFunctionArgs) => string;
 export {};
