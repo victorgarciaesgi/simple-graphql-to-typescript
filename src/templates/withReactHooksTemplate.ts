@@ -3,7 +3,7 @@ import { guessFragmentTypeTemplate } from './fragmentType.template';
 export const withReactHooksTemplate = (queries: string[], mutations: string[]): string => {
   return `
     import { DocumentNode } from 'graphql';
-    import graphQlTag from 'graphql-tag';
+    import gql from 'graphql-tag';
     import { useMutation, useQuery, QueryHookOptions, MutationHookOptions, MutationTuple } from '@apollo/react-hooks'
 
     ${guessFragmentTypeTemplate}

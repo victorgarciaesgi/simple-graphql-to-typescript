@@ -43,8 +43,7 @@ export const generatedTsFields = (
     let propertyName = field.name;
     const { isOptional } = evaluateType(field);
     const TStypeName = getOneTSTypeDisplay({ field, prefix, suffix, scalarList });
-    return `
-    ${field.description ? `/** ${field.description} */` : ''}
+    return `${field.description ? `/** ${field.description} */` : ''}
     ${propertyName}${isOptional ? '?' : ''}: ${isOptional ? `Maybe<${TStypeName}>` : TStypeName};`;
   });
 };
@@ -90,8 +89,7 @@ export const buildTsInterfaceString = (
   prefix?: string,
   suffix?: string
 ): string => {
-  return `
-  ${type.description ? `/** ${type.description} */` : ''}
+  return `${type.description ? `/** ${type.description} */` : ''}
   export interface ${prefix ? prefix : ''}${type.name}${suffix ? suffix : ''} {
     ${fields.join('\n')}
   }

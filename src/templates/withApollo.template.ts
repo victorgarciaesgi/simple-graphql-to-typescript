@@ -4,7 +4,7 @@ export const withApolloTemplate = (queries: string[], mutations: string[]): stri
   return `import ApolloClient, { QueryOptions, OperationVariables, MutationOptions, ObservableQuery } from 'apollo-client';
   import { execute } from 'apollo-link';
   import { OperationDefinitionNode, DocumentNode } from 'graphql';
-  import graphQlTag from 'graphql-tag';
+  import gql from 'graphql-tag';
 
 
   export type AbortableQueryWithArgs<T, A> = {

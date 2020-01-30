@@ -10,25 +10,22 @@ export const createConnectionFragment = (
   if (foundType) {
     let outputFragment = '';
 
-  const createLines = (field: Field) => {
-    outputFragment += `
-    ${field.name}`;
-    const { typeName, isScalar } = evaluateType(field);
-    if (!isScalar) {
-      if (field.name === 'node') {
-        outputFragment += `{${fragment}}`;
-      } else {
-        outputFragment += ` {
-        `;
-        const type = allTypes.find(f => f.name === typeName);
-        type?.fields?.forEach(createLines);
-        outputFragment += ` }`;
+    const createLines = (field: Field) => {
+      outputFragment += `${field.name}`;
+      const { typeName, isScalar } = evaluateType(field);
+      if (!isScalar) {
+        if (field.name === 'node') {
+          outputFragment += `{${fragment}}`;
+        } else {
+          outputFragment += ` {`;
+          const type = allTypes.find(f => f.name === typeName);
+          type?.fields?.forEach(createLines);
+          outputFragment += `}`;
+        }
       }
-    }
-  };
-  foundType.fields.map(createLines);
-  return outputFragment;
+    };
+    foundType.fields.map(createLines);
+    return outputFragment;
   }
-  return null
-  
+  return null;
 };

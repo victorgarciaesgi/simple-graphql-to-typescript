@@ -23,12 +23,12 @@ export const queryBuilder = ({
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
   if (isScalar) {
-    return `graphQlTag\`
+    return `gql\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
       }\``;
   } else {
-    return ` graphQlTag\`
+    return ` gql\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${renderedFragmentInner}
