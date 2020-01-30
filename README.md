@@ -5,10 +5,18 @@
 <img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/1200px-GraphQL_Logo.svg.png" alt="Vue logo">
 </p>
 <p align='center'>
-<img src='https://img.shields.io/npm/v/simple-graphql-to-typescript.svg'>
-<img src='https://img.shields.io/npm/dm/simple-graphql-to-typescript.svg'>
 <img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
 </p>
+
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![npm downloads][npm-total-downloads-src]][npm-downloads-href]
+
+[npm-version-src]: https://img.shields.io/npm/v/simple-graphql-to-typescript.svg
+[npm-version-href]: https://www.npmjs.com/package/simple-graphql-to-typescript
+[npm-downloads-src]: https://img.shields.io/npm/dm/simple-graphql-to-typescript.svg
+[npm-total-downloads-src]: https://img.shields.io/npm/dt/simple-graphql-to-typescript.svg
+[npm-downloads-href]: https://www.npmjs.com/package/simple-graphql-to-typescript
 
 ## **Motive**
 
