@@ -81,7 +81,7 @@ export const createGraphQLFunction = ({
       hasArgs ? ',' + methodArgsType : ''
     }> {
       const ${type.little} = ${Query}
-    return abortable${type.high}(${type.little}, ${hasArgs}) as any;
+    return abortable${type.high}(${type.little}, ${hasArgs});
         }
     ,`;
   } else {
@@ -95,7 +95,7 @@ export const createGraphQLFunction = ({
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
         const ${type.little} = ${Query}
 
-        return abortable${type.high}(${type.little}, ${hasArgs}) as any;
+        return abortable${type.high}(${type.little}, ${hasArgs});
       }
     }
       }

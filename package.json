@@ -6,7 +6,7 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "test": "jest",
-    "generate": "node ./dist/sgts-bin.js -e http://localhost:4000/graphql -G -A -o ./debug/__generated.ts -D ./GQLSchema.json",
+    "generate": "node ./dist/sgts-bin.js -e https://json-placeholder-graphql.herokuapp.com/graphql -G -o ./debug/__generated.ts -D ./GQLSchema.json",
     "clean": "rimraf dist",
     "dev": "tsc --pretty --watch",
     "build": "tsc --pretty",

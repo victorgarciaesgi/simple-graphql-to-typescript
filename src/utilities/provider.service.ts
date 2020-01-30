@@ -95,17 +95,18 @@ async function getRemoteSchema(
   }
 }
 
-const possibleGraphQLSuffix = ['graphql', 'api', '__graphql', '__api']
+const possibleGraphQLSuffix = ['graphql', 'api', '__graphql', '__api'];
 
 export async function fetchSchemas({
   endpoint,
   headers,
-  json,download
+  json,
+  download,
 }: {
   endpoint?: string;
   headers?: string;
   json?: string;
-  download?: string
+  download?: string;
 }): Promise<GraphQLJSONSchema | null> {
   try {
     if (endpoint) {
@@ -117,8 +118,8 @@ export async function fetchSchemas({
           const outputfile = path.resolve(process.cwd(), download);
           try {
             await fs.writeFileSync(outputfile, JSONschema);
-            console.log(chalk.green(`Graphql intropesction schema saved at ${download}`))
-          } catch(e) {
+            console.log(chalk.green(`Graphql intropesction schema saved at ${download}`));
+          } catch (e) {
             console.error(e);
           }
         }
@@ -126,7 +127,7 @@ export async function fetchSchemas({
       } else {
         return Promise.reject(
           ` ⛔️ The endpoint is not a GraphQl Api, try to add ${chalk.green(
-            possibleGraphQLSuffix.join(',')
+            possibleGraphQLSuffix.join(', ')
           )} at the end of your url`
         );
       }
