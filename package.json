@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
   "scripts": {
-    "test": "yarn build && jest",
+    "test": "jest",
     "test:reset": "yarn test --updateSnapshot",
     "debug": "node ./dist/sgts-bin.js -e https://json-placeholder-graphql.herokuapp.com/graphql -G -o ./debug/__generated.ts -D ./GQLSchema.json",
     "clean": "rimraf dist",
