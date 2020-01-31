@@ -112,31 +112,28 @@ export async function fetchSchemas({
     if (endpoint) {
       const graphqlRegxp = /[^\/]+(?=\/$|$)/;
       const [result] = graphqlRegxp.exec(endpoint);
-      if (possibleGraphQLSuffix.includes(result)) {
-        const JSONschema = await downloadSchema(endpoint, headers);
-        if (download) {
-          const outputfile = path.resolve(process.cwd(), download);
-          try {
-            await fs.writeFileSync(outputfile, JSONschema);
-            console.log(chalk.green(`Graphql intropesction schema saved at ${download}`));
-          } catch (e) {
-            console.error(e);
-          }
+      const JSONschema = await downloadSchema(endpoint, headers);
+      if (download) {
+        const outputfile = path.resolve(process.cwd(), download);
+        try {
+          await fs.writeFileSync(outputfile, JSONschema);
+          console.log(chalk.green(`Graphql intropesction schema saved at ${download}`));
+        } catch (e) {
+          console.error(e);
         }
-        return JSON.parse(JSONschema);
-      } else {
-        return Promise.reject(
-          ` ⛔️ The endpoint is not a GraphQl Api, try to add ${chalk.green(
-            possibleGraphQLSuffix.join(', ')
-          )} at the end of your url`
-        );
       }
+      return JSON.parse(JSONschema);
     } else if (json) {
       return require(path.resolve(process.cwd(), json));
     } else {
       return null;
     }
   } catch (e) {
+    console.log(
+      ` Maybe the endpoint is not a GraphQl Api, try to add ${chalk.green(
+        possibleGraphQLSuffix.join(', ')
+      )} at the end of your url`
+    );
     return Promise.reject(e);
   }
 }
