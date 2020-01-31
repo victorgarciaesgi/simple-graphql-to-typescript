@@ -33,7 +33,7 @@ export async function sgtsGenerate({
   generateMethods,
   apolloHooks,
   withGqlQueries,
-  download
+  download,
 }: generatePayload): Promise<string | undefined> {
   try {
     console.log(`\n Sgts v${require('../package.json').version}`);
@@ -48,9 +48,7 @@ export async function sgtsGenerate({
         apolloHooks,
         withGqlQueries
       );
-
       const formatedString = await saveFile(generatedString, output, jsMode);
-
       return formatedString;
     } else {
       console.warn(
@@ -61,5 +59,6 @@ export async function sgtsGenerate({
     }
   } catch (e) {
     console.error(chalk.red(e));
+    return Promise.reject(e);
   }
 }

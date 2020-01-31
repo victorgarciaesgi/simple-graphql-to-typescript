@@ -14,5 +14,5 @@ interface generatePayload {
     download?: string;
     withGqlQueries?: boolean;
 }
-export declare function sgtsGenerate({ endpoint, json, output, customScalars, headers, prefix, suffix, jsMode, generateMethods, apolloHooks, withGqlQueries, download }: generatePayload): Promise<string | undefined>;
+export declare function sgtsGenerate({ endpoint, json, output, customScalars, headers, prefix, suffix, jsMode, generateMethods, apolloHooks, withGqlQueries, download, }: generatePayload): Promise<string | undefined>;
 export {};

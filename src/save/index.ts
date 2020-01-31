@@ -27,14 +27,15 @@ export function saveFile(
       });
       const outputfile = path.resolve(process.cwd(), output);
       if (fs.existsSync(outputfile)) {
-        console.log(outputfile);
-        await writeOutput(outputfile, formatedModelsFile, jsMode);
+        const content = await writeOutput(outputfile, formatedModelsFile, jsMode);
+        return res(content);
       } else {
         let dirList = outputfile.split('/');
         dirList.pop();
         const dirPath = dirList.join('/');
         await mkdirp(dirPath);
-        await writeOutput(outputfile, formatedModelsFile, jsMode);
+        const content = await writeOutput(outputfile, formatedModelsFile, jsMode);
+        res(content);
       }
     } catch (e) {
       saveModels.fail('Saving models file failed');
@@ -48,7 +49,7 @@ function TypescriptCompile(fileNames: string[], options: ts.CompilerOptions): vo
   program.emit();
 }
 
-async function writeOutput(path: string, content: string, jsMode?: boolean) {
+async function writeOutput(path: string, content: string, jsMode?: boolean): Promise<string> {
   try {
     await fs.writeFileSync(path, content);
     saveModels.succeed(`🗃 Typescript models saved at ${chalk.bold(`${path}`)}`);
@@ -74,12 +75,12 @@ async function writeOutput(path: string, content: string, jsMode?: boolean) {
           types: ['node'],
         });
         fs.unlinkSync(path);
-        Promise.resolve(content);
+        return content;
       } catch (e) {
         return Promise.reject(e);
       }
     } else {
-      return Promise.resolve(content);
+      return content;
     }
   } catch (e) {
     saveModels.fail('Saving models file failed');
