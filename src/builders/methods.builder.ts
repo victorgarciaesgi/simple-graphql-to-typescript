@@ -6,20 +6,12 @@ interface createMethodsArgs {
   schema: GraphQLJSONSchema;
   prefix?: string;
   suffix?: string;
-  scalarList: { [x: string]: string };
   apolloHooks?: boolean;
 }
 
-export const createMethods = async ({
-  schema,
-  scalarList,
-  apolloHooks,
-  prefix,
-  suffix,
-}: createMethodsArgs) => {
+export const createMethods = async ({ schema, apolloHooks, prefix, suffix }: createMethodsArgs) => {
   const [queries, mutations] = retrieveQueriesList({
     schema,
-    scalarList,
     apolloHooks,
     prefix,
     suffix,
@@ -70,15 +62,9 @@ export function retrieveQueriesList({
   return [queries, mutations];
 }
 
-export function createGqlQueries(
-  schema: GraphQLJSONSchema,
-  scalarList: { [x: string]: string },
-  prefix?: string,
-  suffix?: string
-) {
+export function createGqlQueries(schema: GraphQLJSONSchema, prefix?: string, suffix?: string) {
   const [queries, mutations] = retrieveQueriesList({
     schema,
-    scalarList,
     withGqlQueries: true,
     prefix,
     suffix,

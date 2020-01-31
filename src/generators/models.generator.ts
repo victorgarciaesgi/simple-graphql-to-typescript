@@ -7,12 +7,7 @@ import {
 
 const typesToParse = ['OBJECT', 'INPUT_OBJECT', 'INTERFACE'];
 
-export function generateInterfaces(
-  schema: GraphQLJSONSchema,
-  scalarList: { [x: string]: string },
-  prefix?: string,
-  suffix?: string
-) {
+export function generateInterfaces(schema: GraphQLJSONSchema, prefix?: string, suffix?: string) {
   const schemaTypes = schema.__schema.types;
   const generatedTypes: string[] = [];
   const generatedEnums: string[] = [];
@@ -20,7 +15,7 @@ export function generateInterfaces(
   schemaTypes.forEach(item => {
     if (!/^_{1,2}/.test(item.name)) {
       if (typesToParse.includes(item.kind)) {
-        const generatedInterface = getObjectTSInterfaces(item, scalarList, prefix, suffix);
+        const generatedInterface = getObjectTSInterfaces(item, prefix, suffix);
         generatedTypes.push(generatedInterface);
       } else if (item.kind === 'ENUM') {
         const enumTypes = generateEnumType(item, prefix, suffix);
@@ -36,7 +31,6 @@ export function generateInterfaces(
 
 export function generateMethodsArgsTypes(
   schema: GraphQLJSONSchema,
-  scalarList: { [x: string]: string },
   prefix?: string,
   suffix?: string
 ) {
@@ -52,7 +46,7 @@ export function generateMethodsArgsTypes(
   }
   [...listQueries, ...listMutations].forEach(item => {
     if (!/^_{1,2}/.test(item.name)) {
-      const generatedInterface = getQueriesArgsTSInterfaces(item, scalarList, prefix, suffix);
+      const generatedInterface = getQueriesArgsTSInterfaces(item, prefix, suffix);
       generatedMethodsArgs.push(generatedInterface);
     }
   });

@@ -28,7 +28,7 @@ export const queryBuilder = ({
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
       }\``;
   } else {
-    return ` gql\`
+    return `gql\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${renderedFragmentInner}

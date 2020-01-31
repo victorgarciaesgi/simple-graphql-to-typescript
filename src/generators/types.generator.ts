@@ -1,12 +1,15 @@
 import { Field, InputField, Arg, Type } from '../models';
 import { evaluateType, capitalize } from '../utilities';
+import ScalarStore from '../store/scalars.store';
 
+// Generate Enum type (ex: export enum Gender { M = 'M', F = 'F'})
 export const generateEnumType = (object: Type, prefix?: string, suffix?: string): string => {
   let ObjectName: string = object.name;
   const generatedFields = object.enumValues.map(field => field.name);
   return `
-  ${object.description ? `/** ${object.description} */` : ''}
-  export enum ${prefix ? prefix : ''}${ObjectName}${suffix ? suffix : ''} {
+  ${object.description ? `/** ${object.description} */` : ''} export enum ${
+    prefix ? prefix : ''
+  }${ObjectName}${suffix ? suffix : ''} {
         ${generatedFields.map(enumType => `${capitalize(enumType)} = "${enumType}"`).join(',\n')}
   }`;
 };
@@ -16,17 +19,14 @@ export const getOneTSTypeDisplay = ({
   field,
   prefix,
   suffix,
-  scalarList,
 }: {
   field: Field | InputField | Arg;
-
-  scalarList: { [x: string]: string };
   prefix?: string;
   suffix?: string;
 }): string => {
   const { isScalar, typeName, isArray } = evaluateType(field);
   const returnedName = isScalar
-    ? scalarList[typeName]
+    ? ScalarStore.listScalars[typeName]
     : `${prefix ? prefix : ''}${typeName}${suffix ? suffix : ''}`;
 
   return returnedName + (isArray ? '[]' : '');
@@ -35,14 +35,13 @@ export const getOneTSTypeDisplay = ({
 /** Generate interface fields (ex: ['firstName: string', 'birthDate: Date']) */
 export const generatedTsFields = (
   fields: (Field | InputField)[],
-  scalarList: { [x: string]: string },
   prefix?: string,
   suffix?: string
 ): string[] => {
   return fields.map(field => {
     let propertyName = field.name;
     const { isOptional } = evaluateType(field);
-    const TStypeName = getOneTSTypeDisplay({ field, prefix, suffix, scalarList });
+    const TStypeName = getOneTSTypeDisplay({ field, prefix, suffix });
     return `${field.description ? `/** ${field.description} */` : ''}
     ${propertyName}${isOptional ? '?' : ''}: ${isOptional ? `Maybe<${TStypeName}>` : TStypeName};`;
   });
@@ -57,28 +56,18 @@ export const generateQGLArg = (field: Arg): string => {
 };
 
 /** Generates TS interface of a given GraphqlType (ex: interface User {name: string, role?: UserRole}) */
-export const getObjectTSInterfaces = (
-  object: Type,
-  scalarList: { [x: string]: string },
-  prefix?: string,
-  suffix?: string
-): string => {
+export const getObjectTSInterfaces = (object: Type, prefix?: string, suffix?: string): string => {
   let fieldsKey =
     object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
-  const generatedFields = generatedTsFields(object[fieldsKey], scalarList, prefix, suffix);
+  const generatedFields = generatedTsFields(object[fieldsKey], prefix, suffix);
   return buildTsInterfaceString(object, generatedFields, prefix, suffix);
 };
 
 /** Generate queries and mutations arguments types (ex: interface LoginArgs {email: string; password: string}) */
-export const getQueriesArgsTSInterfaces = (
-  object: Field,
-  scalarList: { [x: string]: string },
-  prefix?: string,
-  suffix?: string
-) => {
+export const getQueriesArgsTSInterfaces = (object: Field, prefix?: string, suffix?: string) => {
   let ObjectName: string = object.name;
   const parsedSuffix = 'Args' + (suffix ? suffix : '');
-  const generatedFields = generatedTsFields(object.args, scalarList, prefix, suffix);
+  const generatedFields = generatedTsFields(object.args, prefix, suffix);
   return buildTsInterfaceString(object, generatedFields, prefix, parsedSuffix);
 };
 

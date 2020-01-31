@@ -46,7 +46,6 @@ interface graphQLFunctionArgs {
   suffix?: string;
   ObjectTypes: Type[];
   type: MethodType;
-  scalarList: { [x: string]: string };
   renderedFragmentInner: string;
 }
 
@@ -56,7 +55,6 @@ export const createGraphQLFunction = ({
   prefix,
   suffix,
   type,
-  scalarList,
   renderedFragmentInner,
 }: graphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
@@ -64,7 +62,7 @@ export const createGraphQLFunction = ({
 
   const { methodArgsType } = createMethodsArgs(field, prefix, suffix);
   const { isScalar } = evaluateType(field);
-  const returnedTypeDisplay = getOneTSTypeDisplay({ field, prefix, suffix, scalarList });
+  const returnedTypeDisplay = getOneTSTypeDisplay({ field, prefix, suffix });
 
   const Query = queryBuilder({ field, isScalar, prefix, suffix, renderedFragmentInner, type });
 
@@ -107,7 +105,6 @@ export type buildMethodsArgs = {
   field: Field;
   type: MethodType;
   ObjectTypes: Type[];
-  scalarList: { [x: string]: string };
   withGqlQueries?: boolean;
   apolloHooks?: boolean;
   prefix?: string;
@@ -118,7 +115,6 @@ export const buildMethod = ({
   field,
   type,
   ObjectTypes,
-  scalarList,
   withGqlQueries,
   apolloHooks,
   prefix,
@@ -141,7 +137,6 @@ export const buildMethod = ({
       prefix,
       suffix,
       type,
-      scalarList,
       renderedFragmentInner,
     });
   } else {
@@ -151,7 +146,6 @@ export const buildMethod = ({
       prefix,
       suffix,
       type,
-      scalarList,
       renderedFragmentInner,
     });
   }

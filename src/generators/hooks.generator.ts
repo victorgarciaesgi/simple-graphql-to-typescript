@@ -3,7 +3,6 @@ import { createMethodsArgs } from './methods.generator';
 import { evaluateType, areAllArgsOptional } from '../utilities';
 import { getOneTSTypeDisplay } from './types.generator';
 import { queryBuilder } from './query.generator';
-import { types } from 'util';
 
 function capitalize(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -15,7 +14,6 @@ interface graphQLFunctionArgs {
   suffix?: string;
   ObjectTypes: Type[];
   type: MethodType;
-  scalarList: { [x: string]: string };
   renderedFragmentInner: string;
 }
 
@@ -25,7 +23,6 @@ export const createApolloHook = ({
   prefix,
   suffix,
   type,
-  scalarList,
   renderedFragmentInner,
 }: graphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
@@ -37,7 +34,6 @@ export const createApolloHook = ({
     field,
     prefix,
     suffix,
-    scalarList,
   });
 
   const Query = queryBuilder({

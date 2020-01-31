@@ -4,13 +4,11 @@
 <img width="100" src="https://raw.githubusercontent.com/remojansen/logo.ts/master/ts.png" alt="Vue logo">
 <img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/1200px-GraphQL_Logo.svg.png" alt="Vue logo">
 </p>
-<p align='center'>
-<img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
-</p>
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
+<img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
 
 [npm-version-src]: https://img.shields.io/npm/v/simple-graphql-to-typescript.svg
 [npm-version-href]: https://www.npmjs.com/package/simple-graphql-to-typescript
@@ -54,7 +52,7 @@ sgts
 | --endpoint `<endpoint>`     | -e           | string(url)                                  | Your GraphQL api endpoint                                                     |
 | --json `<path to json>`     | -j           | string(path)                                 | Path to your json schema file                                                 |
 | --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | Path where the file must be generated                                         |
-| --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma)            |
+| --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma generate)   |
 | --apolloHooks               | -A           | boolean                                      | Generate useMutation and useQuery hooks typed                                 |
 | --withGqlQueries            | -            | boolean                                      | Add gql query strings to the generated output                                 |
 | --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...} (JSON)      |
@@ -62,6 +60,7 @@ sgts
 | --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model) |
 | --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file       |
 | --jsMode                    | -J           | boolean                                      | Generate the methods in Js with declaration files instead of Ts               |
+| --download                  | -D           | string <br> _default_ `null`                 | Specify the path to download the GraphQL intropection schema                  |
 
 ## Roadmap
 
@@ -116,7 +115,7 @@ export interface Comment {
 
 You can also use a `.sgtsrc.js` file
 
-```
+```bash
 sgts generate
 ```
 
@@ -140,6 +139,7 @@ Available options
   prefix?: string;
   suffix?: string;
   jsMode?: boolean;
+  download?: string;
   customScalars?: { [x: string]: string };
   generateMethods?: boolean;
   apolloHooks?: boolean;
@@ -183,7 +183,7 @@ sgts -e https://json-placeholder-graphql.herokuapp.com/graphql -G
 }
 ```
 
-**Also, Sgts will generate tout pageInfo fragment for pagination**
+**Also, Sgts will generate all `pageInfo` fragment for pagination**
 
 Sgts handle the `PageInfo` fragment generation, so you just have to pass the `node` fragment to the function
 

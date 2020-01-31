@@ -3,22 +3,13 @@ import { generateInterfaces, generateMethodsArgsTypes } from './generators';
 import { GraphQLJSONSchema, Field } from './models';
 import { createMethods, createGqlQueries } from './builders';
 import { sharedTemplate } from './templates/shared.template';
-
-export let scalarList: { [x: string]: string } = {
-  ID: 'string',
-  String: 'string',
-  Int: 'number',
-  Float: 'number',
-  Upload: 'File',
-  Boolean: 'boolean',
-  Json: 'string',
-};
+import ScalarStore from './store/scalars.store';
 
 const generatedInterfaces = {
   METHODS: '',
   OBJECT: [] as string[],
-  ENUM: []  as string[],
-  METHODS_ARGS: []  as string[],
+  ENUM: [] as string[],
+  METHODS_ARGS: [] as string[],
   QUERIES: '',
 };
 
@@ -35,21 +26,13 @@ export const generate = (
 ): Promise<string> => {
   return new Promise(async (resolve, reject) => {
     if (customScalars) {
-      scalarList = {
-        ...scalarList,
-        ...customScalars,
-      };
+      ScalarStore.addScalars(customScalars);
     }
     transpile.start();
 
     try {
-      const { generatedEnums, generatedTypes } = generateInterfaces(
-        schema,
-        scalarList,
-        prefix,
-        suffix,
-      );
-      const generatedMethodsArgs = generateMethodsArgsTypes(schema, scalarList, prefix, suffix);
+      const { generatedEnums, generatedTypes } = generateInterfaces(schema, prefix, suffix);
+      const generatedMethodsArgs = generateMethodsArgsTypes(schema, prefix, suffix);
       generatedInterfaces.OBJECT = generatedTypes;
       generatedInterfaces.ENUM = generatedEnums;
       generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
@@ -60,7 +43,6 @@ export const generate = (
             schema,
             prefix,
             suffix,
-            scalarList,
             apolloHooks,
           });
           generatedInterfaces.METHODS = methods;
@@ -72,7 +54,7 @@ export const generate = (
       }
       if (withGqlQueries) {
         try {
-          const methods = await createGqlQueries(schema,scalarList, prefix, suffix );
+          const methods = await createGqlQueries(schema, prefix, suffix);
           generatedInterfaces.QUERIES = methods;
         } catch (e) {
           return Promise.reject(e);
