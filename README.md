@@ -8,6 +8,7 @@
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![npm downloads][npm-total-downloads-src]][npm-downloads-href]
+<img src='https://img.shields.io/github/workflow/status/victorgarciaesgi/simple-graphql-to-typescript/Node.js%20CI'>
 <img src='https://img.shields.io/npm/l/simple-graphql-to-typescript.svg'>
 
 [npm-version-src]: https://img.shields.io/npm/v/simple-graphql-to-typescript.svg
