@@ -9,7 +9,7 @@ import { getConfigParams } from './rc';
 const sgts = () => {
   program
     .version(require('../package.json').version)
-    .option('generate <generate>', "Generate using config file '.sgtsrc.js'")
+    .option('generate <generate>', "Generate using config file '.sgtsrc.js'", 'development')
     .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
@@ -40,7 +40,7 @@ const sgts = () => {
     .parse(process.argv);
 
   let {
-    generate = 'development',
+    generate,
     endpoint,
     json,
     output,
