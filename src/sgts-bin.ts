@@ -3,12 +3,13 @@
 import program from 'commander';
 import { sgtsGenerate } from './runtime';
 import chalk from 'chalk';
-import path from 'path';
+import { Dictionnary, SgtsConfig } from './models';
+import { getConfigParams } from './rc';
 
 const sgts = () => {
   program
     .version(require('../package.json').version)
-    .option('generate', "Generate using config file '.sgtsrc.js'")
+    .option('generate <generate>', "Generate using config file '.sgtsrc.js'")
     .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
@@ -36,11 +37,10 @@ const sgts = () => {
       '-D, --download <download>',
       'Specify the path to download the GraphQL introspection schema'
     )
-
     .parse(process.argv);
 
   let {
-    generate,
+    generate = 'development',
     endpoint,
     json,
     output,
@@ -56,12 +56,8 @@ const sgts = () => {
   } = program;
 
   if (generate) {
-    try {
-      const configFile = require(path.resolve(process.cwd(), '.sgtsrc.js'));
-      sgtsGenerate(configFile);
-    } catch (e) {
-      console.error(chalk.red("Couldn't find .sgtsrc.js. Please check that the file is present"));
-    }
+    const config = getConfigParams(generate);
+    if (config) generateUsingConfig(config);
   } else {
     if (customScalars) {
       try {
@@ -74,24 +70,28 @@ const sgts = () => {
       }
     }
 
-    try {
-      sgtsGenerate({
-        endpoint,
-        json,
-        output,
-        customScalars,
-        headers,
-        prefix,
-        suffix,
-        generateMethods,
-        jsMode,
-        apolloHooks,
-        withGqlQueries,
-        download,
-      });
-    } catch (e) {
-      return;
-    }
+    generateUsingConfig({
+      endpoint,
+      json,
+      output,
+      customScalars,
+      headers,
+      prefix,
+      suffix,
+      generateMethods,
+      jsMode,
+      apolloHooks,
+      withGqlQueries,
+      download,
+    });
+  }
+};
+
+const generateUsingConfig = async (config: SgtsConfig) => {
+  try {
+    sgtsGenerate(config);
+  } catch (e) {
+    throw new Error('Generation failed');
   }
 };
 

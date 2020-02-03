@@ -1,11 +1,11 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
   "scripts": {
-    "test": "yarn build && jest",
+    "test": "yarn build && jest --runInBand",
     "test:reset": "yarn test --updateSnapshot",
     "debug": "node ./dist/sgts-bin.js -e https://json-placeholder-graphql.herokuapp.com/graphql -G -o ./debug/__generated.ts -D ./GQLSchema.json",
     "clean": "rimraf dist",
@@ -63,6 +63,8 @@
     "apollo-client": "^2.6.8",
     "chalk": "^3.0.0",
     "commander": "^4.1.0",
+    "custom-env": "^1.0.2",
+    "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "mkdirp": "^1.0.3",
     "node-fetch": "^2.6.0",

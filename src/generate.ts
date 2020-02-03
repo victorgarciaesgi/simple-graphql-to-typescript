@@ -46,7 +46,7 @@ export const generate = (
             apolloHooks,
           });
           generatedInterfaces.METHODS = methods;
-          oraMethods.succeed('🏗 Queries and mutations successfully generated');
+          oraMethods.succeed('🧬 Queries and mutations successfully generated');
         } catch (e) {
           oraMethods.fail('Methods generation failed');
           return Promise.reject(e);
@@ -64,7 +64,7 @@ export const generate = (
       transpile.fail('Transpiling failed');
       return reject(e);
     }
-    transpile.succeed(`🖋 Transpiling done`);
+    transpile.succeed(`📝 Schema transpiled to Typescript`);
 
     const signature = sharedTemplate;
 

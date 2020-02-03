@@ -2,21 +2,7 @@ import { generate } from './generate';
 import chalk from 'chalk';
 import { fetchSchemas } from './utilities';
 import { saveFile } from './save';
-
-interface generatePayload {
-  endpoint?: string;
-  json?: string;
-  output?: string;
-  headers?: string;
-  prefix?: string;
-  suffix?: string;
-  jsMode?: boolean;
-  customScalars?: { [x: string]: string };
-  generateMethods?: boolean;
-  apolloHooks?: boolean;
-  download?: string;
-  withGqlQueries?: boolean;
-}
+import { SgtsConfig } from './models';
 
 /**
  * Returns the transpiled file string
@@ -34,7 +20,7 @@ export async function sgtsGenerate({
   apolloHooks,
   withGqlQueries,
   download,
-}: generatePayload): Promise<string | undefined> {
+}: SgtsConfig): Promise<string | undefined> {
   try {
     console.log(`\n Sgts v${require('../package.json').version}`);
     const schema = await fetchSchemas({ endpoint, headers, json, download });

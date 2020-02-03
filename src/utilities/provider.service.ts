@@ -26,7 +26,7 @@ export const downloadSchema = async (endpoint: string, header?: string): Promise
       download.fail();
       return Promise.reject(schema.message);
     } else {
-      download.succeed(`💯 Schemas successfully downloaded from ${chalk.blue(endpoint)}`);
+      download.succeed(`📥 Schemas successfully downloaded from ${chalk.blue(endpoint)}`);
       return schema.schema;
     }
   } catch (e) {

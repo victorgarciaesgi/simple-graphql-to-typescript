@@ -17,6 +17,7 @@ export function saveFile(
   saveModels.start();
   return new Promise(async (res, rej) => {
     try {
+      const pretty = ora('\nRunning Prettier with your config on the generated output').start();
       const formatedModelsFile = prettier.format(template, {
         config: path.resolve(__dirname, '../.prettierrc'),
         semicolons: true,
@@ -25,6 +26,8 @@ export function saveFile(
         bracketSpacing: true,
         parser: 'typescript',
       });
+      pretty.succeed('💄 Your file has been formated using your Prettier config');
+
       const outputfile = path.resolve(process.cwd(), output);
       if (fs.existsSync(outputfile)) {
         const content = await writeOutput(outputfile, formatedModelsFile, jsMode);
@@ -52,7 +55,7 @@ function TypescriptCompile(fileNames: string[], options: ts.CompilerOptions): vo
 async function writeOutput(path: string, content: string, jsMode?: boolean): Promise<string> {
   try {
     await fs.writeFileSync(path, content);
-    saveModels.succeed(`🗃 Typescript models saved at ${chalk.bold(`${path}`)}`);
+    saveModels.succeed(`🎉 Output saved at ${chalk.bold(`${path}`)}`);
     if (jsMode) {
       try {
         TypescriptCompile([path], {

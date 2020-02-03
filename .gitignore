@@ -26,7 +26,8 @@ coverage
 __generated.ts
 GQLSchema.json
 debug
-
+.env.*
+.sgtsrc.js
 dist
 types
 
