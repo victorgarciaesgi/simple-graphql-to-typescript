@@ -1,12 +1,7 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
 
-export const withApolloTemplate = (queries: string[], mutations: string[]): string => {
-  return `import ApolloClient, { QueryOptions, OperationVariables, MutationOptions, ObservableQuery } from 'apollo-client';
-  import { execute } from 'apollo-link';
-  import { OperationDefinitionNode, DocumentNode } from 'graphql';
-  import gql from 'graphql-tag';
-
-
+export const withMethodsTemplate = (queries: string[], mutations: string[]): string => {
+  return `
   export type AbortableQueryWithArgs<T, A> = {
     $args(args: A): AbortableQuery<T>;
     $abort(): void;
@@ -58,8 +53,6 @@ export const withApolloTemplate = (queries: string[], mutations: string[]): stri
     $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
   }
   
-  
-  ${guessFragmentTypeTemplate}
   
   export const apiProvider = (apolloClient: ApolloClient<any>) => {
     const abortableQuery = <T, A = null>(

@@ -41,6 +41,7 @@ function getHeadersFromInput(header: any): { [key: string]: string } {
   switch (typeof header) {
     case 'string': {
       const keys = query.parse(header);
+      console.log(keys);
       const key = Object.keys(keys)[0];
       return { [key]: keys[key] };
     }
@@ -99,20 +100,20 @@ const possibleGraphQLSuffix = ['graphql', 'api', '__graphql', '__api'];
 
 export async function fetchSchemas({
   endpoint,
-  headers,
+  header,
   json,
   download,
 }: {
   endpoint?: string;
-  headers?: string;
+  header?: string;
   json?: string;
   download?: string;
 }): Promise<GraphQLJSONSchema | null> {
   try {
     if (endpoint) {
-      const graphqlRegxp = /[^\/]+(?=\/$|$)/;
+      const graphqlRegxp = /[^/]+(?=\/$|$)/;
       const [result] = graphqlRegxp.exec(endpoint);
-      const JSONschema = await downloadSchema(endpoint, headers);
+      const JSONschema = await downloadSchema(endpoint, header);
       if (download) {
         const outputfile = path.resolve(process.cwd(), download);
         try {

@@ -23,12 +23,12 @@ export const queryBuilder = ({
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
   if (isScalar) {
-    return `gql\`
+    return `sgtsQL\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
       }\``;
   } else {
-    return `gql\`
+    return `sgtsQL\`
       ${type.little} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${renderedFragmentInner}
@@ -38,7 +38,7 @@ export const queryBuilder = ({
   }
 };
 
-interface createQueryFunctionArgs {
+interface CreateQueryFunctionArgs {
   field: Field;
   type: MethodType;
   prefix?: string;
@@ -52,7 +52,7 @@ export const createQueryFunction = ({
   prefix,
   suffix,
   renderedFragmentInner,
-}: createQueryFunctionArgs) => {
+}: CreateQueryFunctionArgs) => {
   const { isScalar } = evaluateType(field);
   const Query = queryBuilder({ field, isScalar, prefix, suffix, renderedFragmentInner, type });
 

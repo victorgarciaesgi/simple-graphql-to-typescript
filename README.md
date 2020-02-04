@@ -1,8 +1,7 @@
 # Simple-graphql-to-typescript generator
 
 <p align="center">
-<img width="100" src="https://raw.githubusercontent.com/remojansen/logo.ts/master/ts.png" alt="Vue logo">
-<img width="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/1200px-GraphQL_Logo.svg.png" alt="Vue logo">
+  <img width='100' src="./media/sgts.svg" alt="sgts logo">
 </p>
 
 [![npm version][npm-version-src]][npm-version-href]
@@ -53,14 +52,14 @@ sgts
 | --endpoint `<endpoint>`     | -e           | string(url)                                  | Your GraphQL api endpoint                                                                              |
 | --json `<path to json>`     | -j           | string(path)                                 | Path to your json schema file                                                                          |
 | --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | Path where the file must be generated                                                                  |
-| --generateMethods           | -G           | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma generate)                            |
-| --apolloHooks               | -A           | boolean                                      | Generate useMutation and useQuery hooks typed                                                          |
-| --withGqlQueries            | -            | boolean                                      | Add gql query strings to the generated output                                                          |
-| --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars in format {"myScalar": "MyType", ...} (JSON)                               |
+| --codegen-methods           |              | boolean                                      | Generate all your graphQL methods fully typed (Inspired by Prisma generate)                            |
+| --codegen-hooks             |              | boolean                                      | Generate useMutation and useQuery hooks typed                                                          |
+| --codegen-templates         |              | boolean                                      | Add gql query strings to the generated output                                                          |
+| --customScalars `<scalars>` | -            | {"myScalar": "MyType"}                       | Provide your custum scalars that will be merged to existing scalars                                    |
 | --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | Add prefix to all your types (ex: User becomes IUser with --prefix I)                                  |
 | --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | Add suffix to all your types (ex: User becomes UserModel with --suffix Model)                          |
-| --header `<header>`         | -head        | string                                       | Additional header option to fetch your schema from endpoint schema file                                |
-| --jsMode                    | -J           | boolean                                      | Generate the methods in Js with declaration files instead of Ts                                        |
+| --header `<header>`         |              | string                                       | Additional header option to fetch your schema from endpoint schema file                                |
+| --compileToJs               |              | boolean                                      | Generate the methods in Js with declaration files instead of Ts                                        |
 | --download                  | -D           | string <br> _default_ `null`                 | Specify the path to download the GraphQL intropection schema                                           |
 | --generate                  | -            | string <br> _default_ `development`          | Specify the path to download the GraphQL intropection schema and specify the environnement file to use |
 

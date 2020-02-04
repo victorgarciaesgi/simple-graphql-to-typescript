@@ -14,11 +14,12 @@ const sgts = () => {
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
     .option(
-      '-G, --generateMethods',
+      '--codegen-methods',
       'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
-    .option('-A, --apolloHooks', 'Generate useMutation and useQuery hooks typed')
-    .option('-H, --headers <header>', 'Additional header option to fetch your schema from endpoint')
+    .option('--codegen-hooks', 'Generate useMutation and useQuery hooks typed')
+    .option('--codegen-templates', 'Add gql query strings to the generated output')
+    .option('--header <header>', 'Additional header option to fetch your schema from endpoint')
     .option(
       '--customScalars <scalars>',
       'Provide your custum scalars in format {"myScalar": "MyType"...}'
@@ -31,8 +32,7 @@ const sgts = () => {
       '-s, --suffix <suffix>',
       'Add suffix to all your types (ex: User becomes UserModel with --suffix Model)'
     )
-    .option('-J, --jsMode', 'Generate the methods in Js with declaration files instead of Ts')
-    .option('--withGqlQueries', 'Add gql query strings to the generated output')
+    .option('--compileToJs', 'Generate the methods in Js with declaration files instead of Ts')
     .option(
       '-D, --download <download>',
       'Specify the path to download the GraphQL introspection schema'
@@ -45,13 +45,13 @@ const sgts = () => {
     json,
     output,
     customScalars,
-    headers,
+    header,
     prefix,
     suffix,
-    generateMethods,
+    codegenMethods,
     jsMode,
-    apolloHooks,
-    withGqlQueries,
+    codegenHooks,
+    codegenTemplates,
     download,
   } = program;
 
@@ -76,13 +76,13 @@ const sgts = () => {
       json,
       output,
       customScalars,
-      headers,
+      header,
       prefix,
       suffix,
-      generateMethods,
+      codegenMethods,
       jsMode,
-      apolloHooks,
-      withGqlQueries,
+      codegenHooks,
+      codegenTemplates,
       download,
     });
   }

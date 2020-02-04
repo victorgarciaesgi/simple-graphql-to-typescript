@@ -40,7 +40,7 @@ export const createMethodsArgs = (
   };
 };
 
-interface graphQLFunctionArgs {
+interface GraphQLFunctionArgs {
   field: Field;
   prefix?: string;
   suffix?: string;
@@ -56,7 +56,7 @@ export const createGraphQLFunction = ({
   suffix,
   type,
   renderedFragmentInner,
-}: graphQLFunctionArgs): string => {
+}: GraphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
 
@@ -105,8 +105,7 @@ export type buildMethodsArgs = {
   field: Field;
   type: MethodType;
   ObjectTypes: Type[];
-  withGqlQueries?: boolean;
-  apolloHooks?: boolean;
+  mode?: 'methods' | 'hooks' | 'template';
   prefix?: string;
   suffix?: string;
 };
@@ -115,8 +114,7 @@ export const buildMethod = ({
   field,
   type,
   ObjectTypes,
-  withGqlQueries,
-  apolloHooks,
+  mode,
   prefix,
   suffix,
 }: buildMethodsArgs) => {
@@ -128,9 +126,9 @@ export const buildMethod = ({
     renderedFragmentInner =
       createConnectionFragment(typeName, ObjectTypes, fragmentDisplay) ?? fragmentDisplay;
   }
-  if (withGqlQueries) {
+  if (mode === 'template') {
     return createQueryFunction({ field, prefix, suffix, type, renderedFragmentInner });
-  } else if (apolloHooks) {
+  } else if (mode === 'hooks') {
     return createApolloHook({
       ObjectTypes,
       field,

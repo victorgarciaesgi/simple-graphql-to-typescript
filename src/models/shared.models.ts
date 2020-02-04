@@ -5,13 +5,13 @@ export interface SgtsConfig {
   endpoint?: string;
   json?: string;
   output?: string;
-  generateMethods?: boolean;
-  apolloHooks?: boolean;
-  headers?: string;
+  header?: string;
   customScalars?: Dictionnary<string>;
-  withGqlQueries?: boolean;
   prefix?: string;
   suffix?: string;
   jsMode?: boolean;
   download?: string;
+  codegenMethods?: boolean;
+  codegenHooks?: boolean;
+  codegenTemplates?: boolean;
 }

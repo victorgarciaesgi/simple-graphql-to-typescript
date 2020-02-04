@@ -4,7 +4,7 @@ export declare const createMethodsArgs: (field: Field, prefix?: string | undefin
     GQLArgs: string[];
     methodArgsType: string;
 };
-interface graphQLFunctionArgs {
+interface GraphQLFunctionArgs {
     field: Field;
     prefix?: string;
     suffix?: string;
@@ -12,15 +12,14 @@ interface graphQLFunctionArgs {
     type: MethodType;
     renderedFragmentInner: string;
 }
-export declare const createGraphQLFunction: ({ field, ObjectTypes, prefix, suffix, type, renderedFragmentInner, }: graphQLFunctionArgs) => string;
+export declare const createGraphQLFunction: ({ field, ObjectTypes, prefix, suffix, type, renderedFragmentInner, }: GraphQLFunctionArgs) => string;
 export declare type buildMethodsArgs = {
     field: Field;
     type: MethodType;
     ObjectTypes: Type[];
-    withGqlQueries?: boolean;
-    apolloHooks?: boolean;
+    mode?: 'methods' | 'hooks' | 'template';
     prefix?: string;
     suffix?: string;
 };
-export declare const buildMethod: ({ field, type, ObjectTypes, withGqlQueries, apolloHooks, prefix, suffix, }: buildMethodsArgs) => string;
+export declare const buildMethod: ({ field, type, ObjectTypes, mode, prefix, suffix, }: buildMethodsArgs) => string;
 export {};

@@ -1,33 +1,33 @@
 import { Field, GraphQLJSONSchema, Schema } from '../models';
 import { buildMethod } from '../generators';
-import { withApolloTemplate, withDefinitionsTemplate, withReactHooksTemplate } from '../templates';
+import { withMethodsTemplate, withDefinitionsTemplate, withReactHooksTemplate } from '../templates';
 
-interface createMethodsArgs {
+interface CreateMethodsArgs {
   schema: GraphQLJSONSchema;
   prefix?: string;
   suffix?: string;
-  apolloHooks?: boolean;
+  mode?: 'methods' | 'hooks' | 'template';
 }
 
-export const createMethods = async ({ schema, apolloHooks, prefix, suffix }: createMethodsArgs) => {
+export const createMethods = async ({ schema, prefix, suffix, mode }: CreateMethodsArgs) => {
   const [queries, mutations] = retrieveQueriesList({
     schema,
-    apolloHooks,
     prefix,
     suffix,
+    mode,
   });
 
-  if (apolloHooks) {
+  if (mode === 'hooks') {
     return withReactHooksTemplate(queries, mutations);
+  } else if (mode === 'methods') {
+    return withMethodsTemplate(queries, mutations);
   } else {
-    return withApolloTemplate(queries, mutations);
+    return withDefinitionsTemplate(queries, mutations);
   }
 };
 
-export function retrieveQueriesList({
-  schema,
-  ...rest
-}: createMethodsArgs & { withGqlQueries?: boolean }): [string[], string[]] {
+/** Returns the list of Queries and Mutations from a schema */
+export function retrieveQueriesList({ schema, ...rest }: CreateMethodsArgs): [string[], string[]] {
   const QueryType = schema.__schema.queryType.name;
   const MutationType = schema.__schema.mutationType ? schema.__schema.mutationType.name : '';
   let listQueries = schema.__schema.types.find(f => f.name === QueryType)?.fields ?? [];
@@ -60,15 +60,4 @@ export function retrieveQueriesList({
     });
 
   return [queries, mutations];
-}
-
-export function createGqlQueries(schema: GraphQLJSONSchema, prefix?: string, suffix?: string) {
-  const [queries, mutations] = retrieveQueriesList({
-    schema,
-    withGqlQueries: true,
-    prefix,
-    suffix,
-  });
-
-  return withDefinitionsTemplate([...queries, ...mutations]);
 }
