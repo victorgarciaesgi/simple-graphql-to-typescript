@@ -56,3 +56,7 @@ module.exports = {
   output: './generated.ts',
 };
 ```
+
+```bash
+sgts generate testing
+```
