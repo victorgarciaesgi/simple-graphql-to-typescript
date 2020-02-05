@@ -14,11 +14,11 @@ For the detail of each options, refer to the [options](/options) page!
   endpoint?: string;
   json?: string;
   output?: string;
-  generateMethods?: boolean;
-  apolloHooks?: boolean;
-  withGqlQueries?: boolean;
+  codegenMethods?: boolean;
+  codegenHooks?: boolean;
+  codegenTemplates?: boolean;
   customScalars?: { [x: string]: string };
-  headers?: string;
+  header?: string;
   prefix?: string;
   suffix?: string;
   jsMode?: boolean;
