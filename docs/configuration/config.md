@@ -21,7 +21,7 @@ For the detail of each options, refer to the [options](/options) page!
   header?: string;
   prefix?: string;
   suffix?: string;
-  jsMode?: boolean;
+  compileToJs?: boolean;
   download?: string;
 }
 ```
