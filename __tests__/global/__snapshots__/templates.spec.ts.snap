@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test methods generation from different sources Generates types correctly from graphql Analyst 1`] = `
+exports[`Test React Hooks generation from different sources Generates types correctly from graphql Analyst 1`] = `
 "/* eslint-disable */
 /* tslint-disable */
 // @ts-nocheck
@@ -3556,1097 +3556,540 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-import ApolloClient, {
-  QueryOptions,
-  OperationVariables,
-  MutationOptions,
-  ObservableQuery
-} from 'apollo-client';
-import { execute } from 'apollo-link';
-
-export type AbortableQueryWithArgs<T, A> = {
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQueryWithOptionalArgs<T, A> = {
-  $fetch(): Promise<T>;
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQuery<T> = {
-  $fetch(): Promise<T>;
-  $abort(): void;
-};
-export interface FragmentableQueryWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
-}
-export interface FragmentableQueryWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
-}
-export interface FragmentableQuery<T> {
-  $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
-}
-
-export type AbortableMutationWithArgs<T, A> = {
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutationWithOptionalArgs<T, A> = {
-  $post(): Promise<T>;
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutation<T> = {
-  $post(): Promise<T>;
-  $abort(): void;
-};
-
-export interface FragmentableMutationWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
-}
-export interface FragmentableMutationWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
-}
-export interface FragmentableMutation<T> {
-  $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
-}
-
-export const apiProvider = (apolloClient: ApolloClient<any>) => {
-  const abortableQuery = <T, A = null>(
-    query: DocumentNode,
-    args: boolean
-  ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = query.definitions[0] as OperationDefinitionNode;
-    const queryName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $fetch() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query,
-          variables
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[queryName]);
-            }
-          },
-          error: error => reject(error)
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $fetch
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args
-      } as any;
-    } else {
-      return {
-        $abort,
-        $fetch
-      } as any;
-    }
-  };
-  const abortableMutation = <T, A = null>(
-    mutation: DocumentNode,
-    args: boolean
-  ): AbortableMutationWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
-    const mutationName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $post() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query: mutation,
-          variables
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[mutationName]);
-            }
-          },
-          error: error => reject(error)
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $post
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args
-      } as any;
-    } else {
-      return {
-        $abort,
-        $post
-      } as any;
-    }
-  };
-
-  return {
-    Page(): FragmentableQueryWithOptionalArgs<Page, PageArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+export const GqlQueries = {
+  Page(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Page ($page: Int,$perPage: Int) {
         Page(page: $page,perPage: $perPage) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Media query */
-    Media(): FragmentableQueryWithOptionalArgs<Media, MediaArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Media(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
         Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Media Trend query */
-    MediaTrend(): FragmentableQueryWithOptionalArgs<MediaTrend, MediaTrendArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  MediaTrend(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
         MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Airing schedule query */
-    AiringSchedule(): FragmentableQueryWithOptionalArgs<AiringSchedule, AiringScheduleArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  AiringSchedule(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
         AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Character query */
-    Character(): FragmentableQueryWithOptionalArgs<Character, CharacterArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Character(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
         Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Staff query */
-    Staff(): FragmentableQueryWithOptionalArgs<Staff, StaffArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Staff(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
         Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Media list query */
-    MediaList(): FragmentableQueryWithOptionalArgs<MediaList, MediaListArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  MediaList(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
         MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Media list collection query, provides list pre-grouped by status & custom lists. User ID and Media Type arguments required. */
-    MediaListCollection(): FragmentableQueryWithOptionalArgs<
-      MediaListCollection,
-      MediaListCollectionArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  MediaListCollection(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
         MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Collection of all the possible media genres */
-    GenreCollection(): AbortableQuery<string[]> {
-      const query = sgtsQL\`
+  },
+  GenreCollection() {
+    return sgtsQL\`
       query GenreCollection  {
         GenreCollection
       }\`;
-      return abortableQuery(query, false);
-    },
-    /** Collection of all the possible media tags */
-    MediaTagCollection(): FragmentableQueryWithOptionalArgs<MediaTag[], MediaTagCollectionArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  MediaTagCollection(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query MediaTagCollection ($status: Int) {
         MediaTagCollection(status: $status) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** User query */
-    User(): FragmentableQueryWithOptionalArgs<User, UserArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  User(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
         User(id: $id,name: $name,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Get the currently authenticated user */
-    Viewer(): FragmentableQuery<User> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Viewer(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Viewer  {
         Viewer {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, false);
-        }
-      };
-    },
-    /** Notification query */
-    Notification(): FragmentableQueryWithOptionalArgs<NotificationUnion, NotificationArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Notification(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
         Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Studio query */
-    Studio(): FragmentableQueryWithOptionalArgs<Studio, StudioArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Studio(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
         Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Review query */
-    Review(): FragmentableQueryWithOptionalArgs<Review, ReviewArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Review(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
         Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Activity query */
-    Activity(): FragmentableQueryWithOptionalArgs<ActivityUnion, ActivityArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Activity(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
         Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Activity reply query */
-    ActivityReply(): FragmentableQueryWithOptionalArgs<ActivityReply, ActivityReplyArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  ActivityReply(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query ActivityReply ($id: Int,$activityId: Int) {
         ActivityReply(id: $id,activityId: $activityId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Follow query */
-    Following(): FragmentableQueryWithArgs<User, FollowingArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Following(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Following ($userId: Int!,$sort: [UserSort]!) {
         Following(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Follow query */
-    Follower(): FragmentableQueryWithArgs<User, FollowerArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Follower(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Follower ($userId: Int!,$sort: [UserSort]!) {
         Follower(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Thread query */
-    Thread(): FragmentableQueryWithOptionalArgs<Thread, ThreadArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Thread(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
         Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Comment query */
-    ThreadComment(): FragmentableQueryWithOptionalArgs<ThreadComment[], ThreadCommentArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  ThreadComment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
         ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Recommendation query */
-    Recommendation(): FragmentableQueryWithOptionalArgs<Recommendation, RecommendationArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Recommendation(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
         Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Like query */
-    Like(): FragmentableQueryWithOptionalArgs<User, LikeArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Like(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Like ($likeableId: Int,$type: LikeableType) {
         Like(likeableId: $likeableId,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    /** Provide AniList markdown to be converted to html (Requires auth) */
-    Markdown(): FragmentableQueryWithArgs<ParsedMarkdown, MarkdownArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  Markdown(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query Markdown ($markdown: String!) {
         Markdown(markdown: $markdown) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    AniChartUser(): FragmentableQuery<AniChartUser> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  AniChartUser(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query AniChartUser  {
         AniChartUser {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, false);
-        }
-      };
-    },
-    /** Site statistics query */
-    SiteStatistics(): FragmentableQuery<SiteStatistics> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  SiteStatistics(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query SiteStatistics  {
         SiteStatistics {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, false);
-        }
-      };
-    },
-    UpdateUser(): FragmentableMutationWithOptionalArgs<User, UpdateUserArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  UpdateUser(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
         UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update a media list entry */
-    SaveMediaListEntry(): FragmentableMutationWithOptionalArgs<MediaList, SaveMediaListEntryArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveMediaListEntry(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
         SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Update multiple media list entries to the same values */
-    UpdateMediaListEntries(): FragmentableMutationWithOptionalArgs<
-      MediaList[],
-      UpdateMediaListEntriesArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  UpdateMediaListEntries(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
         UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete a media list entry */
-    DeleteMediaListEntry(): FragmentableMutationWithOptionalArgs<
-      Deleted,
-      DeleteMediaListEntryArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteMediaListEntry(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteMediaListEntry ($id: Int) {
         DeleteMediaListEntry(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete a custom list and remove the list entries from it */
-    DeleteCustomList(): FragmentableMutationWithOptionalArgs<Deleted, DeleteCustomListArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteCustomList(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteCustomList ($customList: String,$type: MediaType) {
         DeleteCustomList(customList: $customList,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update text activity for the currently authenticated user */
-    SaveTextActivity(): FragmentableMutationWithOptionalArgs<TextActivity, SaveTextActivityArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveTextActivity(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
         SaveTextActivity(id: $id,text: $text,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update message activity for the currently authenticated user */
-    SaveMessageActivity(): FragmentableMutationWithOptionalArgs<
-      MessageActivity,
-      SaveMessageActivityArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveMessageActivity(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
         SaveMessageActivity(id: $id,message: $message,recipientId: $recipientId,private: $private,locked: $locked,asMod: $asMod) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Update list activity (Mod Only) */
-    SaveListActivity(): FragmentableMutationWithOptionalArgs<ListActivity, SaveListActivityArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveListActivity(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveListActivity ($id: Int,$locked: Boolean) {
         SaveListActivity(id: $id,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete an activity item of the authenticated users */
-    DeleteActivity(): FragmentableMutationWithOptionalArgs<Deleted, DeleteActivityArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteActivity(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteActivity ($id: Int) {
         DeleteActivity(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Toggle the subscription of an activity item */
-    ToggleActivitySubscription(): FragmentableMutationWithOptionalArgs<
-      ActivityUnion,
-      ToggleActivitySubscriptionArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  ToggleActivitySubscription(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
         ToggleActivitySubscription(activityId: $activityId,subscribe: $subscribe) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update an activity reply */
-    SaveActivityReply(): FragmentableMutationWithOptionalArgs<
-      ActivityReply,
-      SaveActivityReplyArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveActivityReply(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
         SaveActivityReply(id: $id,activityId: $activityId,text: $text,asMod: $asMod) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete an activity reply of the authenticated users */
-    DeleteActivityReply(): FragmentableMutationWithOptionalArgs<Deleted, DeleteActivityReplyArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteActivityReply(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteActivityReply ($id: Int) {
         DeleteActivityReply(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Add or remove a like from a likeable type.
-                          Returns all the users who liked the same model */
-    ToggleLike(): FragmentableMutationWithOptionalArgs<User[], ToggleLikeArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  ToggleLike(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation ToggleLike ($id: Int,$type: LikeableType) {
         ToggleLike(id: $id,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Add or remove a like from a likeable type. */
-    ToggleLikeV2(): FragmentableMutationWithOptionalArgs<LikeableUnion, ToggleLikeV2Args> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  ToggleLikeV2(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
         ToggleLikeV2(id: $id,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Toggle the un/following of a user */
-    ToggleFollow(): FragmentableMutationWithOptionalArgs<User, ToggleFollowArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  ToggleFollow(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation ToggleFollow ($userId: Int) {
         ToggleFollow(userId: $userId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Favourite or unfavourite an anime, manga, character, staff member, or studio */
-    ToggleFavourite(): FragmentableMutationWithOptionalArgs<Favourites, ToggleFavouriteArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  ToggleFavourite(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
         ToggleFavourite(animeId: $animeId,mangaId: $mangaId,characterId: $characterId,staffId: $staffId,studioId: $studioId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Update the order favourites are displayed in */
-    UpdateFavouriteOrder(): FragmentableMutationWithOptionalArgs<
-      Favourites,
-      UpdateFavouriteOrderArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  UpdateFavouriteOrder(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
         UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update a review */
-    SaveReview(): FragmentableMutationWithOptionalArgs<Review, SaveReviewArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveReview(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
         SaveReview(id: $id,mediaId: $mediaId,body: $body,summary: $summary,score: $score,private: $private) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete a review */
-    DeleteReview(): FragmentableMutationWithOptionalArgs<Deleted, DeleteReviewArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteReview(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteReview ($id: Int) {
         DeleteReview(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Rate a review */
-    RateReview(): FragmentableMutationWithOptionalArgs<Review, RateReviewArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  RateReview(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
         RateReview(reviewId: $reviewId,rating: $rating) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Recommendation a media */
-    SaveRecommendation(): FragmentableMutationWithOptionalArgs<
-      Recommendation,
-      SaveRecommendationArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveRecommendation(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
         SaveRecommendation(mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,rating: $rating) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update a forum thread */
-    SaveThread(): FragmentableMutationWithOptionalArgs<Thread, SaveThreadArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveThread(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
         SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete a thread */
-    DeleteThread(): FragmentableMutationWithOptionalArgs<Deleted, DeleteThreadArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteThread(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteThread ($id: Int) {
         DeleteThread(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Toggle the subscription of a forum thread */
-    ToggleThreadSubscription(): FragmentableMutationWithOptionalArgs<
-      Thread,
-      ToggleThreadSubscriptionArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  ToggleThreadSubscription(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
         ToggleThreadSubscription(threadId: $threadId,subscribe: $subscribe) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Create or update a thread comment */
-    SaveThreadComment(): FragmentableMutationWithOptionalArgs<
-      ThreadComment,
-      SaveThreadCommentArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  SaveThreadComment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
         SaveThreadComment(id: $id,threadId: $threadId,parentCommentId: $parentCommentId,comment: $comment) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    /** Delete a thread comment */
-    DeleteThreadComment(): FragmentableMutationWithOptionalArgs<Deleted, DeleteThreadCommentArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  DeleteThreadComment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation DeleteThreadComment ($id: Int) {
         DeleteThreadComment(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    UpdateAniChartSettings(): AbortableMutationWithOptionalArgs<
-      string,
-      UpdateAniChartSettingsArgs
-    > {
-      const mutation = sgtsQL\`
+  },
+  UpdateAniChartSettings() {
+    return sgtsQL\`
       mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
         UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-    UpdateAniChartHighlights(): AbortableMutationWithOptionalArgs<
-      string,
-      UpdateAniChartHighlightsArgs
-    > {
-      const mutation = sgtsQL\`
+  },
+  UpdateAniChartHighlights() {
+    return sgtsQL\`
       mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
-      return abortableMutation(mutation, true);
-    }
-  };
+  }
 };
 "
 `;
 
-exports[`Test methods generation from different sources Generates types correctly from graphqlZero 1`] = `
+exports[`Test React Hooks generation from different sources Generates types correctly from graphqlZero 1`] = `
 "/* eslint-disable */
 /* tslint-disable */
 // @ts-nocheck
@@ -5249,600 +4692,288 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-import ApolloClient, {
-  QueryOptions,
-  OperationVariables,
-  MutationOptions,
-  ObservableQuery
-} from 'apollo-client';
-import { execute } from 'apollo-link';
-
-export type AbortableQueryWithArgs<T, A> = {
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQueryWithOptionalArgs<T, A> = {
-  $fetch(): Promise<T>;
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQuery<T> = {
-  $fetch(): Promise<T>;
-  $abort(): void;
-};
-export interface FragmentableQueryWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
-}
-export interface FragmentableQueryWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
-}
-export interface FragmentableQuery<T> {
-  $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
-}
-
-export type AbortableMutationWithArgs<T, A> = {
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutationWithOptionalArgs<T, A> = {
-  $post(): Promise<T>;
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutation<T> = {
-  $post(): Promise<T>;
-  $abort(): void;
-};
-
-export interface FragmentableMutationWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
-}
-export interface FragmentableMutationWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
-}
-export interface FragmentableMutation<T> {
-  $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
-}
-
-export const apiProvider = (apolloClient: ApolloClient<any>) => {
-  const abortableQuery = <T, A = null>(
-    query: DocumentNode,
-    args: boolean
-  ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = query.definitions[0] as OperationDefinitionNode;
-    const queryName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $fetch() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query,
-          variables
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[queryName]);
-            }
-          },
-          error: error => reject(error)
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $fetch
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args
-      } as any;
-    } else {
-      return {
-        $abort,
-        $fetch
-      } as any;
-    }
-  };
-  const abortableMutation = <T, A = null>(
-    mutation: DocumentNode,
-    args: boolean
-  ): AbortableMutationWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
-    const mutationName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $post() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query: mutation,
-          variables
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[mutationName]);
-            }
-          },
-          error: error => reject(error)
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $post
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args
-      } as any;
-    } else {
-      return {
-        $abort,
-        $post
-      } as any;
-    }
-  };
-
-  return {
-    albums(): FragmentableQueryWithOptionalArgs<AlbumsPage, albumsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+export const GqlQueries = {
+  albums(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query albums ($options: PageQueryOptions) {
         albums(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    album(): FragmentableQueryWithArgs<Album, albumArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  album(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query album ($id: ID!) {
         album(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    comments(): FragmentableQueryWithOptionalArgs<CommentsPage, commentsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  comments(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query comments ($options: PageQueryOptions) {
         comments(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    comment(): FragmentableQueryWithArgs<Comment, commentArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  comment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query comment ($id: ID!) {
         comment(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    photos(): FragmentableQueryWithOptionalArgs<PhotosPage, photosArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  photos(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query photos ($options: PageQueryOptions) {
         photos(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    photo(): FragmentableQueryWithArgs<Photo, photoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  photo(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query photo ($id: ID!) {
         photo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    posts(): FragmentableQueryWithOptionalArgs<PostsPage, postsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  posts(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query posts ($options: PageQueryOptions) {
         posts(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    post(): FragmentableQueryWithArgs<Post, postArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  post(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query post ($id: ID!) {
         post(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    todos(): FragmentableQueryWithOptionalArgs<TodosPage, todosArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  todos(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query todos ($options: PageQueryOptions) {
         todos(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    todo(): FragmentableQueryWithArgs<Todo, todoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  todo(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query todo ($id: ID!) {
         todo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    users(): FragmentableQueryWithOptionalArgs<UsersPage, usersArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  users(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query users ($options: PageQueryOptions) {
         users(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    user(): FragmentableQueryWithArgs<User, userArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  user(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query user ($id: ID!) {
         user(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    createAlbum(): FragmentableMutationWithArgs<Album, createAlbumArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  createAlbum(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation createAlbum ($input: CreateAlbumInput!) {
         createAlbum(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    updateAlbum(): FragmentableMutationWithArgs<Album, updateAlbumArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  updateAlbum(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
         updateAlbum(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    deleteAlbum(): AbortableMutationWithArgs<boolean, deleteAlbumArgs> {
-      const mutation = sgtsQL\`
+  },
+  deleteAlbum() {
+    return sgtsQL\`
       mutation deleteAlbum ($id: ID!) {
         deleteAlbum(id: $id)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-    createComment(): FragmentableMutationWithArgs<Comment, createCommentArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  createComment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation createComment ($input: CreateCommentInput!) {
         createComment(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    updateComment(): FragmentableMutationWithArgs<Comment, updateCommentArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  updateComment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
         updateComment(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    deleteComment(): AbortableMutationWithArgs<boolean, deleteCommentArgs> {
-      const mutation = sgtsQL\`
+  },
+  deleteComment() {
+    return sgtsQL\`
       mutation deleteComment ($id: ID!) {
         deleteComment(id: $id)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-    createPhoto(): FragmentableMutationWithArgs<Photo, createPhotoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  createPhoto(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation createPhoto ($input: CreatePhotoInput!) {
         createPhoto(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    updatePhoto(): FragmentableMutationWithArgs<Photo, updatePhotoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  updatePhoto(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
         updatePhoto(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    deletePhoto(): AbortableMutationWithArgs<boolean, deletePhotoArgs> {
-      const mutation = sgtsQL\`
+  },
+  deletePhoto() {
+    return sgtsQL\`
       mutation deletePhoto ($id: ID!) {
         deletePhoto(id: $id)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-    createPost(): FragmentableMutationWithArgs<Post, createPostArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  createPost(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation createPost ($input: CreatePostInput!) {
         createPost(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    updatePost(): FragmentableMutationWithArgs<Post, updatePostArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  updatePost(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
         updatePost(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    deletePost(): AbortableMutationWithArgs<boolean, deletePostArgs> {
-      const mutation = sgtsQL\`
+  },
+  deletePost() {
+    return sgtsQL\`
       mutation deletePost ($id: ID!) {
         deletePost(id: $id)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-    createTodo(): FragmentableMutationWithArgs<Todo, createTodoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  createTodo(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation createTodo ($input: CreateTodoInput!) {
         createTodo(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    updateTodo(): FragmentableMutationWithArgs<Todo, updateTodoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  updateTodo(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
         updateTodo(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    deleteTodo(): AbortableMutationWithArgs<boolean, deleteTodoArgs> {
-      const mutation = sgtsQL\`
+  },
+  deleteTodo() {
+    return sgtsQL\`
       mutation deleteTodo ($id: ID!) {
         deleteTodo(id: $id)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-    createUser(): FragmentableMutationWithArgs<User, createUserArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  createUser(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation createUser ($input: CreateUserInput!) {
         createUser(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    updateUser(): FragmentableMutationWithArgs<User, updateUserArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
+  },
+  updateUser(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
         updateUser(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableMutation(mutation, true);
-        }
-      };
-    },
-    deleteUser(): AbortableMutationWithArgs<boolean, deleteUserArgs> {
-      const mutation = sgtsQL\`
+  },
+  deleteUser() {
+    return sgtsQL\`
       mutation deleteUser ($id: ID!) {
         deleteUser(id: $id)
       }\`;
-      return abortableMutation(mutation, true);
-    }
-  };
+  }
 };
 "
 `;
 
-exports[`Test methods generation from different sources Generates types correctly from jsonplaceholder 1`] = `
+exports[`Test React Hooks generation from different sources Generates types correctly from jsonplaceholder 1`] = `
 "/* eslint-disable */
 /* tslint-disable */
 // @ts-nocheck
@@ -6034,361 +5165,127 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-import ApolloClient, {
-  QueryOptions,
-  OperationVariables,
-  MutationOptions,
-  ObservableQuery
-} from 'apollo-client';
-import { execute } from 'apollo-link';
-
-export type AbortableQueryWithArgs<T, A> = {
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQueryWithOptionalArgs<T, A> = {
-  $fetch(): Promise<T>;
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQuery<T> = {
-  $fetch(): Promise<T>;
-  $abort(): void;
-};
-export interface FragmentableQueryWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
-}
-export interface FragmentableQueryWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
-}
-export interface FragmentableQuery<T> {
-  $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
-}
-
-export type AbortableMutationWithArgs<T, A> = {
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutationWithOptionalArgs<T, A> = {
-  $post(): Promise<T>;
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutation<T> = {
-  $post(): Promise<T>;
-  $abort(): void;
-};
-
-export interface FragmentableMutationWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
-}
-export interface FragmentableMutationWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
-}
-export interface FragmentableMutation<T> {
-  $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
-}
-
-export const apiProvider = (apolloClient: ApolloClient<any>) => {
-  const abortableQuery = <T, A = null>(
-    query: DocumentNode,
-    args: boolean
-  ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = query.definitions[0] as OperationDefinitionNode;
-    const queryName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $fetch() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query,
-          variables
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[queryName]);
-            }
-          },
-          error: error => reject(error)
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $fetch
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args
-      } as any;
-    } else {
-      return {
-        $abort,
-        $fetch
-      } as any;
-    }
-  };
-  const abortableMutation = <T, A = null>(
-    mutation: DocumentNode,
-    args: boolean
-  ): AbortableMutationWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
-    const mutationName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $post() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query: mutation,
-          variables
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[mutationName]);
-            }
-          },
-          error: error => reject(error)
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $post
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args
-      } as any;
-    } else {
-      return {
-        $abort,
-        $post
-      } as any;
-    }
-  };
-
-  return {
-    post(): FragmentableQueryWithOptionalArgs<Post, postArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+export const GqlQueries = {
+  post(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query post ($id: Int) {
         post(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    posts(): FragmentableQueryWithOptionalArgs<Post[], postsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  posts(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query posts ($userId: Int) {
         posts(userId: $userId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    comment(): FragmentableQueryWithOptionalArgs<Comment, commentArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  comment(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query comment ($id: Int) {
         comment(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    comments(): FragmentableQueryWithOptionalArgs<Comment[], commentsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  comments(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query comments ($postId: Int) {
         comments(postId: $postId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    album(): FragmentableQueryWithOptionalArgs<Album, albumArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  album(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query album ($id: Int) {
         album(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    albums(): FragmentableQueryWithOptionalArgs<Album[], albumsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  albums(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query albums ($userId: Int) {
         albums(userId: $userId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    photo(): FragmentableQueryWithOptionalArgs<Photo, photoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  photo(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query photo ($id: Int) {
         photo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    photos(): FragmentableQueryWithOptionalArgs<Photo[], photosArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  photos(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query photos ($albumId: Int) {
         photos(albumId: $albumId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    todo(): FragmentableQueryWithOptionalArgs<Todo, todoArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  todo(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query todo ($id: Int) {
         todo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    todos(): FragmentableQueryWithOptionalArgs<Todo[], todosArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  todos(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query todos ($userId: Int,$completed: Boolean) {
         todos(userId: $userId,completed: $completed) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    user(): FragmentableQueryWithOptionalArgs<User, userArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  user(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query user ($id: Int) {
         user(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, true);
-        }
-      };
-    },
-    users(): FragmentableQuery<User[]> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
+  },
+  users(fragment: string | DocumentNode) {
+    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+    return sgtsQL\`
       query users  {
         users {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-
-          return abortableQuery(query, false);
-        }
-      };
-    }
-  };
+  }
 };
 "
 `;

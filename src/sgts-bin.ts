@@ -43,7 +43,7 @@ const sgts = () => {
     generate,
     endpoint,
     json,
-    output,
+    output = './__generated.ts',
     customScalars,
     header,
     prefix,

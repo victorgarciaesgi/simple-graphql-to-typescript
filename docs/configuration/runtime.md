@@ -19,3 +19,7 @@ sgtsGenerate({
   suffix: 'Model',
 }).then(data => console.log(data));
 ```
+
+::: tip
+The `output` option is not required with the runtime option. If you do not specify it, it will just returns the formated file in a string format!
+:::

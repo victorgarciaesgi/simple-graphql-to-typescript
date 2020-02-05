@@ -1,9 +1,8 @@
 export type Dictionnary<T = any> = { [x: string]: T };
+export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
 
-export interface SgtsConfig {
+export type SgtsConfig = {
   generate?: string;
-  endpoint?: string;
-  json?: string;
   output?: string;
   header?: string;
   customScalars?: Dictionnary<string>;
@@ -14,4 +13,4 @@ export interface SgtsConfig {
   codegenMethods?: boolean;
   codegenHooks?: boolean;
   codegenTemplates?: boolean;
-}
+} & AtLeastOne<{ endpoint: string; json: string }>;
