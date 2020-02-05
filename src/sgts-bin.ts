@@ -90,9 +90,9 @@ const sgts = () => {
 
 const generateUsingConfig = async (config: SgtsConfig) => {
   try {
-    sgtsGenerate(config);
+    await sgtsGenerate(config);
   } catch (e) {
-    throw new Error('Generation failed');
+    console.error(chalk.red('💔 Generation failed'));
   }
 };
 

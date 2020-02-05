@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs';
 
 export const downloadSchema = async (endpoint: string, header?: string): Promise<string> => {
-  const download = ora(`⬇️ Downloading schemas from ${chalk.blue(endpoint)}`).start();
+  const download = ora(`⬇️  Downloading schemas from ${chalk.blue(endpoint)}`).start();
   try {
     let formatedHeaders = getHeadersFromInput(header);
     formatedHeaders = {
@@ -32,7 +32,12 @@ export const downloadSchema = async (endpoint: string, header?: string): Promise
   } catch (e) {
     download.fail();
     return Promise.reject(
-      'Unable to request from the GraphQL Api, please verify that the server is online'
+      `❗️ Unable to request from the GraphQL Api, please verify that the server is online \n ${chalk.yellow(
+        `Maybe the endpoint is not a GraphQL Api, try to add ${chalk.green(
+          possibleGraphQLSuffix.join(', ')
+        )} at the end of your url`
+      )}
+      `
     );
   }
 };
@@ -129,11 +134,6 @@ export async function fetchSchemas({
       return null;
     }
   } catch (e) {
-    console.log(
-      ` Maybe the endpoint is not a GraphQl Api, try to add ${chalk.green(
-        possibleGraphQLSuffix.join(', ')
-      )} at the end of your url`
-    );
     return Promise.reject(e);
   }
 }

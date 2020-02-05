@@ -1,1 +1,1 @@
-export * from './scalars.store';
+export * from './parameters.store';

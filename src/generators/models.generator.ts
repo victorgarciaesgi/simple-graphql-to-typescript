@@ -1,13 +1,14 @@
-import { GraphQLJSONSchema, Field } from 'src/models';
+import { GraphQLJSONSchema, Field } from '../models';
 import {
   getObjectTSInterfaces,
   generateEnumType,
   getQueriesArgsTSInterfaces,
 } from './types.generator';
+import { retrieveQueriesList } from '../builders';
 
 const typesToParse = ['OBJECT', 'INPUT_OBJECT', 'INTERFACE'];
 
-export function generateInterfaces(schema: GraphQLJSONSchema, prefix?: string, suffix?: string) {
+export function generateInterfaces(schema: GraphQLJSONSchema) {
   const schemaTypes = schema.__schema.types;
   const generatedTypes: string[] = [];
   const generatedEnums: string[] = [];
@@ -15,10 +16,10 @@ export function generateInterfaces(schema: GraphQLJSONSchema, prefix?: string, s
   schemaTypes.forEach(item => {
     if (!/^_{1,2}/.test(item.name)) {
       if (typesToParse.includes(item.kind)) {
-        const generatedInterface = getObjectTSInterfaces(item, prefix, suffix);
+        const generatedInterface = getObjectTSInterfaces(item);
         generatedTypes.push(generatedInterface);
       } else if (item.kind === 'ENUM') {
-        const enumTypes = generateEnumType(item, prefix, suffix);
+        const enumTypes = generateEnumType(item);
         generatedEnums.push(enumTypes);
       }
     }
@@ -29,26 +30,15 @@ export function generateInterfaces(schema: GraphQLJSONSchema, prefix?: string, s
   };
 }
 
-export function generateMethodsArgsTypes(
-  schema: GraphQLJSONSchema,
-  prefix?: string,
-  suffix?: string
-) {
-  const QueryType = schema.__schema.queryType?.name;
-  const MutationType = schema.__schema.mutationType?.name;
-  const listQueries = schema.__schema.types.find(f => f.name === QueryType)?.fields ?? [];
-  let listMutations: Field[] = [];
+export function generateMethodsArgsTypes(schema: GraphQLJSONSchema) {
+  const [queries, mutations, subscriptions] = retrieveQueriesList({
+    schema,
+  });
 
   const generatedMethodsArgs: string[] = [];
-
-  if (MutationType) {
-    listMutations = schema.__schema.types.find(f => f.name === MutationType)?.fields ?? [];
-  }
-  [...listQueries, ...listMutations].forEach(item => {
-    if (!/^_{1,2}/.test(item.name)) {
-      const generatedInterface = getQueriesArgsTSInterfaces(item, prefix, suffix);
-      generatedMethodsArgs.push(generatedInterface);
-    }
+  [...queries, ...mutations, ...subscriptions].forEach(item => {
+    const generatedInterface = getQueriesArgsTSInterfaces(item);
+    generatedMethodsArgs.push(generatedInterface);
   });
   return generatedMethodsArgs;
 }

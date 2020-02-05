@@ -2,10 +2,6 @@ export interface QueryType {
   name: string;
 }
 
-export interface MutationType {
-  name: string;
-}
-
 export interface OfType {
   kind: string;
   name: string;
@@ -62,14 +58,18 @@ export interface Directive {
 
 export interface Schema {
   queryType: QueryType;
-  mutationType: MutationType;
-  subscriptionType?: any;
+  mutationType?: QueryType;
+  subscriptionType?: QueryType;
   types: Type[];
-  directives: Directive[];
+  directives?: Directive[];
 }
 
 export interface GraphQLJSONSchema {
   __schema: Schema;
 }
 
-export type MethodType = { little: 'query' | 'mutation'; high: 'Query' | 'Mutation' };
+export enum MethodType {
+  Query = 'query',
+  Mutation = 'mutation',
+  Subscription = 'subscription',
+}

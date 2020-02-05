@@ -1,7 +1,9 @@
 # Simple-graphql-to-typescript generator
 
 <p align="center">
-  <img width='100' src="./media/logo.png" alt="sgts logo">
+  <a href='https://sgts.netlify.com/'>
+    <img width='100' src="./media/logo.png" alt="sgts logo">
+  </a>
 </p>
 
 [![npm version][npm-version-src]][npm-version-href]
@@ -20,6 +22,10 @@
 
 I work a lot with GraphQL apis and typescript, and since now I was always writing by hand all my interfaces/enums and input types.
 I search many solutions for generating them for me (Apollo codegen, graphql-to-typescript ..etc ) but it was never the result I expected. I just wanted a single file with all my types in it, without complexity.
+
+## Documentation
+
+[Link to documentation](https://sgts.netlify.com/)
 
 ## **Installation**
 

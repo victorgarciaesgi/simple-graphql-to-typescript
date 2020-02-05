@@ -1,5 +1,5 @@
 import path from 'path';
-import { SgtsConfig } from 'src/models';
+import { SgtsConfig } from '../models';
 import chalk from 'chalk';
 
 require('dotenv').config();

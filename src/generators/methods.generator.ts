@@ -1,20 +1,19 @@
 import { Field, Type, Arg, MethodType } from '../models';
 import { getOneTSTypeDisplay, generateQGLArg } from './types.generator';
-import { evaluateType, isReturnTypeEdge, areAllArgsOptional } from '../utilities';
+import { evaluateType, isReturnTypeEdge, areAllArgsOptional, capitalize } from '../utilities';
 import { createConnectionFragment } from './fragments.generator';
 import { queryBuilder, createQueryFunction } from './query.generator';
 import { createApolloHook } from './hooks.generator';
-import { withDefinitionsTemplate } from 'src/templates';
+import { ParametersStore } from '../store';
 
 export const createMethodsArgs = (
-  field: Field,
-  prefix?: string,
-  suffix?: string
+  field: Field
 ): {
   GQLVariables: string[];
   GQLArgs: string[];
   methodArgsType: string;
 } => {
+  const { prefix, suffix } = ParametersStore;
   const { GQLVariables, GQLArgs } = field.args.reduce(
     (acc, arg) => {
       const argName = arg.name;
@@ -42,29 +41,26 @@ export const createMethodsArgs = (
 
 interface GraphQLFunctionArgs {
   field: Field;
-  prefix?: string;
-  suffix?: string;
-  ObjectTypes: Type[];
   type: MethodType;
   renderedFragmentInner: string;
 }
 
 export const createGraphQLFunction = ({
   field,
-  ObjectTypes,
-  prefix,
-  suffix,
   type,
   renderedFragmentInner,
 }: GraphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
 
-  const { methodArgsType } = createMethodsArgs(field, prefix, suffix);
+  const { methodArgsType } = createMethodsArgs(field);
   const { isScalar } = evaluateType(field);
-  const returnedTypeDisplay = getOneTSTypeDisplay({ field, prefix, suffix });
+  const returnedTypeDisplay = getOneTSTypeDisplay({ field });
 
-  const Query = queryBuilder({ field, isScalar, prefix, suffix, renderedFragmentInner, type });
+  const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
+
+  const typeNameLower = type;
+  const typeNameUpper = capitalize(type);
 
   const withArgs = hasArgs
     ? areAllArgsOptional(field.args)
@@ -75,25 +71,25 @@ export const createGraphQLFunction = ({
   if (isScalar) {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    ${methodName}(): Abortable${type.high}${withArgs}<${returnedTypeDisplay}${
+    ${methodName}(): Abortable${typeNameUpper}${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
-      const ${type.little} = ${Query}
-    return abortable${type.high}(${type.little}, ${hasArgs});
+      const ${typeNameLower} = ${Query}
+    return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs});
         }
     ,`;
   } else {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    ${methodName}(): Fragmentable${type.high}${withArgs}<${returnedTypeDisplay}${
+    ${methodName}(): Fragmentable${typeNameUpper}${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
     return {
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-        const ${type.little} = ${Query}
+        const ${typeNameLower} = ${Query}
 
-        return abortable${type.high}(${type.little}, ${hasArgs});
+        return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs});
       }
     }
       }
@@ -106,18 +102,9 @@ export type buildMethodsArgs = {
   type: MethodType;
   ObjectTypes: Type[];
   mode?: 'methods' | 'hooks' | 'template';
-  prefix?: string;
-  suffix?: string;
 };
 
-export const buildMethod = ({
-  field,
-  type,
-  ObjectTypes,
-  mode,
-  prefix,
-  suffix,
-}: buildMethodsArgs) => {
+export const buildMethod = ({ field, type, ObjectTypes, mode }: buildMethodsArgs) => {
   const { isScalar, isEnum, typeName } = evaluateType(field);
 
   const fragmentDisplay = `\${isString ? fragment : '...' + fragmentName}`;
@@ -127,22 +114,16 @@ export const buildMethod = ({
       createConnectionFragment(typeName, ObjectTypes, fragmentDisplay) ?? fragmentDisplay;
   }
   if (mode === 'template') {
-    return createQueryFunction({ field, prefix, suffix, type, renderedFragmentInner });
+    return createQueryFunction({ field, type, renderedFragmentInner });
   } else if (mode === 'hooks') {
     return createApolloHook({
-      ObjectTypes,
       field,
-      prefix,
-      suffix,
       type,
       renderedFragmentInner,
     });
   } else {
     return createGraphQLFunction({
-      ObjectTypes,
       field,
-      prefix,
-      suffix,
       type,
       renderedFragmentInner,
     });

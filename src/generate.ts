@@ -3,7 +3,7 @@ import { generateInterfaces, generateMethodsArgsTypes } from './generators';
 import { GraphQLJSONSchema, Field } from './models';
 import { createMethods } from './builders';
 import { sharedTemplate } from './templates/shared.template';
-import ScalarStore from './store/scalars.store';
+import { ParametersStore } from './store/parameters.store';
 import { defineImports } from './templates';
 
 const generatedInterfaces = {
@@ -26,14 +26,16 @@ export const generate = async (
   codegenHooks?: boolean,
   codegenTemplates?: boolean
 ): Promise<string> => {
-  if (customScalars) {
-    ScalarStore.addScalars(customScalars);
-  }
+  ParametersStore.setParamaters({
+    scalars: customScalars,
+    prefix,
+    suffix,
+  });
   transpile.start();
 
   try {
-    const { generatedEnums, generatedTypes } = generateInterfaces(schema, prefix, suffix);
-    const generatedMethodsArgs = generateMethodsArgsTypes(schema, prefix, suffix);
+    const { generatedEnums, generatedTypes } = generateInterfaces(schema);
+    const generatedMethodsArgs = generateMethodsArgsTypes(schema);
     generatedInterfaces.OBJECT = generatedTypes;
     generatedInterfaces.ENUM = generatedEnums;
     generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
@@ -42,8 +44,6 @@ export const generate = async (
       try {
         const methods = await createMethods({
           schema,
-          prefix,
-          suffix,
           mode: 'methods',
         });
         generatedInterfaces.METHODS = methods;
@@ -58,8 +58,6 @@ export const generate = async (
       try {
         const methods = await createMethods({
           schema,
-          prefix,
-          suffix,
           mode: 'hooks',
         });
         generatedInterfaces.HOOKS = methods;
@@ -71,7 +69,7 @@ export const generate = async (
     }
     if (codegenTemplates) {
       try {
-        const methods = await createMethods({ schema, prefix, suffix, mode: 'template' });
+        const methods = await createMethods({ schema, mode: 'template' });
         generatedInterfaces.QUERIES = methods;
       } catch (e) {
         return Promise.reject(e);

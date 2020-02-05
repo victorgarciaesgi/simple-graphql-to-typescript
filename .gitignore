@@ -30,6 +30,7 @@ debug
 .sgtsrc.js
 dist
 types
+schema.json
 
 # Bower dependency directory (https://bower.io/)
 bower_components
