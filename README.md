@@ -1,7 +1,7 @@
 # Simple-graphql-to-typescript generator
 
 <p align="center">
-  <img width='100' src="./media/sgts.svg" alt="sgts logo">
+  <img width='100' src="./media/logo.png" alt="sgts logo">
 </p>
 
 [![npm version][npm-version-src]][npm-version-href]
