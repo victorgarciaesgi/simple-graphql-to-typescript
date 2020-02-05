@@ -41,7 +41,6 @@ function getHeadersFromInput(header: any): { [key: string]: string } {
   switch (typeof header) {
     case 'string': {
       const keys = query.parse(header);
-      console.log(keys);
       const key = Object.keys(keys)[0];
       return { [key]: keys[key] };
     }
