@@ -18,14 +18,9 @@
 [npm-total-downloads-src]: https://img.shields.io/npm/dt/simple-graphql-to-typescript.svg
 [npm-downloads-href]: https://www.npmjs.com/package/simple-graphql-to-typescript
 
-## **Motive**
+## Usage
 
-I work a lot with GraphQL apis and typescript, and since now I was always writing by hand all my interfaces/enums and input types.
-I search many solutions for generating them for me (Apollo codegen, graphql-to-typescript ..etc ) but it was never the result I expected. I just wanted a single file with all my types in it, without complexity.
-
-## Documentation
-
-[Link to documentation](https://sgts.netlify.com/)
+Refer to the full [documentation](https://sgts.netlify.com) !
 
 ## **Installation**
 
@@ -53,21 +48,21 @@ sgts -h
 
 ## **Documentation**
 
-| Option                      | Short syntax | Type                                         | Usage                                                            |
-| --------------------------- | ------------ | -------------------------------------------- | ---------------------------------------------------------------- |
-| --endpoint `<endpoint>`     | -e           | string(url)                                  | [See doc](https://sgts.netlify.com/options/endpoint.html)        |
-| --json `<path to json>`     | -j           | string(path)                                 | [See doc](https://sgts.netlify.com/options/json.html)            |
-| --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | [See doc](https://sgts.netlify.com/options/output.html)          |
-| --codegen-methods           |              | boolean                                      | [See doc](https://sgts.netlify.com/options/generateMethods.html) |
-| --codegen-hooks             |              | boolean                                      | [See doc](https://sgts.netlify.com/options/apolloHooks.html)     |
-| --codegen-templates         |              | boolean                                      | [See doc](https://sgts.netlify.com/options/withGqlQueries.html)  |
-| --customScalars `<scalars>` |              | {"myScalar": "MyType"}                       | [See doc](https://sgts.netlify.com/options/customScalars.html)   |
-| --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/prefix.html)          |
-| --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/suffix.html)          |
-| --header `<header>`         |              | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/header.html)          |
-| --compileToJs               |              | boolean                                      | [See doc](https://sgts.netlify.com/options/jsMode.html)          |
-| --download                  | -D           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/download.html)        |
-| --generate                  |              | string <br> _default_ `development`          | [See doc](https://sgts.netlify.com/configuration/config.html)    |
+| Option                      | Short syntax | Type                                         | Usage                                                                |
+| --------------------------- | ------------ | -------------------------------------------- | -------------------------------------------------------------------- |
+| --endpoint `<endpoint>`     | -e           | string(url)                                  | [See doc](https://sgts.netlify.com/options/endpoint.html)            |
+| --json `<path to json>`     | -j           | string(path)                                 | [See doc](https://sgts.netlify.com/options/json.html)                |
+| --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | [See doc](https://sgts.netlify.com/options/output.html)              |
+| --codegen-methods           |              | boolean                                      | [See doc](https://sgts.netlify.com/options/codegen-methods.html)     |
+| --codegen-react-hooks       |              | boolean                                      | [See doc](https://sgts.netlify.com/options/codegen-react-hooks.html) |
+| --codegen-templates         |              | boolean                                      | [See doc](https://sgts.netlify.com/options/withGqlQueries.html)      |
+| --customScalars `<scalars>` |              | {"myScalar": "MyType"}                       | [See doc](https://sgts.netlify.com/options/customScalars.html)       |
+| --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/prefix.html)              |
+| --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/suffix.html)              |
+| --header `<header>`         |              | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/header.html)              |
+| --compileToJs               |              | boolean                                      | [See doc](https://sgts.netlify.com/options/jsMode.html)              |
+| --download                  | -D           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/download.html)            |
+| --generate                  |              | string <br> _default_ `development`          | [See doc](https://sgts.netlify.com/configuration/config.html)        |
 
 ## Roadmap
 
@@ -79,10 +74,6 @@ I don't have much free time to develop feature I don't use, but feel free to sen
 - [ ] Support Subscriptions for codegen-hooks and codegen-methods
 - [ ] Support UseLazyQuery Apollo Hook
 - [ ] Highlight new generated, modified or deleted types in terminal
-
-## Usage
-
-Refer to the full [documentation](https://sgts.netlify.com) !
 
 # License
 

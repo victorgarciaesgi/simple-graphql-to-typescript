@@ -1,12 +1,8 @@
 import { Field, MethodType, Type } from '../models';
 import { createMethodsArgs } from './methods.generator';
-import { evaluateType, areAllArgsOptional } from '../utilities';
+import { evaluateType, areAllArgsOptional, capitalizeFirstLetter } from '../utilities';
 import { getOneTSTypeDisplay } from './types.generator';
 import { queryBuilder } from './query.generator';
-
-function capitalize(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 interface GraphQLFunctionArgs {
   field: Field;
@@ -14,7 +10,7 @@ interface GraphQLFunctionArgs {
   renderedFragmentInner: string;
 }
 
-export const createApolloHook = ({
+export const createReactApolloHook = ({
   field,
   type,
   renderedFragmentInner,
@@ -29,7 +25,7 @@ export const createApolloHook = ({
   });
 
   const typeNameLower = type;
-  const typeNameUpper = capitalize(type);
+  const typeNameUpper = capitalizeFirstLetter(type);
 
   const Query = queryBuilder({
     field,
@@ -40,33 +36,80 @@ export const createApolloHook = ({
 
   const TOptions = `{${methodName}: ${returnedTypeDisplay}}${hasArgs ? ', ' + methodArgsType : ''}`;
 
-  let useHookOutput = '';
-
-  if (typeNameLower === MethodType.Query) {
-    useHookOutput = `
-      return use${typeNameUpper}<${TOptions}>(${typeNameLower}, options);`;
-  } else {
-    useHookOutput = `return use${typeNameUpper}<${TOptions}>(${typeNameLower}, options);`;
-  }
+  let useHookOutput = `return use${typeNameUpper}<${TOptions}>(${typeNameLower}, options);`;
 
   if (isScalar) {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    use${capitalize(field.name)}(options?: ${typeNameUpper}HookOptions<${TOptions}>)   {
+    export const use${capitalizeFirstLetter(
+      field.name
+    )} = (options?: ${typeNameUpper}HookOptions<${TOptions}>) =>  {
       const ${typeNameLower} = ${Query}
       ${useHookOutput}
     },`;
   } else {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    use${capitalize(
+    export const use${capitalizeFirstLetter(
       field.name
-    )}(fragment: string | DocumentNode, options?: ${typeNameUpper}HookOptions<${TOptions}>) {
+    )} = (fragment: string | DocumentNode, options?: ${typeNameUpper}HookOptions<${TOptions}>) => {
       const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
       const ${typeNameLower} = ${Query}
 
       ${useHookOutput}
     }
   ,`;
+  }
+};
+
+export const createVueApolloHook = ({
+  field,
+  type,
+  renderedFragmentInner,
+}: GraphQLFunctionArgs): string => {
+  const hasArgs = field.args.length > 0;
+  const methodName = field.name;
+
+  const { methodArgsType } = createMethodsArgs(field);
+  const { isScalar } = evaluateType(field);
+  const returnedTypeDisplay = getOneTSTypeDisplay({
+    field,
+  });
+
+  const typeNameLower = type;
+  const typeNameUpper = capitalizeFirstLetter(type);
+
+  const Query = queryBuilder({
+    field,
+    isScalar,
+    renderedFragmentInner,
+    type,
+  });
+
+  const TOptions = `Use${typeNameUpper}Options<{${methodName}: ${returnedTypeDisplay}}${
+    hasArgs ? ', ' + methodArgsType : ''
+  }>`;
+  const vueApolloParams = `variables?: ${methodArgsType} | Ref<${methodArgsType}> | ReactiveFunction<${methodArgsType}>, options?: ${TOptions} | Ref<${TOptions}> | ReactiveFunction<${TOptions}>`;
+
+  let useHookOutput = `return use${typeNameUpper}<${TOptions}>(${typeNameLower}, variables, options);`;
+
+  if (isScalar) {
+    return `
+    ${field.description ? `/** ${field.description} */` : ''}
+    export const use${capitalizeFirstLetter(field.name)} = (${vueApolloParams}) =>  {
+      const ${typeNameLower} = ${Query}
+      ${useHookOutput}
+    }`;
+  } else {
+    return `
+    ${field.description ? `/** ${field.description} */` : ''}
+    export const use${capitalizeFirstLetter(
+      field.name
+    )} = (fragment: string | DocumentNode, ${vueApolloParams}) => {
+      const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+      const ${typeNameLower} = ${Query}
+
+      ${useHookOutput}
+    }`;
   }
 };

@@ -1,10 +1,15 @@
-import { Field, GraphQLJSONSchema, Schema, MethodType } from '../models';
+import { Field, GraphQLJSONSchema, Schema, MethodType, CodeGenType } from '../models';
 import { buildMethod } from '../generators';
-import { withMethodsTemplate, withDefinitionsTemplate, withReactHooksTemplate } from '../templates';
+import {
+  withMethodsTemplate,
+  withDefinitionsTemplate,
+  withReactHooksTemplate,
+  withVueHooksTemplate,
+} from '../templates';
 
 interface CreateMethodsArgs {
   schema: GraphQLJSONSchema;
-  mode?: 'methods' | 'hooks' | 'template';
+  mode?: CodeGenType;
 }
 export const createMethods = async ({ schema, mode }: CreateMethodsArgs) => {
   const [queries, mutations, subscriptions] = retrieveQueriesList({
@@ -23,8 +28,10 @@ export const createMethods = async ({ schema, mode }: CreateMethodsArgs) => {
     buildMethod({ field, type: MethodType.Subscription, mode, ObjectTypes })
   );
 
-  if (mode === 'hooks') {
+  if (mode === 'react-hooks') {
     return withReactHooksTemplate(parsedQueries, parsedMutations);
+  } else if (mode === 'vue-hooks') {
+    return withVueHooksTemplate(parsedQueries, parsedMutations);
   } else if (mode === 'methods') {
     return withMethodsTemplate(parsedQueries, parsedMutations);
   } else {

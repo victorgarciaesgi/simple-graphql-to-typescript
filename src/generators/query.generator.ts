@@ -1,6 +1,6 @@
 import { Field, MethodType } from '../models';
 import { createMethodsArgs } from './methods.generator';
-import { evaluateType, capitalize } from '../utilities';
+import { evaluateType } from '../utilities';
 
 interface QueryBuilderArgs {
   isScalar: boolean;

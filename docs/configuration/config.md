@@ -15,7 +15,8 @@ For the detail of each options, refer to the [options](/options) page!
   json?: string;
   output?: string;
   codegenMethods?: boolean;
-  codegenHooks?: boolean;
+  codegenReactHooks?: boolean;
+  codegenVueHooks?: boolean;
   codegenTemplates?: boolean;
   customScalars?: { [x: string]: string };
   header?: string;

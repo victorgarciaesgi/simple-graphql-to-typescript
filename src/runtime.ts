@@ -17,7 +17,8 @@ export async function sgtsGenerate({
   suffix,
   jsMode,
   codegenMethods,
-  codegenHooks,
+  codegenReactHooks,
+  codegenVueHooks,
   codegenTemplates,
   download,
 }: SgtsConfig): Promise<string | undefined> {
@@ -31,7 +32,8 @@ export async function sgtsGenerate({
         suffix,
         customScalars,
         codegenMethods,
-        codegenHooks,
+        codegenReactHooks,
+        codegenVueHooks,
         codegenTemplates
       );
       const formatedString = await saveFile(generatedString, output, jsMode);

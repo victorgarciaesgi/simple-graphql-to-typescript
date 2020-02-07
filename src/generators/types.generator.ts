@@ -1,5 +1,5 @@
 import { Field, InputField, Arg, Type } from '../models';
-import { evaluateType, capitalize } from '../utilities';
+import { evaluateType, capitalizeAllWord } from '../utilities';
 import { ParametersStore } from '../store/parameters.store';
 
 // Generate Enum type (ex: export enum Gender { M = 'M', F = 'F'})
@@ -10,7 +10,9 @@ export const generateEnumType = (object: Type): string => {
   return `${object.description ? `/** ${object.description} */\n` : ''} export enum ${
     prefix ? prefix : ''
   }${ObjectName}${suffix ? suffix : ''} {
-        ${generatedFields.map(enumType => `${capitalize(enumType)} = "${enumType}"`).join(',\n')}
+        ${generatedFields
+          .map(enumType => `${capitalizeAllWord(enumType)} = "${enumType}"`)
+          .join(',\n')}
   }`;
 };
 

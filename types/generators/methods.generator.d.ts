@@ -1,4 +1,4 @@
-import { Field, Type, MethodType } from '../models';
+import { Field, Type, MethodType, CodeGenType } from '../models';
 export declare const createMethodsArgs: (field: Field) => {
     GQLVariables: string[];
     GQLArgs: string[];
@@ -14,7 +14,7 @@ export declare type buildMethodsArgs = {
     field: Field;
     type: MethodType;
     ObjectTypes: Type[];
-    mode?: 'methods' | 'hooks' | 'template';
+    mode?: CodeGenType;
 };
 export declare const buildMethod: ({ field, type, ObjectTypes, mode }: buildMethodsArgs) => string;
 export {};

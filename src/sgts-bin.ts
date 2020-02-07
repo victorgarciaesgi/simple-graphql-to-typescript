@@ -17,7 +17,8 @@ const sgts = () => {
       '--codegen-methods',
       'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
-    .option('--codegen-hooks', 'Generate useMutation and useQuery hooks typed')
+    .option('--codegen-react-hooks', 'Generate useMutation and useQuery React hooks typed')
+    .option('--codegen-vue-hooks', 'Generate useMutation and useQuery React hooks typed')
     .option('--codegen-templates', 'Add gql query strings to the generated output')
     .option('--header <header>', 'Additional header option to fetch your schema from endpoint')
     .option(
@@ -50,7 +51,8 @@ const sgts = () => {
     suffix,
     codegenMethods,
     jsMode,
-    codegenHooks,
+    codegenReactHooks,
+    codegenVueHooks,
     codegenTemplates,
     download,
   } = program;
@@ -81,7 +83,8 @@ const sgts = () => {
       suffix,
       codegenMethods,
       jsMode,
-      codegenHooks,
+      codegenReactHooks,
+      codegenVueHooks,
       codegenTemplates,
       download,
     });

@@ -65,7 +65,7 @@ function getMainSidebar() {
     {
       title: 'Guide',
       collapsable: false,
-      children: ['/guide/'],
+      children: ['/guide/', '/guide/setup'],
     },
     {
       title: 'Configuration',
@@ -81,13 +81,15 @@ function getMainSidebar() {
         '/options/json',
         '/options/output',
         '/options/codegen-methods',
-        '/options/codegen-hooks',
+        '/options/codegen-react-hooks',
+        '/options/codegen-vue-hooks',
         '/options/codegen-templates',
         '/options/compileToJs',
         '/options/customScalars',
         '/options/prefix',
         '/options/suffix',
         '/options/header',
+        '/options/download',
       ],
     },
   ];

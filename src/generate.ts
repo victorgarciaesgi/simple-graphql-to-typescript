@@ -23,7 +23,8 @@ export const generate = async (
   suffix?: string,
   customScalars?: { [x: string]: string },
   codegenMethods?: boolean,
-  codegenHooks?: boolean,
+  codegenReactHooks?: boolean,
+  codegenVueHooks?: boolean,
   codegenTemplates?: boolean
 ): Promise<string> => {
   ParametersStore.setParamaters({
@@ -53,17 +54,31 @@ export const generate = async (
         return Promise.reject(e);
       }
     }
-    if (codegenHooks) {
+    if (codegenReactHooks) {
       const oraMethods = ora('Generating React hooks...').start();
       try {
         const methods = await createMethods({
           schema,
-          mode: 'hooks',
+          mode: 'react-hooks',
         });
         generatedInterfaces.HOOKS = methods;
         oraMethods.succeed('⚛️  React Hooks successfully generated');
       } catch (e) {
-        oraMethods.fail('Hooks generation failed');
+        oraMethods.fail('React Hooks generation failed');
+        return Promise.reject(e);
+      }
+    }
+    if (codegenVueHooks) {
+      const oraMethods = ora('Generating Vue 3 hooks...').start();
+      try {
+        const methods = await createMethods({
+          schema,
+          mode: 'vue-hooks',
+        });
+        generatedInterfaces.HOOKS = methods;
+        oraMethods.succeed('✅ Vue Hooks successfully generated');
+      } catch (e) {
+        oraMethods.fail('Vue Hooks generation failed');
         return Promise.reject(e);
       }
     }
@@ -83,7 +98,8 @@ export const generate = async (
 
   const signature = sharedTemplate;
   const imports = defineImports({
-    codegenHooks: !!codegenHooks,
+    codegenReactHooks: !!codegenReactHooks,
+    codegenVueHooks: !!codegenVueHooks,
     codegenMethods: !!codegenMethods,
     codegenTemplates: !!codegenTemplates,
   });

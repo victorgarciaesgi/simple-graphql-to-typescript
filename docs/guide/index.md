@@ -1,19 +1,10 @@
-# Setup
+# Introduction
 
-## Installation
+## Motive
 
-For global use
+I work a lot with GraphQL apis and typescript, and since now I was always writing by hand all my interfaces/enums and input types.
+I search many solutions for generating them for me (Apollo codegen, graphql-to-typescript ..etc ) but it was never the result I expected. I just wanted a single file with all my types in it, without complexity.
 
-```bash
-npm i -g simple-graphql-to-typescript
-#or
-yarn global add simple-graphql-to-typescript
-```
+## Is it production ready?
 
-For local use
-
-```bash
-npm i simple-graphql-to-typescript --save-dev
-#or
-yarn add -D simple-graphql-to-typescript
-```
+I work in an agency and this library is used in production by all our devs and for many clients, so you can use this for production! 😄

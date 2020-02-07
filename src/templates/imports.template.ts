@@ -2,25 +2,34 @@ import { guessFragmentTypeTemplate } from './fragmentType.template';
 
 interface DefineImportsArgs {
   codegenMethods: boolean;
-  codegenHooks: boolean;
+  codegenReactHooks: boolean;
   codegenTemplates: boolean;
+  codegenVueHooks: boolean;
 }
 
 export const defineImports = ({
-  codegenHooks,
+  codegenReactHooks,
+  codegenVueHooks,
   codegenMethods,
   codegenTemplates,
 }: DefineImportsArgs): string => {
   let template = '';
-  if (codegenHooks || codegenMethods || codegenTemplates) {
+  if (codegenReactHooks || codegenMethods || codegenTemplates || codegenVueHooks) {
     template = `
     import { OperationDefinitionNode, DocumentNode } from 'graphql';
     import sgtsQL from 'graphql-tag';
     ${guessFragmentTypeTemplate}
     `;
-    if (codegenHooks) {
+    if (codegenReactHooks) {
       template += `
       import { useMutation, useQuery, QueryHookOptions, MutationHookOptions, MutationTuple } from '@apollo/react-hooks'
+      `;
+    }
+    if (codegenVueHooks) {
+      template += `
+      import {Ref} from '@vue/composition-api'
+      import { useMutation, useQuery, UseQueryOptions, UseMutationOptions } from '@vue/apollo-composable'
+      export type ReactiveFunction<TParam> = () => TParam;
       `;
     }
     if (codegenMethods) {

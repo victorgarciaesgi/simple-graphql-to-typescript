@@ -47,11 +47,9 @@ export const evaluateType = (field: Field | InputField | Arg) => {
 export const isReturnTypeEdge = (ObjectTypes: Type[], typeName: string): boolean => {
   const type = ObjectTypes.find(f => f.name === typeName);
   if (type) {
-    return type.fields.map(evaluateType)
-        .some(s => s.isEdge);
+    return type.fields.map(evaluateType).some(s => s.isEdge);
   }
   return false;
-    
 };
 
 export const areAllArgsOptional = (args: Arg[]): boolean => {
