@@ -86,12 +86,17 @@ export const createVueApolloHook = ({
     type,
   });
 
-  const TOptions = `Use${typeNameUpper}Options<{${methodName}: ${returnedTypeDisplay}}${
-    hasArgs ? ', ' + methodArgsType : ''
-  }>`;
-  const vueApolloParams = `variables?: ${methodArgsType} | Ref<${methodArgsType}> | ReactiveFunction<${methodArgsType}>, options?: ${TOptions} | Ref<${TOptions}> | ReactiveFunction<${TOptions}>`;
+  const TOptions = `{${methodName}: ${returnedTypeDisplay}${hasArgs ? ', ' + methodArgsType : ''}}`;
+  const TOptionsArgs = `Use${typeNameUpper}Options<${TOptions}>`;
+  const vueApolloParams = `${
+    hasArgs
+      ? `variables?: ${methodArgsType} | Ref<${methodArgsType}> | ReactiveFunction<${methodArgsType}>,`
+      : ''
+  } options?: ${TOptionsArgs} | Ref<${TOptionsArgs}> | ReactiveFunction<${TOptionsArgs}>`;
 
-  let useHookOutput = `return use${typeNameUpper}<${TOptions}>(${typeNameLower}, variables, options);`;
+  let useHookOutput = `return use${typeNameUpper}<${TOptions}>(${typeNameLower}, ${
+    hasArgs ? 'variables,' : 'null,'
+  } options);`;
 
   if (isScalar) {
     return `
