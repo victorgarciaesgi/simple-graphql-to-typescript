@@ -12,6 +12,8 @@ It's generated to simplify the implementation of your fragments
 sgts -e https://json-placeholder-graphql.herokuapp.com/graphql --codegen-template
 ```
 
+**Supports Subscriptions since `0.6.4`**
+
 **Generated result exemple**
 
 ```ts

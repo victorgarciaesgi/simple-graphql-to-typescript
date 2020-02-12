@@ -15,4 +15,5 @@
 | --header `<header>`         |              | string <br> _default_ `null`                 | [See doc](/options/header)              |
 | --compileToJs               |              | boolean                                      | [See doc](/options/jsMode)              |
 | --download                  | -D           | string <br> _default_ `null`                 | [See doc](/options/download)            |
-| --generate                  |              | string <br> _default_ `development`          | [See doc](/configuration/config)        |
+| generate                    |              | string <br> _default_ `development`          | [See doc](/configuration/config)        |
+| init                        |              |                                              | [See doc](/configuration/init)          |

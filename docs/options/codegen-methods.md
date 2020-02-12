@@ -5,6 +5,10 @@
 Sgts can generate all your methods fully typed and cancellabled;
 It uses Apollo Client behing the hood and as a dependency
 
+::: warning
+**Support for Subcriptions in development**
+:::
+
 ## Exemple
 
 ```bash

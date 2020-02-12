@@ -4,6 +4,8 @@
 
 In the same way as `codegen-methods`, but generate React apollo hooks instead
 
+**Supports Subscriptions since `0.6.4`**
+
 ## Exemple
 
 ```bash

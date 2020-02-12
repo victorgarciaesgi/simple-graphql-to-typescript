@@ -4,6 +4,8 @@
 
 In the same way as `codegen-methods`, but generate `@vue/apollo-composable` hooks instead
 
+**Supports Subscriptions since `0.6.4`**
+
 ## Exemple
 
 ```bash

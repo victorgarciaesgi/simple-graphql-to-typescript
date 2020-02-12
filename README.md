@@ -63,7 +63,8 @@ sgts -h
 | --header `<header>`         |              | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/header.html)              |
 | --compileToJs               |              | boolean                                      | [See doc](https://sgts.netlify.com/options/jsMode.html)              |
 | --download                  | -D           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/download.html)            |
-| --generate                  |              | string <br> _default_ `development`          | [See doc](https://sgts.netlify.com/configuration/config.html)        |
+| generate                    |              | string <br> _default_ `development`          | [See doc](https://sgts.netlify.com/configuration/config.html)        |
+| init                        |              |                                              | [See doc](https://sgts.netlify.com/configuration/init.html)          |
 
 ## Roadmap
 
