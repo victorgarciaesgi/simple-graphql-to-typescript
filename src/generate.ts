@@ -1,18 +1,16 @@
 import ora from 'ora';
 import { generateInterfaces, generateMethodsArgsTypes } from './generators';
-import { GraphQLJSONSchema, Field } from './models';
+import { GraphQLJSONSchema, Field, CodeGenType, Schema } from './models';
 import { createMethods } from './builders';
 import { sharedTemplate } from './templates/shared.template';
 import { ParametersStore } from './store/parameters.store';
 import { defineImports } from './templates';
 
 const generatedInterfaces = {
-  METHODS: '',
+  codeGen: '',
   OBJECT: [] as string[],
   ENUM: [] as string[],
   METHODS_ARGS: [] as string[],
-  QUERIES: '',
-  HOOKS: '',
 };
 
 const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
@@ -40,55 +38,23 @@ export const generate = async (
     generatedInterfaces.OBJECT = generatedTypes;
     generatedInterfaces.ENUM = generatedEnums;
     generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
+
     if (codegenMethods) {
-      const oraMethods = ora('Generating queries and mutations...').start();
-      try {
-        const methods = await createMethods({
-          schema,
-          mode: 'methods',
-        });
-        generatedInterfaces.METHODS = methods;
-        oraMethods.succeed('🧬 Queries and mutations successfully generated');
-      } catch (e) {
-        oraMethods.fail('Methods generation failed');
-        return Promise.reject(e);
-      }
+      codeGenerateFromConfig({
+        schema,
+        mode: 'methods',
+        message: 'queries and mutations',
+        emoji: '🧬',
+      });
     }
     if (codegenReactHooks) {
-      const oraMethods = ora('Generating React hooks...').start();
-      try {
-        const methods = await createMethods({
-          schema,
-          mode: 'react-hooks',
-        });
-        generatedInterfaces.HOOKS = methods;
-        oraMethods.succeed('⚛️  React Hooks successfully generated');
-      } catch (e) {
-        oraMethods.fail('React Hooks generation failed');
-        return Promise.reject(e);
-      }
+      codeGenerateFromConfig({ schema, mode: 'react-hooks', message: 'React hooks', emoji: '⚛️ ' });
     }
     if (codegenVueHooks) {
-      const oraMethods = ora('Generating Vue 3 hooks...').start();
-      try {
-        const methods = await createMethods({
-          schema,
-          mode: 'vue-hooks',
-        });
-        generatedInterfaces.HOOKS = methods;
-        oraMethods.succeed('✅ Vue Hooks successfully generated');
-      } catch (e) {
-        oraMethods.fail('Vue Hooks generation failed');
-        return Promise.reject(e);
-      }
+      codeGenerateFromConfig({ schema, mode: 'vue-hooks', message: 'Vue Hooks', emoji: '🅅 ' });
     }
     if (codegenTemplates) {
-      try {
-        const methods = await createMethods({ schema, mode: 'template' });
-        generatedInterfaces.QUERIES = methods;
-      } catch (e) {
-        return Promise.reject(e);
-      }
+      codeGenerateFromConfig({ schema, mode: 'template', message: 'templates' });
     }
   } catch (e) {
     transpile.fail('Transpiling failed');
@@ -111,10 +77,35 @@ export const generate = async (
       ${generatedInterfaces.ENUM.join('\n')}
       ${generatedInterfaces.METHODS_ARGS.join('\n')}
       ${imports}
-      ${generatedInterfaces.METHODS}
-      ${generatedInterfaces.HOOKS}
-      ${generatedInterfaces.QUERIES}
+      ${generatedInterfaces.codeGen}
     `;
 
   return modelsTemplate;
 };
+
+interface CodeGenerateFromConfigArgs {
+  schema: GraphQLJSONSchema;
+  mode: CodeGenType;
+  message: string;
+  emoji?: string;
+}
+
+async function codeGenerateFromConfig({
+  schema,
+  mode,
+  message,
+  emoji,
+}: CodeGenerateFromConfigArgs) {
+  const oraMethods = ora(`Generating ${message}...`).start();
+  try {
+    const methods = await createMethods({
+      schema,
+      mode,
+    });
+    generatedInterfaces.codeGen += methods;
+    oraMethods.succeed(`${emoji} ${message} successfully generated`);
+  } catch (e) {
+    oraMethods.fail(`${message} generation failed`);
+    return Promise.reject(e);
+  }
+}

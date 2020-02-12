@@ -1995,7 +1995,7 @@ export enum IUserSortModel {
   Watched_time_desc = 'WATCHED_TIME_DESC',
   Chapters_read = 'CHAPTERS_READ',
   Chapters_read_desc = 'CHAPTERS_READ_DESC',
-  Search_match = 'SEARCH_MATCH'
+  Search_match = 'SEARCH_MATCH',
 }
 /** The language the user wants to see media titles in */
 export enum IUserTitleLanguageModel {
@@ -2004,7 +2004,7 @@ export enum IUserTitleLanguageModel {
   Native = 'NATIVE',
   Romaji_stylised = 'ROMAJI_STYLISED',
   English_stylised = 'ENGLISH_STYLISED',
-  Native_stylised = 'NATIVE_STYLISED'
+  Native_stylised = 'NATIVE_STYLISED',
 }
 /** Notification type enum */
 export enum INotificationTypeModel {
@@ -2021,7 +2021,7 @@ export enum INotificationTypeModel {
   Thread_like = 'THREAD_LIKE',
   Thread_comment_like = 'THREAD_COMMENT_LIKE',
   Activity_reply_subscribed = 'ACTIVITY_REPLY_SUBSCRIBED',
-  Related_media_addition = 'RELATED_MEDIA_ADDITION'
+  Related_media_addition = 'RELATED_MEDIA_ADDITION',
 }
 /** Media list scoring type */
 export enum IScoreFormatModel {
@@ -2029,12 +2029,12 @@ export enum IScoreFormatModel {
   Point_10_decimal = 'POINT_10_DECIMAL',
   Point_10 = 'POINT_10',
   Point_5 = 'POINT_5',
-  Point_3 = 'POINT_3'
+  Point_3 = 'POINT_3',
 }
 /** Media type enum, anime or manga. */
 export enum IMediaTypeModel {
   Anime = 'ANIME',
-  Manga = 'MANGA'
+  Manga = 'MANGA',
 }
 /** The format the media was released in */
 export enum IMediaFormatModel {
@@ -2047,20 +2047,20 @@ export enum IMediaFormatModel {
   Music = 'MUSIC',
   Manga = 'MANGA',
   Novel = 'NOVEL',
-  One_shot = 'ONE_SHOT'
+  One_shot = 'ONE_SHOT',
 }
 /** The current releasing status of the media */
 export enum IMediaStatusModel {
   Finished = 'FINISHED',
   Releasing = 'RELEASING',
   Not_yet_released = 'NOT_YET_RELEASED',
-  Cancelled = 'CANCELLED'
+  Cancelled = 'CANCELLED',
 }
 export enum IMediaSeasonModel {
   Winter = 'WINTER',
   Spring = 'SPRING',
   Summer = 'SUMMER',
-  Fall = 'FALL'
+  Fall = 'FALL',
 }
 /** Source type the media was adapted from */
 export enum IMediaSourceModel {
@@ -2072,7 +2072,7 @@ export enum IMediaSourceModel {
   Other = 'OTHER',
   Novel = 'NOVEL',
   Doujinshi = 'DOUJINSHI',
-  Anime = 'ANIME'
+  Anime = 'ANIME',
 }
 /** Character sort enums */
 export enum ICharacterSortModel {
@@ -2082,13 +2082,13 @@ export enum ICharacterSortModel {
   Role_desc = 'ROLE_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** The role the character plays in the media */
 export enum ICharacterRoleModel {
   Main = 'MAIN',
   Supporting = 'SUPPORTING',
-  Background = 'BACKGROUND'
+  Background = 'BACKGROUND',
 }
 /** Media sort enums */
 export enum IMediaSortModel {
@@ -2128,7 +2128,7 @@ export enum IMediaSortModel {
   Updated_at_desc = 'UPDATED_AT_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** The primary language of the voice actor */
 export enum IStaffLanguageModel {
@@ -2141,7 +2141,7 @@ export enum IStaffLanguageModel {
   French = 'FRENCH',
   German = 'GERMAN',
   Hebrew = 'HEBREW',
-  Hungarian = 'HUNGARIAN'
+  Hungarian = 'HUNGARIAN',
 }
 /** Staff sort enums */
 export enum IStaffSortModel {
@@ -2153,7 +2153,7 @@ export enum IStaffSortModel {
   Language_desc = 'LANGUAGE_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** Studio sort enums */
 export enum IStudioSortModel {
@@ -2163,7 +2163,7 @@ export enum IStudioSortModel {
   Name_desc = 'NAME_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** Media trend sort enums */
 export enum IMediaTrendSortModel {
@@ -2180,12 +2180,12 @@ export enum IMediaTrendSortModel {
   Trending = 'TRENDING',
   Trending_desc = 'TRENDING_DESC',
   Episode = 'EPISODE',
-  Episode_desc = 'EPISODE_DESC'
+  Episode_desc = 'EPISODE_DESC',
 }
 /** The type of ranking */
 export enum IMediaRankTypeModel {
   Rated = 'RATED',
-  Popular = 'POPULAR'
+  Popular = 'POPULAR',
 }
 /** Media list watching/reading status enum. */
 export enum IMediaListStatusModel {
@@ -2194,7 +2194,7 @@ export enum IMediaListStatusModel {
   Completed = 'COMPLETED',
   Dropped = 'DROPPED',
   Paused = 'PAUSED',
-  Repeating = 'REPEATING'
+  Repeating = 'REPEATING',
 }
 /** Review sort enums */
 export enum IReviewSortModel {
@@ -2207,26 +2207,26 @@ export enum IReviewSortModel {
   Created_at = 'CREATED_AT',
   Created_at_desc = 'CREATED_AT_DESC',
   Updated_at = 'UPDATED_AT',
-  Updated_at_desc = 'UPDATED_AT_DESC'
+  Updated_at_desc = 'UPDATED_AT_DESC',
 }
 /** Review rating enums */
 export enum IReviewRatingModel {
   No_vote = 'NO_VOTE',
   Up_vote = 'UP_VOTE',
-  Down_vote = 'DOWN_VOTE'
+  Down_vote = 'DOWN_VOTE',
 }
 /** Recommendation sort enums */
 export enum IRecommendationSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Rating = 'RATING',
-  Rating_desc = 'RATING_DESC'
+  Rating_desc = 'RATING_DESC',
 }
 /** Recommendation rating enums */
 export enum IRecommendationRatingModel {
   No_rating = 'NO_RATING',
   Rate_up = 'RATE_UP',
-  Rate_down = 'RATE_DOWN'
+  Rate_down = 'RATE_DOWN',
 }
 /** Type of relation media has to its parent. */
 export enum IMediaRelationModel {
@@ -2242,7 +2242,7 @@ export enum IMediaRelationModel {
   Other = 'OTHER',
   Source = 'SOURCE',
   Compilation = 'COMPILATION',
-  Contains = 'CONTAINS'
+  Contains = 'CONTAINS',
 }
 /** User statistics sort enum */
 export enum IUserStatisticsSortModel {
@@ -2253,7 +2253,7 @@ export enum IUserStatisticsSortModel {
   Progress = 'PROGRESS',
   Progress_desc = 'PROGRESS_DESC',
   Mean_score = 'MEAN_SCORE',
-  Mean_score_desc = 'MEAN_SCORE_DESC'
+  Mean_score_desc = 'MEAN_SCORE_DESC',
 }
 /** Media list sort enums */
 export enum IMediaListSortModel {
@@ -2286,7 +2286,7 @@ export enum IMediaListSortModel {
   Media_title_native = 'MEDIA_TITLE_NATIVE',
   Media_title_native_desc = 'MEDIA_TITLE_NATIVE_DESC',
   Media_popularity = 'MEDIA_POPULARITY',
-  Media_popularity_desc = 'MEDIA_POPULARITY_DESC'
+  Media_popularity_desc = 'MEDIA_POPULARITY_DESC',
 }
 /** Airing schedule sort enums */
 export enum IAiringSortModel {
@@ -2297,7 +2297,7 @@ export enum IAiringSortModel {
   Time = 'TIME',
   Time_desc = 'TIME_DESC',
   Episode = 'EPISODE',
-  Episode_desc = 'EPISODE_DESC'
+  Episode_desc = 'EPISODE_DESC',
 }
 /** Activity type enum. */
 export enum IActivityTypeModel {
@@ -2305,12 +2305,12 @@ export enum IActivityTypeModel {
   Anime_list = 'ANIME_LIST',
   Manga_list = 'MANGA_LIST',
   Message = 'MESSAGE',
-  Media_list = 'MEDIA_LIST'
+  Media_list = 'MEDIA_LIST',
 }
 /** Activity sort enums */
 export enum IActivitySortModel {
   Id = 'ID',
-  Id_desc = 'ID_DESC'
+  Id_desc = 'ID_DESC',
 }
 /** Thread sort enums */
 export enum IThreadSortModel {
@@ -2329,19 +2329,19 @@ export enum IThreadSortModel {
   View_count = 'VIEW_COUNT',
   View_count_desc = 'VIEW_COUNT_DESC',
   Is_sticky = 'IS_STICKY',
-  Search_match = 'SEARCH_MATCH'
+  Search_match = 'SEARCH_MATCH',
 }
 /** Thread comments sort enums */
 export enum IThreadCommentSortModel {
   Id = 'ID',
-  Id_desc = 'ID_DESC'
+  Id_desc = 'ID_DESC',
 }
 /** Types that can be liked */
 export enum ILikeableTypeModel {
   Thread = 'THREAD',
   Thread_comment = 'THREAD_COMMENT',
   Activity = 'ACTIVITY',
-  Activity_reply = 'ACTIVITY_REPLY'
+  Activity_reply = 'ACTIVITY_REPLY',
 }
 /** Site trend sort enums */
 export enum ISiteTrendSortModel {
@@ -2350,19 +2350,19 @@ export enum ISiteTrendSortModel {
   Count = 'COUNT',
   Count_desc = 'COUNT_DESC',
   Change = 'CHANGE',
-  Change_desc = 'CHANGE_DESC'
+  Change_desc = 'CHANGE_DESC',
 }
 /** Submission status */
 export enum ISubmissionStatusModel {
   Pending = 'PENDING',
   Rejected = 'REJECTED',
   Partially_accepted = 'PARTIALLY_ACCEPTED',
-  Accepted = 'ACCEPTED'
+  Accepted = 'ACCEPTED',
 }
 /** Revision history actions */
 export enum IRevisionHistoryActionModel {
   Create = 'CREATE',
-  Edit = 'EDIT'
+  Edit = 'EDIT',
 }
 export enum IModActionTypeModel {
   Note = 'NOTE',
@@ -2372,7 +2372,7 @@ export enum IModActionTypeModel {
   Expire = 'EXPIRE',
   Report = 'REPORT',
   Reset = 'RESET',
-  Anon = 'ANON'
+  Anon = 'ANON',
 }
 export interface IPageModelArgs {
   /** The page number*/
@@ -3611,17 +3611,17 @@ export interface IUpdateUserInputModel {
 
 export enum ISortOrderEnumModel {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 export enum IOperatorKindEnumModel {
   Gte = 'GTE',
   Lte = 'LTE',
   Ne = 'NE',
-  Like = 'LIKE'
+  Like = 'LIKE',
 }
 export enum ICacheControlScopeModel {
   Public = 'PUBLIC',
-  Private = 'PRIVATE'
+  Private = 'PRIVATE',
 }
 export interface IalbumsModelArgs {
   options?: Maybe<IPageQueryOptionsModel>;

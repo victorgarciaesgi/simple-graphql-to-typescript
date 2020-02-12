@@ -26,8 +26,30 @@ module.exports = {
     [
       'meta',
       {
-        name: 'twitter:image',
+        property: 'twitter:image',
         content: 'https://simple-graphql-to-typescript.netlify.com/assets/logo.png',
+      },
+    ],
+    [
+      'meta',
+      {
+        property: 'og:description',
+        content: require('../../package.json').description,
+      },
+    ],
+    [
+      'meta',
+      {
+        name: 'description',
+        content: require('../../package.json').description,
+      },
+    ],
+
+    [
+      'meta',
+      {
+        name: 'keywords',
+        content: require('../../package.json').keywords,
       },
     ],
   ],

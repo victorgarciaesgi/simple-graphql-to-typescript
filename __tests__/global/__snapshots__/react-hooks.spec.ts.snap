@@ -1995,7 +1995,7 @@ export enum IUserSortModel {
   Watched_time_desc = 'WATCHED_TIME_DESC',
   Chapters_read = 'CHAPTERS_READ',
   Chapters_read_desc = 'CHAPTERS_READ_DESC',
-  Search_match = 'SEARCH_MATCH'
+  Search_match = 'SEARCH_MATCH',
 }
 /** The language the user wants to see media titles in */
 export enum IUserTitleLanguageModel {
@@ -2004,7 +2004,7 @@ export enum IUserTitleLanguageModel {
   Native = 'NATIVE',
   Romaji_stylised = 'ROMAJI_STYLISED',
   English_stylised = 'ENGLISH_STYLISED',
-  Native_stylised = 'NATIVE_STYLISED'
+  Native_stylised = 'NATIVE_STYLISED',
 }
 /** Notification type enum */
 export enum INotificationTypeModel {
@@ -2021,7 +2021,7 @@ export enum INotificationTypeModel {
   Thread_like = 'THREAD_LIKE',
   Thread_comment_like = 'THREAD_COMMENT_LIKE',
   Activity_reply_subscribed = 'ACTIVITY_REPLY_SUBSCRIBED',
-  Related_media_addition = 'RELATED_MEDIA_ADDITION'
+  Related_media_addition = 'RELATED_MEDIA_ADDITION',
 }
 /** Media list scoring type */
 export enum IScoreFormatModel {
@@ -2029,12 +2029,12 @@ export enum IScoreFormatModel {
   Point_10_decimal = 'POINT_10_DECIMAL',
   Point_10 = 'POINT_10',
   Point_5 = 'POINT_5',
-  Point_3 = 'POINT_3'
+  Point_3 = 'POINT_3',
 }
 /** Media type enum, anime or manga. */
 export enum IMediaTypeModel {
   Anime = 'ANIME',
-  Manga = 'MANGA'
+  Manga = 'MANGA',
 }
 /** The format the media was released in */
 export enum IMediaFormatModel {
@@ -2047,20 +2047,20 @@ export enum IMediaFormatModel {
   Music = 'MUSIC',
   Manga = 'MANGA',
   Novel = 'NOVEL',
-  One_shot = 'ONE_SHOT'
+  One_shot = 'ONE_SHOT',
 }
 /** The current releasing status of the media */
 export enum IMediaStatusModel {
   Finished = 'FINISHED',
   Releasing = 'RELEASING',
   Not_yet_released = 'NOT_YET_RELEASED',
-  Cancelled = 'CANCELLED'
+  Cancelled = 'CANCELLED',
 }
 export enum IMediaSeasonModel {
   Winter = 'WINTER',
   Spring = 'SPRING',
   Summer = 'SUMMER',
-  Fall = 'FALL'
+  Fall = 'FALL',
 }
 /** Source type the media was adapted from */
 export enum IMediaSourceModel {
@@ -2072,7 +2072,7 @@ export enum IMediaSourceModel {
   Other = 'OTHER',
   Novel = 'NOVEL',
   Doujinshi = 'DOUJINSHI',
-  Anime = 'ANIME'
+  Anime = 'ANIME',
 }
 /** Character sort enums */
 export enum ICharacterSortModel {
@@ -2082,13 +2082,13 @@ export enum ICharacterSortModel {
   Role_desc = 'ROLE_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** The role the character plays in the media */
 export enum ICharacterRoleModel {
   Main = 'MAIN',
   Supporting = 'SUPPORTING',
-  Background = 'BACKGROUND'
+  Background = 'BACKGROUND',
 }
 /** Media sort enums */
 export enum IMediaSortModel {
@@ -2128,7 +2128,7 @@ export enum IMediaSortModel {
   Updated_at_desc = 'UPDATED_AT_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** The primary language of the voice actor */
 export enum IStaffLanguageModel {
@@ -2141,7 +2141,7 @@ export enum IStaffLanguageModel {
   French = 'FRENCH',
   German = 'GERMAN',
   Hebrew = 'HEBREW',
-  Hungarian = 'HUNGARIAN'
+  Hungarian = 'HUNGARIAN',
 }
 /** Staff sort enums */
 export enum IStaffSortModel {
@@ -2153,7 +2153,7 @@ export enum IStaffSortModel {
   Language_desc = 'LANGUAGE_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** Studio sort enums */
 export enum IStudioSortModel {
@@ -2163,7 +2163,7 @@ export enum IStudioSortModel {
   Name_desc = 'NAME_DESC',
   Search_match = 'SEARCH_MATCH',
   Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC'
+  Favourites_desc = 'FAVOURITES_DESC',
 }
 /** Media trend sort enums */
 export enum IMediaTrendSortModel {
@@ -2180,12 +2180,12 @@ export enum IMediaTrendSortModel {
   Trending = 'TRENDING',
   Trending_desc = 'TRENDING_DESC',
   Episode = 'EPISODE',
-  Episode_desc = 'EPISODE_DESC'
+  Episode_desc = 'EPISODE_DESC',
 }
 /** The type of ranking */
 export enum IMediaRankTypeModel {
   Rated = 'RATED',
-  Popular = 'POPULAR'
+  Popular = 'POPULAR',
 }
 /** Media list watching/reading status enum. */
 export enum IMediaListStatusModel {
@@ -2194,7 +2194,7 @@ export enum IMediaListStatusModel {
   Completed = 'COMPLETED',
   Dropped = 'DROPPED',
   Paused = 'PAUSED',
-  Repeating = 'REPEATING'
+  Repeating = 'REPEATING',
 }
 /** Review sort enums */
 export enum IReviewSortModel {
@@ -2207,26 +2207,26 @@ export enum IReviewSortModel {
   Created_at = 'CREATED_AT',
   Created_at_desc = 'CREATED_AT_DESC',
   Updated_at = 'UPDATED_AT',
-  Updated_at_desc = 'UPDATED_AT_DESC'
+  Updated_at_desc = 'UPDATED_AT_DESC',
 }
 /** Review rating enums */
 export enum IReviewRatingModel {
   No_vote = 'NO_VOTE',
   Up_vote = 'UP_VOTE',
-  Down_vote = 'DOWN_VOTE'
+  Down_vote = 'DOWN_VOTE',
 }
 /** Recommendation sort enums */
 export enum IRecommendationSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Rating = 'RATING',
-  Rating_desc = 'RATING_DESC'
+  Rating_desc = 'RATING_DESC',
 }
 /** Recommendation rating enums */
 export enum IRecommendationRatingModel {
   No_rating = 'NO_RATING',
   Rate_up = 'RATE_UP',
-  Rate_down = 'RATE_DOWN'
+  Rate_down = 'RATE_DOWN',
 }
 /** Type of relation media has to its parent. */
 export enum IMediaRelationModel {
@@ -2242,7 +2242,7 @@ export enum IMediaRelationModel {
   Other = 'OTHER',
   Source = 'SOURCE',
   Compilation = 'COMPILATION',
-  Contains = 'CONTAINS'
+  Contains = 'CONTAINS',
 }
 /** User statistics sort enum */
 export enum IUserStatisticsSortModel {
@@ -2253,7 +2253,7 @@ export enum IUserStatisticsSortModel {
   Progress = 'PROGRESS',
   Progress_desc = 'PROGRESS_DESC',
   Mean_score = 'MEAN_SCORE',
-  Mean_score_desc = 'MEAN_SCORE_DESC'
+  Mean_score_desc = 'MEAN_SCORE_DESC',
 }
 /** Media list sort enums */
 export enum IMediaListSortModel {
@@ -2286,7 +2286,7 @@ export enum IMediaListSortModel {
   Media_title_native = 'MEDIA_TITLE_NATIVE',
   Media_title_native_desc = 'MEDIA_TITLE_NATIVE_DESC',
   Media_popularity = 'MEDIA_POPULARITY',
-  Media_popularity_desc = 'MEDIA_POPULARITY_DESC'
+  Media_popularity_desc = 'MEDIA_POPULARITY_DESC',
 }
 /** Airing schedule sort enums */
 export enum IAiringSortModel {
@@ -2297,7 +2297,7 @@ export enum IAiringSortModel {
   Time = 'TIME',
   Time_desc = 'TIME_DESC',
   Episode = 'EPISODE',
-  Episode_desc = 'EPISODE_DESC'
+  Episode_desc = 'EPISODE_DESC',
 }
 /** Activity type enum. */
 export enum IActivityTypeModel {
@@ -2305,12 +2305,12 @@ export enum IActivityTypeModel {
   Anime_list = 'ANIME_LIST',
   Manga_list = 'MANGA_LIST',
   Message = 'MESSAGE',
-  Media_list = 'MEDIA_LIST'
+  Media_list = 'MEDIA_LIST',
 }
 /** Activity sort enums */
 export enum IActivitySortModel {
   Id = 'ID',
-  Id_desc = 'ID_DESC'
+  Id_desc = 'ID_DESC',
 }
 /** Thread sort enums */
 export enum IThreadSortModel {
@@ -2329,19 +2329,19 @@ export enum IThreadSortModel {
   View_count = 'VIEW_COUNT',
   View_count_desc = 'VIEW_COUNT_DESC',
   Is_sticky = 'IS_STICKY',
-  Search_match = 'SEARCH_MATCH'
+  Search_match = 'SEARCH_MATCH',
 }
 /** Thread comments sort enums */
 export enum IThreadCommentSortModel {
   Id = 'ID',
-  Id_desc = 'ID_DESC'
+  Id_desc = 'ID_DESC',
 }
 /** Types that can be liked */
 export enum ILikeableTypeModel {
   Thread = 'THREAD',
   Thread_comment = 'THREAD_COMMENT',
   Activity = 'ACTIVITY',
-  Activity_reply = 'ACTIVITY_REPLY'
+  Activity_reply = 'ACTIVITY_REPLY',
 }
 /** Site trend sort enums */
 export enum ISiteTrendSortModel {
@@ -2350,19 +2350,19 @@ export enum ISiteTrendSortModel {
   Count = 'COUNT',
   Count_desc = 'COUNT_DESC',
   Change = 'CHANGE',
-  Change_desc = 'CHANGE_DESC'
+  Change_desc = 'CHANGE_DESC',
 }
 /** Submission status */
 export enum ISubmissionStatusModel {
   Pending = 'PENDING',
   Rejected = 'REJECTED',
   Partially_accepted = 'PARTIALLY_ACCEPTED',
-  Accepted = 'ACCEPTED'
+  Accepted = 'ACCEPTED',
 }
 /** Revision history actions */
 export enum IRevisionHistoryActionModel {
   Create = 'CREATE',
-  Edit = 'EDIT'
+  Edit = 'EDIT',
 }
 export enum IModActionTypeModel {
   Note = 'NOTE',
@@ -2372,7 +2372,7 @@ export enum IModActionTypeModel {
   Expire = 'EXPIRE',
   Report = 'REPORT',
   Reset = 'RESET',
-  Anon = 'ANON'
+  Anon = 'ANON',
 }
 export interface IPageModelArgs {
   /** The page number*/
@@ -3330,1511 +3330,200 @@ import {
   useQuery,
   QueryHookOptions,
   MutationHookOptions,
-  MutationTuple
+  MutationTuple,
 } from '@apollo/react-hooks';
 
-export const usePage = (
+export const usePost = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Page: IPageModel }, IPageModelArgs>
+  options?: QueryHookOptions<{ post: IPostModel }, IpostModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Page ($page: Int,$perPage: Int) {
-        Page(page: $page,perPage: $perPage) {
+      query post ($id: Int) {
+        post(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ Page: IPageModel }, IPageModelArgs>(query, options);
+  return useQuery<{ post: IPostModel }, IpostModelArgs>(query, options);
 };
 
-/** Media query */
-export const useMedia = (
+export const usePosts = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Media: IMediaModel }, IMediaModelArgs>
+  options?: QueryHookOptions<{ posts: IPostModel[] }, IpostsModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
-        Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
+      query posts ($userId: Int) {
+        posts(userId: $userId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ Media: IMediaModel }, IMediaModelArgs>(query, options);
+  return useQuery<{ posts: IPostModel[] }, IpostsModelArgs>(query, options);
 };
 
-/** Media Trend query */
-export const useMediaTrend = (
+export const useComment = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ MediaTrend: IMediaTrendModel }, IMediaTrendModelArgs>
+  options?: QueryHookOptions<{ comment: ICommentModel }, IcommentModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
-        MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
+      query comment ($id: Int) {
+        comment(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ MediaTrend: IMediaTrendModel }, IMediaTrendModelArgs>(query, options);
+  return useQuery<{ comment: ICommentModel }, IcommentModelArgs>(query, options);
 };
 
-/** Airing schedule query */
-export const useAiringSchedule = (
+export const useComments = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ AiringSchedule: IAiringScheduleModel }, IAiringScheduleModelArgs>
+  options?: QueryHookOptions<{ comments: ICommentModel[] }, IcommentsModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
-        AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
+      query comments ($postId: Int) {
+        comments(postId: $postId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ AiringSchedule: IAiringScheduleModel }, IAiringScheduleModelArgs>(
-    query,
-    options
-  );
+  return useQuery<{ comments: ICommentModel[] }, IcommentsModelArgs>(query, options);
 };
 
-/** Character query */
-export const useCharacter = (
+export const useAlbum = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Character: ICharacterModel }, ICharacterModelArgs>
+  options?: QueryHookOptions<{ album: IAlbumModel }, IalbumModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
-        Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+      query album ($id: Int) {
+        album(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ Character: ICharacterModel }, ICharacterModelArgs>(query, options);
+  return useQuery<{ album: IAlbumModel }, IalbumModelArgs>(query, options);
 };
 
-/** Staff query */
-export const useStaff = (
+export const useAlbums = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Staff: IStaffModel }, IStaffModelArgs>
+  options?: QueryHookOptions<{ albums: IAlbumModel[] }, IalbumsModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
-        Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+      query albums ($userId: Int) {
+        albums(userId: $userId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ Staff: IStaffModel }, IStaffModelArgs>(query, options);
+  return useQuery<{ albums: IAlbumModel[] }, IalbumsModelArgs>(query, options);
 };
 
-/** Media list query */
-export const useMediaList = (
+export const usePhoto = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ MediaList: IMediaListModel }, IMediaListModelArgs>
+  options?: QueryHookOptions<{ photo: IPhotoModel }, IphotoModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
-        MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
+      query photo ($id: Int) {
+        photo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ MediaList: IMediaListModel }, IMediaListModelArgs>(query, options);
+  return useQuery<{ photo: IPhotoModel }, IphotoModelArgs>(query, options);
 };
 
-/** Media list collection query, provides list pre-grouped by status & custom lists. User ID and Media Type arguments required. */
-export const useMediaListCollection = (
+export const usePhotos = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<
-    { MediaListCollection: IMediaListCollectionModel },
-    IMediaListCollectionModelArgs
-  >
+  options?: QueryHookOptions<{ photos: IPhotoModel[] }, IphotosModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
-        MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
+      query photos ($albumId: Int) {
+        photos(albumId: $albumId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<
-    { MediaListCollection: IMediaListCollectionModel },
-    IMediaListCollectionModelArgs
-  >(query, options);
+  return useQuery<{ photos: IPhotoModel[] }, IphotosModelArgs>(query, options);
 };
 
-/** Collection of all the possible media genres */
-export const useGenreCollection = (options?: QueryHookOptions<{ GenreCollection: string[] }>) => {
-  const query = sgtsQL\`
-      query GenreCollection  {
-        GenreCollection
-      }\`;
-  return useQuery<{ GenreCollection: string[] }>(query, options);
-};
-
-/** Collection of all the possible media tags */
-export const useMediaTagCollection = (
+export const useTodo = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ MediaTagCollection: IMediaTagModel[] }, IMediaTagCollectionModelArgs>
+  options?: QueryHookOptions<{ todo: ITodoModel }, ItodoModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaTagCollection ($status: Int) {
-        MediaTagCollection(status: $status) {
+      query todo ($id: Int) {
+        todo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ MediaTagCollection: IMediaTagModel[] }, IMediaTagCollectionModelArgs>(
-    query,
-    options
-  );
+  return useQuery<{ todo: ITodoModel }, ItodoModelArgs>(query, options);
 };
 
-/** User query */
+export const useTodos = (
+  fragment: string | DocumentNode,
+  options?: QueryHookOptions<{ todos: ITodoModel[] }, ItodosModelArgs>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query todos ($userId: Int,$completed: Boolean) {
+        todos(userId: $userId,completed: $completed) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ todos: ITodoModel[] }, ItodosModelArgs>(query, options);
+};
+
 export const useUser = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ User: IUserModel }, IUserModelArgs>
+  options?: QueryHookOptions<{ user: IUserModel }, IuserModelArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
-        User(id: $id,name: $name,search: $search,sort: $sort) {
+      query user ($id: Int) {
+        user(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ User: IUserModel }, IUserModelArgs>(query, options);
+  return useQuery<{ user: IUserModel }, IuserModelArgs>(query, options);
 };
 
-/** Get the currently authenticated user */
-export const useViewer = (
+export const useUsers = (
   fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Viewer: IUserModel }>
+  options?: QueryHookOptions<{ users: IUserModel[] }>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Viewer  {
-        Viewer {
+      query users  {
+        users {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ Viewer: IUserModel }>(query, options);
+  return useQuery<{ users: IUserModel[] }>(query, options);
 };
-
-/** Notification query */
-export const useNotification = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Notification: INotificationUnionModel }, INotificationModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
-        Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Notification: INotificationUnionModel }, INotificationModelArgs>(
-    query,
-    options
-  );
-};
-
-/** Studio query */
-export const useStudio = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Studio: IStudioModel }, IStudioModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
-        Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Studio: IStudioModel }, IStudioModelArgs>(query, options);
-};
-
-/** Review query */
-export const useReview = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Review: IReviewModel }, IReviewModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
-        Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Review: IReviewModel }, IReviewModelArgs>(query, options);
-};
-
-/** Activity query */
-export const useActivity = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Activity: IActivityUnionModel }, IActivityModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
-        Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Activity: IActivityUnionModel }, IActivityModelArgs>(query, options);
-};
-
-/** Activity reply query */
-export const useActivityReply = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ ActivityReply: IActivityReplyModel }, IActivityReplyModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query ActivityReply ($id: Int,$activityId: Int) {
-        ActivityReply(id: $id,activityId: $activityId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ ActivityReply: IActivityReplyModel }, IActivityReplyModelArgs>(query, options);
-};
-
-/** Follow query */
-export const useFollowing = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Following: IUserModel }, IFollowingModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Following ($userId: Int!,$sort: [UserSort]!) {
-        Following(userId: $userId,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Following: IUserModel }, IFollowingModelArgs>(query, options);
-};
-
-/** Follow query */
-export const useFollower = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Follower: IUserModel }, IFollowerModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Follower ($userId: Int!,$sort: [UserSort]!) {
-        Follower(userId: $userId,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Follower: IUserModel }, IFollowerModelArgs>(query, options);
-};
-
-/** Thread query */
-export const useThread = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Thread: IThreadModel }, IThreadModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
-        Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Thread: IThreadModel }, IThreadModelArgs>(query, options);
-};
-
-/** Comment query */
-export const useThreadComment = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ ThreadComment: IThreadCommentModel[] }, IThreadCommentModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
-        ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ ThreadComment: IThreadCommentModel[] }, IThreadCommentModelArgs>(
-    query,
-    options
-  );
-};
-
-/** Recommendation query */
-export const useRecommendation = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Recommendation: IRecommendationModel }, IRecommendationModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
-        Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Recommendation: IRecommendationModel }, IRecommendationModelArgs>(
-    query,
-    options
-  );
-};
-
-/** Like query */
-export const useLike = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Like: IUserModel }, ILikeModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Like ($likeableId: Int,$type: LikeableType) {
-        Like(likeableId: $likeableId,type: $type) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Like: IUserModel }, ILikeModelArgs>(query, options);
-};
-
-/** Provide AniList markdown to be converted to html (Requires auth) */
-export const useMarkdown = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ Markdown: IParsedMarkdownModel }, IMarkdownModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query Markdown ($markdown: String!) {
-        Markdown(markdown: $markdown) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ Markdown: IParsedMarkdownModel }, IMarkdownModelArgs>(query, options);
-};
-
-export const useAniChartUser = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ AniChartUser: IAniChartUserModel }>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query AniChartUser  {
-        AniChartUser {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ AniChartUser: IAniChartUserModel }>(query, options);
-};
-
-/** Site statistics query */
-export const useSiteStatistics = (
-  fragment: string | DocumentNode,
-  options?: QueryHookOptions<{ SiteStatistics: ISiteStatisticsModel }>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query SiteStatistics  {
-        SiteStatistics {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ SiteStatistics: ISiteStatisticsModel }>(query, options);
-};
-
-export const useUpdateUser = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ UpdateUser: IUserModel }, IUpdateUserModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
-        UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ UpdateUser: IUserModel }, IUpdateUserModelArgs>(mutation, options);
-};
-
-/** Create or update a media list entry */
-export const useSaveMediaListEntry = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveMediaListEntry: IMediaListModel },
-    ISaveMediaListEntryModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
-        SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveMediaListEntry: IMediaListModel }, ISaveMediaListEntryModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Update multiple media list entries to the same values */
-export const useUpdateMediaListEntries = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { UpdateMediaListEntries: IMediaListModel[] },
-    IUpdateMediaListEntriesModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
-        UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<
-    { UpdateMediaListEntries: IMediaListModel[] },
-    IUpdateMediaListEntriesModelArgs
-  >(mutation, options);
-};
-
-/** Delete a media list entry */
-export const useDeleteMediaListEntry = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { DeleteMediaListEntry: IDeletedModel },
-    IDeleteMediaListEntryModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteMediaListEntry ($id: Int) {
-        DeleteMediaListEntry(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteMediaListEntry: IDeletedModel }, IDeleteMediaListEntryModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Delete a custom list and remove the list entries from it */
-export const useDeleteCustomList = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ DeleteCustomList: IDeletedModel }, IDeleteCustomListModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteCustomList ($customList: String,$type: MediaType) {
-        DeleteCustomList(customList: $customList,type: $type) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteCustomList: IDeletedModel }, IDeleteCustomListModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Create or update text activity for the currently authenticated user */
-export const useSaveTextActivity = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveTextActivity: ITextActivityModel },
-    ISaveTextActivityModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
-        SaveTextActivity(id: $id,text: $text,locked: $locked) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveTextActivity: ITextActivityModel }, ISaveTextActivityModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Create or update message activity for the currently authenticated user */
-export const useSaveMessageActivity = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveMessageActivity: IMessageActivityModel },
-    ISaveMessageActivityModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
-        SaveMessageActivity(id: $id,message: $message,recipientId: $recipientId,private: $private,locked: $locked,asMod: $asMod) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveMessageActivity: IMessageActivityModel }, ISaveMessageActivityModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Update list activity (Mod Only) */
-export const useSaveListActivity = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveListActivity: IListActivityModel },
-    ISaveListActivityModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveListActivity ($id: Int,$locked: Boolean) {
-        SaveListActivity(id: $id,locked: $locked) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveListActivity: IListActivityModel }, ISaveListActivityModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Delete an activity item of the authenticated users */
-export const useDeleteActivity = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ DeleteActivity: IDeletedModel }, IDeleteActivityModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteActivity ($id: Int) {
-        DeleteActivity(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteActivity: IDeletedModel }, IDeleteActivityModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Toggle the subscription of an activity item */
-export const useToggleActivitySubscription = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { ToggleActivitySubscription: IActivityUnionModel },
-    IToggleActivitySubscriptionModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
-        ToggleActivitySubscription(activityId: $activityId,subscribe: $subscribe) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<
-    { ToggleActivitySubscription: IActivityUnionModel },
-    IToggleActivitySubscriptionModelArgs
-  >(mutation, options);
-};
-
-/** Create or update an activity reply */
-export const useSaveActivityReply = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveActivityReply: IActivityReplyModel },
-    ISaveActivityReplyModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
-        SaveActivityReply(id: $id,activityId: $activityId,text: $text,asMod: $asMod) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveActivityReply: IActivityReplyModel }, ISaveActivityReplyModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Delete an activity reply of the authenticated users */
-export const useDeleteActivityReply = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { DeleteActivityReply: IDeletedModel },
-    IDeleteActivityReplyModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteActivityReply ($id: Int) {
-        DeleteActivityReply(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteActivityReply: IDeletedModel }, IDeleteActivityReplyModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Add or remove a like from a likeable type.
-                          Returns all the users who liked the same model */
-export const useToggleLike = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ ToggleLike: IUserModel[] }, IToggleLikeModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation ToggleLike ($id: Int,$type: LikeableType) {
-        ToggleLike(id: $id,type: $type) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ ToggleLike: IUserModel[] }, IToggleLikeModelArgs>(mutation, options);
-};
-
-/** Add or remove a like from a likeable type. */
-export const useToggleLikeV2 = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ ToggleLikeV2: ILikeableUnionModel }, IToggleLikeV2ModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
-        ToggleLikeV2(id: $id,type: $type) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ ToggleLikeV2: ILikeableUnionModel }, IToggleLikeV2ModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Toggle the un/following of a user */
-export const useToggleFollow = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ ToggleFollow: IUserModel }, IToggleFollowModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation ToggleFollow ($userId: Int) {
-        ToggleFollow(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ ToggleFollow: IUserModel }, IToggleFollowModelArgs>(mutation, options);
-};
-
-/** Favourite or unfavourite an anime, manga, character, staff member, or studio */
-export const useToggleFavourite = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ ToggleFavourite: IFavouritesModel }, IToggleFavouriteModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
-        ToggleFavourite(animeId: $animeId,mangaId: $mangaId,characterId: $characterId,staffId: $staffId,studioId: $studioId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ ToggleFavourite: IFavouritesModel }, IToggleFavouriteModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Update the order favourites are displayed in */
-export const useUpdateFavouriteOrder = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { UpdateFavouriteOrder: IFavouritesModel },
-    IUpdateFavouriteOrderModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
-        UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ UpdateFavouriteOrder: IFavouritesModel }, IUpdateFavouriteOrderModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Create or update a review */
-export const useSaveReview = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ SaveReview: IReviewModel }, ISaveReviewModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
-        SaveReview(id: $id,mediaId: $mediaId,body: $body,summary: $summary,score: $score,private: $private) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveReview: IReviewModel }, ISaveReviewModelArgs>(mutation, options);
-};
-
-/** Delete a review */
-export const useDeleteReview = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ DeleteReview: IDeletedModel }, IDeleteReviewModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteReview ($id: Int) {
-        DeleteReview(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteReview: IDeletedModel }, IDeleteReviewModelArgs>(mutation, options);
-};
-
-/** Rate a review */
-export const useRateReview = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ RateReview: IReviewModel }, IRateReviewModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
-        RateReview(reviewId: $reviewId,rating: $rating) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ RateReview: IReviewModel }, IRateReviewModelArgs>(mutation, options);
-};
-
-/** Recommendation a media */
-export const useSaveRecommendation = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveRecommendation: IRecommendationModel },
-    ISaveRecommendationModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
-        SaveRecommendation(mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,rating: $rating) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveRecommendation: IRecommendationModel }, ISaveRecommendationModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Create or update a forum thread */
-export const useSaveThread = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ SaveThread: IThreadModel }, ISaveThreadModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
-        SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveThread: IThreadModel }, ISaveThreadModelArgs>(mutation, options);
-};
-
-/** Delete a thread */
-export const useDeleteThread = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<{ DeleteThread: IDeletedModel }, IDeleteThreadModelArgs>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteThread ($id: Int) {
-        DeleteThread(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteThread: IDeletedModel }, IDeleteThreadModelArgs>(mutation, options);
-};
-
-/** Toggle the subscription of a forum thread */
-export const useToggleThreadSubscription = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { ToggleThreadSubscription: IThreadModel },
-    IToggleThreadSubscriptionModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
-        ToggleThreadSubscription(threadId: $threadId,subscribe: $subscribe) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<
-    { ToggleThreadSubscription: IThreadModel },
-    IToggleThreadSubscriptionModelArgs
-  >(mutation, options);
-};
-
-/** Create or update a thread comment */
-export const useSaveThreadComment = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { SaveThreadComment: IThreadCommentModel },
-    ISaveThreadCommentModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
-        SaveThreadComment(id: $id,threadId: $threadId,parentCommentId: $parentCommentId,comment: $comment) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ SaveThreadComment: IThreadCommentModel }, ISaveThreadCommentModelArgs>(
-    mutation,
-    options
-  );
-};
-
-/** Delete a thread comment */
-export const useDeleteThreadComment = (
-  fragment: string | DocumentNode,
-  options?: MutationHookOptions<
-    { DeleteThreadComment: IDeletedModel },
-    IDeleteThreadCommentModelArgs
-  >
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const mutation = sgtsQL\`
-      mutation DeleteThreadComment ($id: Int) {
-        DeleteThreadComment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useMutation<{ DeleteThreadComment: IDeletedModel }, IDeleteThreadCommentModelArgs>(
-    mutation,
-    options
-  );
-};
-
-export const useUpdateAniChartSettings = (
-  options?: MutationHookOptions<
-    { UpdateAniChartSettings: string },
-    IUpdateAniChartSettingsModelArgs
-  >
-) => {
-  const mutation = sgtsQL\`
-      mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
-        UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
-      }\`;
-  return useMutation<{ UpdateAniChartSettings: string }, IUpdateAniChartSettingsModelArgs>(
-    mutation,
-    options
-  );
-};
-
-export const useUpdateAniChartHighlights = (
-  options?: MutationHookOptions<
-    { UpdateAniChartHighlights: string },
-    IUpdateAniChartHighlightsModelArgs
-  >
-) => {
-  const mutation = sgtsQL\`
-      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
-        UpdateAniChartHighlights(highlights: $highlights)
-      }\`;
-  return useMutation<{ UpdateAniChartHighlights: string }, IUpdateAniChartHighlightsModelArgs>(
-    mutation,
-    options
-  );
-};
-"
-`;
-
-exports[`Test React Hooks generation from different sources Generates types correctly from graphqlZero 1`] = `
-"/* eslint-disable */
-/* tslint-disable */
-// @ts-nocheck
-// *******************************************************
-// *******************************************************
-//
-// GENERATED FILE, DO NOT MODIFY
-//
-// Made by Victor Garcia ®
-//
-// https://github.com/victorgarciaesgi
-// *******************************************************
-// *******************************************************
-// 💙
-
-export type Maybe<T> = T | null;
-
-export interface IQueryModel {
-  _?: Maybe<number>;
-  albums?: Maybe<IAlbumsPageModel>;
-  album?: Maybe<IAlbumModel>;
-  comments?: Maybe<ICommentsPageModel>;
-  comment?: Maybe<ICommentModel>;
-  photos?: Maybe<IPhotosPageModel>;
-  photo?: Maybe<IPhotoModel>;
-  posts?: Maybe<IPostsPageModel>;
-  post?: Maybe<IPostModel>;
-  todos?: Maybe<ITodosPageModel>;
-  todo?: Maybe<ITodoModel>;
-  users?: Maybe<IUsersPageModel>;
-  user?: Maybe<IUserModel>;
-}
-
-export interface IPageQueryOptionsModel {
-  paginate?: Maybe<IPaginateOptionsModel>;
-  slice?: Maybe<ISliceOptionsModel>;
-  sort?: Maybe<ISortOptionsModel[]>;
-  operators?: Maybe<IOperatorOptionsModel[]>;
-  search?: Maybe<ISearchOptionsModel>;
-}
-
-export interface IPaginateOptionsModel {
-  page?: Maybe<number>;
-  limit?: Maybe<number>;
-}
-
-export interface ISliceOptionsModel {
-  start?: Maybe<number>;
-  end?: Maybe<number>;
-  limit?: Maybe<number>;
-}
-
-export interface ISortOptionsModel {
-  field?: Maybe<string>;
-  order?: Maybe<ISortOrderEnumModel>;
-}
-
-export interface IOperatorOptionsModel {
-  kind?: Maybe<IOperatorKindEnumModel>;
-  field?: Maybe<string>;
-  value?: Maybe<string>;
-}
-
-export interface ISearchOptionsModel {
-  q?: Maybe<string>;
-}
-
-export interface IAlbumsPageModel {
-  data?: Maybe<IAlbumModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IAlbumModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  user?: Maybe<IUserModel>;
-  photos?: Maybe<IPhotosPageModel>;
-}
-
-export interface IUserModel {
-  id?: Maybe<string>;
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  address?: Maybe<IAddressModel>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-  company?: Maybe<ICompanyModel>;
-  posts?: Maybe<IPostsPageModel>;
-  albums?: Maybe<IAlbumsPageModel>;
-  todos?: Maybe<ITodosPageModel>;
-}
-
-export interface IAddressModel {
-  street?: Maybe<string>;
-  suite?: Maybe<string>;
-  city?: Maybe<string>;
-  zipcode?: Maybe<string>;
-  geo?: Maybe<IGeoModel>;
-}
-
-export interface IGeoModel {
-  lat?: Maybe<number>;
-  lng?: Maybe<number>;
-}
-
-export interface ICompanyModel {
-  name?: Maybe<string>;
-  catchPhrase?: Maybe<string>;
-  bs?: Maybe<string>;
-}
-
-export interface IPostsPageModel {
-  data?: Maybe<IPostModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IPostModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-  user?: Maybe<IUserModel>;
-  comments?: Maybe<ICommentsPageModel>;
-}
-
-export interface ICommentsPageModel {
-  data?: Maybe<ICommentModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface ICommentModel {
-  id?: Maybe<string>;
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
-  post?: Maybe<IPostModel>;
-}
-
-export interface IPaginationLinksModel {
-  first?: Maybe<IPageLimitPairModel>;
-  prev?: Maybe<IPageLimitPairModel>;
-  next?: Maybe<IPageLimitPairModel>;
-  last?: Maybe<IPageLimitPairModel>;
-}
-
-export interface IPageLimitPairModel {
-  page?: Maybe<number>;
-  limit?: Maybe<number>;
-}
-
-export interface IPageMetadataModel {
-  totalCount?: Maybe<number>;
-}
-
-export interface ITodosPageModel {
-  data?: Maybe<ITodoModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface ITodoModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  completed?: Maybe<boolean>;
-  user?: Maybe<IUserModel>;
-}
-
-export interface IPhotosPageModel {
-  data?: Maybe<IPhotoModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IPhotoModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  url?: Maybe<string>;
-  thumbnailUrl?: Maybe<string>;
-  album?: Maybe<IAlbumModel>;
-}
-
-export interface IUsersPageModel {
-  data?: Maybe<IUserModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IMutationModel {
-  _?: Maybe<number>;
-  createAlbum?: Maybe<IAlbumModel>;
-  updateAlbum?: Maybe<IAlbumModel>;
-  deleteAlbum?: Maybe<boolean>;
-  createComment?: Maybe<ICommentModel>;
-  updateComment?: Maybe<ICommentModel>;
-  deleteComment?: Maybe<boolean>;
-  createPhoto?: Maybe<IPhotoModel>;
-  updatePhoto?: Maybe<IPhotoModel>;
-  deletePhoto?: Maybe<boolean>;
-  createPost?: Maybe<IPostModel>;
-  updatePost?: Maybe<IPostModel>;
-  deletePost?: Maybe<boolean>;
-  createTodo?: Maybe<ITodoModel>;
-  updateTodo?: Maybe<ITodoModel>;
-  deleteTodo?: Maybe<boolean>;
-  createUser?: Maybe<IUserModel>;
-  updateUser?: Maybe<IUserModel>;
-  deleteUser?: Maybe<boolean>;
-}
-
-export interface ICreateAlbumInputModel {
-  title: string;
-  userId: string;
-}
-
-export interface IUpdateAlbumInputModel {
-  title?: Maybe<string>;
-  userId?: Maybe<string>;
-}
-
-export interface ICreateCommentInputModel {
-  name: string;
-  email: string;
-  body: string;
-}
-
-export interface IUpdateCommentInputModel {
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface ICreatePhotoInputModel {
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-}
-
-export interface IUpdatePhotoInputModel {
-  title?: Maybe<string>;
-  url?: Maybe<string>;
-  thumbnailUrl?: Maybe<string>;
-}
-
-export interface ICreatePostInputModel {
-  title: string;
-  body: string;
-}
-
-export interface IUpdatePostInputModel {
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface ICreateTodoInputModel {
-  title: string;
-  completed: boolean;
-}
-
-export interface IUpdateTodoInputModel {
-  title?: Maybe<string>;
-  completed?: Maybe<boolean>;
-}
-
-export interface ICreateUserInputModel {
-  name: string;
-  username: string;
-  email: string;
-  address?: Maybe<IAddressInputModel>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-  company?: Maybe<ICompanyInputModel>;
-}
-
-export interface IAddressInputModel {
-  street?: Maybe<string>;
-  suite?: Maybe<string>;
-  city?: Maybe<string>;
-  zipcode?: Maybe<string>;
-  geo?: Maybe<IGeoInputModel>;
-}
-
-export interface IGeoInputModel {
-  lat?: Maybe<number>;
-  lng?: Maybe<number>;
-}
-
-export interface ICompanyInputModel {
-  name?: Maybe<string>;
-  catchPhrase?: Maybe<string>;
-  bs?: Maybe<string>;
-}
-
-export interface IUpdateUserInputModel {
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  address?: Maybe<IAddressInputModel>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-  company?: Maybe<ICompanyInputModel>;
-}
-
-export enum ISortOrderEnumModel {
-  Asc = 'ASC',
-  Desc = 'DESC'
-}
-export enum IOperatorKindEnumModel {
-  Gte = 'GTE',
-  Lte = 'LTE',
-  Ne = 'NE',
-  Like = 'LIKE'
-}
-export enum ICacheControlScopeModel {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
-export interface IalbumsModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IalbumModelArgs {
-  id: string;
-}
-
-export interface IcommentsModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IcommentModelArgs {
-  id: string;
-}
-
-export interface IphotosModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IphotoModelArgs {
-  id: string;
-}
-
-export interface IpostsModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IpostModelArgs {
-  id: string;
-}
-
-export interface ItodosModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface ItodoModelArgs {
-  id: string;
-}
-
-export interface IusersModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IuserModelArgs {
-  id: string;
-}
-
-export interface IcreateAlbumModelArgs {
-  input: ICreateAlbumInputModel;
-}
-
-export interface IupdateAlbumModelArgs {
-  id: string;
-  input: IUpdateAlbumInputModel;
-}
-
-export interface IdeleteAlbumModelArgs {
-  id: string;
-}
-
-export interface IcreateCommentModelArgs {
-  input: ICreateCommentInputModel;
-}
-
-export interface IupdateCommentModelArgs {
-  id: string;
-  input: IUpdateCommentInputModel;
-}
-
-export interface IdeleteCommentModelArgs {
-  id: string;
-}
-
-export interface IcreatePhotoModelArgs {
-  input: ICreatePhotoInputModel;
-}
-
-export interface IupdatePhotoModelArgs {
-  id: string;
-  input: IUpdatePhotoInputModel;
-}
-
-export interface IdeletePhotoModelArgs {
-  id: string;
-}
-
-export interface IcreatePostModelArgs {
-  input: ICreatePostInputModel;
-}
-
-export interface IupdatePostModelArgs {
-  id: string;
-  input: IUpdatePostInputModel;
-}
-
-export interface IdeletePostModelArgs {
-  id: string;
-}
-
-export interface IcreateTodoModelArgs {
-  input: ICreateTodoInputModel;
-}
-
-export interface IupdateTodoModelArgs {
-  id: string;
-  input: IUpdateTodoInputModel;
-}
-
-export interface IdeleteTodoModelArgs {
-  id: string;
-}
-
-export interface IcreateUserModelArgs {
-  input: ICreateUserInputModel;
-}
-
-export interface IupdateUserModelArgs {
-  id: string;
-  input: IUpdateUserInputModel;
-}
-
-export interface IdeleteUserModelArgs {
-  id: string;
-}
-
-import { OperationDefinitionNode, DocumentNode } from 'graphql';
-import sgtsQL from 'graphql-tag';
-
-const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
-  let fragmentName = '';
-  if (typeof fragment === 'string') {
-    isString = true;
-  } else if (typeof fragment === 'object' && fragment.definitions.length) {
-    isFragment = true;
-    const definition = fragment.definitions[0];
-    if (definition.kind === 'FragmentDefinition') {
-      fragmentName = definition.name.value;
-    } else {
-      console.error(
-        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
-      );
-      return;
-    }
-  }
-  return { isString, isFragment, fragmentName };
-};
-
-import {
-  useMutation,
-  useQuery,
-  QueryHookOptions,
-  MutationHookOptions,
-  MutationTuple
-} from '@apollo/react-hooks';
 
 export const useAlbums = (
   fragment: string | DocumentNode,
@@ -5282,7 +3971,7 @@ export const useDeleteUser = (
 "
 `;
 
-exports[`Test React Hooks generation from different sources Generates types correctly from jsonplaceholder 1`] = `
+exports[`Test React Hooks generation from different sources Generates types correctly from graphqlZero 1`] = `
 "/* eslint-disable */
 /* tslint-disable */
 // @ts-nocheck
@@ -5300,117 +3989,433 @@ exports[`Test React Hooks generation from different sources Generates types corr
 
 export type Maybe<T> = T | null;
 
-export interface IRootQueryTypeModel {
-  post?: Maybe<IPostModel>;
-  posts?: Maybe<IPostModel[]>;
-  comment?: Maybe<ICommentModel>;
-  comments?: Maybe<ICommentModel[]>;
+export interface IQueryModel {
+  _?: Maybe<number>;
+  albums?: Maybe<IAlbumsPageModel>;
   album?: Maybe<IAlbumModel>;
-  albums?: Maybe<IAlbumModel[]>;
+  comments?: Maybe<ICommentsPageModel>;
+  comment?: Maybe<ICommentModel>;
+  photos?: Maybe<IPhotosPageModel>;
   photo?: Maybe<IPhotoModel>;
-  photos?: Maybe<IPhotoModel[]>;
-  todo?: Maybe<ITodoModel>;
-  todos?: Maybe<ITodoModel[]>;
-  user?: Maybe<IUserModel>;
-  users?: Maybe<IUserModel[]>;
-}
-
-export interface IPostModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface IUserModel {
-  id?: Maybe<number>;
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-}
-
-export interface ICommentModel {
+  posts?: Maybe<IPostsPageModel>;
   post?: Maybe<IPostModel>;
-  postId?: Maybe<number>;
-  id?: Maybe<number>;
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
+  todos?: Maybe<ITodosPageModel>;
+  todo?: Maybe<ITodoModel>;
+  users?: Maybe<IUsersPageModel>;
+  user?: Maybe<IUserModel>;
+}
+
+export interface IPageQueryOptionsModel {
+  paginate?: Maybe<IPaginateOptionsModel>;
+  slice?: Maybe<ISliceOptionsModel>;
+  sort?: Maybe<ISortOptionsModel[]>;
+  operators?: Maybe<IOperatorOptionsModel[]>;
+  search?: Maybe<ISearchOptionsModel>;
+}
+
+export interface IPaginateOptionsModel {
+  page?: Maybe<number>;
+  limit?: Maybe<number>;
+}
+
+export interface ISliceOptionsModel {
+  start?: Maybe<number>;
+  end?: Maybe<number>;
+  limit?: Maybe<number>;
+}
+
+export interface ISortOptionsModel {
+  field?: Maybe<string>;
+  order?: Maybe<ISortOrderEnumModel>;
+}
+
+export interface IOperatorOptionsModel {
+  kind?: Maybe<IOperatorKindEnumModel>;
+  field?: Maybe<string>;
+  value?: Maybe<string>;
+}
+
+export interface ISearchOptionsModel {
+  q?: Maybe<string>;
+}
+
+export interface IAlbumsPageModel {
+  data?: Maybe<IAlbumModel[]>;
+  links?: Maybe<IPaginationLinksModel>;
+  meta?: Maybe<IPageMetadataModel>;
 }
 
 export interface IAlbumModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
+  id?: Maybe<string>;
   title?: Maybe<string>;
+  user?: Maybe<IUserModel>;
+  photos?: Maybe<IPhotosPageModel>;
+}
+
+export interface IUserModel {
+  id?: Maybe<string>;
+  name?: Maybe<string>;
+  username?: Maybe<string>;
+  email?: Maybe<string>;
+  address?: Maybe<IAddressModel>;
+  phone?: Maybe<string>;
+  website?: Maybe<string>;
+  company?: Maybe<ICompanyModel>;
+  posts?: Maybe<IPostsPageModel>;
+  albums?: Maybe<IAlbumsPageModel>;
+  todos?: Maybe<ITodosPageModel>;
+}
+
+export interface IAddressModel {
+  street?: Maybe<string>;
+  suite?: Maybe<string>;
+  city?: Maybe<string>;
+  zipcode?: Maybe<string>;
+  geo?: Maybe<IGeoModel>;
+}
+
+export interface IGeoModel {
+  lat?: Maybe<number>;
+  lng?: Maybe<number>;
+}
+
+export interface ICompanyModel {
+  name?: Maybe<string>;
+  catchPhrase?: Maybe<string>;
+  bs?: Maybe<string>;
+}
+
+export interface IPostsPageModel {
+  data?: Maybe<IPostModel[]>;
+  links?: Maybe<IPaginationLinksModel>;
+  meta?: Maybe<IPageMetadataModel>;
+}
+
+export interface IPostModel {
+  id?: Maybe<string>;
+  title?: Maybe<string>;
+  body?: Maybe<string>;
+  user?: Maybe<IUserModel>;
+  comments?: Maybe<ICommentsPageModel>;
+}
+
+export interface ICommentsPageModel {
+  data?: Maybe<ICommentModel[]>;
+  links?: Maybe<IPaginationLinksModel>;
+  meta?: Maybe<IPageMetadataModel>;
+}
+
+export interface ICommentModel {
+  id?: Maybe<string>;
+  name?: Maybe<string>;
+  email?: Maybe<string>;
+  body?: Maybe<string>;
+  post?: Maybe<IPostModel>;
+}
+
+export interface IPaginationLinksModel {
+  first?: Maybe<IPageLimitPairModel>;
+  prev?: Maybe<IPageLimitPairModel>;
+  next?: Maybe<IPageLimitPairModel>;
+  last?: Maybe<IPageLimitPairModel>;
+}
+
+export interface IPageLimitPairModel {
+  page?: Maybe<number>;
+  limit?: Maybe<number>;
+}
+
+export interface IPageMetadataModel {
+  totalCount?: Maybe<number>;
+}
+
+export interface ITodosPageModel {
+  data?: Maybe<ITodoModel[]>;
+  links?: Maybe<IPaginationLinksModel>;
+  meta?: Maybe<IPageMetadataModel>;
+}
+
+export interface ITodoModel {
+  id?: Maybe<string>;
+  title?: Maybe<string>;
+  completed?: Maybe<boolean>;
+  user?: Maybe<IUserModel>;
+}
+
+export interface IPhotosPageModel {
+  data?: Maybe<IPhotoModel[]>;
+  links?: Maybe<IPaginationLinksModel>;
+  meta?: Maybe<IPageMetadataModel>;
 }
 
 export interface IPhotoModel {
+  id?: Maybe<string>;
+  title?: Maybe<string>;
+  url?: Maybe<string>;
+  thumbnailUrl?: Maybe<string>;
   album?: Maybe<IAlbumModel>;
-  albumId?: Maybe<number>;
-  id?: Maybe<number>;
+}
+
+export interface IUsersPageModel {
+  data?: Maybe<IUserModel[]>;
+  links?: Maybe<IPaginationLinksModel>;
+  meta?: Maybe<IPageMetadataModel>;
+}
+
+export interface IMutationModel {
+  _?: Maybe<number>;
+  createAlbum?: Maybe<IAlbumModel>;
+  updateAlbum?: Maybe<IAlbumModel>;
+  deleteAlbum?: Maybe<boolean>;
+  createComment?: Maybe<ICommentModel>;
+  updateComment?: Maybe<ICommentModel>;
+  deleteComment?: Maybe<boolean>;
+  createPhoto?: Maybe<IPhotoModel>;
+  updatePhoto?: Maybe<IPhotoModel>;
+  deletePhoto?: Maybe<boolean>;
+  createPost?: Maybe<IPostModel>;
+  updatePost?: Maybe<IPostModel>;
+  deletePost?: Maybe<boolean>;
+  createTodo?: Maybe<ITodoModel>;
+  updateTodo?: Maybe<ITodoModel>;
+  deleteTodo?: Maybe<boolean>;
+  createUser?: Maybe<IUserModel>;
+  updateUser?: Maybe<IUserModel>;
+  deleteUser?: Maybe<boolean>;
+}
+
+export interface ICreateAlbumInputModel {
+  title: string;
+  userId: string;
+}
+
+export interface IUpdateAlbumInputModel {
+  title?: Maybe<string>;
+  userId?: Maybe<string>;
+}
+
+export interface ICreateCommentInputModel {
+  name: string;
+  email: string;
+  body: string;
+}
+
+export interface IUpdateCommentInputModel {
+  name?: Maybe<string>;
+  email?: Maybe<string>;
+  body?: Maybe<string>;
+}
+
+export interface ICreatePhotoInputModel {
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+}
+
+export interface IUpdatePhotoInputModel {
   title?: Maybe<string>;
   url?: Maybe<string>;
   thumbnailUrl?: Maybe<string>;
 }
 
-export interface ITodoModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
+export interface ICreatePostInputModel {
+  title: string;
+  body: string;
+}
+
+export interface IUpdatePostInputModel {
+  title?: Maybe<string>;
+  body?: Maybe<string>;
+}
+
+export interface ICreateTodoInputModel {
+  title: string;
+  completed: boolean;
+}
+
+export interface IUpdateTodoInputModel {
   title?: Maybe<string>;
   completed?: Maybe<boolean>;
 }
 
-export interface IpostModelArgs {
-  id?: Maybe<number>;
+export interface ICreateUserInputModel {
+  name: string;
+  username: string;
+  email: string;
+  address?: Maybe<IAddressInputModel>;
+  phone?: Maybe<string>;
+  website?: Maybe<string>;
+  company?: Maybe<ICompanyInputModel>;
 }
 
-export interface IpostsModelArgs {
-  userId?: Maybe<number>;
+export interface IAddressInputModel {
+  street?: Maybe<string>;
+  suite?: Maybe<string>;
+  city?: Maybe<string>;
+  zipcode?: Maybe<string>;
+  geo?: Maybe<IGeoInputModel>;
 }
 
-export interface IcommentModelArgs {
-  id?: Maybe<number>;
+export interface IGeoInputModel {
+  lat?: Maybe<number>;
+  lng?: Maybe<number>;
 }
 
-export interface IcommentsModelArgs {
-  postId?: Maybe<number>;
+export interface ICompanyInputModel {
+  name?: Maybe<string>;
+  catchPhrase?: Maybe<string>;
+  bs?: Maybe<string>;
+}
+
+export interface IUpdateUserInputModel {
+  name?: Maybe<string>;
+  username?: Maybe<string>;
+  email?: Maybe<string>;
+  address?: Maybe<IAddressInputModel>;
+  phone?: Maybe<string>;
+  website?: Maybe<string>;
+  company?: Maybe<ICompanyInputModel>;
+}
+
+export enum ISortOrderEnumModel {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
+export enum IOperatorKindEnumModel {
+  Gte = 'GTE',
+  Lte = 'LTE',
+  Ne = 'NE',
+  Like = 'LIKE',
+}
+export enum ICacheControlScopeModel {
+  Public = 'PUBLIC',
+  Private = 'PRIVATE',
+}
+export interface IalbumsModelArgs {
+  options?: Maybe<IPageQueryOptionsModel>;
 }
 
 export interface IalbumModelArgs {
-  id?: Maybe<number>;
+  id: string;
 }
 
-export interface IalbumsModelArgs {
-  userId?: Maybe<number>;
+export interface IcommentsModelArgs {
+  options?: Maybe<IPageQueryOptionsModel>;
 }
 
-export interface IphotoModelArgs {
-  id?: Maybe<number>;
+export interface IcommentModelArgs {
+  id: string;
 }
 
 export interface IphotosModelArgs {
-  albumId?: Maybe<number>;
+  options?: Maybe<IPageQueryOptionsModel>;
 }
 
-export interface ItodoModelArgs {
-  id?: Maybe<number>;
+export interface IphotoModelArgs {
+  id: string;
+}
+
+export interface IpostsModelArgs {
+  options?: Maybe<IPageQueryOptionsModel>;
+}
+
+export interface IpostModelArgs {
+  id: string;
 }
 
 export interface ItodosModelArgs {
-  userId?: Maybe<number>;
-  completed?: Maybe<boolean>;
+  options?: Maybe<IPageQueryOptionsModel>;
+}
+
+export interface ItodoModelArgs {
+  id: string;
+}
+
+export interface IusersModelArgs {
+  options?: Maybe<IPageQueryOptionsModel>;
 }
 
 export interface IuserModelArgs {
-  id?: Maybe<number>;
+  id: string;
 }
 
-export interface IusersModelArgs {}
+export interface IcreateAlbumModelArgs {
+  input: ICreateAlbumInputModel;
+}
+
+export interface IupdateAlbumModelArgs {
+  id: string;
+  input: IUpdateAlbumInputModel;
+}
+
+export interface IdeleteAlbumModelArgs {
+  id: string;
+}
+
+export interface IcreateCommentModelArgs {
+  input: ICreateCommentInputModel;
+}
+
+export interface IupdateCommentModelArgs {
+  id: string;
+  input: IUpdateCommentInputModel;
+}
+
+export interface IdeleteCommentModelArgs {
+  id: string;
+}
+
+export interface IcreatePhotoModelArgs {
+  input: ICreatePhotoInputModel;
+}
+
+export interface IupdatePhotoModelArgs {
+  id: string;
+  input: IUpdatePhotoInputModel;
+}
+
+export interface IdeletePhotoModelArgs {
+  id: string;
+}
+
+export interface IcreatePostModelArgs {
+  input: ICreatePostInputModel;
+}
+
+export interface IupdatePostModelArgs {
+  id: string;
+  input: IUpdatePostInputModel;
+}
+
+export interface IdeletePostModelArgs {
+  id: string;
+}
+
+export interface IcreateTodoModelArgs {
+  input: ICreateTodoInputModel;
+}
+
+export interface IupdateTodoModelArgs {
+  id: string;
+  input: IUpdateTodoInputModel;
+}
+
+export interface IdeleteTodoModelArgs {
+  id: string;
+}
+
+export interface IcreateUserModelArgs {
+  input: ICreateUserInputModel;
+}
+
+export interface IupdateUserModelArgs {
+  id: string;
+  input: IUpdateUserInputModel;
+}
+
+export interface IdeleteUserModelArgs {
+  id: string;
+}
 
 import { OperationDefinitionNode, DocumentNode } from 'graphql';
 import sgtsQL from 'graphql-tag';
@@ -5441,7 +4446,7 @@ import {
   useQuery,
   QueryHookOptions,
   MutationHookOptions,
-  MutationTuple
+  MutationTuple,
 } from '@apollo/react-hooks';
 
 export const usePost = (
@@ -5635,5 +4640,169 @@ export const useUsers = (
 
   return useQuery<{ users: IUserModel[] }>(query, options);
 };
+"
+`;
+
+exports[`Test React Hooks generation from different sources Generates types correctly from jsonplaceholder 1`] = `
+"/* eslint-disable */
+/* tslint-disable */
+// @ts-nocheck
+// *******************************************************
+// *******************************************************
+//
+// GENERATED FILE, DO NOT MODIFY
+//
+// Made by Victor Garcia ®
+//
+// https://github.com/victorgarciaesgi
+// *******************************************************
+// *******************************************************
+// 💙
+
+export type Maybe<T> = T | null;
+
+export interface IRootQueryTypeModel {
+  post?: Maybe<IPostModel>;
+  posts?: Maybe<IPostModel[]>;
+  comment?: Maybe<ICommentModel>;
+  comments?: Maybe<ICommentModel[]>;
+  album?: Maybe<IAlbumModel>;
+  albums?: Maybe<IAlbumModel[]>;
+  photo?: Maybe<IPhotoModel>;
+  photos?: Maybe<IPhotoModel[]>;
+  todo?: Maybe<ITodoModel>;
+  todos?: Maybe<ITodoModel[]>;
+  user?: Maybe<IUserModel>;
+  users?: Maybe<IUserModel[]>;
+}
+
+export interface IPostModel {
+  user?: Maybe<IUserModel>;
+  userId?: Maybe<number>;
+  id?: Maybe<number>;
+  title?: Maybe<string>;
+  body?: Maybe<string>;
+}
+
+export interface IUserModel {
+  id?: Maybe<number>;
+  name?: Maybe<string>;
+  username?: Maybe<string>;
+  email?: Maybe<string>;
+  phone?: Maybe<string>;
+  website?: Maybe<string>;
+}
+
+export interface ICommentModel {
+  post?: Maybe<IPostModel>;
+  postId?: Maybe<number>;
+  id?: Maybe<number>;
+  name?: Maybe<string>;
+  email?: Maybe<string>;
+  body?: Maybe<string>;
+}
+
+export interface IAlbumModel {
+  user?: Maybe<IUserModel>;
+  userId?: Maybe<number>;
+  id?: Maybe<number>;
+  title?: Maybe<string>;
+}
+
+export interface IPhotoModel {
+  album?: Maybe<IAlbumModel>;
+  albumId?: Maybe<number>;
+  id?: Maybe<number>;
+  title?: Maybe<string>;
+  url?: Maybe<string>;
+  thumbnailUrl?: Maybe<string>;
+}
+
+export interface ITodoModel {
+  user?: Maybe<IUserModel>;
+  userId?: Maybe<number>;
+  id?: Maybe<number>;
+  title?: Maybe<string>;
+  completed?: Maybe<boolean>;
+}
+
+export interface IpostModelArgs {
+  id?: Maybe<number>;
+}
+
+export interface IpostsModelArgs {
+  userId?: Maybe<number>;
+}
+
+export interface IcommentModelArgs {
+  id?: Maybe<number>;
+}
+
+export interface IcommentsModelArgs {
+  postId?: Maybe<number>;
+}
+
+export interface IalbumModelArgs {
+  id?: Maybe<number>;
+}
+
+export interface IalbumsModelArgs {
+  userId?: Maybe<number>;
+}
+
+export interface IphotoModelArgs {
+  id?: Maybe<number>;
+}
+
+export interface IphotosModelArgs {
+  albumId?: Maybe<number>;
+}
+
+export interface ItodoModelArgs {
+  id?: Maybe<number>;
+}
+
+export interface ItodosModelArgs {
+  userId?: Maybe<number>;
+  completed?: Maybe<boolean>;
+}
+
+export interface IuserModelArgs {
+  id?: Maybe<number>;
+}
+
+export interface IusersModelArgs {}
+
+import { OperationDefinitionNode, DocumentNode } from 'graphql';
+import sgtsQL from 'graphql-tag';
+
+const guessFragmentType = (fragment: string | DocumentNode) => {
+  let isString,
+    isFragment = false;
+  let fragmentName = '';
+  if (typeof fragment === 'string') {
+    isString = true;
+  } else if (typeof fragment === 'object' && fragment.definitions.length) {
+    isFragment = true;
+    const definition = fragment.definitions[0];
+    if (definition.kind === 'FragmentDefinition') {
+      fragmentName = definition.name.value;
+    } else {
+      console.error(
+        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
+      );
+      return;
+    }
+  }
+  return { isString, isFragment, fragmentName };
+};
+
+import {
+  useMutation,
+  useQuery,
+  QueryHookOptions,
+  MutationHookOptions,
+  MutationTuple,
+} from '@apollo/react-hooks';
 "
 `;

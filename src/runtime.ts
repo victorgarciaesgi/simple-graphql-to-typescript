@@ -36,8 +36,7 @@ export async function sgtsGenerate({
         codegenVueHooks,
         codegenTemplates
       );
-      const formatedString = await saveFile(generatedString, output, jsMode);
-      return formatedString;
+      return await saveFile(generatedString, output, jsMode);
     } else {
       console.warn(
         chalk.yellow(

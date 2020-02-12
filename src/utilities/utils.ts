@@ -1,4 +1,4 @@
-export const capitalizeAllWord = (data: string) => {
+export const capitalizeAllWord = (data: string): string => {
   return data.charAt(0).toUpperCase() + data.slice(1).toLowerCase();
 };
 

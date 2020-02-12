@@ -11,17 +11,17 @@ let saveModels: ora.Ora;
 export async function saveFile(
   template: string,
   output?: string,
-  jsMode?: boolean,
-  json?: boolean
+  jsMode?: boolean
 ): Promise<string> {
   try {
     const pretty = ora('\nRunning Prettier with your config on the generated output').start();
+    let prettierFoundOptions = await prettier.resolveConfig(process.cwd());
+
+    if (!prettierFoundOptions) {
+      prettierFoundOptions = require('../../.prettierrc');
+    }
     const formatedModelsFile = prettier.format(template, {
-      config: path.resolve(__dirname, '../.prettierrc'),
-      semicolons: true,
-      singleQuote: true,
-      printWidth: 100,
-      bracketSpacing: true,
+      ...prettierFoundOptions,
       parser: 'typescript',
     });
     pretty.succeed('💄 Your file has been formated using your Prettier config');
@@ -36,8 +36,7 @@ export async function saveFile(
         dirList.pop();
         const dirPath = dirList.join('/');
         await mkdirp(dirPath);
-        const content = await writeOutput(outputfile, formatedModelsFile, jsMode);
-        return content;
+        return await writeOutput(outputfile, formatedModelsFile, jsMode);
       }
     }
     return formatedModelsFile;

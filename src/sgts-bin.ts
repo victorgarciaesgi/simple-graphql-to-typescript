@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import { Dictionnary, SgtsConfig } from './models';
 import { getConfigParams } from './rc';
 
-const sgts = () => {
+const runSgtsCLI = () => {
   program
     .version(require('../package.json').version)
     .option('generate [generate]', "Generate using config file '.sgtsrc.js'")
@@ -99,4 +99,4 @@ const generateUsingConfig = async (config: SgtsConfig) => {
   }
 };
 
-sgts();
+runSgtsCLI();
