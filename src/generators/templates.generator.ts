@@ -50,11 +50,11 @@ export const createQueryFunction = ({
   const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
 
   if (isScalar) {
-    return `const ${field.name}GQLNode = () =>  {
+    return `export const ${field.name}GQLNode = (): DocumentNode =>  {
       return ${Query};
     }`;
   } else {
-    return `const ${field.name}GQLNode = (fragment: string | DocumentNode) => {
+    return `export const ${field.name}GQLNode = (fragment: string | DocumentNode): DocumentNode => {
       const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
       return ${Query};
     }`;

@@ -3325,7 +3325,7 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-const albumsGQLNode = (fragment: string | DocumentNode) => {
+export const albumsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query albums ($options: PageQueryOptions) {
@@ -3335,7 +3335,7 @@ const albumsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const albumGQLNode = (fragment: string | DocumentNode) => {
+export const albumGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query album ($id: ID!) {
@@ -3345,7 +3345,7 @@ const albumGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const commentsGQLNode = (fragment: string | DocumentNode) => {
+export const commentsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query comments ($options: PageQueryOptions) {
@@ -3355,7 +3355,7 @@ const commentsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const commentGQLNode = (fragment: string | DocumentNode) => {
+export const commentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query comment ($id: ID!) {
@@ -3365,7 +3365,7 @@ const commentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const photosGQLNode = (fragment: string | DocumentNode) => {
+export const photosGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query photos ($options: PageQueryOptions) {
@@ -3375,7 +3375,7 @@ const photosGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const photoGQLNode = (fragment: string | DocumentNode) => {
+export const photoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query photo ($id: ID!) {
@@ -3385,7 +3385,7 @@ const photoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const postsGQLNode = (fragment: string | DocumentNode) => {
+export const postsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query posts ($options: PageQueryOptions) {
@@ -3395,7 +3395,7 @@ const postsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const postGQLNode = (fragment: string | DocumentNode) => {
+export const postGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query post ($id: ID!) {
@@ -3405,7 +3405,7 @@ const postGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const todosGQLNode = (fragment: string | DocumentNode) => {
+export const todosGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query todos ($options: PageQueryOptions) {
@@ -3415,7 +3415,7 @@ const todosGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const todoGQLNode = (fragment: string | DocumentNode) => {
+export const todoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query todo ($id: ID!) {
@@ -3425,7 +3425,7 @@ const todoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const usersGQLNode = (fragment: string | DocumentNode) => {
+export const usersGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query users ($options: PageQueryOptions) {
@@ -3435,7 +3435,7 @@ const usersGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const userGQLNode = (fragment: string | DocumentNode) => {
+export const userGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query user ($id: ID!) {
@@ -3445,7 +3445,7 @@ const userGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const createAlbumGQLNode = (fragment: string | DocumentNode) => {
+export const createAlbumGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createAlbum ($input: CreateAlbumInput!) {
@@ -3455,7 +3455,7 @@ const createAlbumGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateAlbumGQLNode = (fragment: string | DocumentNode) => {
+export const updateAlbumGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
@@ -3465,13 +3465,13 @@ const updateAlbumGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteAlbumGQLNode = () => {
+export const deleteAlbumGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteAlbum ($id: ID!) {
         deleteAlbum(id: $id)
       }\`;
 };
-const createCommentGQLNode = (fragment: string | DocumentNode) => {
+export const createCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createComment ($input: CreateCommentInput!) {
@@ -3481,7 +3481,7 @@ const createCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateCommentGQLNode = (fragment: string | DocumentNode) => {
+export const updateCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
@@ -3491,13 +3491,13 @@ const updateCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteCommentGQLNode = () => {
+export const deleteCommentGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteComment ($id: ID!) {
         deleteComment(id: $id)
       }\`;
 };
-const createPhotoGQLNode = (fragment: string | DocumentNode) => {
+export const createPhotoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createPhoto ($input: CreatePhotoInput!) {
@@ -3507,7 +3507,7 @@ const createPhotoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updatePhotoGQLNode = (fragment: string | DocumentNode) => {
+export const updatePhotoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
@@ -3517,13 +3517,13 @@ const updatePhotoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deletePhotoGQLNode = () => {
+export const deletePhotoGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deletePhoto ($id: ID!) {
         deletePhoto(id: $id)
       }\`;
 };
-const createPostGQLNode = (fragment: string | DocumentNode) => {
+export const createPostGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createPost ($input: CreatePostInput!) {
@@ -3533,7 +3533,7 @@ const createPostGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updatePostGQLNode = (fragment: string | DocumentNode) => {
+export const updatePostGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
@@ -3543,13 +3543,13 @@ const updatePostGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deletePostGQLNode = () => {
+export const deletePostGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deletePost ($id: ID!) {
         deletePost(id: $id)
       }\`;
 };
-const createTodoGQLNode = (fragment: string | DocumentNode) => {
+export const createTodoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createTodo ($input: CreateTodoInput!) {
@@ -3559,7 +3559,7 @@ const createTodoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateTodoGQLNode = (fragment: string | DocumentNode) => {
+export const updateTodoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
@@ -3569,13 +3569,13 @@ const updateTodoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteTodoGQLNode = () => {
+export const deleteTodoGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteTodo ($id: ID!) {
         deleteTodo(id: $id)
       }\`;
 };
-const createUserGQLNode = (fragment: string | DocumentNode) => {
+export const createUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createUser ($input: CreateUserInput!) {
@@ -3585,7 +3585,7 @@ const createUserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateUserGQLNode = (fragment: string | DocumentNode) => {
+export const updateUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
@@ -3595,14 +3595,14 @@ const updateUserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteUserGQLNode = () => {
+export const deleteUserGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteUser ($id: ID!) {
         deleteUser(id: $id)
       }\`;
 };
 
-const PageGQLNode = (fragment: string | DocumentNode) => {
+export const PageGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Page ($page: Int,$perPage: Int) {
@@ -3612,7 +3612,7 @@ const PageGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const MediaGQLNode = (fragment: string | DocumentNode) => {
+export const MediaGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
@@ -3622,7 +3622,7 @@ const MediaGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const MediaTrendGQLNode = (fragment: string | DocumentNode) => {
+export const MediaTrendGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
@@ -3632,7 +3632,7 @@ const MediaTrendGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const AiringScheduleGQLNode = (fragment: string | DocumentNode) => {
+export const AiringScheduleGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
@@ -3642,7 +3642,7 @@ const AiringScheduleGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const CharacterGQLNode = (fragment: string | DocumentNode) => {
+export const CharacterGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
@@ -3652,7 +3652,7 @@ const CharacterGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const StaffGQLNode = (fragment: string | DocumentNode) => {
+export const StaffGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
@@ -3662,7 +3662,7 @@ const StaffGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const MediaListGQLNode = (fragment: string | DocumentNode) => {
+export const MediaListGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
@@ -3672,7 +3672,7 @@ const MediaListGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const MediaListCollectionGQLNode = (fragment: string | DocumentNode) => {
+export const MediaListCollectionGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
@@ -3682,13 +3682,13 @@ const MediaListCollectionGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const GenreCollectionGQLNode = () => {
+export const GenreCollectionGQLNode = (): DocumentNode => {
   return sgtsQL\`
       query GenreCollection  {
         GenreCollection
       }\`;
 };
-const MediaTagCollectionGQLNode = (fragment: string | DocumentNode) => {
+export const MediaTagCollectionGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query MediaTagCollection ($status: Int) {
@@ -3698,7 +3698,7 @@ const MediaTagCollectionGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const UserGQLNode = (fragment: string | DocumentNode) => {
+export const UserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
@@ -3708,7 +3708,7 @@ const UserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ViewerGQLNode = (fragment: string | DocumentNode) => {
+export const ViewerGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Viewer  {
@@ -3718,7 +3718,7 @@ const ViewerGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const NotificationGQLNode = (fragment: string | DocumentNode) => {
+export const NotificationGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
@@ -3728,7 +3728,7 @@ const NotificationGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const StudioGQLNode = (fragment: string | DocumentNode) => {
+export const StudioGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
@@ -3738,7 +3738,7 @@ const StudioGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ReviewGQLNode = (fragment: string | DocumentNode) => {
+export const ReviewGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
@@ -3748,7 +3748,7 @@ const ReviewGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ActivityGQLNode = (fragment: string | DocumentNode) => {
+export const ActivityGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
@@ -3758,7 +3758,7 @@ const ActivityGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ActivityReplyGQLNode = (fragment: string | DocumentNode) => {
+export const ActivityReplyGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query ActivityReply ($id: Int,$activityId: Int) {
@@ -3768,7 +3768,7 @@ const ActivityReplyGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const FollowingGQLNode = (fragment: string | DocumentNode) => {
+export const FollowingGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Following ($userId: Int!,$sort: [UserSort]!) {
@@ -3778,7 +3778,7 @@ const FollowingGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const FollowerGQLNode = (fragment: string | DocumentNode) => {
+export const FollowerGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Follower ($userId: Int!,$sort: [UserSort]!) {
@@ -3788,7 +3788,7 @@ const FollowerGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ThreadGQLNode = (fragment: string | DocumentNode) => {
+export const ThreadGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
@@ -3798,7 +3798,7 @@ const ThreadGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ThreadCommentGQLNode = (fragment: string | DocumentNode) => {
+export const ThreadCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
@@ -3808,7 +3808,7 @@ const ThreadCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const RecommendationGQLNode = (fragment: string | DocumentNode) => {
+export const RecommendationGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
@@ -3818,7 +3818,7 @@ const RecommendationGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const LikeGQLNode = (fragment: string | DocumentNode) => {
+export const LikeGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Like ($likeableId: Int,$type: LikeableType) {
@@ -3828,7 +3828,7 @@ const LikeGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const MarkdownGQLNode = (fragment: string | DocumentNode) => {
+export const MarkdownGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query Markdown ($markdown: String!) {
@@ -3838,7 +3838,7 @@ const MarkdownGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const AniChartUserGQLNode = (fragment: string | DocumentNode) => {
+export const AniChartUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query AniChartUser  {
@@ -3848,7 +3848,7 @@ const AniChartUserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SiteStatisticsGQLNode = (fragment: string | DocumentNode) => {
+export const SiteStatisticsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query SiteStatistics  {
@@ -3858,7 +3858,7 @@ const SiteStatisticsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const UpdateUserGQLNode = (fragment: string | DocumentNode) => {
+export const UpdateUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
@@ -3868,7 +3868,7 @@ const UpdateUserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveMediaListEntryGQLNode = (fragment: string | DocumentNode) => {
+export const SaveMediaListEntryGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
@@ -3878,7 +3878,7 @@ const SaveMediaListEntryGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const UpdateMediaListEntriesGQLNode = (fragment: string | DocumentNode) => {
+export const UpdateMediaListEntriesGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
@@ -3888,7 +3888,7 @@ const UpdateMediaListEntriesGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteMediaListEntryGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteMediaListEntryGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteMediaListEntry ($id: Int) {
@@ -3898,7 +3898,7 @@ const DeleteMediaListEntryGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteCustomListGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteCustomListGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteCustomList ($customList: String,$type: MediaType) {
@@ -3908,7 +3908,7 @@ const DeleteCustomListGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveTextActivityGQLNode = (fragment: string | DocumentNode) => {
+export const SaveTextActivityGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
@@ -3918,7 +3918,7 @@ const SaveTextActivityGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveMessageActivityGQLNode = (fragment: string | DocumentNode) => {
+export const SaveMessageActivityGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
@@ -3928,7 +3928,7 @@ const SaveMessageActivityGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveListActivityGQLNode = (fragment: string | DocumentNode) => {
+export const SaveListActivityGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveListActivity ($id: Int,$locked: Boolean) {
@@ -3938,7 +3938,7 @@ const SaveListActivityGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteActivityGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteActivityGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteActivity ($id: Int) {
@@ -3948,7 +3948,9 @@ const DeleteActivityGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ToggleActivitySubscriptionGQLNode = (fragment: string | DocumentNode) => {
+export const ToggleActivitySubscriptionGQLNode = (
+  fragment: string | DocumentNode
+): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
@@ -3958,7 +3960,7 @@ const ToggleActivitySubscriptionGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveActivityReplyGQLNode = (fragment: string | DocumentNode) => {
+export const SaveActivityReplyGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
@@ -3968,7 +3970,7 @@ const SaveActivityReplyGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteActivityReplyGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteActivityReplyGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteActivityReply ($id: Int) {
@@ -3978,7 +3980,7 @@ const DeleteActivityReplyGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ToggleLikeGQLNode = (fragment: string | DocumentNode) => {
+export const ToggleLikeGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation ToggleLike ($id: Int,$type: LikeableType) {
@@ -3988,7 +3990,7 @@ const ToggleLikeGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ToggleLikeV2GQLNode = (fragment: string | DocumentNode) => {
+export const ToggleLikeV2GQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
@@ -3998,7 +4000,7 @@ const ToggleLikeV2GQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ToggleFollowGQLNode = (fragment: string | DocumentNode) => {
+export const ToggleFollowGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation ToggleFollow ($userId: Int) {
@@ -4008,7 +4010,7 @@ const ToggleFollowGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ToggleFavouriteGQLNode = (fragment: string | DocumentNode) => {
+export const ToggleFavouriteGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
@@ -4018,7 +4020,7 @@ const ToggleFavouriteGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const UpdateFavouriteOrderGQLNode = (fragment: string | DocumentNode) => {
+export const UpdateFavouriteOrderGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
@@ -4028,7 +4030,7 @@ const UpdateFavouriteOrderGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveReviewGQLNode = (fragment: string | DocumentNode) => {
+export const SaveReviewGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
@@ -4038,7 +4040,7 @@ const SaveReviewGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteReviewGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteReviewGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteReview ($id: Int) {
@@ -4048,7 +4050,7 @@ const DeleteReviewGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const RateReviewGQLNode = (fragment: string | DocumentNode) => {
+export const RateReviewGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
@@ -4058,7 +4060,7 @@ const RateReviewGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveRecommendationGQLNode = (fragment: string | DocumentNode) => {
+export const SaveRecommendationGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
@@ -4068,7 +4070,7 @@ const SaveRecommendationGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveThreadGQLNode = (fragment: string | DocumentNode) => {
+export const SaveThreadGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
@@ -4078,7 +4080,7 @@ const SaveThreadGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteThreadGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteThreadGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteThread ($id: Int) {
@@ -4088,7 +4090,7 @@ const DeleteThreadGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const ToggleThreadSubscriptionGQLNode = (fragment: string | DocumentNode) => {
+export const ToggleThreadSubscriptionGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
@@ -4098,7 +4100,7 @@ const ToggleThreadSubscriptionGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const SaveThreadCommentGQLNode = (fragment: string | DocumentNode) => {
+export const SaveThreadCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
@@ -4108,7 +4110,7 @@ const SaveThreadCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const DeleteThreadCommentGQLNode = (fragment: string | DocumentNode) => {
+export const DeleteThreadCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation DeleteThreadComment ($id: Int) {
@@ -4118,13 +4120,13 @@ const DeleteThreadCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const UpdateAniChartSettingsGQLNode = () => {
+export const UpdateAniChartSettingsGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
         UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
       }\`;
 };
-const UpdateAniChartHighlightsGQLNode = () => {
+export const UpdateAniChartHighlightsGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
         UpdateAniChartHighlights(highlights: $highlights)
@@ -4603,7 +4605,7 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-const albumsGQLNode = (fragment: string | DocumentNode) => {
+export const albumsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query albums ($options: PageQueryOptions) {
@@ -4613,7 +4615,7 @@ const albumsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const albumGQLNode = (fragment: string | DocumentNode) => {
+export const albumGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query album ($id: ID!) {
@@ -4623,7 +4625,7 @@ const albumGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const commentsGQLNode = (fragment: string | DocumentNode) => {
+export const commentsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query comments ($options: PageQueryOptions) {
@@ -4633,7 +4635,7 @@ const commentsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const commentGQLNode = (fragment: string | DocumentNode) => {
+export const commentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query comment ($id: ID!) {
@@ -4643,7 +4645,7 @@ const commentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const photosGQLNode = (fragment: string | DocumentNode) => {
+export const photosGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query photos ($options: PageQueryOptions) {
@@ -4653,7 +4655,7 @@ const photosGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const photoGQLNode = (fragment: string | DocumentNode) => {
+export const photoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query photo ($id: ID!) {
@@ -4663,7 +4665,7 @@ const photoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const postsGQLNode = (fragment: string | DocumentNode) => {
+export const postsGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query posts ($options: PageQueryOptions) {
@@ -4673,7 +4675,7 @@ const postsGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const postGQLNode = (fragment: string | DocumentNode) => {
+export const postGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query post ($id: ID!) {
@@ -4683,7 +4685,7 @@ const postGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const todosGQLNode = (fragment: string | DocumentNode) => {
+export const todosGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query todos ($options: PageQueryOptions) {
@@ -4693,7 +4695,7 @@ const todosGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const todoGQLNode = (fragment: string | DocumentNode) => {
+export const todoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query todo ($id: ID!) {
@@ -4703,7 +4705,7 @@ const todoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const usersGQLNode = (fragment: string | DocumentNode) => {
+export const usersGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query users ($options: PageQueryOptions) {
@@ -4713,7 +4715,7 @@ const usersGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const userGQLNode = (fragment: string | DocumentNode) => {
+export const userGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       query user ($id: ID!) {
@@ -4723,7 +4725,7 @@ const userGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const createAlbumGQLNode = (fragment: string | DocumentNode) => {
+export const createAlbumGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createAlbum ($input: CreateAlbumInput!) {
@@ -4733,7 +4735,7 @@ const createAlbumGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateAlbumGQLNode = (fragment: string | DocumentNode) => {
+export const updateAlbumGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
@@ -4743,13 +4745,13 @@ const updateAlbumGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteAlbumGQLNode = () => {
+export const deleteAlbumGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteAlbum ($id: ID!) {
         deleteAlbum(id: $id)
       }\`;
 };
-const createCommentGQLNode = (fragment: string | DocumentNode) => {
+export const createCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createComment ($input: CreateCommentInput!) {
@@ -4759,7 +4761,7 @@ const createCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateCommentGQLNode = (fragment: string | DocumentNode) => {
+export const updateCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
@@ -4769,13 +4771,13 @@ const updateCommentGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteCommentGQLNode = () => {
+export const deleteCommentGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteComment ($id: ID!) {
         deleteComment(id: $id)
       }\`;
 };
-const createPhotoGQLNode = (fragment: string | DocumentNode) => {
+export const createPhotoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createPhoto ($input: CreatePhotoInput!) {
@@ -4785,7 +4787,7 @@ const createPhotoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updatePhotoGQLNode = (fragment: string | DocumentNode) => {
+export const updatePhotoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
@@ -4795,13 +4797,13 @@ const updatePhotoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deletePhotoGQLNode = () => {
+export const deletePhotoGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deletePhoto ($id: ID!) {
         deletePhoto(id: $id)
       }\`;
 };
-const createPostGQLNode = (fragment: string | DocumentNode) => {
+export const createPostGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createPost ($input: CreatePostInput!) {
@@ -4811,7 +4813,7 @@ const createPostGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updatePostGQLNode = (fragment: string | DocumentNode) => {
+export const updatePostGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
@@ -4821,13 +4823,13 @@ const updatePostGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deletePostGQLNode = () => {
+export const deletePostGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deletePost ($id: ID!) {
         deletePost(id: $id)
       }\`;
 };
-const createTodoGQLNode = (fragment: string | DocumentNode) => {
+export const createTodoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createTodo ($input: CreateTodoInput!) {
@@ -4837,7 +4839,7 @@ const createTodoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateTodoGQLNode = (fragment: string | DocumentNode) => {
+export const updateTodoGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
@@ -4847,13 +4849,13 @@ const updateTodoGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteTodoGQLNode = () => {
+export const deleteTodoGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteTodo ($id: ID!) {
         deleteTodo(id: $id)
       }\`;
 };
-const createUserGQLNode = (fragment: string | DocumentNode) => {
+export const createUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation createUser ($input: CreateUserInput!) {
@@ -4863,7 +4865,7 @@ const createUserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const updateUserGQLNode = (fragment: string | DocumentNode) => {
+export const updateUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
       mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
@@ -4873,7 +4875,7 @@ const updateUserGQLNode = (fragment: string | DocumentNode) => {
       } \${isFragment ? fragment : ''}
       \`;
 };
-const deleteUserGQLNode = () => {
+export const deleteUserGQLNode = (): DocumentNode => {
   return sgtsQL\`
       mutation deleteUser ($id: ID!) {
         deleteUser(id: $id)
