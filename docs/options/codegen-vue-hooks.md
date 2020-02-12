@@ -17,9 +17,9 @@ export const usePosts = (
   fragment: string | DocumentNode,
   variables?: IpostsModelArgs | Ref<IpostsModelArgs> | ReactiveFunction<IpostsModelArgs>,
   options?:
-    | UseQueryOptions<{ posts: IPostModel[] }, IpostsModelArgs>
-    | Ref<UseQueryOptions<{ posts: IPostModel[] }, IpostsModelArgs>>
-    | ReactiveFunction<UseQueryOptions<{ posts: IPostModel[] }, IpostsModelArgs>>
+    | UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>
+    | Ref<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL`
@@ -30,11 +30,7 @@ export const usePosts = (
       } ${isFragment ? fragment : ''}
       `;
 
-  return useQuery<UseQueryOptions<{ posts: IPostModel[] }, IpostsModelArgs>>(
-    query,
-    variables,
-    options
-  );
+  return useQuery<{ posts: IPostModel[]; IpostsModelArgs }>(query, variables, options);
 };
 ```
 
