@@ -99,6 +99,8 @@ function getMainSidebar() {
       collapsable: false,
       children: [
         '/options/',
+        '/options/init',
+        '/options/generate',
         '/options/endpoint',
         '/options/json',
         '/options/output',
