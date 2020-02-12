@@ -3,16 +3,14 @@
 import program from 'commander';
 import { sgtsGenerate } from './runtime';
 import chalk from 'chalk';
-import { Dictionnary, SgtsConfig } from './models';
-import { getConfigParams } from './rc';
-import fs from 'fs';
-import path from 'path';
-import { configTemplate } from './templates';
+import { SgtsConfig } from './models';
+import { getConfigParams, createConfig } from './rc';
 
 const runSgtsCLI = () => {
   program
     .version(require('../package.json').version)
     .option('generate [generate]', "Generate using config file '.sgtsrc.js'")
+    .option('init', 'Init your config file')
     .option('-e, --endpoint <endpoint>', 'GraphQl Api endpoint')
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
@@ -58,6 +56,7 @@ const runSgtsCLI = () => {
     codegenVueHooks,
     codegenTemplates,
     download,
+    init,
   } = program;
 
   if (generate) {
@@ -65,6 +64,8 @@ const runSgtsCLI = () => {
     const config = getConfigParams(env);
     if (config) generateUsingConfig(config);
     else createConfig();
+  } else if (init) {
+    createConfig();
   } else {
     if (customScalars) {
       try {
@@ -100,16 +101,6 @@ const generateUsingConfig = async (config: SgtsConfig) => {
     await sgtsGenerate(config);
   } catch (e) {
     console.error(chalk.red('💔 Generation failed'));
-  }
-};
-
-const createConfig = async (): Promise<void> => {
-  try {
-    const configPath = path.resolve(process.cwd(), '.sgtsrc.js');
-    await fs.writeFileSync(configPath, configTemplate);
-    console.log(chalk.green(`Configuration file created at ${chalk.bold(configPath)}`));
-  } catch (e) {
-    return Promise.reject(e);
   }
 };
 

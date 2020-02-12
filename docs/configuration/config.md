@@ -5,7 +5,7 @@
 Simple-graphql-to-typescript can also be used with a configuration file `.sgtsrc.js` at the root of your app instead of CLI options
 
 ::: tip
-Running `sgts generate` will generate a `.sgtsrc.js` file for you with all the options
+Running `sgts init` will help you generate a `.sgtsrc.js` file for you
 :::
 
 ::: tip
