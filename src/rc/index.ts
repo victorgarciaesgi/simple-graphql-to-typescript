@@ -1,14 +1,13 @@
 import path from 'path';
 import { SgtsConfig } from '../models';
 import chalk from 'chalk';
+import fs from 'fs';
 
 require('dotenv').config();
 
-export function getConfigParams(env: string): SgtsConfig | undefined {
-  try {
-    require('custom-env').env(env);
-    return require(path.resolve(process.cwd(), '.sgtsrc.js'));
-  } catch (e) {
-    throw new Error(chalk.red("Couldn't find .sgtsrc.js. Please check that the file is present"));
-  }
+export function getConfigParams(env: string): SgtsConfig | null {
+  require('custom-env').env(env);
+  const configPath = path.resolve(process.cwd(), '.sgtsrc.js');
+  if (fs.existsSync(configPath)) return require(path.resolve(process.cwd(), '.sgtsrc.js'));
+  return null;
 }

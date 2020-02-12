@@ -5,6 +5,9 @@ import { sgtsGenerate } from './runtime';
 import chalk from 'chalk';
 import { Dictionnary, SgtsConfig } from './models';
 import { getConfigParams } from './rc';
+import fs from 'fs';
+import path from 'path';
+import { configTemplate } from './templates';
 
 const runSgtsCLI = () => {
   program
@@ -61,6 +64,7 @@ const runSgtsCLI = () => {
     const env = typeof generate === 'boolean' ? 'development' : generate;
     const config = getConfigParams(env);
     if (config) generateUsingConfig(config);
+    else createConfig();
   } else {
     if (customScalars) {
       try {
@@ -96,6 +100,16 @@ const generateUsingConfig = async (config: SgtsConfig) => {
     await sgtsGenerate(config);
   } catch (e) {
     console.error(chalk.red('💔 Generation failed'));
+  }
+};
+
+const createConfig = async (): Promise<void> => {
+  try {
+    const configPath = path.resolve(process.cwd(), '.sgtsrc.js');
+    await fs.writeFileSync(configPath, configTemplate);
+    console.log(chalk.green(`Configuration file created at ${chalk.bold(configPath)}`));
+  } catch (e) {
+    return Promise.reject(e);
   }
 };
 

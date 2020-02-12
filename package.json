@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -23,7 +23,9 @@
   "files": [
     "dist",
     "types/index.d.ts",
-    "types/runtime.d.ts"
+    "types/runtime.d.ts",
+    "types/utilities",
+    "types/models"
   ],
   "keywords": [
     "graphql",
