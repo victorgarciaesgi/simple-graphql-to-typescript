@@ -71,7 +71,10 @@ I don't have much free time to develop feature I don't use, but feel free to sen
 - [x] Export only Gql string
 - [x] Removed Query and mutation name in Apollo Hooks data
 - [x] Config file `.sgtsrc.js`
-- [ ] Support Subscriptions for codegen-hooks and codegen-methods
+- [x] Support Subscriptions for codegen-react-hooks
+- [x] Support Subscriptions for codegen-vue-hooks
+- [x] Support Subscriptions for codegen-template
+- [ ] Support Subscriptions for codegen-methods
 - [ ] Support UseLazyQuery Apollo Hook
 - [ ] Highlight new generated, modified or deleted types in terminal
 

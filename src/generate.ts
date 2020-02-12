@@ -40,7 +40,7 @@ export const generate = async (
     generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
 
     if (codegenMethods) {
-      codeGenerateFromConfig({
+      await codeGenerateFromConfig({
         schema,
         mode: 'methods',
         message: 'queries and mutations',
@@ -48,13 +48,23 @@ export const generate = async (
       });
     }
     if (codegenReactHooks) {
-      codeGenerateFromConfig({ schema, mode: 'react-hooks', message: 'React hooks', emoji: '⚛️ ' });
+      await codeGenerateFromConfig({
+        schema,
+        mode: 'react-hooks',
+        message: 'React hooks',
+        emoji: '⚛️ ',
+      });
     }
     if (codegenVueHooks) {
-      codeGenerateFromConfig({ schema, mode: 'vue-hooks', message: 'Vue Hooks', emoji: '🅅 ' });
+      await codeGenerateFromConfig({
+        schema,
+        mode: 'vue-hooks',
+        message: 'Vue Hooks',
+        emoji: '🅅 ',
+      });
     }
     if (codegenTemplates) {
-      codeGenerateFromConfig({ schema, mode: 'template', message: 'templates' });
+      await codeGenerateFromConfig({ schema, mode: 'template', message: 'templates' });
     }
   } catch (e) {
     transpile.fail('Transpiling failed');
@@ -102,8 +112,8 @@ async function codeGenerateFromConfig({
       schema,
       mode,
     });
-    generatedInterfaces.codeGen += methods;
-    oraMethods.succeed(`${emoji} ${message} successfully generated`);
+    generatedInterfaces.codeGen = generatedInterfaces.codeGen + methods;
+    oraMethods.succeed(`${emoji ? emoji + ' ' : ''}${message} successfully generated`);
   } catch (e) {
     oraMethods.fail(`${message} generation failed`);
     return Promise.reject(e);

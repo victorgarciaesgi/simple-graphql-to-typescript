@@ -41,7 +41,7 @@ export const evaluateType = (field: Field | InputField | Arg) => {
     isScalar,
     typeName,
     isEnum,
-  } as const;
+  };
 };
 
 export const isReturnTypeEdge = (ObjectTypes: Type[], typeName: string): boolean => {

@@ -3326,247 +3326,15 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
 };
 
 import { Ref } from '@vue/composition-api';
-import { useMutation, useQuery, UseQueryOptions, UseMutationOptions } from '@vue/apollo-composable';
+import {
+  useMutation,
+  useQuery,
+  useSubscription,
+  UseQueryOptions,
+  UseMutationOptions,
+  UseSubscriptionOptions,
+} from '@vue/apollo-composable';
 export type ReactiveFunction<TParam> = () => TParam;
-
-export const usePost = (
-  fragment: string | DocumentNode,
-  variables?: IpostModelArgs | Ref<IpostModelArgs> | ReactiveFunction<IpostModelArgs>,
-  options?:
-    | UseQueryOptions<{ post: IPostModel; IpostModelArgs }>
-    | Ref<UseQueryOptions<{ post: IPostModel; IpostModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ post: IPostModel; IpostModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query post ($id: Int) {
-        post(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ post: IPostModel; IpostModelArgs }>(query, variables, options);
-};
-
-export const usePosts = (
-  fragment: string | DocumentNode,
-  variables?: IpostsModelArgs | Ref<IpostsModelArgs> | ReactiveFunction<IpostsModelArgs>,
-  options?:
-    | UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>
-    | Ref<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query posts ($userId: Int) {
-        posts(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ posts: IPostModel[]; IpostsModelArgs }>(query, variables, options);
-};
-
-export const useComment = (
-  fragment: string | DocumentNode,
-  variables?: IcommentModelArgs | Ref<IcommentModelArgs> | ReactiveFunction<IcommentModelArgs>,
-  options?:
-    | UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>
-    | Ref<UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query comment ($id: Int) {
-        comment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ comment: ICommentModel; IcommentModelArgs }>(query, variables, options);
-};
-
-export const useComments = (
-  fragment: string | DocumentNode,
-  variables?: IcommentsModelArgs | Ref<IcommentsModelArgs> | ReactiveFunction<IcommentsModelArgs>,
-  options?:
-    | UseQueryOptions<{ comments: ICommentModel[]; IcommentsModelArgs }>
-    | Ref<UseQueryOptions<{ comments: ICommentModel[]; IcommentsModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ comments: ICommentModel[]; IcommentsModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query comments ($postId: Int) {
-        comments(postId: $postId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ comments: ICommentModel[]; IcommentsModelArgs }>(query, variables, options);
-};
-
-export const useAlbum = (
-  fragment: string | DocumentNode,
-  variables?: IalbumModelArgs | Ref<IalbumModelArgs> | ReactiveFunction<IalbumModelArgs>,
-  options?:
-    | UseQueryOptions<{ album: IAlbumModel; IalbumModelArgs }>
-    | Ref<UseQueryOptions<{ album: IAlbumModel; IalbumModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ album: IAlbumModel; IalbumModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query album ($id: Int) {
-        album(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ album: IAlbumModel; IalbumModelArgs }>(query, variables, options);
-};
-
-export const useAlbums = (
-  fragment: string | DocumentNode,
-  variables?: IalbumsModelArgs | Ref<IalbumsModelArgs> | ReactiveFunction<IalbumsModelArgs>,
-  options?:
-    | UseQueryOptions<{ albums: IAlbumModel[]; IalbumsModelArgs }>
-    | Ref<UseQueryOptions<{ albums: IAlbumModel[]; IalbumsModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ albums: IAlbumModel[]; IalbumsModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query albums ($userId: Int) {
-        albums(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ albums: IAlbumModel[]; IalbumsModelArgs }>(query, variables, options);
-};
-
-export const usePhoto = (
-  fragment: string | DocumentNode,
-  variables?: IphotoModelArgs | Ref<IphotoModelArgs> | ReactiveFunction<IphotoModelArgs>,
-  options?:
-    | UseQueryOptions<{ photo: IPhotoModel; IphotoModelArgs }>
-    | Ref<UseQueryOptions<{ photo: IPhotoModel; IphotoModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ photo: IPhotoModel; IphotoModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query photo ($id: Int) {
-        photo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ photo: IPhotoModel; IphotoModelArgs }>(query, variables, options);
-};
-
-export const usePhotos = (
-  fragment: string | DocumentNode,
-  variables?: IphotosModelArgs | Ref<IphotosModelArgs> | ReactiveFunction<IphotosModelArgs>,
-  options?:
-    | UseQueryOptions<{ photos: IPhotoModel[]; IphotosModelArgs }>
-    | Ref<UseQueryOptions<{ photos: IPhotoModel[]; IphotosModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ photos: IPhotoModel[]; IphotosModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query photos ($albumId: Int) {
-        photos(albumId: $albumId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ photos: IPhotoModel[]; IphotosModelArgs }>(query, variables, options);
-};
-
-export const useTodo = (
-  fragment: string | DocumentNode,
-  variables?: ItodoModelArgs | Ref<ItodoModelArgs> | ReactiveFunction<ItodoModelArgs>,
-  options?:
-    | UseQueryOptions<{ todo: ITodoModel; ItodoModelArgs }>
-    | Ref<UseQueryOptions<{ todo: ITodoModel; ItodoModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ todo: ITodoModel; ItodoModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query todo ($id: Int) {
-        todo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ todo: ITodoModel; ItodoModelArgs }>(query, variables, options);
-};
-
-export const useTodos = (
-  fragment: string | DocumentNode,
-  variables?: ItodosModelArgs | Ref<ItodosModelArgs> | ReactiveFunction<ItodosModelArgs>,
-  options?:
-    | UseQueryOptions<{ todos: ITodoModel[]; ItodosModelArgs }>
-    | Ref<UseQueryOptions<{ todos: ITodoModel[]; ItodosModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ todos: ITodoModel[]; ItodosModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query todos ($userId: Int,$completed: Boolean) {
-        todos(userId: $userId,completed: $completed) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ todos: ITodoModel[]; ItodosModelArgs }>(query, variables, options);
-};
-
-export const useUser = (
-  fragment: string | DocumentNode,
-  variables?: IuserModelArgs | Ref<IuserModelArgs> | ReactiveFunction<IuserModelArgs>,
-  options?:
-    | UseQueryOptions<{ user: IUserModel; IuserModelArgs }>
-    | Ref<UseQueryOptions<{ user: IUserModel; IuserModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ user: IUserModel; IuserModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query user ($id: Int) {
-        user(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ user: IUserModel; IuserModelArgs }>(query, variables, options);
-};
-
-export const useUsers = (
-  fragment: string | DocumentNode,
-  options?:
-    | UseQueryOptions<{ users: IUserModel[] }>
-    | Ref<UseQueryOptions<{ users: IUserModel[] }>>
-    | ReactiveFunction<UseQueryOptions<{ users: IUserModel[] }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query users  {
-        users {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ users: IUserModel[] }>(query, null, options);
-};
 
 export const useAlbums = (
   fragment: string | DocumentNode,
@@ -4241,6 +4009,1508 @@ export const useDeleteUser = (
       }\`;
   return useMutation<{ deleteUser: boolean; IdeleteUserModelArgs }>(mutation, variables, options);
 };
+
+export const usePage = (
+  fragment: string | DocumentNode,
+  variables?: IPageModelArgs | Ref<IPageModelArgs> | ReactiveFunction<IPageModelArgs>,
+  options?:
+    | UseQueryOptions<{ Page: IPageModel; IPageModelArgs }>
+    | Ref<UseQueryOptions<{ Page: IPageModel; IPageModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Page: IPageModel; IPageModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Page ($page: Int,$perPage: Int) {
+        Page(page: $page,perPage: $perPage) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Page: IPageModel; IPageModelArgs }>(query, variables, options);
+};
+
+/** Media query */
+export const useMedia = (
+  fragment: string | DocumentNode,
+  variables?: IMediaModelArgs | Ref<IMediaModelArgs> | ReactiveFunction<IMediaModelArgs>,
+  options?:
+    | UseQueryOptions<{ Media: IMediaModel; IMediaModelArgs }>
+    | Ref<UseQueryOptions<{ Media: IMediaModel; IMediaModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Media: IMediaModel; IMediaModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
+        Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Media: IMediaModel; IMediaModelArgs }>(query, variables, options);
+};
+
+/** Media Trend query */
+export const useMediaTrend = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IMediaTrendModelArgs
+    | Ref<IMediaTrendModelArgs>
+    | ReactiveFunction<IMediaTrendModelArgs>,
+  options?:
+    | UseQueryOptions<{ MediaTrend: IMediaTrendModel; IMediaTrendModelArgs }>
+    | Ref<UseQueryOptions<{ MediaTrend: IMediaTrendModel; IMediaTrendModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ MediaTrend: IMediaTrendModel; IMediaTrendModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
+        MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ MediaTrend: IMediaTrendModel; IMediaTrendModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** Airing schedule query */
+export const useAiringSchedule = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IAiringScheduleModelArgs
+    | Ref<IAiringScheduleModelArgs>
+    | ReactiveFunction<IAiringScheduleModelArgs>,
+  options?:
+    | UseQueryOptions<{ AiringSchedule: IAiringScheduleModel; IAiringScheduleModelArgs }>
+    | Ref<UseQueryOptions<{ AiringSchedule: IAiringScheduleModel; IAiringScheduleModelArgs }>>
+    | ReactiveFunction<
+        UseQueryOptions<{ AiringSchedule: IAiringScheduleModel; IAiringScheduleModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
+        AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ AiringSchedule: IAiringScheduleModel; IAiringScheduleModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** Character query */
+export const useCharacter = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ICharacterModelArgs
+    | Ref<ICharacterModelArgs>
+    | ReactiveFunction<ICharacterModelArgs>,
+  options?:
+    | UseQueryOptions<{ Character: ICharacterModel; ICharacterModelArgs }>
+    | Ref<UseQueryOptions<{ Character: ICharacterModel; ICharacterModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Character: ICharacterModel; ICharacterModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
+        Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Character: ICharacterModel; ICharacterModelArgs }>(query, variables, options);
+};
+
+/** Staff query */
+export const useStaff = (
+  fragment: string | DocumentNode,
+  variables?: IStaffModelArgs | Ref<IStaffModelArgs> | ReactiveFunction<IStaffModelArgs>,
+  options?:
+    | UseQueryOptions<{ Staff: IStaffModel; IStaffModelArgs }>
+    | Ref<UseQueryOptions<{ Staff: IStaffModel; IStaffModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Staff: IStaffModel; IStaffModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
+        Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Staff: IStaffModel; IStaffModelArgs }>(query, variables, options);
+};
+
+/** Media list query */
+export const useMediaList = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IMediaListModelArgs
+    | Ref<IMediaListModelArgs>
+    | ReactiveFunction<IMediaListModelArgs>,
+  options?:
+    | UseQueryOptions<{ MediaList: IMediaListModel; IMediaListModelArgs }>
+    | Ref<UseQueryOptions<{ MediaList: IMediaListModel; IMediaListModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ MediaList: IMediaListModel; IMediaListModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+        MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ MediaList: IMediaListModel; IMediaListModelArgs }>(query, variables, options);
+};
+
+/** Media list collection query, provides list pre-grouped by status & custom lists. User ID and Media Type arguments required. */
+export const useMediaListCollection = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IMediaListCollectionModelArgs
+    | Ref<IMediaListCollectionModelArgs>
+    | ReactiveFunction<IMediaListCollectionModelArgs>,
+  options?:
+    | UseQueryOptions<{
+        MediaListCollection: IMediaListCollectionModel;
+        IMediaListCollectionModelArgs;
+      }>
+    | Ref<
+        UseQueryOptions<{
+          MediaListCollection: IMediaListCollectionModel;
+          IMediaListCollectionModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseQueryOptions<{
+          MediaListCollection: IMediaListCollectionModel;
+          IMediaListCollectionModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+        MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{
+    MediaListCollection: IMediaListCollectionModel;
+    IMediaListCollectionModelArgs;
+  }>(query, variables, options);
+};
+
+/** Collection of all the possible media genres */
+export const useGenreCollection = (
+  options?:
+    | UseQueryOptions<{ GenreCollection: string[] }>
+    | Ref<UseQueryOptions<{ GenreCollection: string[] }>>
+    | ReactiveFunction<UseQueryOptions<{ GenreCollection: string[] }>>
+) => {
+  const query = sgtsQL\`
+      query GenreCollection  {
+        GenreCollection
+      }\`;
+  return useQuery<{ GenreCollection: string[] }>(query, null, options);
+};
+
+/** Collection of all the possible media tags */
+export const useMediaTagCollection = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IMediaTagCollectionModelArgs
+    | Ref<IMediaTagCollectionModelArgs>
+    | ReactiveFunction<IMediaTagCollectionModelArgs>,
+  options?:
+    | UseQueryOptions<{ MediaTagCollection: IMediaTagModel[]; IMediaTagCollectionModelArgs }>
+    | Ref<UseQueryOptions<{ MediaTagCollection: IMediaTagModel[]; IMediaTagCollectionModelArgs }>>
+    | ReactiveFunction<
+        UseQueryOptions<{ MediaTagCollection: IMediaTagModel[]; IMediaTagCollectionModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query MediaTagCollection ($status: Int) {
+        MediaTagCollection(status: $status) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ MediaTagCollection: IMediaTagModel[]; IMediaTagCollectionModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** User query */
+export const useUser = (
+  fragment: string | DocumentNode,
+  variables?: IUserModelArgs | Ref<IUserModelArgs> | ReactiveFunction<IUserModelArgs>,
+  options?:
+    | UseQueryOptions<{ User: IUserModel; IUserModelArgs }>
+    | Ref<UseQueryOptions<{ User: IUserModel; IUserModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ User: IUserModel; IUserModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
+        User(id: $id,name: $name,search: $search,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ User: IUserModel; IUserModelArgs }>(query, variables, options);
+};
+
+/** Get the currently authenticated user */
+export const useViewer = (
+  fragment: string | DocumentNode,
+  options?:
+    | UseQueryOptions<{ Viewer: IUserModel }>
+    | Ref<UseQueryOptions<{ Viewer: IUserModel }>>
+    | ReactiveFunction<UseQueryOptions<{ Viewer: IUserModel }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Viewer  {
+        Viewer {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Viewer: IUserModel }>(query, null, options);
+};
+
+/** Notification query */
+export const useNotification = (
+  fragment: string | DocumentNode,
+  variables?:
+    | INotificationModelArgs
+    | Ref<INotificationModelArgs>
+    | ReactiveFunction<INotificationModelArgs>,
+  options?:
+    | UseQueryOptions<{ Notification: INotificationUnionModel; INotificationModelArgs }>
+    | Ref<UseQueryOptions<{ Notification: INotificationUnionModel; INotificationModelArgs }>>
+    | ReactiveFunction<
+        UseQueryOptions<{ Notification: INotificationUnionModel; INotificationModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
+        Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Notification: INotificationUnionModel; INotificationModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** Studio query */
+export const useStudio = (
+  fragment: string | DocumentNode,
+  variables?: IStudioModelArgs | Ref<IStudioModelArgs> | ReactiveFunction<IStudioModelArgs>,
+  options?:
+    | UseQueryOptions<{ Studio: IStudioModel; IStudioModelArgs }>
+    | Ref<UseQueryOptions<{ Studio: IStudioModel; IStudioModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Studio: IStudioModel; IStudioModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
+        Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Studio: IStudioModel; IStudioModelArgs }>(query, variables, options);
+};
+
+/** Review query */
+export const useReview = (
+  fragment: string | DocumentNode,
+  variables?: IReviewModelArgs | Ref<IReviewModelArgs> | ReactiveFunction<IReviewModelArgs>,
+  options?:
+    | UseQueryOptions<{ Review: IReviewModel; IReviewModelArgs }>
+    | Ref<UseQueryOptions<{ Review: IReviewModel; IReviewModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Review: IReviewModel; IReviewModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
+        Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Review: IReviewModel; IReviewModelArgs }>(query, variables, options);
+};
+
+/** Activity query */
+export const useActivity = (
+  fragment: string | DocumentNode,
+  variables?: IActivityModelArgs | Ref<IActivityModelArgs> | ReactiveFunction<IActivityModelArgs>,
+  options?:
+    | UseQueryOptions<{ Activity: IActivityUnionModel; IActivityModelArgs }>
+    | Ref<UseQueryOptions<{ Activity: IActivityUnionModel; IActivityModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Activity: IActivityUnionModel; IActivityModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
+        Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Activity: IActivityUnionModel; IActivityModelArgs }>(query, variables, options);
+};
+
+/** Activity reply query */
+export const useActivityReply = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IActivityReplyModelArgs
+    | Ref<IActivityReplyModelArgs>
+    | ReactiveFunction<IActivityReplyModelArgs>,
+  options?:
+    | UseQueryOptions<{ ActivityReply: IActivityReplyModel; IActivityReplyModelArgs }>
+    | Ref<UseQueryOptions<{ ActivityReply: IActivityReplyModel; IActivityReplyModelArgs }>>
+    | ReactiveFunction<
+        UseQueryOptions<{ ActivityReply: IActivityReplyModel; IActivityReplyModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query ActivityReply ($id: Int,$activityId: Int) {
+        ActivityReply(id: $id,activityId: $activityId) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ ActivityReply: IActivityReplyModel; IActivityReplyModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** Follow query */
+export const useFollowing = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IFollowingModelArgs
+    | Ref<IFollowingModelArgs>
+    | ReactiveFunction<IFollowingModelArgs>,
+  options?:
+    | UseQueryOptions<{ Following: IUserModel; IFollowingModelArgs }>
+    | Ref<UseQueryOptions<{ Following: IUserModel; IFollowingModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Following: IUserModel; IFollowingModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Following ($userId: Int!,$sort: [UserSort]!) {
+        Following(userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Following: IUserModel; IFollowingModelArgs }>(query, variables, options);
+};
+
+/** Follow query */
+export const useFollower = (
+  fragment: string | DocumentNode,
+  variables?: IFollowerModelArgs | Ref<IFollowerModelArgs> | ReactiveFunction<IFollowerModelArgs>,
+  options?:
+    | UseQueryOptions<{ Follower: IUserModel; IFollowerModelArgs }>
+    | Ref<UseQueryOptions<{ Follower: IUserModel; IFollowerModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Follower: IUserModel; IFollowerModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Follower ($userId: Int!,$sort: [UserSort]!) {
+        Follower(userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Follower: IUserModel; IFollowerModelArgs }>(query, variables, options);
+};
+
+/** Thread query */
+export const useThread = (
+  fragment: string | DocumentNode,
+  variables?: IThreadModelArgs | Ref<IThreadModelArgs> | ReactiveFunction<IThreadModelArgs>,
+  options?:
+    | UseQueryOptions<{ Thread: IThreadModel; IThreadModelArgs }>
+    | Ref<UseQueryOptions<{ Thread: IThreadModel; IThreadModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Thread: IThreadModel; IThreadModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
+        Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Thread: IThreadModel; IThreadModelArgs }>(query, variables, options);
+};
+
+/** Comment query */
+export const useThreadComment = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IThreadCommentModelArgs
+    | Ref<IThreadCommentModelArgs>
+    | ReactiveFunction<IThreadCommentModelArgs>,
+  options?:
+    | UseQueryOptions<{ ThreadComment: IThreadCommentModel[]; IThreadCommentModelArgs }>
+    | Ref<UseQueryOptions<{ ThreadComment: IThreadCommentModel[]; IThreadCommentModelArgs }>>
+    | ReactiveFunction<
+        UseQueryOptions<{ ThreadComment: IThreadCommentModel[]; IThreadCommentModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
+        ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ ThreadComment: IThreadCommentModel[]; IThreadCommentModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** Recommendation query */
+export const useRecommendation = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IRecommendationModelArgs
+    | Ref<IRecommendationModelArgs>
+    | ReactiveFunction<IRecommendationModelArgs>,
+  options?:
+    | UseQueryOptions<{ Recommendation: IRecommendationModel; IRecommendationModelArgs }>
+    | Ref<UseQueryOptions<{ Recommendation: IRecommendationModel; IRecommendationModelArgs }>>
+    | ReactiveFunction<
+        UseQueryOptions<{ Recommendation: IRecommendationModel; IRecommendationModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
+        Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Recommendation: IRecommendationModel; IRecommendationModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+/** Like query */
+export const useLike = (
+  fragment: string | DocumentNode,
+  variables?: ILikeModelArgs | Ref<ILikeModelArgs> | ReactiveFunction<ILikeModelArgs>,
+  options?:
+    | UseQueryOptions<{ Like: IUserModel; ILikeModelArgs }>
+    | Ref<UseQueryOptions<{ Like: IUserModel; ILikeModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Like: IUserModel; ILikeModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Like ($likeableId: Int,$type: LikeableType) {
+        Like(likeableId: $likeableId,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Like: IUserModel; ILikeModelArgs }>(query, variables, options);
+};
+
+/** Provide AniList markdown to be converted to html (Requires auth) */
+export const useMarkdown = (
+  fragment: string | DocumentNode,
+  variables?: IMarkdownModelArgs | Ref<IMarkdownModelArgs> | ReactiveFunction<IMarkdownModelArgs>,
+  options?:
+    | UseQueryOptions<{ Markdown: IParsedMarkdownModel; IMarkdownModelArgs }>
+    | Ref<UseQueryOptions<{ Markdown: IParsedMarkdownModel; IMarkdownModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ Markdown: IParsedMarkdownModel; IMarkdownModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query Markdown ($markdown: String!) {
+        Markdown(markdown: $markdown) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ Markdown: IParsedMarkdownModel; IMarkdownModelArgs }>(
+    query,
+    variables,
+    options
+  );
+};
+
+export const useAniChartUser = (
+  fragment: string | DocumentNode,
+  options?:
+    | UseQueryOptions<{ AniChartUser: IAniChartUserModel }>
+    | Ref<UseQueryOptions<{ AniChartUser: IAniChartUserModel }>>
+    | ReactiveFunction<UseQueryOptions<{ AniChartUser: IAniChartUserModel }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query AniChartUser  {
+        AniChartUser {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ AniChartUser: IAniChartUserModel }>(query, null, options);
+};
+
+/** Site statistics query */
+export const useSiteStatistics = (
+  fragment: string | DocumentNode,
+  options?:
+    | UseQueryOptions<{ SiteStatistics: ISiteStatisticsModel }>
+    | Ref<UseQueryOptions<{ SiteStatistics: ISiteStatisticsModel }>>
+    | ReactiveFunction<UseQueryOptions<{ SiteStatistics: ISiteStatisticsModel }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query SiteStatistics  {
+        SiteStatistics {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ SiteStatistics: ISiteStatisticsModel }>(query, null, options);
+};
+
+export const useUpdateUser = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IUpdateUserModelArgs
+    | Ref<IUpdateUserModelArgs>
+    | ReactiveFunction<IUpdateUserModelArgs>,
+  options?:
+    | UseMutationOptions<{ UpdateUser: IUserModel; IUpdateUserModelArgs }>
+    | Ref<UseMutationOptions<{ UpdateUser: IUserModel; IUpdateUserModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ UpdateUser: IUserModel; IUpdateUserModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+        UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ UpdateUser: IUserModel; IUpdateUserModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Create or update a media list entry */
+export const useSaveMediaListEntry = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveMediaListEntryModelArgs
+    | Ref<ISaveMediaListEntryModelArgs>
+    | ReactiveFunction<ISaveMediaListEntryModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveMediaListEntry: IMediaListModel; ISaveMediaListEntryModelArgs }>
+    | Ref<UseMutationOptions<{ SaveMediaListEntry: IMediaListModel; ISaveMediaListEntryModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ SaveMediaListEntry: IMediaListModel; ISaveMediaListEntryModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+        SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveMediaListEntry: IMediaListModel; ISaveMediaListEntryModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Update multiple media list entries to the same values */
+export const useUpdateMediaListEntries = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IUpdateMediaListEntriesModelArgs
+    | Ref<IUpdateMediaListEntriesModelArgs>
+    | ReactiveFunction<IUpdateMediaListEntriesModelArgs>,
+  options?:
+    | UseMutationOptions<{
+        UpdateMediaListEntries: IMediaListModel[];
+        IUpdateMediaListEntriesModelArgs;
+      }>
+    | Ref<
+        UseMutationOptions<{
+          UpdateMediaListEntries: IMediaListModel[];
+          IUpdateMediaListEntriesModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{
+          UpdateMediaListEntries: IMediaListModel[];
+          IUpdateMediaListEntriesModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
+        UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{
+    UpdateMediaListEntries: IMediaListModel[];
+    IUpdateMediaListEntriesModelArgs;
+  }>(mutation, variables, options);
+};
+
+/** Delete a media list entry */
+export const useDeleteMediaListEntry = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteMediaListEntryModelArgs
+    | Ref<IDeleteMediaListEntryModelArgs>
+    | ReactiveFunction<IDeleteMediaListEntryModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteMediaListEntry: IDeletedModel; IDeleteMediaListEntryModelArgs }>
+    | Ref<
+        UseMutationOptions<{ DeleteMediaListEntry: IDeletedModel; IDeleteMediaListEntryModelArgs }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{ DeleteMediaListEntry: IDeletedModel; IDeleteMediaListEntryModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteMediaListEntry ($id: Int) {
+        DeleteMediaListEntry(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteMediaListEntry: IDeletedModel; IDeleteMediaListEntryModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Delete a custom list and remove the list entries from it */
+export const useDeleteCustomList = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteCustomListModelArgs
+    | Ref<IDeleteCustomListModelArgs>
+    | ReactiveFunction<IDeleteCustomListModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteCustomList: IDeletedModel; IDeleteCustomListModelArgs }>
+    | Ref<UseMutationOptions<{ DeleteCustomList: IDeletedModel; IDeleteCustomListModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ DeleteCustomList: IDeletedModel; IDeleteCustomListModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteCustomList ($customList: String,$type: MediaType) {
+        DeleteCustomList(customList: $customList,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteCustomList: IDeletedModel; IDeleteCustomListModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Create or update text activity for the currently authenticated user */
+export const useSaveTextActivity = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveTextActivityModelArgs
+    | Ref<ISaveTextActivityModelArgs>
+    | ReactiveFunction<ISaveTextActivityModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveTextActivity: ITextActivityModel; ISaveTextActivityModelArgs }>
+    | Ref<UseMutationOptions<{ SaveTextActivity: ITextActivityModel; ISaveTextActivityModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ SaveTextActivity: ITextActivityModel; ISaveTextActivityModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
+        SaveTextActivity(id: $id,text: $text,locked: $locked) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveTextActivity: ITextActivityModel; ISaveTextActivityModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Create or update message activity for the currently authenticated user */
+export const useSaveMessageActivity = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveMessageActivityModelArgs
+    | Ref<ISaveMessageActivityModelArgs>
+    | ReactiveFunction<ISaveMessageActivityModelArgs>,
+  options?:
+    | UseMutationOptions<{
+        SaveMessageActivity: IMessageActivityModel;
+        ISaveMessageActivityModelArgs;
+      }>
+    | Ref<
+        UseMutationOptions<{
+          SaveMessageActivity: IMessageActivityModel;
+          ISaveMessageActivityModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{
+          SaveMessageActivity: IMessageActivityModel;
+          ISaveMessageActivityModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
+        SaveMessageActivity(id: $id,message: $message,recipientId: $recipientId,private: $private,locked: $locked,asMod: $asMod) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveMessageActivity: IMessageActivityModel; ISaveMessageActivityModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Update list activity (Mod Only) */
+export const useSaveListActivity = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveListActivityModelArgs
+    | Ref<ISaveListActivityModelArgs>
+    | ReactiveFunction<ISaveListActivityModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveListActivity: IListActivityModel; ISaveListActivityModelArgs }>
+    | Ref<UseMutationOptions<{ SaveListActivity: IListActivityModel; ISaveListActivityModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ SaveListActivity: IListActivityModel; ISaveListActivityModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveListActivity ($id: Int,$locked: Boolean) {
+        SaveListActivity(id: $id,locked: $locked) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveListActivity: IListActivityModel; ISaveListActivityModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Delete an activity item of the authenticated users */
+export const useDeleteActivity = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteActivityModelArgs
+    | Ref<IDeleteActivityModelArgs>
+    | ReactiveFunction<IDeleteActivityModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteActivity: IDeletedModel; IDeleteActivityModelArgs }>
+    | Ref<UseMutationOptions<{ DeleteActivity: IDeletedModel; IDeleteActivityModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ DeleteActivity: IDeletedModel; IDeleteActivityModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteActivity ($id: Int) {
+        DeleteActivity(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteActivity: IDeletedModel; IDeleteActivityModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Toggle the subscription of an activity item */
+export const useToggleActivitySubscription = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IToggleActivitySubscriptionModelArgs
+    | Ref<IToggleActivitySubscriptionModelArgs>
+    | ReactiveFunction<IToggleActivitySubscriptionModelArgs>,
+  options?:
+    | UseMutationOptions<{
+        ToggleActivitySubscription: IActivityUnionModel;
+        IToggleActivitySubscriptionModelArgs;
+      }>
+    | Ref<
+        UseMutationOptions<{
+          ToggleActivitySubscription: IActivityUnionModel;
+          IToggleActivitySubscriptionModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{
+          ToggleActivitySubscription: IActivityUnionModel;
+          IToggleActivitySubscriptionModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
+        ToggleActivitySubscription(activityId: $activityId,subscribe: $subscribe) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{
+    ToggleActivitySubscription: IActivityUnionModel;
+    IToggleActivitySubscriptionModelArgs;
+  }>(mutation, variables, options);
+};
+
+/** Create or update an activity reply */
+export const useSaveActivityReply = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveActivityReplyModelArgs
+    | Ref<ISaveActivityReplyModelArgs>
+    | ReactiveFunction<ISaveActivityReplyModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveActivityReply: IActivityReplyModel; ISaveActivityReplyModelArgs }>
+    | Ref<
+        UseMutationOptions<{ SaveActivityReply: IActivityReplyModel; ISaveActivityReplyModelArgs }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{ SaveActivityReply: IActivityReplyModel; ISaveActivityReplyModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
+        SaveActivityReply(id: $id,activityId: $activityId,text: $text,asMod: $asMod) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveActivityReply: IActivityReplyModel; ISaveActivityReplyModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Delete an activity reply of the authenticated users */
+export const useDeleteActivityReply = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteActivityReplyModelArgs
+    | Ref<IDeleteActivityReplyModelArgs>
+    | ReactiveFunction<IDeleteActivityReplyModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteActivityReply: IDeletedModel; IDeleteActivityReplyModelArgs }>
+    | Ref<UseMutationOptions<{ DeleteActivityReply: IDeletedModel; IDeleteActivityReplyModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ DeleteActivityReply: IDeletedModel; IDeleteActivityReplyModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteActivityReply ($id: Int) {
+        DeleteActivityReply(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteActivityReply: IDeletedModel; IDeleteActivityReplyModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Add or remove a like from a likeable type.
+                          Returns all the users who liked the same model */
+export const useToggleLike = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IToggleLikeModelArgs
+    | Ref<IToggleLikeModelArgs>
+    | ReactiveFunction<IToggleLikeModelArgs>,
+  options?:
+    | UseMutationOptions<{ ToggleLike: IUserModel[]; IToggleLikeModelArgs }>
+    | Ref<UseMutationOptions<{ ToggleLike: IUserModel[]; IToggleLikeModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ ToggleLike: IUserModel[]; IToggleLikeModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation ToggleLike ($id: Int,$type: LikeableType) {
+        ToggleLike(id: $id,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ ToggleLike: IUserModel[]; IToggleLikeModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Add or remove a like from a likeable type. */
+export const useToggleLikeV2 = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IToggleLikeV2ModelArgs
+    | Ref<IToggleLikeV2ModelArgs>
+    | ReactiveFunction<IToggleLikeV2ModelArgs>,
+  options?:
+    | UseMutationOptions<{ ToggleLikeV2: ILikeableUnionModel; IToggleLikeV2ModelArgs }>
+    | Ref<UseMutationOptions<{ ToggleLikeV2: ILikeableUnionModel; IToggleLikeV2ModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ ToggleLikeV2: ILikeableUnionModel; IToggleLikeV2ModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
+        ToggleLikeV2(id: $id,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ ToggleLikeV2: ILikeableUnionModel; IToggleLikeV2ModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Toggle the un/following of a user */
+export const useToggleFollow = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IToggleFollowModelArgs
+    | Ref<IToggleFollowModelArgs>
+    | ReactiveFunction<IToggleFollowModelArgs>,
+  options?:
+    | UseMutationOptions<{ ToggleFollow: IUserModel; IToggleFollowModelArgs }>
+    | Ref<UseMutationOptions<{ ToggleFollow: IUserModel; IToggleFollowModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ ToggleFollow: IUserModel; IToggleFollowModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation ToggleFollow ($userId: Int) {
+        ToggleFollow(userId: $userId) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ ToggleFollow: IUserModel; IToggleFollowModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Favourite or unfavourite an anime, manga, character, staff member, or studio */
+export const useToggleFavourite = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IToggleFavouriteModelArgs
+    | Ref<IToggleFavouriteModelArgs>
+    | ReactiveFunction<IToggleFavouriteModelArgs>,
+  options?:
+    | UseMutationOptions<{ ToggleFavourite: IFavouritesModel; IToggleFavouriteModelArgs }>
+    | Ref<UseMutationOptions<{ ToggleFavourite: IFavouritesModel; IToggleFavouriteModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ ToggleFavourite: IFavouritesModel; IToggleFavouriteModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
+        ToggleFavourite(animeId: $animeId,mangaId: $mangaId,characterId: $characterId,staffId: $staffId,studioId: $studioId) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ ToggleFavourite: IFavouritesModel; IToggleFavouriteModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Update the order favourites are displayed in */
+export const useUpdateFavouriteOrder = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IUpdateFavouriteOrderModelArgs
+    | Ref<IUpdateFavouriteOrderModelArgs>
+    | ReactiveFunction<IUpdateFavouriteOrderModelArgs>,
+  options?:
+    | UseMutationOptions<{ UpdateFavouriteOrder: IFavouritesModel; IUpdateFavouriteOrderModelArgs }>
+    | Ref<
+        UseMutationOptions<{
+          UpdateFavouriteOrder: IFavouritesModel;
+          IUpdateFavouriteOrderModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{
+          UpdateFavouriteOrder: IFavouritesModel;
+          IUpdateFavouriteOrderModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
+        UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ UpdateFavouriteOrder: IFavouritesModel; IUpdateFavouriteOrderModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Create or update a review */
+export const useSaveReview = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveReviewModelArgs
+    | Ref<ISaveReviewModelArgs>
+    | ReactiveFunction<ISaveReviewModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveReview: IReviewModel; ISaveReviewModelArgs }>
+    | Ref<UseMutationOptions<{ SaveReview: IReviewModel; ISaveReviewModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ SaveReview: IReviewModel; ISaveReviewModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
+        SaveReview(id: $id,mediaId: $mediaId,body: $body,summary: $summary,score: $score,private: $private) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveReview: IReviewModel; ISaveReviewModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Delete a review */
+export const useDeleteReview = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteReviewModelArgs
+    | Ref<IDeleteReviewModelArgs>
+    | ReactiveFunction<IDeleteReviewModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteReview: IDeletedModel; IDeleteReviewModelArgs }>
+    | Ref<UseMutationOptions<{ DeleteReview: IDeletedModel; IDeleteReviewModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ DeleteReview: IDeletedModel; IDeleteReviewModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteReview ($id: Int) {
+        DeleteReview(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteReview: IDeletedModel; IDeleteReviewModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Rate a review */
+export const useRateReview = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IRateReviewModelArgs
+    | Ref<IRateReviewModelArgs>
+    | ReactiveFunction<IRateReviewModelArgs>,
+  options?:
+    | UseMutationOptions<{ RateReview: IReviewModel; IRateReviewModelArgs }>
+    | Ref<UseMutationOptions<{ RateReview: IReviewModel; IRateReviewModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ RateReview: IReviewModel; IRateReviewModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
+        RateReview(reviewId: $reviewId,rating: $rating) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ RateReview: IReviewModel; IRateReviewModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Recommendation a media */
+export const useSaveRecommendation = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveRecommendationModelArgs
+    | Ref<ISaveRecommendationModelArgs>
+    | ReactiveFunction<ISaveRecommendationModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveRecommendation: IRecommendationModel; ISaveRecommendationModelArgs }>
+    | Ref<
+        UseMutationOptions<{
+          SaveRecommendation: IRecommendationModel;
+          ISaveRecommendationModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{
+          SaveRecommendation: IRecommendationModel;
+          ISaveRecommendationModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
+        SaveRecommendation(mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,rating: $rating) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveRecommendation: IRecommendationModel; ISaveRecommendationModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Create or update a forum thread */
+export const useSaveThread = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveThreadModelArgs
+    | Ref<ISaveThreadModelArgs>
+    | ReactiveFunction<ISaveThreadModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveThread: IThreadModel; ISaveThreadModelArgs }>
+    | Ref<UseMutationOptions<{ SaveThread: IThreadModel; ISaveThreadModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ SaveThread: IThreadModel; ISaveThreadModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
+        SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveThread: IThreadModel; ISaveThreadModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Delete a thread */
+export const useDeleteThread = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteThreadModelArgs
+    | Ref<IDeleteThreadModelArgs>
+    | ReactiveFunction<IDeleteThreadModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteThread: IDeletedModel; IDeleteThreadModelArgs }>
+    | Ref<UseMutationOptions<{ DeleteThread: IDeletedModel; IDeleteThreadModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ DeleteThread: IDeletedModel; IDeleteThreadModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteThread ($id: Int) {
+        DeleteThread(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteThread: IDeletedModel; IDeleteThreadModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Toggle the subscription of a forum thread */
+export const useToggleThreadSubscription = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IToggleThreadSubscriptionModelArgs
+    | Ref<IToggleThreadSubscriptionModelArgs>
+    | ReactiveFunction<IToggleThreadSubscriptionModelArgs>,
+  options?:
+    | UseMutationOptions<{
+        ToggleThreadSubscription: IThreadModel;
+        IToggleThreadSubscriptionModelArgs;
+      }>
+    | Ref<
+        UseMutationOptions<{
+          ToggleThreadSubscription: IThreadModel;
+          IToggleThreadSubscriptionModelArgs;
+        }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{
+          ToggleThreadSubscription: IThreadModel;
+          IToggleThreadSubscriptionModelArgs;
+        }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
+        ToggleThreadSubscription(threadId: $threadId,subscribe: $subscribe) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{
+    ToggleThreadSubscription: IThreadModel;
+    IToggleThreadSubscriptionModelArgs;
+  }>(mutation, variables, options);
+};
+
+/** Create or update a thread comment */
+export const useSaveThreadComment = (
+  fragment: string | DocumentNode,
+  variables?:
+    | ISaveThreadCommentModelArgs
+    | Ref<ISaveThreadCommentModelArgs>
+    | ReactiveFunction<ISaveThreadCommentModelArgs>,
+  options?:
+    | UseMutationOptions<{ SaveThreadComment: IThreadCommentModel; ISaveThreadCommentModelArgs }>
+    | Ref<
+        UseMutationOptions<{ SaveThreadComment: IThreadCommentModel; ISaveThreadCommentModelArgs }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{ SaveThreadComment: IThreadCommentModel; ISaveThreadCommentModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
+        SaveThreadComment(id: $id,threadId: $threadId,parentCommentId: $parentCommentId,comment: $comment) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ SaveThreadComment: IThreadCommentModel; ISaveThreadCommentModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+/** Delete a thread comment */
+export const useDeleteThreadComment = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IDeleteThreadCommentModelArgs
+    | Ref<IDeleteThreadCommentModelArgs>
+    | ReactiveFunction<IDeleteThreadCommentModelArgs>,
+  options?:
+    | UseMutationOptions<{ DeleteThreadComment: IDeletedModel; IDeleteThreadCommentModelArgs }>
+    | Ref<UseMutationOptions<{ DeleteThreadComment: IDeletedModel; IDeleteThreadCommentModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ DeleteThreadComment: IDeletedModel; IDeleteThreadCommentModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation DeleteThreadComment ($id: Int) {
+        DeleteThreadComment(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ DeleteThreadComment: IDeletedModel; IDeleteThreadCommentModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdateAniChartSettings = (
+  variables?:
+    | IUpdateAniChartSettingsModelArgs
+    | Ref<IUpdateAniChartSettingsModelArgs>
+    | ReactiveFunction<IUpdateAniChartSettingsModelArgs>,
+  options?:
+    | UseMutationOptions<{ UpdateAniChartSettings: string; IUpdateAniChartSettingsModelArgs }>
+    | Ref<UseMutationOptions<{ UpdateAniChartSettings: string; IUpdateAniChartSettingsModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ UpdateAniChartSettings: string; IUpdateAniChartSettingsModelArgs }>
+      >
+) => {
+  const mutation = sgtsQL\`
+      mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
+        UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
+      }\`;
+  return useMutation<{ UpdateAniChartSettings: string; IUpdateAniChartSettingsModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdateAniChartHighlights = (
+  variables?:
+    | IUpdateAniChartHighlightsModelArgs
+    | Ref<IUpdateAniChartHighlightsModelArgs>
+    | ReactiveFunction<IUpdateAniChartHighlightsModelArgs>,
+  options?:
+    | UseMutationOptions<{ UpdateAniChartHighlights: string; IUpdateAniChartHighlightsModelArgs }>
+    | Ref<
+        UseMutationOptions<{ UpdateAniChartHighlights: string; IUpdateAniChartHighlightsModelArgs }>
+      >
+    | ReactiveFunction<
+        UseMutationOptions<{ UpdateAniChartHighlights: string; IUpdateAniChartHighlightsModelArgs }>
+      >
+) => {
+  const mutation = sgtsQL\`
+      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
+        UpdateAniChartHighlights(highlights: $highlights)
+      }\`;
+  return useMutation<{ UpdateAniChartHighlights: string; IUpdateAniChartHighlightsModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
 "
 `;
 
@@ -4715,87 +5985,34 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
 };
 
 import { Ref } from '@vue/composition-api';
-import { useMutation, useQuery, UseQueryOptions, UseMutationOptions } from '@vue/apollo-composable';
+import {
+  useMutation,
+  useQuery,
+  useSubscription,
+  UseQueryOptions,
+  UseMutationOptions,
+  UseSubscriptionOptions,
+} from '@vue/apollo-composable';
 export type ReactiveFunction<TParam> = () => TParam;
 
-export const usePost = (
+export const useAlbums = (
   fragment: string | DocumentNode,
-  variables?: IpostModelArgs | Ref<IpostModelArgs> | ReactiveFunction<IpostModelArgs>,
+  variables?: IalbumsModelArgs | Ref<IalbumsModelArgs> | ReactiveFunction<IalbumsModelArgs>,
   options?:
-    | UseQueryOptions<{ post: IPostModel; IpostModelArgs }>
-    | Ref<UseQueryOptions<{ post: IPostModel; IpostModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ post: IPostModel; IpostModelArgs }>>
+    | UseQueryOptions<{ albums: IAlbumsPageModel; IalbumsModelArgs }>
+    | Ref<UseQueryOptions<{ albums: IAlbumsPageModel; IalbumsModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ albums: IAlbumsPageModel; IalbumsModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query post ($id: Int) {
-        post(id: $id) {
+      query albums ($options: PageQueryOptions) {
+        albums(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ post: IPostModel; IpostModelArgs }>(query, variables, options);
-};
-
-export const usePosts = (
-  fragment: string | DocumentNode,
-  variables?: IpostsModelArgs | Ref<IpostsModelArgs> | ReactiveFunction<IpostsModelArgs>,
-  options?:
-    | UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>
-    | Ref<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query posts ($userId: Int) {
-        posts(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ posts: IPostModel[]; IpostsModelArgs }>(query, variables, options);
-};
-
-export const useComment = (
-  fragment: string | DocumentNode,
-  variables?: IcommentModelArgs | Ref<IcommentModelArgs> | ReactiveFunction<IcommentModelArgs>,
-  options?:
-    | UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>
-    | Ref<UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query comment ($id: Int) {
-        comment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ comment: ICommentModel; IcommentModelArgs }>(query, variables, options);
-};
-
-export const useComments = (
-  fragment: string | DocumentNode,
-  variables?: IcommentsModelArgs | Ref<IcommentsModelArgs> | ReactiveFunction<IcommentsModelArgs>,
-  options?:
-    | UseQueryOptions<{ comments: ICommentModel[]; IcommentsModelArgs }>
-    | Ref<UseQueryOptions<{ comments: ICommentModel[]; IcommentsModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ comments: ICommentModel[]; IcommentsModelArgs }>>
-) => {
-  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query comments ($postId: Int) {
-        comments(postId: $postId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-
-  return useQuery<{ comments: ICommentModel[]; IcommentsModelArgs }>(query, variables, options);
+  return useQuery<{ albums: IAlbumsPageModel; IalbumsModelArgs }>(query, variables, options);
 };
 
 export const useAlbum = (
@@ -4808,7 +6025,7 @@ export const useAlbum = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query album ($id: Int) {
+      query album ($id: ID!) {
         album(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4818,24 +6035,64 @@ export const useAlbum = (
   return useQuery<{ album: IAlbumModel; IalbumModelArgs }>(query, variables, options);
 };
 
-export const useAlbums = (
+export const useComments = (
   fragment: string | DocumentNode,
-  variables?: IalbumsModelArgs | Ref<IalbumsModelArgs> | ReactiveFunction<IalbumsModelArgs>,
+  variables?: IcommentsModelArgs | Ref<IcommentsModelArgs> | ReactiveFunction<IcommentsModelArgs>,
   options?:
-    | UseQueryOptions<{ albums: IAlbumModel[]; IalbumsModelArgs }>
-    | Ref<UseQueryOptions<{ albums: IAlbumModel[]; IalbumsModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ albums: IAlbumModel[]; IalbumsModelArgs }>>
+    | UseQueryOptions<{ comments: ICommentsPageModel; IcommentsModelArgs }>
+    | Ref<UseQueryOptions<{ comments: ICommentsPageModel; IcommentsModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ comments: ICommentsPageModel; IcommentsModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query albums ($userId: Int) {
-        albums(userId: $userId) {
+      query comments ($options: PageQueryOptions) {
+        comments(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ albums: IAlbumModel[]; IalbumsModelArgs }>(query, variables, options);
+  return useQuery<{ comments: ICommentsPageModel; IcommentsModelArgs }>(query, variables, options);
+};
+
+export const useComment = (
+  fragment: string | DocumentNode,
+  variables?: IcommentModelArgs | Ref<IcommentModelArgs> | ReactiveFunction<IcommentModelArgs>,
+  options?:
+    | UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>
+    | Ref<UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ comment: ICommentModel; IcommentModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query comment ($id: ID!) {
+        comment(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ comment: ICommentModel; IcommentModelArgs }>(query, variables, options);
+};
+
+export const usePhotos = (
+  fragment: string | DocumentNode,
+  variables?: IphotosModelArgs | Ref<IphotosModelArgs> | ReactiveFunction<IphotosModelArgs>,
+  options?:
+    | UseQueryOptions<{ photos: IPhotosPageModel; IphotosModelArgs }>
+    | Ref<UseQueryOptions<{ photos: IPhotosPageModel; IphotosModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ photos: IPhotosPageModel; IphotosModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query photos ($options: PageQueryOptions) {
+        photos(options: $options) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ photos: IPhotosPageModel; IphotosModelArgs }>(query, variables, options);
 };
 
 export const usePhoto = (
@@ -4848,7 +6105,7 @@ export const usePhoto = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query photo ($id: Int) {
+      query photo ($id: ID!) {
         photo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4858,24 +6115,64 @@ export const usePhoto = (
   return useQuery<{ photo: IPhotoModel; IphotoModelArgs }>(query, variables, options);
 };
 
-export const usePhotos = (
+export const usePosts = (
   fragment: string | DocumentNode,
-  variables?: IphotosModelArgs | Ref<IphotosModelArgs> | ReactiveFunction<IphotosModelArgs>,
+  variables?: IpostsModelArgs | Ref<IpostsModelArgs> | ReactiveFunction<IpostsModelArgs>,
   options?:
-    | UseQueryOptions<{ photos: IPhotoModel[]; IphotosModelArgs }>
-    | Ref<UseQueryOptions<{ photos: IPhotoModel[]; IphotosModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ photos: IPhotoModel[]; IphotosModelArgs }>>
+    | UseQueryOptions<{ posts: IPostsPageModel; IpostsModelArgs }>
+    | Ref<UseQueryOptions<{ posts: IPostsPageModel; IpostsModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ posts: IPostsPageModel; IpostsModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query photos ($albumId: Int) {
-        photos(albumId: $albumId) {
+      query posts ($options: PageQueryOptions) {
+        posts(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ photos: IPhotoModel[]; IphotosModelArgs }>(query, variables, options);
+  return useQuery<{ posts: IPostsPageModel; IpostsModelArgs }>(query, variables, options);
+};
+
+export const usePost = (
+  fragment: string | DocumentNode,
+  variables?: IpostModelArgs | Ref<IpostModelArgs> | ReactiveFunction<IpostModelArgs>,
+  options?:
+    | UseQueryOptions<{ post: IPostModel; IpostModelArgs }>
+    | Ref<UseQueryOptions<{ post: IPostModel; IpostModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ post: IPostModel; IpostModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query post ($id: ID!) {
+        post(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ post: IPostModel; IpostModelArgs }>(query, variables, options);
+};
+
+export const useTodos = (
+  fragment: string | DocumentNode,
+  variables?: ItodosModelArgs | Ref<ItodosModelArgs> | ReactiveFunction<ItodosModelArgs>,
+  options?:
+    | UseQueryOptions<{ todos: ITodosPageModel; ItodosModelArgs }>
+    | Ref<UseQueryOptions<{ todos: ITodosPageModel; ItodosModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ todos: ITodosPageModel; ItodosModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const query = sgtsQL\`
+      query todos ($options: PageQueryOptions) {
+        todos(options: $options) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useQuery<{ todos: ITodosPageModel; ItodosModelArgs }>(query, variables, options);
 };
 
 export const useTodo = (
@@ -4888,7 +6185,7 @@ export const useTodo = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query todo ($id: Int) {
+      query todo ($id: ID!) {
         todo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4898,24 +6195,24 @@ export const useTodo = (
   return useQuery<{ todo: ITodoModel; ItodoModelArgs }>(query, variables, options);
 };
 
-export const useTodos = (
+export const useUsers = (
   fragment: string | DocumentNode,
-  variables?: ItodosModelArgs | Ref<ItodosModelArgs> | ReactiveFunction<ItodosModelArgs>,
+  variables?: IusersModelArgs | Ref<IusersModelArgs> | ReactiveFunction<IusersModelArgs>,
   options?:
-    | UseQueryOptions<{ todos: ITodoModel[]; ItodosModelArgs }>
-    | Ref<UseQueryOptions<{ todos: ITodoModel[]; ItodosModelArgs }>>
-    | ReactiveFunction<UseQueryOptions<{ todos: ITodoModel[]; ItodosModelArgs }>>
+    | UseQueryOptions<{ users: IUsersPageModel; IusersModelArgs }>
+    | Ref<UseQueryOptions<{ users: IUsersPageModel; IusersModelArgs }>>
+    | ReactiveFunction<UseQueryOptions<{ users: IUsersPageModel; IusersModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query todos ($userId: Int,$completed: Boolean) {
-        todos(userId: $userId,completed: $completed) {
+      query users ($options: PageQueryOptions) {
+        users(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ todos: ITodoModel[]; ItodosModelArgs }>(query, variables, options);
+  return useQuery<{ users: IUsersPageModel; IusersModelArgs }>(query, variables, options);
 };
 
 export const useUser = (
@@ -4928,7 +6225,7 @@ export const useUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query user ($id: Int) {
+      query user ($id: ID!) {
         user(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4938,183 +6235,438 @@ export const useUser = (
   return useQuery<{ user: IUserModel; IuserModelArgs }>(query, variables, options);
 };
 
-export const useUsers = (
+export const useCreateAlbum = (
   fragment: string | DocumentNode,
+  variables?:
+    | IcreateAlbumModelArgs
+    | Ref<IcreateAlbumModelArgs>
+    | ReactiveFunction<IcreateAlbumModelArgs>,
   options?:
-    | UseQueryOptions<{ users: IUserModel[] }>
-    | Ref<UseQueryOptions<{ users: IUserModel[] }>>
-    | ReactiveFunction<UseQueryOptions<{ users: IUserModel[] }>>
+    | UseMutationOptions<{ createAlbum: IAlbumModel; IcreateAlbumModelArgs }>
+    | Ref<UseMutationOptions<{ createAlbum: IAlbumModel; IcreateAlbumModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ createAlbum: IAlbumModel; IcreateAlbumModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL\`
-      query users  {
-        users {
+  const mutation = sgtsQL\`
+      mutation createAlbum ($input: CreateAlbumInput!) {
+        createAlbum(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
 
-  return useQuery<{ users: IUserModel[] }>(query, null, options);
-};
-"
-`;
-
-exports[`Test Vue Hooks generation from different sources Generates types correctly from jsonplaceholder 1`] = `
-"/* eslint-disable */
-/* tslint-disable */
-// @ts-nocheck
-// *******************************************************
-// *******************************************************
-//
-// GENERATED FILE, DO NOT MODIFY
-//
-// Made by Victor Garcia ®
-//
-// https://github.com/victorgarciaesgi
-// *******************************************************
-// *******************************************************
-// 💙
-
-export type Maybe<T> = T | null;
-
-export interface IRootQueryTypeModel {
-  post?: Maybe<IPostModel>;
-  posts?: Maybe<IPostModel[]>;
-  comment?: Maybe<ICommentModel>;
-  comments?: Maybe<ICommentModel[]>;
-  album?: Maybe<IAlbumModel>;
-  albums?: Maybe<IAlbumModel[]>;
-  photo?: Maybe<IPhotoModel>;
-  photos?: Maybe<IPhotoModel[]>;
-  todo?: Maybe<ITodoModel>;
-  todos?: Maybe<ITodoModel[]>;
-  user?: Maybe<IUserModel>;
-  users?: Maybe<IUserModel[]>;
-}
-
-export interface IPostModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface IUserModel {
-  id?: Maybe<number>;
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-}
-
-export interface ICommentModel {
-  post?: Maybe<IPostModel>;
-  postId?: Maybe<number>;
-  id?: Maybe<number>;
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface IAlbumModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-}
-
-export interface IPhotoModel {
-  album?: Maybe<IAlbumModel>;
-  albumId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  url?: Maybe<string>;
-  thumbnailUrl?: Maybe<string>;
-}
-
-export interface ITodoModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  completed?: Maybe<boolean>;
-}
-
-export interface IpostModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IpostsModelArgs {
-  userId?: Maybe<number>;
-}
-
-export interface IcommentModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IcommentsModelArgs {
-  postId?: Maybe<number>;
-}
-
-export interface IalbumModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IalbumsModelArgs {
-  userId?: Maybe<number>;
-}
-
-export interface IphotoModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IphotosModelArgs {
-  albumId?: Maybe<number>;
-}
-
-export interface ItodoModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface ItodosModelArgs {
-  userId?: Maybe<number>;
-  completed?: Maybe<boolean>;
-}
-
-export interface IuserModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IusersModelArgs {}
-
-import { OperationDefinitionNode, DocumentNode } from 'graphql';
-import sgtsQL from 'graphql-tag';
-
-const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
-  let fragmentName = '';
-  if (typeof fragment === 'string') {
-    isString = true;
-  } else if (typeof fragment === 'object' && fragment.definitions.length) {
-    isFragment = true;
-    const definition = fragment.definitions[0];
-    if (definition.kind === 'FragmentDefinition') {
-      fragmentName = definition.name.value;
-    } else {
-      console.error(
-        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
-      );
-      return;
-    }
-  }
-  return { isString, isFragment, fragmentName };
+  return useMutation<{ createAlbum: IAlbumModel; IcreateAlbumModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
 };
 
-import { Ref } from '@vue/composition-api';
-import { useMutation, useQuery, UseQueryOptions, UseMutationOptions } from '@vue/apollo-composable';
-export type ReactiveFunction<TParam> = () => TParam;
+export const useUpdateAlbum = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IupdateAlbumModelArgs
+    | Ref<IupdateAlbumModelArgs>
+    | ReactiveFunction<IupdateAlbumModelArgs>,
+  options?:
+    | UseMutationOptions<{ updateAlbum: IAlbumModel; IupdateAlbumModelArgs }>
+    | Ref<UseMutationOptions<{ updateAlbum: IAlbumModel; IupdateAlbumModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ updateAlbum: IAlbumModel; IupdateAlbumModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
+        updateAlbum(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ updateAlbum: IAlbumModel; IupdateAlbumModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useDeleteAlbum = (
+  variables?:
+    | IdeleteAlbumModelArgs
+    | Ref<IdeleteAlbumModelArgs>
+    | ReactiveFunction<IdeleteAlbumModelArgs>,
+  options?:
+    | UseMutationOptions<{ deleteAlbum: boolean; IdeleteAlbumModelArgs }>
+    | Ref<UseMutationOptions<{ deleteAlbum: boolean; IdeleteAlbumModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ deleteAlbum: boolean; IdeleteAlbumModelArgs }>>
+) => {
+  const mutation = sgtsQL\`
+      mutation deleteAlbum ($id: ID!) {
+        deleteAlbum(id: $id)
+      }\`;
+  return useMutation<{ deleteAlbum: boolean; IdeleteAlbumModelArgs }>(mutation, variables, options);
+};
+
+export const useCreateComment = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IcreateCommentModelArgs
+    | Ref<IcreateCommentModelArgs>
+    | ReactiveFunction<IcreateCommentModelArgs>,
+  options?:
+    | UseMutationOptions<{ createComment: ICommentModel; IcreateCommentModelArgs }>
+    | Ref<UseMutationOptions<{ createComment: ICommentModel; IcreateCommentModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ createComment: ICommentModel; IcreateCommentModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation createComment ($input: CreateCommentInput!) {
+        createComment(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ createComment: ICommentModel; IcreateCommentModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdateComment = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IupdateCommentModelArgs
+    | Ref<IupdateCommentModelArgs>
+    | ReactiveFunction<IupdateCommentModelArgs>,
+  options?:
+    | UseMutationOptions<{ updateComment: ICommentModel; IupdateCommentModelArgs }>
+    | Ref<UseMutationOptions<{ updateComment: ICommentModel; IupdateCommentModelArgs }>>
+    | ReactiveFunction<
+        UseMutationOptions<{ updateComment: ICommentModel; IupdateCommentModelArgs }>
+      >
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
+        updateComment(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ updateComment: ICommentModel; IupdateCommentModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useDeleteComment = (
+  variables?:
+    | IdeleteCommentModelArgs
+    | Ref<IdeleteCommentModelArgs>
+    | ReactiveFunction<IdeleteCommentModelArgs>,
+  options?:
+    | UseMutationOptions<{ deleteComment: boolean; IdeleteCommentModelArgs }>
+    | Ref<UseMutationOptions<{ deleteComment: boolean; IdeleteCommentModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ deleteComment: boolean; IdeleteCommentModelArgs }>>
+) => {
+  const mutation = sgtsQL\`
+      mutation deleteComment ($id: ID!) {
+        deleteComment(id: $id)
+      }\`;
+  return useMutation<{ deleteComment: boolean; IdeleteCommentModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useCreatePhoto = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IcreatePhotoModelArgs
+    | Ref<IcreatePhotoModelArgs>
+    | ReactiveFunction<IcreatePhotoModelArgs>,
+  options?:
+    | UseMutationOptions<{ createPhoto: IPhotoModel; IcreatePhotoModelArgs }>
+    | Ref<UseMutationOptions<{ createPhoto: IPhotoModel; IcreatePhotoModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ createPhoto: IPhotoModel; IcreatePhotoModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation createPhoto ($input: CreatePhotoInput!) {
+        createPhoto(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ createPhoto: IPhotoModel; IcreatePhotoModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdatePhoto = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IupdatePhotoModelArgs
+    | Ref<IupdatePhotoModelArgs>
+    | ReactiveFunction<IupdatePhotoModelArgs>,
+  options?:
+    | UseMutationOptions<{ updatePhoto: IPhotoModel; IupdatePhotoModelArgs }>
+    | Ref<UseMutationOptions<{ updatePhoto: IPhotoModel; IupdatePhotoModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ updatePhoto: IPhotoModel; IupdatePhotoModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
+        updatePhoto(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ updatePhoto: IPhotoModel; IupdatePhotoModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useDeletePhoto = (
+  variables?:
+    | IdeletePhotoModelArgs
+    | Ref<IdeletePhotoModelArgs>
+    | ReactiveFunction<IdeletePhotoModelArgs>,
+  options?:
+    | UseMutationOptions<{ deletePhoto: boolean; IdeletePhotoModelArgs }>
+    | Ref<UseMutationOptions<{ deletePhoto: boolean; IdeletePhotoModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ deletePhoto: boolean; IdeletePhotoModelArgs }>>
+) => {
+  const mutation = sgtsQL\`
+      mutation deletePhoto ($id: ID!) {
+        deletePhoto(id: $id)
+      }\`;
+  return useMutation<{ deletePhoto: boolean; IdeletePhotoModelArgs }>(mutation, variables, options);
+};
+
+export const useCreatePost = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IcreatePostModelArgs
+    | Ref<IcreatePostModelArgs>
+    | ReactiveFunction<IcreatePostModelArgs>,
+  options?:
+    | UseMutationOptions<{ createPost: IPostModel; IcreatePostModelArgs }>
+    | Ref<UseMutationOptions<{ createPost: IPostModel; IcreatePostModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ createPost: IPostModel; IcreatePostModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation createPost ($input: CreatePostInput!) {
+        createPost(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ createPost: IPostModel; IcreatePostModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdatePost = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IupdatePostModelArgs
+    | Ref<IupdatePostModelArgs>
+    | ReactiveFunction<IupdatePostModelArgs>,
+  options?:
+    | UseMutationOptions<{ updatePost: IPostModel; IupdatePostModelArgs }>
+    | Ref<UseMutationOptions<{ updatePost: IPostModel; IupdatePostModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ updatePost: IPostModel; IupdatePostModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
+        updatePost(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ updatePost: IPostModel; IupdatePostModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useDeletePost = (
+  variables?:
+    | IdeletePostModelArgs
+    | Ref<IdeletePostModelArgs>
+    | ReactiveFunction<IdeletePostModelArgs>,
+  options?:
+    | UseMutationOptions<{ deletePost: boolean; IdeletePostModelArgs }>
+    | Ref<UseMutationOptions<{ deletePost: boolean; IdeletePostModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ deletePost: boolean; IdeletePostModelArgs }>>
+) => {
+  const mutation = sgtsQL\`
+      mutation deletePost ($id: ID!) {
+        deletePost(id: $id)
+      }\`;
+  return useMutation<{ deletePost: boolean; IdeletePostModelArgs }>(mutation, variables, options);
+};
+
+export const useCreateTodo = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IcreateTodoModelArgs
+    | Ref<IcreateTodoModelArgs>
+    | ReactiveFunction<IcreateTodoModelArgs>,
+  options?:
+    | UseMutationOptions<{ createTodo: ITodoModel; IcreateTodoModelArgs }>
+    | Ref<UseMutationOptions<{ createTodo: ITodoModel; IcreateTodoModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ createTodo: ITodoModel; IcreateTodoModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation createTodo ($input: CreateTodoInput!) {
+        createTodo(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ createTodo: ITodoModel; IcreateTodoModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdateTodo = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IupdateTodoModelArgs
+    | Ref<IupdateTodoModelArgs>
+    | ReactiveFunction<IupdateTodoModelArgs>,
+  options?:
+    | UseMutationOptions<{ updateTodo: ITodoModel; IupdateTodoModelArgs }>
+    | Ref<UseMutationOptions<{ updateTodo: ITodoModel; IupdateTodoModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ updateTodo: ITodoModel; IupdateTodoModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
+        updateTodo(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ updateTodo: ITodoModel; IupdateTodoModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useDeleteTodo = (
+  variables?:
+    | IdeleteTodoModelArgs
+    | Ref<IdeleteTodoModelArgs>
+    | ReactiveFunction<IdeleteTodoModelArgs>,
+  options?:
+    | UseMutationOptions<{ deleteTodo: boolean; IdeleteTodoModelArgs }>
+    | Ref<UseMutationOptions<{ deleteTodo: boolean; IdeleteTodoModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ deleteTodo: boolean; IdeleteTodoModelArgs }>>
+) => {
+  const mutation = sgtsQL\`
+      mutation deleteTodo ($id: ID!) {
+        deleteTodo(id: $id)
+      }\`;
+  return useMutation<{ deleteTodo: boolean; IdeleteTodoModelArgs }>(mutation, variables, options);
+};
+
+export const useCreateUser = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IcreateUserModelArgs
+    | Ref<IcreateUserModelArgs>
+    | ReactiveFunction<IcreateUserModelArgs>,
+  options?:
+    | UseMutationOptions<{ createUser: IUserModel; IcreateUserModelArgs }>
+    | Ref<UseMutationOptions<{ createUser: IUserModel; IcreateUserModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ createUser: IUserModel; IcreateUserModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation createUser ($input: CreateUserInput!) {
+        createUser(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ createUser: IUserModel; IcreateUserModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useUpdateUser = (
+  fragment: string | DocumentNode,
+  variables?:
+    | IupdateUserModelArgs
+    | Ref<IupdateUserModelArgs>
+    | ReactiveFunction<IupdateUserModelArgs>,
+  options?:
+    | UseMutationOptions<{ updateUser: IUserModel; IupdateUserModelArgs }>
+    | Ref<UseMutationOptions<{ updateUser: IUserModel; IupdateUserModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ updateUser: IUserModel; IupdateUserModelArgs }>>
+) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  const mutation = sgtsQL\`
+      mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
+        updateUser(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+
+  return useMutation<{ updateUser: IUserModel; IupdateUserModelArgs }>(
+    mutation,
+    variables,
+    options
+  );
+};
+
+export const useDeleteUser = (
+  variables?:
+    | IdeleteUserModelArgs
+    | Ref<IdeleteUserModelArgs>
+    | ReactiveFunction<IdeleteUserModelArgs>,
+  options?:
+    | UseMutationOptions<{ deleteUser: boolean; IdeleteUserModelArgs }>
+    | Ref<UseMutationOptions<{ deleteUser: boolean; IdeleteUserModelArgs }>>
+    | ReactiveFunction<UseMutationOptions<{ deleteUser: boolean; IdeleteUserModelArgs }>>
+) => {
+  const mutation = sgtsQL\`
+      mutation deleteUser ($id: ID!) {
+        deleteUser(id: $id)
+      }\`;
+  return useMutation<{ deleteUser: boolean; IdeleteUserModelArgs }>(mutation, variables, options);
+};
 "
 `;

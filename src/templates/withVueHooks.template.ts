@@ -1,6 +1,5 @@
-export const withVueHooksTemplate = (queries: string[], mutations: string[]): string => {
+export const withVueHooksTemplate = (allQueries: string[]): string => {
   return `
-      ${queries.join('\n')}
-      ${mutations.join('\n')}
+    ${allQueries.join('\n')}
   `;
 };

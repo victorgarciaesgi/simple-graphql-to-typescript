@@ -1,10 +1,5 @@
-import { guessFragmentTypeTemplate } from './fragmentType.template';
-
-export const withDefinitionsTemplate = (queries: string[], mutations: string[]): string => {
+export const withDefinitionsTemplate = (allQueries: string[]): string => {
   return `
-    export const GqlQueries = {
-      ${queries.join('\n')}
-      ${mutations.join('\n')}
-    }
+    ${allQueries.join('\n')}
   `;
 };

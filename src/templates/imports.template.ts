@@ -22,13 +22,13 @@ export const defineImports = ({
     `;
     if (codegenReactHooks) {
       template += `
-      import { useMutation, useQuery, QueryHookOptions, MutationHookOptions, MutationTuple } from '@apollo/react-hooks'
+      import { useMutation, useQuery, useSubscription, QueryHookOptions, MutationHookOptions, SubscriptionHookOptions, MutationTuple } from '@apollo/react-hooks'
       `;
     }
     if (codegenVueHooks) {
       template += `
-      import {Ref} from '@vue/composition-api'
-      import { useMutation, useQuery, UseQueryOptions, UseMutationOptions } from '@vue/apollo-composable'
+      import { Ref } from '@vue/composition-api'
+      import { useMutation, useQuery, useSubscription, UseQueryOptions, UseMutationOptions, UseSubscriptionOptions } from '@vue/apollo-composable'
       export type ReactiveFunction<TParam> = () => TParam;
       `;
     }

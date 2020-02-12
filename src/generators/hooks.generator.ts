@@ -2,7 +2,7 @@ import { Field, MethodType, Type } from '../models';
 import { createMethodsArgs } from './methods.generator';
 import { evaluateType, areAllArgsOptional, capitalizeFirstLetter } from '../utilities';
 import { getOneTSTypeDisplay } from './types.generator';
-import { queryBuilder } from './query.generator';
+import { queryBuilder } from './templates.generator';
 
 interface GraphQLFunctionArgs {
   field: Field;

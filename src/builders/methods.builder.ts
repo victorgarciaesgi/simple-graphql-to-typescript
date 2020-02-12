@@ -28,14 +28,16 @@ export const createMethods = async ({ schema, mode }: CreateMethodsArgs) => {
     buildMethod({ field, type: MethodType.Subscription, mode, ObjectTypes })
   );
 
+  const allQueries = [...parsedQueries, ...parsedMutations, ...parsedSubscriptions];
+
   if (mode === 'react-hooks') {
-    return withReactHooksTemplate(parsedQueries, parsedMutations);
+    return withReactHooksTemplate(allQueries);
   } else if (mode === 'vue-hooks') {
-    return withVueHooksTemplate(parsedQueries, parsedMutations);
+    return withVueHooksTemplate(allQueries);
   } else if (mode === 'methods') {
     return withMethodsTemplate(parsedQueries, parsedMutations);
   } else {
-    return withDefinitionsTemplate(parsedQueries, parsedMutations);
+    return withDefinitionsTemplate(allQueries);
   }
 };
 

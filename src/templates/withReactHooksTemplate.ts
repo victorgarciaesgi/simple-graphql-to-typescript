@@ -1,6 +1,5 @@
-export const withReactHooksTemplate = (queries: string[], mutations: string[]): string => {
+export const withReactHooksTemplate = (allQueries: string[]): string => {
   return `
-      ${queries.join('\n')}
-      ${mutations.join('\n')}
+    ${allQueries.join('\n')}
   `;
 };

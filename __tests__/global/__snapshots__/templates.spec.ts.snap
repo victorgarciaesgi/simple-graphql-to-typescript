@@ -3325,406 +3325,810 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-export const GqlQueries = {
-  post(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query post ($id: Int) {
-        post(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  posts(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query posts ($userId: Int) {
-        posts(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  comment(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query comment ($id: Int) {
-        comment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  comments(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query comments ($postId: Int) {
-        comments(postId: $postId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  album(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query album ($id: Int) {
-        album(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  albums(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query albums ($userId: Int) {
-        albums(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  photo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query photo ($id: Int) {
-        photo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  photos(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query photos ($albumId: Int) {
-        photos(albumId: $albumId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  todo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query todo ($id: Int) {
-        todo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  todos(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query todos ($userId: Int,$completed: Boolean) {
-        todos(userId: $userId,completed: $completed) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  user(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query user ($id: Int) {
-        user(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  users(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query users  {
-        users {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-};
-
-export const GqlQueries = {
-  albums(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+const albumsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query albums ($options: PageQueryOptions) {
         albums(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  album(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const albumGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query album ($id: ID!) {
         album(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  comments(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const commentsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query comments ($options: PageQueryOptions) {
         comments(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  comment(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const commentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query comment ($id: ID!) {
         comment(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  photos(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const photosGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query photos ($options: PageQueryOptions) {
         photos(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  photo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const photoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query photo ($id: ID!) {
         photo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  posts(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const postsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query posts ($options: PageQueryOptions) {
         posts(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  post(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const postGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query post ($id: ID!) {
         post(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  todos(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const todosGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query todos ($options: PageQueryOptions) {
         todos(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  todo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const todoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query todo ($id: ID!) {
         todo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  users(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const usersGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query users ($options: PageQueryOptions) {
         users(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  user(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const userGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       query user ($id: ID!) {
         user(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  createAlbum(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const createAlbumGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation createAlbum ($input: CreateAlbumInput!) {
         createAlbum(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  updateAlbum(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const updateAlbumGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
         updateAlbum(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  deleteAlbum() {
-    return sgtsQL\`
+};
+const deleteAlbumGQLNode = () => {
+  return sgtsQL\`
       mutation deleteAlbum ($id: ID!) {
         deleteAlbum(id: $id)
       }\`;
-  },
-  createComment(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const createCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation createComment ($input: CreateCommentInput!) {
         createComment(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  updateComment(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const updateCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
         updateComment(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  deleteComment() {
-    return sgtsQL\`
+};
+const deleteCommentGQLNode = () => {
+  return sgtsQL\`
       mutation deleteComment ($id: ID!) {
         deleteComment(id: $id)
       }\`;
-  },
-  createPhoto(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const createPhotoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation createPhoto ($input: CreatePhotoInput!) {
         createPhoto(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  updatePhoto(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const updatePhotoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
         updatePhoto(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  deletePhoto() {
-    return sgtsQL\`
+};
+const deletePhotoGQLNode = () => {
+  return sgtsQL\`
       mutation deletePhoto ($id: ID!) {
         deletePhoto(id: $id)
       }\`;
-  },
-  createPost(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const createPostGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation createPost ($input: CreatePostInput!) {
         createPost(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  updatePost(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const updatePostGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
         updatePost(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  deletePost() {
-    return sgtsQL\`
+};
+const deletePostGQLNode = () => {
+  return sgtsQL\`
       mutation deletePost ($id: ID!) {
         deletePost(id: $id)
       }\`;
-  },
-  createTodo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const createTodoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation createTodo ($input: CreateTodoInput!) {
         createTodo(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  updateTodo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const updateTodoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
         updateTodo(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  deleteTodo() {
-    return sgtsQL\`
+};
+const deleteTodoGQLNode = () => {
+  return sgtsQL\`
       mutation deleteTodo ($id: ID!) {
         deleteTodo(id: $id)
       }\`;
-  },
-  createUser(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const createUserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation createUser ($input: CreateUserInput!) {
         createUser(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  updateUser(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
+};
+const updateUserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
       mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
         updateUser(id: $id,input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  deleteUser() {
-    return sgtsQL\`
+};
+const deleteUserGQLNode = () => {
+  return sgtsQL\`
       mutation deleteUser ($id: ID!) {
         deleteUser(id: $id)
       }\`;
-  },
+};
+
+const PageGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Page ($page: Int,$perPage: Int) {
+        Page(page: $page,perPage: $perPage) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const MediaGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
+        Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const MediaTrendGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
+        MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const AiringScheduleGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
+        AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const CharacterGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
+        Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const StaffGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
+        Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const MediaListGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+        MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const MediaListCollectionGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+        MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const GenreCollectionGQLNode = () => {
+  return sgtsQL\`
+      query GenreCollection  {
+        GenreCollection
+      }\`;
+};
+const MediaTagCollectionGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query MediaTagCollection ($status: Int) {
+        MediaTagCollection(status: $status) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const UserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
+        User(id: $id,name: $name,search: $search,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ViewerGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Viewer  {
+        Viewer {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const NotificationGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
+        Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const StudioGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
+        Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ReviewGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
+        Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ActivityGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
+        Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ActivityReplyGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query ActivityReply ($id: Int,$activityId: Int) {
+        ActivityReply(id: $id,activityId: $activityId) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const FollowingGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Following ($userId: Int!,$sort: [UserSort]!) {
+        Following(userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const FollowerGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Follower ($userId: Int!,$sort: [UserSort]!) {
+        Follower(userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ThreadGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
+        Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ThreadCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
+        ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const RecommendationGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
+        Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const LikeGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Like ($likeableId: Int,$type: LikeableType) {
+        Like(likeableId: $likeableId,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const MarkdownGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query Markdown ($markdown: String!) {
+        Markdown(markdown: $markdown) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const AniChartUserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query AniChartUser  {
+        AniChartUser {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SiteStatisticsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query SiteStatistics  {
+        SiteStatistics {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const UpdateUserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+        UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveMediaListEntryGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+        SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const UpdateMediaListEntriesGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
+        UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteMediaListEntryGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteMediaListEntry ($id: Int) {
+        DeleteMediaListEntry(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteCustomListGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteCustomList ($customList: String,$type: MediaType) {
+        DeleteCustomList(customList: $customList,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveTextActivityGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
+        SaveTextActivity(id: $id,text: $text,locked: $locked) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveMessageActivityGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
+        SaveMessageActivity(id: $id,message: $message,recipientId: $recipientId,private: $private,locked: $locked,asMod: $asMod) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveListActivityGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveListActivity ($id: Int,$locked: Boolean) {
+        SaveListActivity(id: $id,locked: $locked) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteActivityGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteActivity ($id: Int) {
+        DeleteActivity(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ToggleActivitySubscriptionGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
+        ToggleActivitySubscription(activityId: $activityId,subscribe: $subscribe) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveActivityReplyGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
+        SaveActivityReply(id: $id,activityId: $activityId,text: $text,asMod: $asMod) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteActivityReplyGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteActivityReply ($id: Int) {
+        DeleteActivityReply(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ToggleLikeGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation ToggleLike ($id: Int,$type: LikeableType) {
+        ToggleLike(id: $id,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ToggleLikeV2GQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
+        ToggleLikeV2(id: $id,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ToggleFollowGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation ToggleFollow ($userId: Int) {
+        ToggleFollow(userId: $userId) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ToggleFavouriteGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
+        ToggleFavourite(animeId: $animeId,mangaId: $mangaId,characterId: $characterId,staffId: $staffId,studioId: $studioId) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const UpdateFavouriteOrderGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
+        UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveReviewGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
+        SaveReview(id: $id,mediaId: $mediaId,body: $body,summary: $summary,score: $score,private: $private) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteReviewGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteReview ($id: Int) {
+        DeleteReview(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const RateReviewGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
+        RateReview(reviewId: $reviewId,rating: $rating) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveRecommendationGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
+        SaveRecommendation(mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,rating: $rating) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveThreadGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
+        SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteThreadGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteThread ($id: Int) {
+        DeleteThread(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const ToggleThreadSubscriptionGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
+        ToggleThreadSubscription(threadId: $threadId,subscribe: $subscribe) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const SaveThreadCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
+        SaveThreadComment(id: $id,threadId: $threadId,parentCommentId: $parentCommentId,comment: $comment) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const DeleteThreadCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation DeleteThreadComment ($id: Int) {
+        DeleteThreadComment(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const UpdateAniChartSettingsGQLNode = () => {
+  return sgtsQL\`
+      mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
+        UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
+      }\`;
+};
+const UpdateAniChartHighlightsGQLNode = () => {
+  return sgtsQL\`
+      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
+        UpdateAniChartHighlights(highlights: $highlights)
+      }\`;
 };
 "
 `;
@@ -4199,283 +4603,281 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
   return { isString, isFragment, fragmentName };
 };
 
-export const GqlQueries = {
-  post(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query post ($id: Int) {
-        post(id: $id) {
+const albumsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query albums ($options: PageQueryOptions) {
+        albums(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  posts(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query posts ($userId: Int) {
-        posts(userId: $userId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  comment(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query comment ($id: Int) {
-        comment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  comments(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query comments ($postId: Int) {
-        comments(postId: $postId) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-  },
-  album(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query album ($id: Int) {
+};
+const albumGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query album ($id: ID!) {
         album(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  albums(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query albums ($userId: Int) {
-        albums(userId: $userId) {
+};
+const commentsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query comments ($options: PageQueryOptions) {
+        comments(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  photo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query photo ($id: Int) {
+};
+const commentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query comment ($id: ID!) {
+        comment(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const photosGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query photos ($options: PageQueryOptions) {
+        photos(options: $options) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const photoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query photo ($id: ID!) {
         photo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  photos(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query photos ($albumId: Int) {
-        photos(albumId: $albumId) {
+};
+const postsGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query posts ($options: PageQueryOptions) {
+        posts(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  todo(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query todo ($id: Int) {
+};
+const postGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query post ($id: ID!) {
+        post(id: $id) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const todosGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query todos ($options: PageQueryOptions) {
+        todos(options: $options) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const todoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query todo ($id: ID!) {
         todo(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  todos(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query todos ($userId: Int,$completed: Boolean) {
-        todos(userId: $userId,completed: $completed) {
+};
+const usersGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query users ($options: PageQueryOptions) {
+        users(options: $options) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  user(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query user ($id: Int) {
+};
+const userGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      query user ($id: ID!) {
         user(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
-  users(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL\`
-      query users  {
-        users {
+};
+const createAlbumGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation createAlbum ($input: CreateAlbumInput!) {
+        createAlbum(input: $input) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-  },
 };
-"
-`;
-
-exports[`Test React Hooks generation from different sources Generates types correctly from jsonplaceholder 1`] = `
-"/* eslint-disable */
-/* tslint-disable */
-// @ts-nocheck
-// *******************************************************
-// *******************************************************
-//
-// GENERATED FILE, DO NOT MODIFY
-//
-// Made by Victor Garcia ®
-//
-// https://github.com/victorgarciaesgi
-// *******************************************************
-// *******************************************************
-// 💙
-
-export type Maybe<T> = T | null;
-
-export interface IRootQueryTypeModel {
-  post?: Maybe<IPostModel>;
-  posts?: Maybe<IPostModel[]>;
-  comment?: Maybe<ICommentModel>;
-  comments?: Maybe<ICommentModel[]>;
-  album?: Maybe<IAlbumModel>;
-  albums?: Maybe<IAlbumModel[]>;
-  photo?: Maybe<IPhotoModel>;
-  photos?: Maybe<IPhotoModel[]>;
-  todo?: Maybe<ITodoModel>;
-  todos?: Maybe<ITodoModel[]>;
-  user?: Maybe<IUserModel>;
-  users?: Maybe<IUserModel[]>;
-}
-
-export interface IPostModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface IUserModel {
-  id?: Maybe<number>;
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-}
-
-export interface ICommentModel {
-  post?: Maybe<IPostModel>;
-  postId?: Maybe<number>;
-  id?: Maybe<number>;
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface IAlbumModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-}
-
-export interface IPhotoModel {
-  album?: Maybe<IAlbumModel>;
-  albumId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  url?: Maybe<string>;
-  thumbnailUrl?: Maybe<string>;
-}
-
-export interface ITodoModel {
-  user?: Maybe<IUserModel>;
-  userId?: Maybe<number>;
-  id?: Maybe<number>;
-  title?: Maybe<string>;
-  completed?: Maybe<boolean>;
-}
-
-export interface IpostModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IpostsModelArgs {
-  userId?: Maybe<number>;
-}
-
-export interface IcommentModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IcommentsModelArgs {
-  postId?: Maybe<number>;
-}
-
-export interface IalbumModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IalbumsModelArgs {
-  userId?: Maybe<number>;
-}
-
-export interface IphotoModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IphotosModelArgs {
-  albumId?: Maybe<number>;
-}
-
-export interface ItodoModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface ItodosModelArgs {
-  userId?: Maybe<number>;
-  completed?: Maybe<boolean>;
-}
-
-export interface IuserModelArgs {
-  id?: Maybe<number>;
-}
-
-export interface IusersModelArgs {}
-
-import { OperationDefinitionNode, DocumentNode } from 'graphql';
-import sgtsQL from 'graphql-tag';
-
-const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
-  let fragmentName = '';
-  if (typeof fragment === 'string') {
-    isString = true;
-  } else if (typeof fragment === 'object' && fragment.definitions.length) {
-    isFragment = true;
-    const definition = fragment.definitions[0];
-    if (definition.kind === 'FragmentDefinition') {
-      fragmentName = definition.name.value;
-    } else {
-      console.error(
-        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
-      );
-      return;
-    }
-  }
-  return { isString, isFragment, fragmentName };
+const updateAlbumGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
+        updateAlbum(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const deleteAlbumGQLNode = () => {
+  return sgtsQL\`
+      mutation deleteAlbum ($id: ID!) {
+        deleteAlbum(id: $id)
+      }\`;
+};
+const createCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation createComment ($input: CreateCommentInput!) {
+        createComment(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const updateCommentGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
+        updateComment(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const deleteCommentGQLNode = () => {
+  return sgtsQL\`
+      mutation deleteComment ($id: ID!) {
+        deleteComment(id: $id)
+      }\`;
+};
+const createPhotoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation createPhoto ($input: CreatePhotoInput!) {
+        createPhoto(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const updatePhotoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
+        updatePhoto(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const deletePhotoGQLNode = () => {
+  return sgtsQL\`
+      mutation deletePhoto ($id: ID!) {
+        deletePhoto(id: $id)
+      }\`;
+};
+const createPostGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation createPost ($input: CreatePostInput!) {
+        createPost(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const updatePostGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
+        updatePost(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const deletePostGQLNode = () => {
+  return sgtsQL\`
+      mutation deletePost ($id: ID!) {
+        deletePost(id: $id)
+      }\`;
+};
+const createTodoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation createTodo ($input: CreateTodoInput!) {
+        createTodo(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const updateTodoGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
+        updateTodo(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const deleteTodoGQLNode = () => {
+  return sgtsQL\`
+      mutation deleteTodo ($id: ID!) {
+        deleteTodo(id: $id)
+      }\`;
+};
+const createUserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation createUser ($input: CreateUserInput!) {
+        createUser(input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const updateUserGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL\`
+      mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
+        updateUser(id: $id,input: $input) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+};
+const deleteUserGQLNode = () => {
+  return sgtsQL\`
+      mutation deleteUser ($id: ID!) {
+        deleteUser(id: $id)
+      }\`;
 };
 "
 `;

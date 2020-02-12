@@ -84,6 +84,10 @@ export const createConfig = async (): Promise<void> => {
             name: 'Vue Apollo Hooks',
             value: 'codegenVueHooks',
           },
+          {
+            name: 'Only GraphQL string templates',
+            value: 'codegenTemplates',
+          },
         ],
       },
     ]);

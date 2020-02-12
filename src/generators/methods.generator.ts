@@ -8,7 +8,7 @@ import {
   capitalizeFirstLetter,
 } from '../utilities';
 import { createConnectionFragment } from './fragments.generator';
-import { queryBuilder, createQueryFunction } from './query.generator';
+import { queryBuilder, createQueryFunction } from './templates.generator';
 import { createReactApolloHook, createVueApolloHook } from './hooks.generator';
 import { ParametersStore } from '../store';
 
@@ -112,31 +112,20 @@ export type buildMethodsArgs = {
 export const buildMethod = ({ field, type, ObjectTypes, mode }: buildMethodsArgs) => {
   const { isScalar, isEnum, typeName } = evaluateType(field);
 
-  const fragmentDisplay = `\${isString ? fragment : '...' + fragmentName}`;
-  let renderedFragmentInner = fragmentDisplay;
+  let renderedFragmentInner = `\${isString ? fragment : '...' + fragmentName}`;
+  const createParams = { field, type, renderedFragmentInner };
   if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
     renderedFragmentInner =
-      createConnectionFragment(typeName, ObjectTypes, fragmentDisplay) ?? fragmentDisplay;
+      createConnectionFragment(typeName, ObjectTypes, renderedFragmentInner) ??
+      renderedFragmentInner;
   }
   if (mode === 'template') {
-    return createQueryFunction({ field, type, renderedFragmentInner });
+    return createQueryFunction(createParams);
   } else if (mode === 'react-hooks') {
-    return createReactApolloHook({
-      field,
-      type,
-      renderedFragmentInner,
-    });
+    return createReactApolloHook(createParams);
   } else if (mode === 'vue-hooks') {
-    return createVueApolloHook({
-      field,
-      type,
-      renderedFragmentInner,
-    });
+    return createVueApolloHook(createParams);
   } else {
-    return createGraphQLFunction({
-      field,
-      type,
-      renderedFragmentInner,
-    });
+    return createGraphQLFunction(createParams);
   }
 };

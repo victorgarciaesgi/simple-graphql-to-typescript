@@ -100,7 +100,7 @@ async function getRemoteSchema(
   }
 }
 
-const possibleGraphQLSuffix = ['graphql', 'api', '__graphql', '__api'];
+const possibleGraphQLSuffix = ['/graphql', '/api', '/__graphql', '/__api'];
 
 export async function fetchSchemas({
   endpoint,

@@ -15,26 +15,35 @@ sgts -e https://json-placeholder-graphql.herokuapp.com/graphql --codegen-templat
 **Generated result exemple**
 
 ```ts
-{
-  users(fragment: string | DocumentNode) {
-    const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-    return sgtsQL`
+const usersGQLNode = (fragment: string | DocumentNode) => {
+  const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+  return sgtsQL`
       query users  {
         users {
           ${isString ? fragment : '...' + fragmentName}
         }
       } ${isFragment ? fragment : ''}
-      `;
-  }
-}
+  `;
+};
 ```
 
 ## Usage
 
 ```typescript
-import { GqlQueries } from '~/generated.ts';
+import { usersGQLNode } from '~/generated.ts';
 
-const query = GqlQueries.users('id firstName');
+const query = usersGQLNode('id firstName');
+console.log(query);
+/* outputs
+  query users  {
+    users {
+      id
+      firstName
+    }
+  }
+`
+
+*/
 ```
 
 ::: tip
