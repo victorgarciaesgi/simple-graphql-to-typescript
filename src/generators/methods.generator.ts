@@ -113,12 +113,14 @@ export const buildMethod = ({ field, type, ObjectTypes, mode }: buildMethodsArgs
   const { isScalar, isEnum, typeName } = evaluateType(field);
 
   let renderedFragmentInner = `\${isString ? fragment : '...' + fragmentName}`;
-  const createParams = { field, type, renderedFragmentInner };
+
   if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
     renderedFragmentInner =
       createConnectionFragment(typeName, ObjectTypes, renderedFragmentInner) ??
       renderedFragmentInner;
   }
+  const createParams = { field, type, renderedFragmentInner };
+
   if (mode === 'template') {
     return createQueryFunction(createParams);
   } else if (mode === 'react-hooks') {
