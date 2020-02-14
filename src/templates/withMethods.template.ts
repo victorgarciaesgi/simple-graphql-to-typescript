@@ -57,7 +57,8 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
   export const apiProvider = (apolloClient: ApolloClient<any>) => {
     const abortableQuery = <T, A = null>(
       query: DocumentNode,
-      args: boolean
+      args: boolean,
+      optionalArgs: boolean
     ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
       let observableQuery: ZenObservable.Subscription;
       const parsedQuery = query.definitions[0] as OperationDefinitionNode;
@@ -93,10 +94,16 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
           $fetch,
         };
       }
-      if (args) {
+      if (args && !optionalArgs) {
         return {
           $abort,
           $args,
+        } as any;
+      } else if (optionalArgs) {
+        return {
+          $abort,
+          $args,
+          $fetch,
         } as any;
       } else {
         return {

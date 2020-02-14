@@ -12,7 +12,7 @@ export const evaluateType = (field: Field | InputField | Arg) => {
   let typeName = '';
 
   function getFieldInfos(type: OfType): string | null {
-    if (type.name === 'edges' || type.name === 'pageInfo') isEdge = true;
+    if (propertyName === 'edges') isEdge = true;
     if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
       if (type.kind === 'LIST') {
         isArray = true;

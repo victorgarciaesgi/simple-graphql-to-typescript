@@ -3387,7 +3387,8 @@ export interface FragmentableMutation<T> {
 export const apiProvider = (apolloClient: ApolloClient<any>) => {
   const abortableQuery = <T, A = null>(
     query: DocumentNode,
-    args: boolean
+    args: boolean,
+    optionalArgs: boolean
   ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
     let observableQuery: ZenObservable.Subscription;
     const parsedQuery = query.definitions[0] as OperationDefinitionNode;
@@ -3423,569 +3424,16 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fetch,
       };
     }
-    if (args) {
+    if (args && !optionalArgs) {
       return {
         $abort,
         $args,
       } as any;
-    } else {
+    } else if (optionalArgs) {
       return {
         $abort,
+        $args,
         $fetch,
-      } as any;
-    }
-  };
-  const abortableMutation = <T, A = null>(
-    mutation: DocumentNode,
-    args: boolean
-  ): AbortableMutationWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
-    const mutationName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $post() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query: mutation,
-          variables,
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[mutationName]);
-            }
-          },
-          error: error => reject(error),
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $post,
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args,
-      } as any;
-    } else {
-      return {
-        $abort,
-        $post,
-      } as any;
-    }
-  };
-
-  return {
-    albums(): FragmentableQueryWithOptionalArgs<IAlbumsPageModel, IalbumsModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query albums ($options: PageQueryOptions) {
-        albums(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    album(): FragmentableQueryWithArgs<IAlbumModel, IalbumModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query album ($id: ID!) {
-        album(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    comments(): FragmentableQueryWithOptionalArgs<ICommentsPageModel, IcommentsModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query comments ($options: PageQueryOptions) {
-        comments(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    comment(): FragmentableQueryWithArgs<ICommentModel, IcommentModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query comment ($id: ID!) {
-        comment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    photos(): FragmentableQueryWithOptionalArgs<IPhotosPageModel, IphotosModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query photos ($options: PageQueryOptions) {
-        photos(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    photo(): FragmentableQueryWithArgs<IPhotoModel, IphotoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query photo ($id: ID!) {
-        photo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    posts(): FragmentableQueryWithOptionalArgs<IPostsPageModel, IpostsModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query posts ($options: PageQueryOptions) {
-        posts(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    post(): FragmentableQueryWithArgs<IPostModel, IpostModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query post ($id: ID!) {
-        post(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    todos(): FragmentableQueryWithOptionalArgs<ITodosPageModel, ItodosModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query todos ($options: PageQueryOptions) {
-        todos(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    todo(): FragmentableQueryWithArgs<ITodoModel, ItodoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query todo ($id: ID!) {
-        todo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    users(): FragmentableQueryWithOptionalArgs<IUsersPageModel, IusersModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query users ($options: PageQueryOptions) {
-        users(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    user(): FragmentableQueryWithArgs<IUserModel, IuserModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query user ($id: ID!) {
-        user(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    createAlbum(): FragmentableMutationWithArgs<IAlbumModel, IcreateAlbumModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createAlbum ($input: CreateAlbumInput!) {
-        createAlbum(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateAlbum(): FragmentableMutationWithArgs<IAlbumModel, IupdateAlbumModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
-        updateAlbum(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteAlbum(): AbortableMutationWithArgs<boolean, IdeleteAlbumModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteAlbum ($id: ID!) {
-        deleteAlbum(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createComment(): FragmentableMutationWithArgs<ICommentModel, IcreateCommentModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createComment ($input: CreateCommentInput!) {
-        createComment(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateComment(): FragmentableMutationWithArgs<ICommentModel, IupdateCommentModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
-        updateComment(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteComment(): AbortableMutationWithArgs<boolean, IdeleteCommentModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteComment ($id: ID!) {
-        deleteComment(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createPhoto(): FragmentableMutationWithArgs<IPhotoModel, IcreatePhotoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createPhoto ($input: CreatePhotoInput!) {
-        createPhoto(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updatePhoto(): FragmentableMutationWithArgs<IPhotoModel, IupdatePhotoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
-        updatePhoto(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deletePhoto(): AbortableMutationWithArgs<boolean, IdeletePhotoModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deletePhoto ($id: ID!) {
-        deletePhoto(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createPost(): FragmentableMutationWithArgs<IPostModel, IcreatePostModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createPost ($input: CreatePostInput!) {
-        createPost(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updatePost(): FragmentableMutationWithArgs<IPostModel, IupdatePostModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
-        updatePost(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deletePost(): AbortableMutationWithArgs<boolean, IdeletePostModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deletePost ($id: ID!) {
-        deletePost(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createTodo(): FragmentableMutationWithArgs<ITodoModel, IcreateTodoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createTodo ($input: CreateTodoInput!) {
-        createTodo(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateTodo(): FragmentableMutationWithArgs<ITodoModel, IupdateTodoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
-        updateTodo(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteTodo(): AbortableMutationWithArgs<boolean, IdeleteTodoModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteTodo ($id: ID!) {
-        deleteTodo(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createUser(): FragmentableMutationWithArgs<IUserModel, IcreateUserModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createUser ($input: CreateUserInput!) {
-        createUser(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateUser(): FragmentableMutationWithArgs<IUserModel, IupdateUserModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
-        updateUser(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteUser(): AbortableMutationWithArgs<boolean, IdeleteUserModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteUser ($id: ID!) {
-        deleteUser(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-  };
-};
-
-export type AbortableQueryWithArgs<T, A> = {
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQueryWithOptionalArgs<T, A> = {
-  $fetch(): Promise<T>;
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQuery<T> = {
-  $fetch(): Promise<T>;
-  $abort(): void;
-};
-export interface FragmentableQueryWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
-}
-export interface FragmentableQueryWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
-}
-export interface FragmentableQuery<T> {
-  $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
-}
-
-export type AbortableMutationWithArgs<T, A> = {
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutationWithOptionalArgs<T, A> = {
-  $post(): Promise<T>;
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutation<T> = {
-  $post(): Promise<T>;
-  $abort(): void;
-};
-
-export interface FragmentableMutationWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
-}
-export interface FragmentableMutationWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
-}
-export interface FragmentableMutation<T> {
-  $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
-}
-
-export const apiProvider = (apolloClient: ApolloClient<any>) => {
-  const abortableQuery = <T, A = null>(
-    query: DocumentNode,
-    args: boolean
-  ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = query.definitions[0] as OperationDefinitionNode;
-    const queryName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $fetch() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query,
-          variables,
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[queryName]);
-            }
-          },
-          error: error => reject(error),
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $fetch,
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args,
       } as any;
     } else {
       return {
@@ -4057,7 +3505,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4073,7 +3521,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4089,7 +3537,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4108,7 +3556,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4124,7 +3572,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4140,7 +3588,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4156,7 +3604,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4175,7 +3623,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4185,7 +3633,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       query GenreCollection  {
         GenreCollection
       }\`;
-      return abortableQuery(query, false);
+      return abortableQuery(query, false, false);
     },
     /** Collection of all the possible media tags */
     MediaTagCollection(): FragmentableQueryWithOptionalArgs<
@@ -4202,7 +3650,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4218,7 +3666,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4234,7 +3682,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, false);
+          return abortableQuery(query, false, false);
         },
       };
     },
@@ -4253,7 +3701,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4269,7 +3717,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4285,7 +3733,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4301,7 +3749,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4320,7 +3768,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4336,7 +3784,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, false);
         },
       };
     },
@@ -4352,7 +3800,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, false);
         },
       };
     },
@@ -4368,7 +3816,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4387,7 +3835,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4406,7 +3854,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4422,7 +3870,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, true);
         },
       };
     },
@@ -4438,7 +3886,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, true);
+          return abortableQuery(query, true, false);
         },
       };
     },
@@ -4453,7 +3901,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, false);
+          return abortableQuery(query, false, false);
         },
       };
     },
@@ -4469,7 +3917,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(query, false);
+          return abortableQuery(query, false, false);
         },
       };
     },
@@ -4484,7 +3932,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4503,7 +3951,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4522,7 +3970,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4541,7 +3989,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4560,7 +4008,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4579,7 +4027,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4598,7 +4046,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4617,7 +4065,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4636,7 +4084,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4655,7 +4103,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4674,7 +4122,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4693,7 +4141,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4710,7 +4158,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4729,7 +4177,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4745,7 +4193,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4764,7 +4212,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4783,7 +4231,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4799,7 +4247,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4815,7 +4263,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4831,7 +4279,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4850,7 +4298,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4866,7 +4314,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4882,7 +4330,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4901,7 +4349,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4920,7 +4368,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4939,7 +4387,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableMutation(mutation, true);
+          return abortableMutation(mutation, true, true);
         },
       };
     },
@@ -4951,7 +4399,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
         UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
       }\`;
-      return abortableMutation(mutation, true);
+      return abortableMutation(mutation, true, true);
     },
     UpdateAniChartHighlights(): AbortableMutationWithOptionalArgs<
       string,
@@ -4961,1046 +4409,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
-      return abortableMutation(mutation, true);
-    },
-  };
-};
-"
-`;
-
-exports[`Test methods generation from different sources Generates types correctly from graphqlZero 1`] = `
-"/* eslint-disable */
-/* tslint-disable */
-// @ts-nocheck
-// *******************************************************
-// *******************************************************
-//
-// GENERATED FILE, DO NOT MODIFY
-//
-// Made by Victor Garcia ®
-//
-// https://github.com/victorgarciaesgi
-// *******************************************************
-// *******************************************************
-// 💙
-
-export type Maybe<T> = T | null;
-
-export interface IQueryModel {
-  _?: Maybe<number>;
-  albums?: Maybe<IAlbumsPageModel>;
-  album?: Maybe<IAlbumModel>;
-  comments?: Maybe<ICommentsPageModel>;
-  comment?: Maybe<ICommentModel>;
-  photos?: Maybe<IPhotosPageModel>;
-  photo?: Maybe<IPhotoModel>;
-  posts?: Maybe<IPostsPageModel>;
-  post?: Maybe<IPostModel>;
-  todos?: Maybe<ITodosPageModel>;
-  todo?: Maybe<ITodoModel>;
-  users?: Maybe<IUsersPageModel>;
-  user?: Maybe<IUserModel>;
-}
-
-export interface IPageQueryOptionsModel {
-  paginate?: Maybe<IPaginateOptionsModel>;
-  slice?: Maybe<ISliceOptionsModel>;
-  sort?: Maybe<ISortOptionsModel[]>;
-  operators?: Maybe<IOperatorOptionsModel[]>;
-  search?: Maybe<ISearchOptionsModel>;
-}
-
-export interface IPaginateOptionsModel {
-  page?: Maybe<number>;
-  limit?: Maybe<number>;
-}
-
-export interface ISliceOptionsModel {
-  start?: Maybe<number>;
-  end?: Maybe<number>;
-  limit?: Maybe<number>;
-}
-
-export interface ISortOptionsModel {
-  field?: Maybe<string>;
-  order?: Maybe<ISortOrderEnumModel>;
-}
-
-export interface IOperatorOptionsModel {
-  kind?: Maybe<IOperatorKindEnumModel>;
-  field?: Maybe<string>;
-  value?: Maybe<string>;
-}
-
-export interface ISearchOptionsModel {
-  q?: Maybe<string>;
-}
-
-export interface IAlbumsPageModel {
-  data?: Maybe<IAlbumModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IAlbumModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  user?: Maybe<IUserModel>;
-  photos?: Maybe<IPhotosPageModel>;
-}
-
-export interface IUserModel {
-  id?: Maybe<string>;
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  address?: Maybe<IAddressModel>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-  company?: Maybe<ICompanyModel>;
-  posts?: Maybe<IPostsPageModel>;
-  albums?: Maybe<IAlbumsPageModel>;
-  todos?: Maybe<ITodosPageModel>;
-}
-
-export interface IAddressModel {
-  street?: Maybe<string>;
-  suite?: Maybe<string>;
-  city?: Maybe<string>;
-  zipcode?: Maybe<string>;
-  geo?: Maybe<IGeoModel>;
-}
-
-export interface IGeoModel {
-  lat?: Maybe<number>;
-  lng?: Maybe<number>;
-}
-
-export interface ICompanyModel {
-  name?: Maybe<string>;
-  catchPhrase?: Maybe<string>;
-  bs?: Maybe<string>;
-}
-
-export interface IPostsPageModel {
-  data?: Maybe<IPostModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IPostModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-  user?: Maybe<IUserModel>;
-  comments?: Maybe<ICommentsPageModel>;
-}
-
-export interface ICommentsPageModel {
-  data?: Maybe<ICommentModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface ICommentModel {
-  id?: Maybe<string>;
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
-  post?: Maybe<IPostModel>;
-}
-
-export interface IPaginationLinksModel {
-  first?: Maybe<IPageLimitPairModel>;
-  prev?: Maybe<IPageLimitPairModel>;
-  next?: Maybe<IPageLimitPairModel>;
-  last?: Maybe<IPageLimitPairModel>;
-}
-
-export interface IPageLimitPairModel {
-  page?: Maybe<number>;
-  limit?: Maybe<number>;
-}
-
-export interface IPageMetadataModel {
-  totalCount?: Maybe<number>;
-}
-
-export interface ITodosPageModel {
-  data?: Maybe<ITodoModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface ITodoModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  completed?: Maybe<boolean>;
-  user?: Maybe<IUserModel>;
-}
-
-export interface IPhotosPageModel {
-  data?: Maybe<IPhotoModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IPhotoModel {
-  id?: Maybe<string>;
-  title?: Maybe<string>;
-  url?: Maybe<string>;
-  thumbnailUrl?: Maybe<string>;
-  album?: Maybe<IAlbumModel>;
-}
-
-export interface IUsersPageModel {
-  data?: Maybe<IUserModel[]>;
-  links?: Maybe<IPaginationLinksModel>;
-  meta?: Maybe<IPageMetadataModel>;
-}
-
-export interface IMutationModel {
-  _?: Maybe<number>;
-  createAlbum?: Maybe<IAlbumModel>;
-  updateAlbum?: Maybe<IAlbumModel>;
-  deleteAlbum?: Maybe<boolean>;
-  createComment?: Maybe<ICommentModel>;
-  updateComment?: Maybe<ICommentModel>;
-  deleteComment?: Maybe<boolean>;
-  createPhoto?: Maybe<IPhotoModel>;
-  updatePhoto?: Maybe<IPhotoModel>;
-  deletePhoto?: Maybe<boolean>;
-  createPost?: Maybe<IPostModel>;
-  updatePost?: Maybe<IPostModel>;
-  deletePost?: Maybe<boolean>;
-  createTodo?: Maybe<ITodoModel>;
-  updateTodo?: Maybe<ITodoModel>;
-  deleteTodo?: Maybe<boolean>;
-  createUser?: Maybe<IUserModel>;
-  updateUser?: Maybe<IUserModel>;
-  deleteUser?: Maybe<boolean>;
-}
-
-export interface ICreateAlbumInputModel {
-  title: string;
-  userId: string;
-}
-
-export interface IUpdateAlbumInputModel {
-  title?: Maybe<string>;
-  userId?: Maybe<string>;
-}
-
-export interface ICreateCommentInputModel {
-  name: string;
-  email: string;
-  body: string;
-}
-
-export interface IUpdateCommentInputModel {
-  name?: Maybe<string>;
-  email?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface ICreatePhotoInputModel {
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-}
-
-export interface IUpdatePhotoInputModel {
-  title?: Maybe<string>;
-  url?: Maybe<string>;
-  thumbnailUrl?: Maybe<string>;
-}
-
-export interface ICreatePostInputModel {
-  title: string;
-  body: string;
-}
-
-export interface IUpdatePostInputModel {
-  title?: Maybe<string>;
-  body?: Maybe<string>;
-}
-
-export interface ICreateTodoInputModel {
-  title: string;
-  completed: boolean;
-}
-
-export interface IUpdateTodoInputModel {
-  title?: Maybe<string>;
-  completed?: Maybe<boolean>;
-}
-
-export interface ICreateUserInputModel {
-  name: string;
-  username: string;
-  email: string;
-  address?: Maybe<IAddressInputModel>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-  company?: Maybe<ICompanyInputModel>;
-}
-
-export interface IAddressInputModel {
-  street?: Maybe<string>;
-  suite?: Maybe<string>;
-  city?: Maybe<string>;
-  zipcode?: Maybe<string>;
-  geo?: Maybe<IGeoInputModel>;
-}
-
-export interface IGeoInputModel {
-  lat?: Maybe<number>;
-  lng?: Maybe<number>;
-}
-
-export interface ICompanyInputModel {
-  name?: Maybe<string>;
-  catchPhrase?: Maybe<string>;
-  bs?: Maybe<string>;
-}
-
-export interface IUpdateUserInputModel {
-  name?: Maybe<string>;
-  username?: Maybe<string>;
-  email?: Maybe<string>;
-  address?: Maybe<IAddressInputModel>;
-  phone?: Maybe<string>;
-  website?: Maybe<string>;
-  company?: Maybe<ICompanyInputModel>;
-}
-
-export enum ISortOrderEnumModel {
-  Asc = 'ASC',
-  Desc = 'DESC',
-}
-export enum IOperatorKindEnumModel {
-  Gte = 'GTE',
-  Lte = 'LTE',
-  Ne = 'NE',
-  Like = 'LIKE',
-}
-export enum ICacheControlScopeModel {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE',
-}
-export interface IalbumsModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IalbumModelArgs {
-  id: string;
-}
-
-export interface IcommentsModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IcommentModelArgs {
-  id: string;
-}
-
-export interface IphotosModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IphotoModelArgs {
-  id: string;
-}
-
-export interface IpostsModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IpostModelArgs {
-  id: string;
-}
-
-export interface ItodosModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface ItodoModelArgs {
-  id: string;
-}
-
-export interface IusersModelArgs {
-  options?: Maybe<IPageQueryOptionsModel>;
-}
-
-export interface IuserModelArgs {
-  id: string;
-}
-
-export interface IcreateAlbumModelArgs {
-  input: ICreateAlbumInputModel;
-}
-
-export interface IupdateAlbumModelArgs {
-  id: string;
-  input: IUpdateAlbumInputModel;
-}
-
-export interface IdeleteAlbumModelArgs {
-  id: string;
-}
-
-export interface IcreateCommentModelArgs {
-  input: ICreateCommentInputModel;
-}
-
-export interface IupdateCommentModelArgs {
-  id: string;
-  input: IUpdateCommentInputModel;
-}
-
-export interface IdeleteCommentModelArgs {
-  id: string;
-}
-
-export interface IcreatePhotoModelArgs {
-  input: ICreatePhotoInputModel;
-}
-
-export interface IupdatePhotoModelArgs {
-  id: string;
-  input: IUpdatePhotoInputModel;
-}
-
-export interface IdeletePhotoModelArgs {
-  id: string;
-}
-
-export interface IcreatePostModelArgs {
-  input: ICreatePostInputModel;
-}
-
-export interface IupdatePostModelArgs {
-  id: string;
-  input: IUpdatePostInputModel;
-}
-
-export interface IdeletePostModelArgs {
-  id: string;
-}
-
-export interface IcreateTodoModelArgs {
-  input: ICreateTodoInputModel;
-}
-
-export interface IupdateTodoModelArgs {
-  id: string;
-  input: IUpdateTodoInputModel;
-}
-
-export interface IdeleteTodoModelArgs {
-  id: string;
-}
-
-export interface IcreateUserModelArgs {
-  input: ICreateUserInputModel;
-}
-
-export interface IupdateUserModelArgs {
-  id: string;
-  input: IUpdateUserInputModel;
-}
-
-export interface IdeleteUserModelArgs {
-  id: string;
-}
-
-import { OperationDefinitionNode, DocumentNode } from 'graphql';
-import sgtsQL from 'graphql-tag';
-
-const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
-  let fragmentName = '';
-  if (typeof fragment === 'string') {
-    isString = true;
-  } else if (typeof fragment === 'object' && fragment.definitions.length) {
-    isFragment = true;
-    const definition = fragment.definitions[0];
-    if (definition.kind === 'FragmentDefinition') {
-      fragmentName = definition.name.value;
-    } else {
-      console.error(
-        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
-      );
-      return;
-    }
-  }
-  return { isString, isFragment, fragmentName };
-};
-
-import ApolloClient, {
-  QueryOptions,
-  OperationVariables,
-  MutationOptions,
-  ObservableQuery,
-} from 'apollo-client';
-import { execute } from 'apollo-link';
-
-export type AbortableQueryWithArgs<T, A> = {
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQueryWithOptionalArgs<T, A> = {
-  $fetch(): Promise<T>;
-  $args(args: A): AbortableQuery<T>;
-  $abort(): void;
-};
-
-export type AbortableQuery<T> = {
-  $fetch(): Promise<T>;
-  $abort(): void;
-};
-export interface FragmentableQueryWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
-}
-export interface FragmentableQueryWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
-}
-export interface FragmentableQuery<T> {
-  $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
-}
-
-export type AbortableMutationWithArgs<T, A> = {
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutationWithOptionalArgs<T, A> = {
-  $post(): Promise<T>;
-  $args(args: A): AbortableMutation<T>;
-  $abort(): void;
-};
-
-export type AbortableMutation<T> = {
-  $post(): Promise<T>;
-  $abort(): void;
-};
-
-export interface FragmentableMutationWithArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
-}
-export interface FragmentableMutationWithOptionalArgs<T, A> {
-  $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
-}
-export interface FragmentableMutation<T> {
-  $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
-}
-
-export const apiProvider = (apolloClient: ApolloClient<any>) => {
-  const abortableQuery = <T, A = null>(
-    query: DocumentNode,
-    args: boolean
-  ): A extends null ? AbortableQuery<T> : AbortableQueryWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = query.definitions[0] as OperationDefinitionNode;
-    const queryName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $fetch() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query,
-          variables,
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[queryName]);
-            }
-          },
-          error: error => reject(error),
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $fetch,
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args,
-      } as any;
-    } else {
-      return {
-        $abort,
-        $fetch,
-      } as any;
-    }
-  };
-  const abortableMutation = <T, A = null>(
-    mutation: DocumentNode,
-    args: boolean
-  ): AbortableMutationWithArgs<T, A> => {
-    let observableQuery: ZenObservable.Subscription;
-    const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
-    const mutationName = parsedQuery.name.value;
-    let variables: { [x: string]: any } = {};
-
-    function $abort() {
-      if (observableQuery && !observableQuery.closed) {
-        observableQuery.unsubscribe();
-      }
-    }
-    async function $post() {
-      return new Promise<T>((resolve, reject) => {
-        observableQuery = execute(apolloClient.link, {
-          query: mutation,
-          variables,
-        }).subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              reject(errors);
-            } else {
-              resolve(data[mutationName]);
-            }
-          },
-          error: error => reject(error),
-        });
-      });
-    }
-    function $args(args) {
-      variables = args;
-      return {
-        $abort,
-        $post,
-      };
-    }
-    if (args) {
-      return {
-        $abort,
-        $args,
-      } as any;
-    } else {
-      return {
-        $abort,
-        $post,
-      } as any;
-    }
-  };
-
-  return {
-    albums(): FragmentableQueryWithOptionalArgs<IAlbumsPageModel, IalbumsModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query albums ($options: PageQueryOptions) {
-        albums(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    album(): FragmentableQueryWithArgs<IAlbumModel, IalbumModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query album ($id: ID!) {
-        album(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    comments(): FragmentableQueryWithOptionalArgs<ICommentsPageModel, IcommentsModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query comments ($options: PageQueryOptions) {
-        comments(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    comment(): FragmentableQueryWithArgs<ICommentModel, IcommentModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query comment ($id: ID!) {
-        comment(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    photos(): FragmentableQueryWithOptionalArgs<IPhotosPageModel, IphotosModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query photos ($options: PageQueryOptions) {
-        photos(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    photo(): FragmentableQueryWithArgs<IPhotoModel, IphotoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query photo ($id: ID!) {
-        photo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    posts(): FragmentableQueryWithOptionalArgs<IPostsPageModel, IpostsModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query posts ($options: PageQueryOptions) {
-        posts(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    post(): FragmentableQueryWithArgs<IPostModel, IpostModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query post ($id: ID!) {
-        post(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    todos(): FragmentableQueryWithOptionalArgs<ITodosPageModel, ItodosModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query todos ($options: PageQueryOptions) {
-        todos(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    todo(): FragmentableQueryWithArgs<ITodoModel, ItodoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query todo ($id: ID!) {
-        todo(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    users(): FragmentableQueryWithOptionalArgs<IUsersPageModel, IusersModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query users ($options: PageQueryOptions) {
-        users(options: $options) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    user(): FragmentableQueryWithArgs<IUserModel, IuserModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = sgtsQL\`
-      query user ($id: ID!) {
-        user(id: $id) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(query, true);
-        },
-      };
-    },
-    createAlbum(): FragmentableMutationWithArgs<IAlbumModel, IcreateAlbumModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createAlbum ($input: CreateAlbumInput!) {
-        createAlbum(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateAlbum(): FragmentableMutationWithArgs<IAlbumModel, IupdateAlbumModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateAlbum ($id: ID!,$input: UpdateAlbumInput!) {
-        updateAlbum(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteAlbum(): AbortableMutationWithArgs<boolean, IdeleteAlbumModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteAlbum ($id: ID!) {
-        deleteAlbum(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createComment(): FragmentableMutationWithArgs<ICommentModel, IcreateCommentModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createComment ($input: CreateCommentInput!) {
-        createComment(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateComment(): FragmentableMutationWithArgs<ICommentModel, IupdateCommentModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateComment ($id: ID!,$input: UpdateCommentInput!) {
-        updateComment(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteComment(): AbortableMutationWithArgs<boolean, IdeleteCommentModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteComment ($id: ID!) {
-        deleteComment(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createPhoto(): FragmentableMutationWithArgs<IPhotoModel, IcreatePhotoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createPhoto ($input: CreatePhotoInput!) {
-        createPhoto(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updatePhoto(): FragmentableMutationWithArgs<IPhotoModel, IupdatePhotoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updatePhoto ($id: ID!,$input: UpdatePhotoInput!) {
-        updatePhoto(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deletePhoto(): AbortableMutationWithArgs<boolean, IdeletePhotoModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deletePhoto ($id: ID!) {
-        deletePhoto(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createPost(): FragmentableMutationWithArgs<IPostModel, IcreatePostModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createPost ($input: CreatePostInput!) {
-        createPost(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updatePost(): FragmentableMutationWithArgs<IPostModel, IupdatePostModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updatePost ($id: ID!,$input: UpdatePostInput!) {
-        updatePost(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deletePost(): AbortableMutationWithArgs<boolean, IdeletePostModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deletePost ($id: ID!) {
-        deletePost(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createTodo(): FragmentableMutationWithArgs<ITodoModel, IcreateTodoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createTodo ($input: CreateTodoInput!) {
-        createTodo(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateTodo(): FragmentableMutationWithArgs<ITodoModel, IupdateTodoModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateTodo ($id: ID!,$input: UpdateTodoInput!) {
-        updateTodo(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteTodo(): AbortableMutationWithArgs<boolean, IdeleteTodoModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteTodo ($id: ID!) {
-        deleteTodo(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
-    },
-    createUser(): FragmentableMutationWithArgs<IUserModel, IcreateUserModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation createUser ($input: CreateUserInput!) {
-        createUser(input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    updateUser(): FragmentableMutationWithArgs<IUserModel, IupdateUserModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const mutation = sgtsQL\`
-      mutation updateUser ($id: ID!,$input: UpdateUserInput!) {
-        updateUser(id: $id,input: $input) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableMutation(mutation, true);
-        },
-      };
-    },
-    deleteUser(): AbortableMutationWithArgs<boolean, IdeleteUserModelArgs> {
-      const mutation = sgtsQL\`
-      mutation deleteUser ($id: ID!) {
-        deleteUser(id: $id)
-      }\`;
-      return abortableMutation(mutation, true);
+      return abortableMutation(mutation, true, true);
     },
   };
 };

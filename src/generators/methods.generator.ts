@@ -68,6 +68,8 @@ export const createGraphQLFunction = ({
   const typeNameLower = type;
   const typeNameUpper = capitalizeFirstLetter(type);
 
+  const argsOptional = hasArgs ? areAllArgsOptional(field.args) : false;
+
   const withArgs = hasArgs
     ? areAllArgsOptional(field.args)
       ? 'WithOptionalArgs'
@@ -81,7 +83,7 @@ export const createGraphQLFunction = ({
       hasArgs ? ',' + methodArgsType : ''
     }> {
       const ${typeNameLower} = ${Query}
-      return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs});
+      return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs}, ${argsOptional});
         }
     ,`;
   } else {
@@ -94,7 +96,7 @@ export const createGraphQLFunction = ({
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
         const ${typeNameLower} = ${Query}
-        return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs});
+        return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs}, ${argsOptional});
       }
     }
       }
