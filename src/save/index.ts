@@ -1,10 +1,10 @@
-import ora from 'ora';
-import * as prettier from 'prettier';
-import fs from 'fs';
-import path from 'path';
-import * as ts from 'typescript';
-import chalk from 'chalk';
-import mkdirp from 'mkdirp';
+import ora from "ora";
+import * as prettier from "prettier";
+import fs from "fs";
+import path from "path";
+import * as ts from "typescript";
+import chalk from "chalk";
+import mkdirp from "mkdirp";
 
 let saveModels: ora.Ora;
 
@@ -14,27 +14,43 @@ export async function saveFile(
   jsMode?: boolean
 ): Promise<string> {
   try {
-    const pretty = ora('\nRunning Prettier with your config on the generated output').start();
+    const pretty = ora(
+      "\nRunning Prettier with your config on the generated output"
+    ).start();
     let prettierFoundOptions = await prettier.resolveConfig(process.cwd());
+    let message = "using your Prettier config";
 
     if (!prettierFoundOptions) {
-      prettierFoundOptions = require('../../.prettierrc');
+      message = "using Prettier";
+      prettierFoundOptions = {
+        printWidth: 100,
+        tabWidth: 2,
+        trailingComma: "es5",
+        singleQuote: true,
+        semi: true,
+        bracketSpacing: true,
+        htmlWhitespaceSensitivity: "strict"
+      };
     }
     const formatedModelsFile = prettier.format(template, {
       ...prettierFoundOptions,
-      parser: 'typescript',
+      parser: "typescript"
     });
-    pretty.succeed('💄 Your file has been formated using your Prettier config');
+    pretty.succeed(`💄 Your file has been formated ${message}`);
 
     if (output) {
       const outputfile = path.resolve(process.cwd(), output);
       if (fs.existsSync(outputfile)) {
-        const content = await writeOutput(outputfile, formatedModelsFile, jsMode);
+        const content = await writeOutput(
+          outputfile,
+          formatedModelsFile,
+          jsMode
+        );
         return content;
       } else {
-        let dirList = outputfile.split('/');
+        let dirList = outputfile.split("/");
         dirList.pop();
-        const dirPath = dirList.join('/');
+        const dirPath = dirList.join("/");
         await mkdirp(dirPath);
         return await writeOutput(outputfile, formatedModelsFile, jsMode);
       }
@@ -45,14 +61,21 @@ export async function saveFile(
   }
 }
 
-function TypescriptCompile(fileNames: string[], options: ts.CompilerOptions): void {
+function TypescriptCompile(
+  fileNames: string[],
+  options: ts.CompilerOptions
+): void {
   let program = ts.createProgram(fileNames, options);
   program.emit();
 }
 
-async function writeOutput(path: string, content: string, jsMode?: boolean): Promise<string> {
+async function writeOutput(
+  path: string,
+  content: string,
+  jsMode?: boolean
+): Promise<string> {
   try {
-    saveModels = ora('Saving models file...').start();
+    saveModels = ora("Saving models file...").start();
     await fs.writeFileSync(path, content);
     saveModels.succeed(`🎉 Output saved at ${chalk.bold(`${path}`)}`);
     if (jsMode) {
@@ -74,7 +97,7 @@ async function writeOutput(path: string, content: string, jsMode?: boolean): Pro
           downlevelIteration: true,
           declaration: true,
           skipLibCheck: true,
-          types: ['node'],
+          types: ["node"]
         });
         fs.unlinkSync(path);
         return content;
@@ -85,8 +108,8 @@ async function writeOutput(path: string, content: string, jsMode?: boolean): Pro
       return content;
     }
   } catch (e) {
-    saveModels.fail('Saving models file failed');
+    saveModels.fail("Saving models file failed");
     console.log(e.message);
-    return Promise.reject('Error in saving file');
+    return Promise.reject("Error in saving file");
   }
 }
