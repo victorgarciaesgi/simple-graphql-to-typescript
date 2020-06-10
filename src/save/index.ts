@@ -34,7 +34,7 @@ export async function saveFile(
       ...prettierFoundOptions,
       parser: 'typescript',
     });
-    pretty.succeed('💄 Your file has been formated using your Prettier config');
+    pretty.succeed(`💄 Your file has been formated ${message}`);
 
     if (output) {
       const outputfile = path.resolve(process.cwd(), output);
