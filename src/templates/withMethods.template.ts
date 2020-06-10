@@ -114,7 +114,8 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
     };
     const abortableMutation = <T, A = null>(
       mutation: DocumentNode,
-      args: boolean
+      args: boolean,
+      optionalArgs: boolean
     ): AbortableMutationWithArgs<T, A> => {
       let observableQuery: ZenObservable.Subscription;
       const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
@@ -150,10 +151,16 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
           $post,
         };
       }
-      if (args) {
+      if (args && !optionalArgs) {
         return {
           $abort,
           $args,
+        } as any;
+      } else if (optionalArgs) {
+        return {
+          $abort,
+          $args,
+          $post,
         } as any;
       } else {
         return {

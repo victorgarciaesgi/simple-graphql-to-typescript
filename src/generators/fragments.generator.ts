@@ -11,7 +11,7 @@ export const createConnectionFragment = (
     let outputFragment = '';
 
     const createLines = (field: Field) => {
-      outputFragment += `${field.name}`;
+      outputFragment += `${field.name} `;
       const { typeName, isScalar } = evaluateType(field);
       if (!isScalar) {
         if (field.name === 'node') {

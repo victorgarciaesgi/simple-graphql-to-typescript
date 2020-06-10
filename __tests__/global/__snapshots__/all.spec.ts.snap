@@ -470,6 +470,8 @@ export interface ICharacterModel {
   updatedAt?: Maybe<number>;
   /** The amount of user's who have favourited the character*/
   favourites?: Maybe<number>;
+  /** Notes for site moderators*/
+  modNotes?: Maybe<string>;
 }
 
 /** The names of the character */
@@ -524,6 +526,8 @@ export interface IStaffModel {
   submissionNotes?: Maybe<string>;
   /** The amount of user's who have favourited the staff member*/
   favourites?: Maybe<number>;
+  /** Notes for site moderators*/
+  modNotes?: Maybe<string>;
 }
 
 /** The names of the staff member */
@@ -1846,6 +1850,7 @@ export interface ICharacterSubmissionModel {
   status?: Maybe<ISubmissionStatusModel>;
   /** Inner details of submission status*/
   notes?: Maybe<string>;
+  source?: Maybe<string>;
   createdAt?: Maybe<number>;
 }
 
@@ -1863,6 +1868,7 @@ export interface IStaffSubmissionModel {
   status?: Maybe<ISubmissionStatusModel>;
   /** Inner details of submission status*/
   notes?: Maybe<string>;
+  source?: Maybe<string>;
   createdAt?: Maybe<number>;
 }
 
@@ -2358,6 +2364,11 @@ export enum ISubmissionStatusModel {
   Rejected = 'REJECTED',
   Partially_accepted = 'PARTIALLY_ACCEPTED',
   Accepted = 'ACCEPTED',
+}
+/** Submission sort enums */
+export enum ISubmissionSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
 }
 /** Revision history actions */
 export enum IRevisionHistoryActionModel {
@@ -3301,8 +3312,8 @@ export interface IUpdateAniChartHighlightsModelArgs {
   highlights?: Maybe<IAniChartHighlightInputModel[]>;
 }
 
-import { OperationDefinitionNode, DocumentNode } from 'graphql';
-import sgtsQL from 'graphql-tag';
+import { OperationDefinitionNode } from 'graphql';
+import sgtsQL, { DocumentNode } from 'graphql-tag';
 
 const guessFragmentType = (fragment: string | DocumentNode) => {
   let isString,
@@ -3434,7 +3445,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
               resolve(data[queryName]);
             }
           },
-          error: error => reject(error),
+          error: (error) => reject(error),
         });
       });
     }
@@ -3465,7 +3476,8 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
   };
   const abortableMutation = <T, A = null>(
     mutation: DocumentNode,
-    args: boolean
+    args: boolean,
+    optionalArgs: boolean
   ): AbortableMutationWithArgs<T, A> => {
     let observableQuery: ZenObservable.Subscription;
     const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
@@ -3490,7 +3502,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
               resolve(data[mutationName]);
             }
           },
-          error: error => reject(error),
+          error: (error) => reject(error),
         });
       });
     }
@@ -3501,10 +3513,16 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $post,
       };
     }
-    if (args) {
+    if (args && !optionalArgs) {
       return {
         $abort,
         $args,
+      } as any;
+    } else if (optionalArgs) {
+      return {
+        $abort,
+        $args,
+        $post,
       } as any;
     } else {
       return {

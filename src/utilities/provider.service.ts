@@ -2,9 +2,8 @@ import chalk from 'chalk';
 import fetch from 'node-fetch';
 import ora from 'ora';
 import * as query from 'querystringify';
-import { introspectionQuery } from 'graphql/utilities/introspectionQuery';
+import { getIntrospectionQuery, printSchema } from 'graphql';
 import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
-import { printSchema } from 'graphql/utilities/schemaPrinter';
 import { GraphQLJSONSchema } from '../models';
 import path from 'path';
 import fs from 'fs';
@@ -50,7 +49,7 @@ function getHeadersFromInput(header: any): { [key: string]: string } {
       return { [key]: keys[key] };
     }
     case 'object': {
-      return header.map(header => {
+      return header.map((header) => {
         const keys = query.parse(header);
         const key = Object.keys(keys)[0];
         return { [key]: keys[key] };
@@ -76,8 +75,8 @@ async function getRemoteSchema(
     const { data, errors } = await fetch(endpoint, {
       method: options.method,
       headers: options.headers,
-      body: JSON.stringify({ query: introspectionQuery }),
-    }).then(res => res.json());
+      body: JSON.stringify({ query: getIntrospectionQuery() }),
+    }).then((res) => res.json());
 
     if (errors) {
       return { status: 'err', message: JSON.stringify(errors, null, 2) };
@@ -96,7 +95,7 @@ async function getRemoteSchema(
       };
     }
   } catch (err) {
-    return Promise.reject();
+    return Promise.reject(err);
   }
 }
 

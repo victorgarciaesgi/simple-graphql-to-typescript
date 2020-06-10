@@ -16,8 +16,8 @@ export const defineImports = ({
   let template = '';
   if (codegenReactHooks || codegenMethods || codegenTemplates || codegenVueHooks) {
     template = `
-    import { OperationDefinitionNode, DocumentNode } from 'graphql';
-    import sgtsQL from 'graphql-tag';
+    import { OperationDefinitionNode } from 'graphql';
+    import sgtsQL, { DocumentNode } from 'graphql-tag';
     ${guessFragmentTypeTemplate}
     `;
     if (codegenReactHooks) {

@@ -16,9 +16,19 @@ export async function saveFile(
   try {
     const pretty = ora('\nRunning Prettier with your config on the generated output').start();
     let prettierFoundOptions = await prettier.resolveConfig(process.cwd());
+    let message = 'using your Prettier config';
 
     if (!prettierFoundOptions) {
-      prettierFoundOptions = require('../../.prettierrc');
+      message = 'using default Prettier config';
+      prettierFoundOptions = {
+        printWidth: 100,
+        tabWidth: 2,
+        trailingComma: 'es5',
+        singleQuote: true,
+        semi: true,
+        bracketSpacing: true,
+        htmlWhitespaceSensitivity: 'strict',
+      };
     }
     const formatedModelsFile = prettier.format(template, {
       ...prettierFoundOptions,
