@@ -3,9 +3,9 @@ import { Field, InputField, Arg, OfType, Type } from '../models';
 /** Get strucuture properties from a field */
 export const evaluateType = (field: Field | InputField | Arg) => {
   let propertyName = field.name;
-  let isOptional = true;
+  let isRequired = false;
   let isArray = false;
-  let isArrayOptional = false;
+  let isArrayRequired = false;
   let isEdge = false;
   let isScalar = false;
   let isEnum = false;
@@ -13,14 +13,18 @@ export const evaluateType = (field: Field | InputField | Arg) => {
 
   function getFieldInfos(type: OfType): string | null {
     if (propertyName === 'edges') isEdge = true;
-    if (type.kind === 'NON_NULL' || type.kind === 'LIST') {
-      if (type.kind === 'LIST') {
-        isArray = true;
-        if (isOptional) isArrayOptional = true;
+    else if (type.kind === 'NON_NULL') {
+      if (isArray) {
+        isArrayRequired = true;
+      } else {
+        isRequired = true;
       }
-      if (type.kind === 'NON_NULL' && !isArrayOptional) isOptional = false;
-      if (type.ofType) return getFieldInfos(type.ofType);
-      return null;
+    }
+    if (type.kind === 'LIST') {
+      isArray = true;
+    }
+    if (type.ofType) {
+      return getFieldInfos(type.ofType);
     } else {
       if (type.kind === 'SCALAR') {
         isScalar = true;
@@ -28,15 +32,15 @@ export const evaluateType = (field: Field | InputField | Arg) => {
         isEnum = true;
       }
       typeName = type.name;
-      return null;
     }
+    return null;
   }
   getFieldInfos(field.type);
 
   return {
-    isOptional,
+    isRequired,
     isArray,
-    isArrayOptional,
+    isArrayRequired,
     isEdge,
     isScalar,
     typeName,
@@ -45,13 +49,13 @@ export const evaluateType = (field: Field | InputField | Arg) => {
 };
 
 export const isReturnTypeEdge = (ObjectTypes: Type[], typeName: string): boolean => {
-  const type = ObjectTypes.find(f => f.name === typeName);
+  const type = ObjectTypes.find((f) => f.name === typeName);
   if (type) {
-    return type.fields.map(evaluateType).some(s => s.isEdge);
+    return type.fields.map(evaluateType).some((s) => s.isEdge);
   }
   return false;
 };
 
 export const areAllArgsOptional = (args: Arg[]): boolean => {
-  return args.map(evaluateType).every(m => m.isOptional);
+  return args.map(evaluateType).every((m) => !m.isRequired);
 };

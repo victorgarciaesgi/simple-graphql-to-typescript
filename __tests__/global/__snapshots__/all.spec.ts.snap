@@ -3554,7 +3554,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
+      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$idMal_not: Int,$idMal_in: [Int],$idMal_not_in: [Int],$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat],$format_not: MediaFormat,$format_not_in: [MediaFormat],$status_in: [MediaStatus],$status_not: MediaStatus,$status_not_in: [MediaStatus],$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String],$genre_not_in: [String],$tag_in: [String],$tag_not_in: [String],$tagCategory_in: [String],$tagCategory_not_in: [String],$licensedBy_in: [String],$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource],$sort: [MediaSort]) {
         Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3570,7 +3570,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
+      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]) {
         MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3589,7 +3589,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
+      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$episode_not: Int,$episode_in: [Int],$episode_not_in: [Int],$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]) {
         AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3605,7 +3605,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
+      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [CharacterSort]) {
         Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3621,7 +3621,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
+      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StaffSort]) {
         Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3637,7 +3637,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int],$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$mediaId_in: [Int],$mediaId_not_in: [Int],$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3656,7 +3656,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3699,7 +3699,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
+      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
         User(id: $id,name: $name,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3734,7 +3734,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
+      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]) {
         Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3750,7 +3750,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
+      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StudioSort]) {
         Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3766,7 +3766,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
+      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]) {
         Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3782,7 +3782,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
+      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$userId_not: Int,$userId_in: [Int],$userId_not_in: [Int],$messengerId_not: Int,$messengerId_in: [Int],$messengerId_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$type_not: ActivityType,$type_in: [ActivityType],$type_not_in: [ActivityType],$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]) {
         Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3817,7 +3817,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Following ($userId: Int!,$sort: [UserSort]!) {
+      query Following ($userId: Int!,$sort: [UserSort]) {
         Following(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3833,7 +3833,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Follower ($userId: Int!,$sort: [UserSort]!) {
+      query Follower ($userId: Int!,$sort: [UserSort]) {
         Follower(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3849,7 +3849,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
+      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int],$sort: [ThreadSort]) {
         Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3868,7 +3868,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
+      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]) {
         ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3887,7 +3887,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const query = sgtsQL\`
-      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
+      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]) {
         Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3965,7 +3965,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const mutation = sgtsQL\`
-      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput],$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
         UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3984,7 +3984,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const mutation = sgtsQL\`
-      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String],$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
         SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4003,7 +4003,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const mutation = sgtsQL\`
-      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
+      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]) {
         UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4264,7 +4264,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const mutation = sgtsQL\`
-      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
+      mutation UpdateFavouriteOrder ($animeIds: [Int],$mangaIds: [Int],$characterIds: [Int],$staffIds: [Int],$studioIds: [Int],$animeOrder: [Int],$mangaOrder: [Int],$characterOrder: [Int],$staffOrder: [Int],$studioOrder: [Int]) {
         UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4347,7 +4347,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const mutation = sgtsQL\`
-      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
+      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int],$mediaCategories: [Int],$sticky: Boolean,$locked: Boolean) {
         SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4445,7 +4445,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       IUpdateAniChartHighlightsModelArgs
     > {
       const mutation = sgtsQL\`
-      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
+      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
       return abortableMutation(mutation, true, true);
@@ -4476,7 +4476,7 @@ export const useMedia = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
+      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$idMal_not: Int,$idMal_in: [Int],$idMal_not_in: [Int],$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat],$format_not: MediaFormat,$format_not_in: [MediaFormat],$status_in: [MediaStatus],$status_not: MediaStatus,$status_not_in: [MediaStatus],$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String],$genre_not_in: [String],$tag_in: [String],$tag_not_in: [String],$tagCategory_in: [String],$tagCategory_not_in: [String],$licensedBy_in: [String],$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource],$sort: [MediaSort]) {
         Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4493,7 +4493,7 @@ export const useMediaTrend = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
+      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]) {
         MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4510,7 +4510,7 @@ export const useAiringSchedule = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
+      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$episode_not: Int,$episode_in: [Int],$episode_not_in: [Int],$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]) {
         AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4530,7 +4530,7 @@ export const useCharacter = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
+      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [CharacterSort]) {
         Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4547,7 +4547,7 @@ export const useStaff = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
+      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StaffSort]) {
         Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4564,7 +4564,7 @@ export const useMediaList = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int],$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$mediaId_in: [Int],$mediaId_not_in: [Int],$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4584,7 +4584,7 @@ export const useMediaListCollection = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4633,7 +4633,7 @@ export const useUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
+      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
         User(id: $id,name: $name,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4667,7 +4667,7 @@ export const useNotification = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
+      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]) {
         Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4687,7 +4687,7 @@ export const useStudio = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
+      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StudioSort]) {
         Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4704,7 +4704,7 @@ export const useReview = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
+      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]) {
         Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4721,7 +4721,7 @@ export const useActivity = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
+      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$userId_not: Int,$userId_in: [Int],$userId_not_in: [Int],$messengerId_not: Int,$messengerId_in: [Int],$messengerId_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$type_not: ActivityType,$type_in: [ActivityType],$type_not_in: [ActivityType],$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]) {
         Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4755,7 +4755,7 @@ export const useFollowing = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Following ($userId: Int!,$sort: [UserSort]!) {
+      query Following ($userId: Int!,$sort: [UserSort]) {
         Following(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4772,7 +4772,7 @@ export const useFollower = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Follower ($userId: Int!,$sort: [UserSort]!) {
+      query Follower ($userId: Int!,$sort: [UserSort]) {
         Follower(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4789,7 +4789,7 @@ export const useThread = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
+      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int],$sort: [ThreadSort]) {
         Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4806,7 +4806,7 @@ export const useThreadComment = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
+      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]) {
         ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4826,7 +4826,7 @@ export const useRecommendation = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
+      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]) {
         Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4912,7 +4912,7 @@ export const useUpdateUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput],$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
         UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4932,7 +4932,7 @@ export const useSaveMediaListEntry = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String],$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
         SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -4955,7 +4955,7 @@ export const useUpdateMediaListEntries = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
+      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]) {
         UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5254,7 +5254,7 @@ export const useUpdateFavouriteOrder = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
+      mutation UpdateFavouriteOrder ($animeIds: [Int],$mangaIds: [Int],$characterIds: [Int],$staffIds: [Int],$studioIds: [Int],$animeOrder: [Int],$mangaOrder: [Int],$characterOrder: [Int],$staffOrder: [Int],$studioOrder: [Int]) {
         UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5348,7 +5348,7 @@ export const useSaveThread = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
+      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int],$mediaCategories: [Int],$sticky: Boolean,$locked: Boolean) {
         SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5467,7 +5467,7 @@ export const useUpdateAniChartHighlights = (
   >
 ) => {
   const mutation = sgtsQL\`
-      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
+      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
   return useMutation<{ UpdateAniChartHighlights: string }, IUpdateAniChartHighlightsModelArgs>(
@@ -5507,7 +5507,7 @@ export const useMedia = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
+      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$idMal_not: Int,$idMal_in: [Int],$idMal_not_in: [Int],$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat],$format_not: MediaFormat,$format_not_in: [MediaFormat],$status_in: [MediaStatus],$status_not: MediaStatus,$status_not_in: [MediaStatus],$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String],$genre_not_in: [String],$tag_in: [String],$tag_not_in: [String],$tagCategory_in: [String],$tagCategory_not_in: [String],$licensedBy_in: [String],$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource],$sort: [MediaSort]) {
         Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5531,7 +5531,7 @@ export const useMediaTrend = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
+      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]) {
         MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5561,7 +5561,7 @@ export const useAiringSchedule = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
+      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$episode_not: Int,$episode_in: [Int],$episode_not_in: [Int],$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]) {
         AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5589,7 +5589,7 @@ export const useCharacter = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
+      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [CharacterSort]) {
         Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5610,7 +5610,7 @@ export const useStaff = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
+      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StaffSort]) {
         Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5634,7 +5634,7 @@ export const useMediaList = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int],$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$mediaId_in: [Int],$mediaId_not_in: [Int],$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5671,7 +5671,7 @@ export const useMediaListCollection = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5739,7 +5739,7 @@ export const useUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
+      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
         User(id: $id,name: $name,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5785,7 +5785,7 @@ export const useNotification = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
+      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]) {
         Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5810,7 +5810,7 @@ export const useStudio = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
+      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StudioSort]) {
         Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5831,7 +5831,7 @@ export const useReview = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
+      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]) {
         Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5852,7 +5852,7 @@ export const useActivity = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
+      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$userId_not: Int,$userId_in: [Int],$userId_not_in: [Int],$messengerId_not: Int,$messengerId_in: [Int],$messengerId_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$type_not: ActivityType,$type_in: [ActivityType],$type_not_in: [ActivityType],$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]) {
         Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5906,7 +5906,7 @@ export const useFollowing = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Following ($userId: Int!,$sort: [UserSort]!) {
+      query Following ($userId: Int!,$sort: [UserSort]) {
         Following(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5927,7 +5927,7 @@ export const useFollower = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Follower ($userId: Int!,$sort: [UserSort]!) {
+      query Follower ($userId: Int!,$sort: [UserSort]) {
         Follower(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5948,7 +5948,7 @@ export const useThread = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
+      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int],$sort: [ThreadSort]) {
         Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -5974,7 +5974,7 @@ export const useThreadComment = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
+      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]) {
         ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6004,7 +6004,7 @@ export const useRecommendation = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = sgtsQL\`
-      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
+      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]) {
         Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6116,7 +6116,7 @@ export const useUpdateUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput],$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
         UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6146,7 +6146,7 @@ export const useSaveMediaListEntry = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String],$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
         SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6187,7 +6187,7 @@ export const useUpdateMediaListEntries = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
+      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]) {
         UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6636,7 +6636,7 @@ export const useUpdateFavouriteOrder = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
+      mutation UpdateFavouriteOrder ($animeIds: [Int],$mangaIds: [Int],$characterIds: [Int],$staffIds: [Int],$studioIds: [Int],$animeOrder: [Int],$mangaOrder: [Int],$characterOrder: [Int],$staffOrder: [Int],$studioOrder: [Int]) {
         UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6786,7 +6786,7 @@ export const useSaveThread = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const mutation = sgtsQL\`
-      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
+      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int],$mediaCategories: [Int],$sticky: Boolean,$locked: Boolean) {
         SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -6968,7 +6968,7 @@ export const useUpdateAniChartHighlights = (
       >
 ) => {
   const mutation = sgtsQL\`
-      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
+      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
   return useMutation<{ UpdateAniChartHighlights: string; IUpdateAniChartHighlightsModelArgs }>(
@@ -6991,7 +6991,7 @@ export const PageGQLNode = (fragment: string | DocumentNode): DocumentNode => {
 export const MediaGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$idMal_not: Int,$idMal_in: [Int]!,$idMal_not_in: [Int]!,$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat]!,$format_not: MediaFormat,$format_not_in: [MediaFormat]!,$status_in: [MediaStatus]!,$status_not: MediaStatus,$status_not_in: [MediaStatus]!,$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String]!,$genre_not_in: [String]!,$tag_in: [String]!,$tag_not_in: [String]!,$tagCategory_in: [String]!,$tagCategory_not_in: [String]!,$licensedBy_in: [String]!,$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource]!,$sort: [MediaSort]!) {
+      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$idMal_not: Int,$idMal_in: [Int],$idMal_not_in: [Int],$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat],$format_not: MediaFormat,$format_not_in: [MediaFormat],$status_in: [MediaStatus],$status_not: MediaStatus,$status_not_in: [MediaStatus],$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String],$genre_not_in: [String],$tag_in: [String],$tag_not_in: [String],$tagCategory_in: [String],$tagCategory_not_in: [String],$licensedBy_in: [String],$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource],$sort: [MediaSort]) {
         Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7001,7 +7001,7 @@ export const MediaGQLNode = (fragment: string | DocumentNode): DocumentNode => {
 export const MediaTrendGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]!) {
+      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]) {
         MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7011,7 +7011,7 @@ export const MediaTrendGQLNode = (fragment: string | DocumentNode): DocumentNode
 export const AiringScheduleGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$episode_not: Int,$episode_in: [Int]!,$episode_not_in: [Int]!,$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]!) {
+      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$episode_not: Int,$episode_in: [Int],$episode_not_in: [Int],$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]) {
         AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7021,7 +7021,7 @@ export const AiringScheduleGQLNode = (fragment: string | DocumentNode): Document
 export const CharacterGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [CharacterSort]!) {
+      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [CharacterSort]) {
         Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7031,7 +7031,7 @@ export const CharacterGQLNode = (fragment: string | DocumentNode): DocumentNode 
 export const StaffGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StaffSort]!) {
+      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StaffSort]) {
         Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7041,7 +7041,7 @@ export const StaffGQLNode = (fragment: string | DocumentNode): DocumentNode => {
 export const MediaListGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int]!,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int],$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$mediaId_in: [Int],$mediaId_not_in: [Int],$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7051,7 +7051,7 @@ export const MediaListGQLNode = (fragment: string | DocumentNode): DocumentNode 
 export const MediaListCollectionGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus]!,$status_not_in: [MediaListStatus]!,$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]!) {
+      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7077,7 +7077,7 @@ export const MediaTagCollectionGQLNode = (fragment: string | DocumentNode): Docu
 export const UserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]!) {
+      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
         User(id: $id,name: $name,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7097,7 +7097,7 @@ export const ViewerGQLNode = (fragment: string | DocumentNode): DocumentNode => 
 export const NotificationGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]!) {
+      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]) {
         Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7107,7 +7107,7 @@ export const NotificationGQLNode = (fragment: string | DocumentNode): DocumentNo
 export const StudioGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$sort: [StudioSort]!) {
+      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StudioSort]) {
         Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7117,7 +7117,7 @@ export const StudioGQLNode = (fragment: string | DocumentNode): DocumentNode => 
 export const ReviewGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]!) {
+      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]) {
         Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7127,7 +7127,7 @@ export const ReviewGQLNode = (fragment: string | DocumentNode): DocumentNode => 
 export const ActivityGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int]!,$id_not_in: [Int]!,$userId_not: Int,$userId_in: [Int]!,$userId_not_in: [Int]!,$messengerId_not: Int,$messengerId_in: [Int]!,$messengerId_not_in: [Int]!,$mediaId_not: Int,$mediaId_in: [Int]!,$mediaId_not_in: [Int]!,$type_not: ActivityType,$type_in: [ActivityType]!,$type_not_in: [ActivityType]!,$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]!) {
+      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$userId_not: Int,$userId_in: [Int],$userId_not_in: [Int],$messengerId_not: Int,$messengerId_in: [Int],$messengerId_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$type_not: ActivityType,$type_in: [ActivityType],$type_not_in: [ActivityType],$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]) {
         Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7147,7 +7147,7 @@ export const ActivityReplyGQLNode = (fragment: string | DocumentNode): DocumentN
 export const FollowingGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Following ($userId: Int!,$sort: [UserSort]!) {
+      query Following ($userId: Int!,$sort: [UserSort]) {
         Following(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7157,7 +7157,7 @@ export const FollowingGQLNode = (fragment: string | DocumentNode): DocumentNode 
 export const FollowerGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Follower ($userId: Int!,$sort: [UserSort]!) {
+      query Follower ($userId: Int!,$sort: [UserSort]) {
         Follower(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7167,7 +7167,7 @@ export const FollowerGQLNode = (fragment: string | DocumentNode): DocumentNode =
 export const ThreadGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int]!,$sort: [ThreadSort]!) {
+      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int],$sort: [ThreadSort]) {
         Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7177,7 +7177,7 @@ export const ThreadGQLNode = (fragment: string | DocumentNode): DocumentNode => 
 export const ThreadCommentGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]!) {
+      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]) {
         ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7187,7 +7187,7 @@ export const ThreadCommentGQLNode = (fragment: string | DocumentNode): DocumentN
 export const RecommendationGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]!) {
+      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]) {
         Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7237,7 +7237,7 @@ export const SiteStatisticsGQLNode = (fragment: string | DocumentNode): Document
 export const UpdateUserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput]!,$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput],$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
         UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7247,7 +7247,7 @@ export const UpdateUserGQLNode = (fragment: string | DocumentNode): DocumentNode
 export const SaveMediaListEntryGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String]!,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String],$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
         SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7257,7 +7257,7 @@ export const SaveMediaListEntryGQLNode = (fragment: string | DocumentNode): Docu
 export const UpdateMediaListEntriesGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float]!,$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]!) {
+      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]) {
         UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7399,7 +7399,7 @@ export const ToggleFavouriteGQLNode = (fragment: string | DocumentNode): Documen
 export const UpdateFavouriteOrderGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      mutation UpdateFavouriteOrder ($animeIds: [Int]!,$mangaIds: [Int]!,$characterIds: [Int]!,$staffIds: [Int]!,$studioIds: [Int]!,$animeOrder: [Int]!,$mangaOrder: [Int]!,$characterOrder: [Int]!,$staffOrder: [Int]!,$studioOrder: [Int]!) {
+      mutation UpdateFavouriteOrder ($animeIds: [Int],$mangaIds: [Int],$characterIds: [Int],$staffIds: [Int],$studioIds: [Int],$animeOrder: [Int],$mangaOrder: [Int],$characterOrder: [Int],$staffOrder: [Int],$studioOrder: [Int]) {
         UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7449,7 +7449,7 @@ export const SaveRecommendationGQLNode = (fragment: string | DocumentNode): Docu
 export const SaveThreadGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return sgtsQL\`
-      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int]!,$mediaCategories: [Int]!,$sticky: Boolean,$locked: Boolean) {
+      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int],$mediaCategories: [Int],$sticky: Boolean,$locked: Boolean) {
         SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -7504,7 +7504,7 @@ export const UpdateAniChartSettingsGQLNode = (): DocumentNode => {
 };
 export const UpdateAniChartHighlightsGQLNode = (): DocumentNode => {
   return sgtsQL\`
-      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]!) {
+      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
 };

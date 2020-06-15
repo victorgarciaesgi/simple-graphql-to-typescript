@@ -6,12 +6,12 @@ import { ParametersStore } from '../store/parameters.store';
 export const generateEnumType = (object: Type): string => {
   const { prefix, suffix } = ParametersStore;
   let ObjectName: string = object.name;
-  const generatedFields = object.enumValues.map(field => field.name);
+  const generatedFields = object.enumValues.map((field) => field.name);
   return `${object.description ? `/** ${object.description} */\n` : ''} export enum ${
     prefix ? prefix : ''
   }${ObjectName}${suffix ? suffix : ''} {
         ${generatedFields
-          .map(enumType => `${capitalizeAllWord(enumType)} = "${enumType}"`)
+          .map((enumType) => `${capitalizeAllWord(enumType)} = "${enumType}"`)
           .join(',\n')}
   }`;
 };
@@ -29,21 +29,21 @@ export const getOneTSTypeDisplay = ({ field }: { field: Field | InputField | Arg
 
 /** Generate interface fields (ex: ['firstName: string', 'birthDate: Date']) */
 export const generatedTsFields = (fields: (Field | InputField)[]): string[] => {
-  return fields.map(field => {
+  return fields.map((field) => {
     let propertyName = field.name;
-    const { isOptional } = evaluateType(field);
+    const { isRequired } = evaluateType(field);
     const TStypeName = getOneTSTypeDisplay({ field });
     return `${field.description ? `/** ${field.description}*/\n` : ''} ${propertyName}${
-      isOptional ? '?' : ''
-    }: ${isOptional ? `Maybe<${TStypeName}>` : TStypeName};`;
+      isRequired ? '' : '?'
+    }: ${isRequired ? TStypeName : `Maybe<${TStypeName}>`};`;
   });
 };
 
 /** Generate GQL queries and mutations args (ex: $args: Args[], $where: WhereInput!) */
 export const generateQGLArg = (field: Arg): string => {
-  const { isArray, isArrayOptional, isOptional, typeName } = evaluateType(field);
-  return `${isArray ? '[' : ''}${typeName}${isOptional ? '' : '!'}${isArray ? ']' : ''}${
-    isArrayOptional ? '!' : ''
+  const { isArray, isArrayRequired, isRequired, typeName } = evaluateType(field);
+  return `${isArray ? '[' : ''}${typeName}${isArrayRequired ? '!' : ''}${isArray ? ']' : ''}${
+    isRequired ? '!' : ''
   }`;
 };
 

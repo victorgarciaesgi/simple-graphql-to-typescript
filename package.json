@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.6.16",
+  "version": "0.6.18",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -85,7 +85,7 @@
   "dependencies": {
     "apollo-client": "^2.6.10",
     "chalk": "^4.1.0",
-    "commander": "^5.1.0",
+    "commander": "^4.0.1",
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",
     "figlet": "^1.4.0",
