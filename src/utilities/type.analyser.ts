@@ -11,9 +11,10 @@ export const evaluateType = (field: Field | InputField | Arg) => {
   let isEnum = false;
   let typeName = '';
 
+  if (propertyName === 'edges') isEdge = true;
+
   function getFieldInfos(type: OfType): string | null {
-    if (propertyName === 'edges') isEdge = true;
-    else if (type.kind === 'NON_NULL') {
+    if (type.kind === 'NON_NULL') {
       if (isArray) {
         isArrayRequired = true;
       } else {

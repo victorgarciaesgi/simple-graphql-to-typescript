@@ -13,7 +13,7 @@ export function generateInterfaces(schema: GraphQLJSONSchema) {
   const generatedTypes: string[] = [];
   const generatedEnums: string[] = [];
 
-  schemaTypes.forEach(item => {
+  schemaTypes.forEach((item) => {
     if (!/^_{1,2}/.test(item.name)) {
       if (typesToParse.includes(item.kind)) {
         const generatedInterface = getObjectTSInterfaces(item);
@@ -36,7 +36,7 @@ export function generateMethodsArgsTypes(schema: GraphQLJSONSchema) {
   });
 
   const generatedMethodsArgs: string[] = [];
-  [...queries, ...mutations, ...subscriptions].forEach(item => {
+  [...queries, ...mutations, ...subscriptions].forEach((item) => {
     const generatedInterface = getQueriesArgsTSInterfaces(item);
     generatedMethodsArgs.push(generatedInterface);
   });
