@@ -7,6 +7,7 @@ interface QueryBuilderArgs {
   field: Field;
   type: MethodType;
   renderedFragmentInner: string;
+  defaultFragmentName?: string;
 }
 
 export const queryBuilder = ({
@@ -14,6 +15,7 @@ export const queryBuilder = ({
   field,
   type,
   renderedFragmentInner,
+  defaultFragmentName,
 }: QueryBuilderArgs): string => {
   const { GQLArgs, GQLVariables } = createMethodsArgs(field);
   const hasArgs = field.args.length > 0;
@@ -24,13 +26,21 @@ export const queryBuilder = ({
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
       }\``;
-  } else {
+  } else if (!defaultFragmentName) {
     return `sgtsQL\`
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${renderedFragmentInner}
         }
       } \${isFragment? fragment: ''}
+      \``;
+  } else {
+    return `sgtsQL\`
+      ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
+        ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
+          ...${defaultFragmentName}
+        }
+      } \${${defaultFragmentName}}
       \``;
   }
 };

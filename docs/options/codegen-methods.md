@@ -85,38 +85,47 @@ commentsQuery.$abort();
 
 ::: tip
 
-**Also, Sgts will generate all `pageInfo` fragment for pagination**
+**Also, Sgts will generate all fragments by default**
 
-Sgts handle the `PageInfo` fragment generation, so you just have to pass the `node` fragment to the function
+Sgts handle the fragment generation,
 
 _Exemple from generated project in production_
 
 ```typescript
-{
-  /** Get list of created training */
-  getMyTrainings(): FragmentableQueryWithOptionalArgs<TrainingConnection, getMyTrainingsArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const query = gql`
-            query getMyTrainings ($take: Int,$skip: Int) {
-              getMyTrainings(take: $take,skip: $skip) {
-                pageInfo {
-                  hasNextPage
-                }
-                edges {
-                  node{
-                    ${isString ? fragment : '...' + fragmentName}
-                  }
-                }
+export const ReportConnectionFragment = sgtsQL` 
+  fragment ReportConnectionFragment on ReportConnection {
+    edges { node { uuid category status } cursor } aggregate { count } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } 
+  }
+`;
+
+return {
+  /** Get list of reports */
+  reports(): FragmentableQueryWithArgs<ReportConnection, reportsArgs> {
+    const defaultQuery = sgtsQL`
+        query reports ($where: ReportWhereInput!,$first: Int,$after: ID) {
+          reports(where: $where,first: $first,after: $after) {
+            ...ReportConnectionFragment
+          }
+        } ${ReportConnectionFragment}
+      `;
+    return {
+      $fragment: (fragment: string | DocumentNode) => {
+        const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+        const query = sgtsQL`
+            query reports ($where: ReportWhereInput!,$first: Int,$after: ID) {
+              reports(where: $where,first: $first,after: $after) {
+                edges { node {${
+                  isString ? fragment : '...' + fragmentName
+                }} cursor } aggregate { count } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } 
               }
             } ${isFragment ? fragment : ''}
-          `;
-          return abortableQuery(query, true);
-        }
-      };
-    },
-}
+            `;
+        return abortableQuery(query, true, false);
+      },
+      ...abortableQuery(defaultQuery, true, false),
+    };
+  },
+};
 ```
 
 :::

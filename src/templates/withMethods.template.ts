@@ -6,7 +6,7 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
     $args(args: A): AbortableQuery<T>;
     $abort(): void;
   };
-
+  
   export type AbortableQueryWithOptionalArgs<T, A> = {
     $fetch(): Promise<T>;
     $args(args: A): AbortableQuery<T>;
@@ -19,19 +19,26 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
   };
   export interface FragmentableQueryWithArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
+    $args(args: A): AbortableQuery<T>;
+    $abort(): void;
   }
   export interface FragmentableQueryWithOptionalArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
+    $fetch(): Promise<T>;
+    $args(args: A): AbortableQuery<T>;
+    $abort(): void;
   }
   export interface FragmentableQuery<T> {
     $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
+    $fetch(): Promise<T>;
+    $abort(): void;
   }
   
   export type AbortableMutationWithArgs<T, A> = {
     $args(args: A): AbortableMutation<T>;
     $abort(): void;
   };
-
+  
   export type AbortableMutationWithOptionalArgs<T, A> = {
     $post(): Promise<T>;
     $args(args: A): AbortableMutation<T>;
@@ -45,12 +52,19 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
   
   export interface FragmentableMutationWithArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
+    $args(args: A): AbortableMutation<T>;
+    $abort(): void;
   }
   export interface FragmentableMutationWithOptionalArgs<T, A> {
     $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
+    $post(): Promise<T>;
+    $args(args: A): AbortableMutation<T>;
+    $abort(): void;
   }
   export interface FragmentableMutation<T> {
     $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
+    $post(): Promise<T>;
+    $abort(): void;
   }
   
   

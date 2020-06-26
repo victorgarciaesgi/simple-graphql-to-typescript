@@ -1,13 +1,14 @@
 import ora from 'ora';
 import { generateInterfaces, generateMethodsArgsTypes } from './generators';
 import { GraphQLJSONSchema, Field, CodeGenType, Schema } from './models';
-import { createMethods } from './builders';
+import { createMethods, generateFragments } from './builders';
 import { sharedTemplate } from './templates/shared.template';
 import { ParametersStore } from './store/parameters.store';
 import { defineImports } from './templates';
 
 const generatedInterfaces = {
   codeGen: '',
+  fragments: '',
   OBJECT: [] as string[],
   ENUM: [] as string[],
   METHODS_ARGS: [] as string[],
@@ -38,6 +39,8 @@ export const generate = async (
     generatedInterfaces.OBJECT = generatedTypes;
     generatedInterfaces.ENUM = generatedEnums;
     generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
+
+    generatedInterfaces.fragments = generateFragments(schema).join('\n');
 
     if (codegenMethods) {
       await codeGenerateFromConfig({
@@ -82,11 +85,11 @@ export const generate = async (
 
   const modelsTemplate = `
       ${signature}
-
       ${generatedInterfaces.OBJECT.join('\n')}
       ${generatedInterfaces.ENUM.join('\n')}
       ${generatedInterfaces.METHODS_ARGS.join('\n')}
       ${imports}
+      ${generatedInterfaces.fragments}
       ${generatedInterfaces.codeGen}
     `;
 

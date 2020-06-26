@@ -60,10 +60,17 @@ export const createGraphQLFunction = ({
   const methodName = field.name;
 
   const { methodArgsType } = createMethodsArgs(field);
-  const { isScalar } = evaluateType(field);
+  const { isScalar, typeName } = evaluateType(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({ field });
 
   const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
+  const defaultQuery = queryBuilder({
+    field,
+    isScalar,
+    renderedFragmentInner,
+    type,
+    defaultFragmentName: `${typeName}Fragment`,
+  });
 
   const typeNameLower = type;
   const typeNameUpper = capitalizeFirstLetter(type);
@@ -92,12 +99,14 @@ export const createGraphQLFunction = ({
     ${methodName}(): Fragmentable${typeNameUpper}${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
+      const defaultQuery = ${defaultQuery}
     return {
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
         const ${typeNameLower} = ${Query}
         return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs}, ${argsOptional});
-      }
+      },
+      ...abortable${typeNameUpper}(defaultQuery, ${hasArgs}, ${argsOptional})
     }
       }
   ,`;

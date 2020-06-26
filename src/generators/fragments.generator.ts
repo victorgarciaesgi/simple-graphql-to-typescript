@@ -1,4 +1,4 @@
-import { Type, Field } from '../models';
+import { Type, Field, OfType } from '../models';
 import { evaluateType } from '../utilities';
 
 export const createConnectionFragment = (
@@ -6,7 +6,7 @@ export const createConnectionFragment = (
   allTypes: Type[],
   fragment: string
 ): string | null => {
-  const foundType = allTypes.find(f => f.name === typeName);
+  const foundType = allTypes.find((f) => f.name === typeName);
   if (foundType) {
     let outputFragment = '';
 
@@ -15,17 +15,46 @@ export const createConnectionFragment = (
       const { typeName, isScalar } = evaluateType(field);
       if (!isScalar) {
         if (field.name === 'node') {
-          outputFragment += `{${fragment}}`;
+          outputFragment += `{${fragment}} `;
         } else {
-          outputFragment += ` {`;
-          const type = allTypes.find(f => f.name === typeName);
+          outputFragment += `{ `;
+          const type = allTypes.find((f) => f.name === typeName);
           type?.fields?.forEach(createLines);
-          outputFragment += `}`;
+          outputFragment += `} `;
         }
       }
     };
     foundType.fields.map(createLines);
     return outputFragment;
+  }
+  return null;
+};
+
+export const createNormalFragment = (
+  type: Type,
+  allTypes: Type[]
+): { fragment: string; foundName: string } | null => {
+  let foundType = allTypes.find((f) => f.name === type.name);
+  if (foundType) {
+    let outputFragment = '';
+    let nestedTypes: string[] = [];
+
+    const createLines = (field: Field) => {
+      let { typeName, isScalar, isEnum } = evaluateType(field);
+      outputFragment += `${field.name} `;
+      if (!isScalar && !isEnum && !nestedTypes.includes(typeName)) {
+        outputFragment += `{ `;
+        const type = allTypes.find((f) => f.name === typeName);
+        nestedTypes.push(typeName);
+        type?.fields?.forEach(createLines);
+        outputFragment += `} `;
+      }
+    };
+    foundType.fields.map(createLines);
+    return {
+      fragment: outputFragment,
+      foundName: foundType.name,
+    };
   }
   return null;
 };
