@@ -1,5 +1,7 @@
 # Simple-graphql-to-typescript generator
 
+🚀 🔄 Simple Typescript interface generator from a GraphQL api schemas or URL
+
 <p align="center">
   <a href='https://sgts.netlify.com/'>
     <img width='100' src="./media/logo.png" alt="sgts logo">
