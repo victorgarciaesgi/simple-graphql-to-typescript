@@ -37,17 +37,18 @@ export const createNormalFragment = (
   let foundType = allTypes.find((f) => f.name === type.name);
   if (foundType) {
     let outputFragment = '';
-    let nestedTypes: string[] = [];
+    let nestedTypes: string[] = [foundType.name];
 
     const createLines = (field: Field) => {
       let { typeName, isScalar, isEnum } = evaluateType(field);
-      outputFragment += `${field.name} `;
       if (!isScalar && !isEnum && !nestedTypes.includes(typeName)) {
-        outputFragment += `{ `;
+        outputFragment += `${field.name} {`;
         const type = allTypes.find((f) => f.name === typeName);
         nestedTypes.push(typeName);
         type?.fields?.forEach(createLines);
         outputFragment += `} `;
+      } else if (!nestedTypes.includes(typeName)) {
+        outputFragment += `${field.name} `;
       }
     };
     foundType.fields.map(createLines);
