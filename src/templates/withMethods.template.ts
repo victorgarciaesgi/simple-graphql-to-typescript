@@ -167,7 +167,7 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
         loading = true;
         return new Promise<T>((resolve, reject) => {
           observableQuery = execute(apolloClient.link, {
-            query,
+            query: mutation,
             variables,
           }).subscribe({
             next: ({ data, errors }) => {
