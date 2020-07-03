@@ -4117,7 +4117,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
             if (errors) {
               reject(errors);
             } else {
-              resolve(data[queryName]);
+              resolve(data[mutationName]);
             }
           },
           error: (error) => reject(error),

@@ -174,7 +174,7 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
               if (errors) {
                 reject(errors);
               } else {
-                resolve(data[queryName]);
+                resolve(data[mutationName]);
               }
             },
             error: (error) => reject(error),
