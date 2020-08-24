@@ -2305,6 +2305,22 @@ export enum IAiringSortModel {
   Episode = 'EPISODE',
   Episode_desc = 'EPISODE_DESC',
 }
+/** Notification union type */
+export type INotificationUnionModel =
+  | AiringNotification
+  | FollowingNotification
+  | ActivityMessageNotification
+  | ActivityMentionNotification
+  | ActivityReplyNotification
+  | ActivityReplySubscribedNotification
+  | ActivityLikeNotification
+  | ActivityReplyLikeNotification
+  | ThreadCommentMentionNotification
+  | ThreadCommentReplyNotification
+  | ThreadCommentSubscribedNotification
+  | ThreadCommentLikeNotification
+  | ThreadLikeNotification
+  | RelatedMediaAdditionNotification;
 /** Activity type enum. */
 export enum IActivityTypeModel {
   Text = 'TEXT',
@@ -2313,6 +2329,8 @@ export enum IActivityTypeModel {
   Message = 'MESSAGE',
   Media_list = 'MEDIA_LIST',
 }
+/** Activity union type */
+export type IActivityUnionModel = TextActivity | ListActivity | MessageActivity;
 /** Activity sort enums */
 export enum IActivitySortModel {
   Id = 'ID',
@@ -2358,6 +2376,14 @@ export enum ISiteTrendSortModel {
   Change = 'CHANGE',
   Change_desc = 'CHANGE_DESC',
 }
+/** Likeable union type */
+export type ILikeableUnionModel =
+  | ListActivity
+  | TextActivity
+  | MessageActivity
+  | ActivityReply
+  | Thread
+  | ThreadComment;
 /** Submission status */
 export enum ISubmissionStatusModel {
   Pending = 'PENDING',
