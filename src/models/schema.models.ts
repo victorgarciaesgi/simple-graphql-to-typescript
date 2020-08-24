@@ -46,7 +46,7 @@ export interface Type {
   inputFields: InputField[];
   interfaces: any[];
   enumValues: EnumValue[];
-  possibleTypes?: any;
+  possibleTypes?: OfType[];
 }
 
 export interface Directive {

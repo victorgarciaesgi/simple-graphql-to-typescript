@@ -16,6 +16,17 @@ export const generateEnumType = (object: Type): string => {
   }`;
 };
 
+// Generate UnionType type (ex: export type Union = Type1 | Type2)
+export const generateUnionType = (object: Type): string => {
+  const { prefix, suffix } = ParametersStore;
+  let ObjectName: string = object.name;
+  return `${object.description ? `/** ${object.description} */\n` : ''} export type ${
+    prefix ? prefix : ''
+  }${ObjectName}${suffix ? suffix : ''} = ${object.possibleTypes
+    ?.map((type) => type.name)
+    .join('|')}`;
+};
+
 /** Get the ts type from a Field (ex: 'string[]') */
 export const getOneTSTypeDisplay = ({ field }: { field: Field | InputField | Arg }): string => {
   const { prefix, suffix, listScalars } = ParametersStore;

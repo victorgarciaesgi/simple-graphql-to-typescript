@@ -3,6 +3,7 @@ import {
   getObjectTSInterfaces,
   generateEnumType,
   getQueriesArgsTSInterfaces,
+  generateUnionType,
 } from './types.generator';
 import { retrieveQueriesList } from '../builders';
 
@@ -18,6 +19,9 @@ export function generateInterfaces(schema: GraphQLJSONSchema) {
       if (typesToParse.includes(item.kind)) {
         const generatedInterface = getObjectTSInterfaces(item);
         generatedTypes.push(generatedInterface);
+      } else if (item.kind === 'UNION') {
+        const unionTypes = generateUnionType(item);
+        generatedEnums.push(unionTypes);
       } else if (item.kind === 'ENUM') {
         const enumTypes = generateEnumType(item);
         generatedEnums.push(enumTypes);
