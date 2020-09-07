@@ -4,6 +4,7 @@ interface SetParametersArgs {
   scalars?: Dictionnary<string>;
   prefix?: string;
   suffix?: string;
+  genFragments?: boolean;
 }
 
 class ParametersConstructor {
@@ -18,6 +19,7 @@ class ParametersConstructor {
   };
   public prefix = '';
   public suffix = '';
+  public genFragments = false;
 
   addScalars(scalars: Dictionnary<string>): void {
     this.defaultScalars = {
@@ -26,10 +28,11 @@ class ParametersConstructor {
     };
   }
 
-  setParamaters({ prefix, suffix, scalars }: SetParametersArgs): void {
+  setParamaters({ prefix, suffix, scalars, genFragments }: SetParametersArgs): void {
     if (scalars) this.addScalars(scalars);
     if (prefix != null) this.prefix = prefix;
     if (suffix != null) this.suffix = suffix;
+    if (genFragments) this.genFragments = genFragments;
   }
 
   get listScalars() {

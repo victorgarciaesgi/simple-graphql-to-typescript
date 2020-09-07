@@ -2,82 +2,48 @@ import { guessFragmentTypeTemplate } from './fragmentType.template';
 
 export const withMethodsTemplate = (queries: string[], mutations: string[]): string => {
   return `
-  export type AbortableQueryWithArgs<T, A> = {
-    $args(args: A): AbortableQuery<T>;
+
+  interface Abortable {
     $abort(): void;
+  }
+  interface WithArgs<T, A> {
+    $args(args: A): ExecutableQuery<T>;
+  }
+  interface Fragmentable<R> {
+    $fragment(fragment: string | DocumentNode): R;
+  }
+  interface Loadable {
     loading: boolean;
-  };
-  
-  export type AbortableQueryWithOptionalArgs<T, A> = {
+  }
+  interface Executable<T> {
     $fetch(): Promise<T>;
-    $args(args: A): AbortableQuery<T>;
-    $abort(): void;
-    loading: boolean;
-  };
-  
-  export type AbortableQuery<T> = {
-    $fetch(): Promise<T>;
-    $abort(): void;
-    loading: boolean;
-  };
-  export interface FragmentableQueryWithArgs<T, A> {
-    $fragment(fragment: string | DocumentNode): AbortableQueryWithArgs<T, A>;
-    $args(args: A): AbortableQuery<T>;
-    $abort(): void;
-    loading: boolean;
-  }
-  export interface FragmentableQueryWithOptionalArgs<T, A> {
-    $fragment(fragment: string | DocumentNode): AbortableQueryWithOptionalArgs<T, A>;
-    $fetch(): Promise<T>;
-    $args(args: A): AbortableQuery<T>;
-    $abort(): void;
-    loading: boolean;
-  }
-  export interface FragmentableQuery<T> {
-    $fragment(fragment: string | DocumentNode): AbortableQuery<T>;
-    $fetch(): Promise<T>;
-    $abort(): void;
-    loading: boolean;
   }
   
-  export type AbortableMutationWithArgs<T, A> = {
-    $args(args: A): AbortableMutation<T>;
-    $abort(): void;
-    loading: boolean;
-  };
+  export interface QueryWithArgs<T, A> extends WithArgs<T, A>, Abortable, Loadable {}
+  export interface QueryWithOptionalArgs<T, A> extends QueryWithArgs<T, A>, Executable<T> {}
   
-  export type AbortableMutationWithOptionalArgs<T, A> = {
-    $post(): Promise<T>;
-    $args(args: A): AbortableMutation<T>;
-    $abort(): void;
-    loading: boolean;
-  };
+  export interface ExecutableQuery<T> extends Abortable, Loadable, Executable<T> {}
   
-  export type AbortableMutation<T> = {
-    $post(): Promise<T>;
-    $abort(): void;
-    loading: boolean;
-  };
+  export interface FragmentableQuery<T, A> extends Fragmentable<ExecutableQuery<T, A>> {}
+  export interface FragmentableQueryWithArgs<T, A> extends Fragmentable<QueryWithArgs<T, A>> {}
+  export interface FragmentableQueryWithOptionalArgs<T, A>
+    extends Fragmentable<QueryWithOptionalArgs<T, A>> {}
   
-  export interface FragmentableMutationWithArgs<T, A> {
-    $fragment(fragment: string | DocumentNode): AbortableMutationWithArgs<T, A>;
-    $args(args: A): AbortableMutation<T>;
-    $abort(): void;
-    loading: boolean;
-  }
-  export interface FragmentableMutationWithOptionalArgs<T, A> {
-    $fragment(fragment: string | DocumentNode): AbortableMutationWithOptionalArgs<T, A>;
-    $post(): Promise<T>;
-    $args(args: A): AbortableMutation<T>;
-    $abort(): void;
-    loading: boolean;
-  }
-  export interface FragmentableMutation<T> {
-    $fragment(fragment: string | DocumentNode): AbortableMutation<T>;
-    $post(): Promise<T>;
-    $abort(): void;
-    loading: boolean;
-  }
+  export interface UnFragmentableQuery<T, A>
+    extends Fragmentable<ExecutableQuery<T, A>>,
+      WithArgs<T,A>,
+      Executable<T, A>,
+      Abortable {}
+  export interface UnFragmentableQueryWithArgs<T, A>
+    extends Fragmentable<QueryWithArgs<T, A>>,
+      WithArgs<T,A>,
+      Executable<T, A>,
+      Abortable {}
+  export interface UnFragmentableQueryWithOptionalArgs<T, A>
+    extends Fragmentable<QueryWithOptionalArgs<T, A>>,
+      WithArgs<T,A>,
+      Executable<T, A>,
+      Abortable {}
   
   
   export const apiProvider = (apolloClient: ApolloClient<any>) => {
@@ -143,72 +109,6 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
         return {
           $abort,
           $fetch,
-          loading
-        } as any;
-      }
-    };
-    const abortableMutation = <T, A = null>(
-      mutation: DocumentNode,
-      args: boolean,
-      optionalArgs: boolean
-    ): AbortableMutationWithArgs<T, A> => {
-      let observableQuery: ZenObservable.Subscription;
-      const parsedQuery = mutation.definitions[0] as OperationDefinitionNode;
-      const mutationName = parsedQuery.name.value;
-      let variables: { [x: string]: any } = {};
-      let loading = false;
-  
-      function $abort() {
-        if (observableQuery && !observableQuery.closed) {
-          observableQuery.unsubscribe();
-        }
-      }
-      async function $post() {
-        loading = true;
-        return new Promise<T>((resolve, reject) => {
-          observableQuery = execute(apolloClient.link, {
-            query: mutation,
-            variables,
-          }).subscribe({
-            next: ({ data, errors }) => {
-              if (errors) {
-                reject(errors);
-              } else {
-                resolve(data[mutationName]);
-              }
-            },
-            error: (error) => reject(error),
-            complete: () => {
-              loading = false;
-            },
-          });
-        });
-      }
-      function $args(args) {
-        variables = args;
-        return {
-          $abort,
-          $post,
-          loading
-        };
-      }
-      if (args && !optionalArgs) {
-        return {
-          $abort,
-          $args,
-          loading
-        } as any;
-      } else if (optionalArgs) {
-        return {
-          $abort,
-          $args,
-          $post,
-          loading
-        } as any;
-      } else {
-        return {
-          $abort,
-          $post,
           loading
         } as any;
       }

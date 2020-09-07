@@ -21,6 +21,7 @@ const runSgtsCLI = () => {
     .option('--codegen-react-hooks', 'Generate useMutation and useQuery React hooks typed')
     .option('--codegen-vue-hooks', 'Generate useMutation and useQuery React hooks typed')
     .option('--codegen-templates', 'Add gql query strings to the generated output')
+    .option('--gen-fragments', 'Auto-generates fragment and include them in queries')
     .option('--header <header>', 'Additional header option to fetch your schema from endpoint')
     .option(
       '--customScalars <scalars>',
@@ -56,6 +57,7 @@ const runSgtsCLI = () => {
     codegenVueHooks,
     codegenTemplates,
     download,
+    genFragments,
     init,
   } = program;
 
@@ -92,6 +94,7 @@ const runSgtsCLI = () => {
       codegenVueHooks,
       codegenTemplates,
       download,
+      genFragments,
     });
   }
 };

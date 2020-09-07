@@ -63,17 +63,20 @@ export const createGraphQLFunction = ({
   const { isScalar, typeName } = evaluateType(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({ field });
 
-  const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
-  const defaultQuery = queryBuilder({
-    field,
-    isScalar,
-    renderedFragmentInner,
-    type,
-    defaultFragmentName: `${typeName}Fragment`,
-  });
+  const { genFragments } = ParametersStore;
 
-  const typeNameLower = type;
-  const typeNameUpper = capitalizeFirstLetter(type);
+  const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
+  let defaultQuery: string | null = null;
+
+  if (genFragments) {
+    defaultQuery = queryBuilder({
+      field,
+      isScalar,
+      renderedFragmentInner,
+      type,
+      defaultFragmentName: `${typeName}Fragment`,
+    });
+  }
 
   const argsOptional = hasArgs ? areAllArgsOptional(field.args) : false;
 
@@ -86,27 +89,27 @@ export const createGraphQLFunction = ({
   if (isScalar) {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    ${methodName}(): Abortable${typeNameUpper}${withArgs}<${returnedTypeDisplay}${
+    ${methodName}(): Query${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
-      const ${typeNameLower} = ${Query}
-      return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs}, ${argsOptional});
+      const queryTemplate = ${Query}
+      return abortableQuery(queryTemplate, ${hasArgs}, ${argsOptional});
         }
     ,`;
   } else {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    ${methodName}(): Fragmentable${typeNameUpper}${withArgs}<${returnedTypeDisplay}${
-      hasArgs ? ',' + methodArgsType : ''
-    }> {
-      const defaultQuery = ${defaultQuery}
+    ${methodName}(): ${
+      genFragments ? 'Un' : ''
+    }FragmentableQuery${withArgs}<${returnedTypeDisplay}${hasArgs ? ',' + methodArgsType : ''}> {
+      ${genFragments ? `const defaultQuery = ${defaultQuery};` : ''}
     return {
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-        const ${typeNameLower} = ${Query}
-        return abortable${typeNameUpper}(${typeNameLower}, ${hasArgs}, ${argsOptional});
+        const queryTemplate = ${Query}
+        return abortableQuery(queryTemplate, ${hasArgs}, ${argsOptional});
       },
-      ...abortable${typeNameUpper}(defaultQuery, ${hasArgs}, ${argsOptional})
+      ${genFragments ? `...abortableQuery(defaultQuery, ${hasArgs}, ${argsOptional})` : ''}
     }
       }
   ,`;

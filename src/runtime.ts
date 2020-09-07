@@ -21,6 +21,7 @@ export async function sgtsGenerate({
   codegenVueHooks,
   codegenTemplates,
   download,
+  genFragments,
 }: SgtsConfig): Promise<string | undefined> {
   try {
     console.log(`\n Sgts v${require('../package.json').version}`);
@@ -34,7 +35,8 @@ export async function sgtsGenerate({
         codegenMethods,
         codegenReactHooks,
         codegenVueHooks,
-        codegenTemplates
+        codegenTemplates,
+        genFragments
       );
       return await saveFile(generatedString, output, jsMode);
     } else {

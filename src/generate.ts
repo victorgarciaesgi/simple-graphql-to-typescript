@@ -24,12 +24,14 @@ export const generate = async (
   codegenMethods?: boolean,
   codegenReactHooks?: boolean,
   codegenVueHooks?: boolean,
-  codegenTemplates?: boolean
+  codegenTemplates?: boolean,
+  genFragments?: boolean
 ): Promise<string> => {
   ParametersStore.setParamaters({
     scalars: customScalars,
     prefix,
     suffix,
+    genFragments,
   });
   transpile.start();
 
@@ -40,7 +42,7 @@ export const generate = async (
     generatedInterfaces.ENUM = generatedEnums;
     generatedInterfaces.METHODS_ARGS = generatedMethodsArgs;
 
-    generatedInterfaces.fragments = generateFragments(schema).join('\n');
+    if (genFragments) generatedInterfaces.fragments = generateFragments(schema).join('\n');
 
     if (codegenMethods) {
       await codeGenerateFromConfig({

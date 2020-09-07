@@ -61,7 +61,8 @@ sgts -h
 | --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | [See doc](https://sgts.netlify.com/options/output.html)              |
 | --codegen-methods           |              | boolean                                      | [See doc](https://sgts.netlify.com/options/codegen-methods.html)     |
 | --codegen-react-hooks       |              | boolean                                      | [See doc](https://sgts.netlify.com/options/codegen-react-hooks.html) |
-| --codegen-vue-hooks         |              | boolean                                      | [See doc](https://sgts.netlify.com/options/codegen-react-hooks.html) |
+| --codegen-vue-hooks         |              | boolean                                      | [See doc](https://sgts.netlify.com/options/codegen-vue-hooks.html)   |
+| --gen-fragments             |              | boolean                                      | [See doc](https://sgts.netlify.com/options/gen-fragments.html)       |
 | --codegen-templates         |              | boolean                                      | [See doc](https://sgts.netlify.com/options/withGqlQueries.html)      |
 | --customScalars `<scalars>` |              | {"myScalar": "MyType"}                       | [See doc](https://sgts.netlify.com/options/customScalars.html)       |
 | --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | [See doc](https://sgts.netlify.com/options/prefix.html)              |

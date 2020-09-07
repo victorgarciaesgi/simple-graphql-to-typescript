@@ -14,6 +14,7 @@ export type SgtsConfig = {
   codegenReactHooks?: boolean;
   codegenVueHooks?: boolean;
   codegenTemplates?: boolean;
+  genFragments?: boolean;
 } & AtLeastOne<{ endpoint: string; json: string }>;
 
 export type CodeGenType = 'methods' | 'react-hooks' | 'vue-hooks' | 'template';
