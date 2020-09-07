@@ -17,6 +17,38 @@ exports[`Test methods generation from different sources Generates types correctl
 // 💙
 
 export type Maybe<T> = T | null;
+import sgtsQL, { DocumentNode } from 'graphql-tag';
+
+import { OperationDefinitionNode } from 'graphql';
+
+const guessFragmentType = (fragment: string | DocumentNode) => {
+  let isString,
+    isFragment = false;
+  let fragmentName = '';
+  if (typeof fragment === 'string') {
+    isString = true;
+  } else if (typeof fragment === 'object' && fragment.definitions.length) {
+    isFragment = true;
+    const definition = fragment.definitions[0];
+    if (definition.kind === 'FragmentDefinition') {
+      fragmentName = definition.name.value;
+    } else {
+      console.error(
+        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
+      );
+      return;
+    }
+  }
+  return { isString, isFragment, fragmentName };
+};
+
+import ApolloClient, {
+  QueryOptions,
+  OperationVariables,
+  MutationOptions,
+  ObservableQuery,
+} from 'apollo-client';
+import { execute } from 'apollo-link';
 
 export interface IQueryModel {
   Page: Maybe<IPageModel>;
@@ -3337,38 +3369,6 @@ export interface IUpdateAniChartSettingsModelArgs {
 export interface IUpdateAniChartHighlightsModelArgs {
   highlights?: IAniChartHighlightInputModel[];
 }
-
-import { OperationDefinitionNode } from 'graphql';
-import sgtsQL, { DocumentNode } from 'graphql-tag';
-
-const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
-  let fragmentName = '';
-  if (typeof fragment === 'string') {
-    isString = true;
-  } else if (typeof fragment === 'object' && fragment.definitions.length) {
-    isFragment = true;
-    const definition = fragment.definitions[0];
-    if (definition.kind === 'FragmentDefinition') {
-      fragmentName = definition.name.value;
-    } else {
-      console.error(
-        \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
-      );
-      return;
-    }
-  }
-  return { isString, isFragment, fragmentName };
-};
-
-import ApolloClient, {
-  QueryOptions,
-  OperationVariables,
-  MutationOptions,
-  ObservableQuery,
-} from 'apollo-client';
-import { execute } from 'apollo-link';
 
 export const PageFragment = sgtsQL\` 
   fragment PageFragment on Page {

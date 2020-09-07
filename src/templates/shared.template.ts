@@ -1,4 +1,4 @@
- export const sharedTemplate = `
+export const sharedTemplate = `
  /* eslint-disable */
  /* tslint-disable */
  // @ts-nocheck
@@ -15,4 +15,5 @@
  // 💙
  
  export type Maybe<T> = T | null;
+ import sgtsQL, { DocumentNode } from 'graphql-tag';
  `;

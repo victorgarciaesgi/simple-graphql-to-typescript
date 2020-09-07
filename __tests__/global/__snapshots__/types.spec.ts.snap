@@ -17,6 +17,7 @@ exports[`Test simple type generation from different sources Generates types corr
 // 💙
 
 export type Maybe<T> = T | null;
+import sgtsQL, { DocumentNode } from 'graphql-tag';
 
 export interface IQueryModel {
   Page: Maybe<IPageModel>;

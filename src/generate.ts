@@ -85,10 +85,10 @@ export const generate = async (
 
   const modelsTemplate = `
       ${signature}
+      ${imports}
       ${generatedInterfaces.OBJECT.join('\n')}
       ${generatedInterfaces.ENUM.join('\n')}
       ${generatedInterfaces.METHODS_ARGS.join('\n')}
-      ${imports}
       ${generatedInterfaces.fragments}
       ${generatedInterfaces.codeGen}
     `;
