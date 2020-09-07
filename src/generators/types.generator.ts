@@ -39,14 +39,14 @@ export const getOneTSTypeDisplay = ({ field }: { field: Field | InputField | Arg
 };
 
 /** Generate interface fields (ex: ['firstName: string', 'birthDate: Date']) */
-export const generatedTsFields = (fields: (Field | InputField)[]): string[] => {
+export const generatedTsFields = (fields: (Field | InputField)[], isInput?: boolean): string[] => {
   return fields.map((field) => {
     let propertyName = field.name;
     const { isRequired } = evaluateType(field);
     const TStypeName = getOneTSTypeDisplay({ field });
     return `${field.description ? `/** ${field.description}*/\n` : ''} ${propertyName}${
-      isRequired ? '' : '?'
-    }: ${isRequired ? TStypeName : `Maybe<${TStypeName}>`};`;
+      isRequired ? '' : isInput ? '?' : ''
+    }: ${isRequired || isInput ? TStypeName : `Maybe<${TStypeName}>`};`;
   });
 };
 
@@ -59,16 +59,15 @@ export const generateQGLArg = (field: Arg): string => {
 };
 
 /** Generates TS interface of a given GraphqlType (ex: interface User {name: string, role?: UserRole}) */
-export const getObjectTSInterfaces = (object: Type): string => {
-  let fieldsKey =
-    object.kind === 'OBJECT' || object.kind === 'INTERFACE' ? 'fields' : 'inputFields';
-  const generatedFields = generatedTsFields(object[fieldsKey]);
+export const getObjectTSInterfaces = (object: Type, isInput?: boolean): string => {
+  let fieldsKey = isInput ? 'inputFields' : 'fields';
+  const generatedFields = generatedTsFields(object[fieldsKey], isInput);
   return buildTsInterfaceString(object, generatedFields);
 };
 
 /** Generate queries and mutations arguments types (ex: interface LoginArgs {email: string; password: string}) */
 export const getQueriesArgsTSInterfaces = (object: Field) => {
-  const generatedFields = generatedTsFields(object.args);
+  const generatedFields = generatedTsFields(object.args, true);
   return buildTsInterfaceString(object, generatedFields, 'Args');
 };
 

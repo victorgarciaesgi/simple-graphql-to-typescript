@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -14,7 +14,8 @@
     "build": "tsc --pretty",
     "lint": "eslint -c .eslintrc.js . --ext .ts --fix --ignore-path .gitignore",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "prepublish": "yarn build"
   },
   "repository": {
     "type": "git",

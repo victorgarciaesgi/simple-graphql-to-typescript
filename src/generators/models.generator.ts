@@ -7,7 +7,7 @@ import {
 } from './types.generator';
 import { retrieveQueriesList } from '../builders';
 
-const typesToParse = ['OBJECT', 'INPUT_OBJECT', 'INTERFACE'];
+const typesToParse = ['OBJECT', 'INTERFACE'];
 
 export function generateInterfaces(schema: GraphQLJSONSchema) {
   const schemaTypes = schema.__schema.types;
@@ -18,6 +18,9 @@ export function generateInterfaces(schema: GraphQLJSONSchema) {
     if (!/^_{1,2}/.test(item.name)) {
       if (typesToParse.includes(item.kind)) {
         const generatedInterface = getObjectTSInterfaces(item);
+        generatedTypes.push(generatedInterface);
+      } else if (item.kind === 'INPUT_OBJECT') {
+        const generatedInterface = getObjectTSInterfaces(item, true);
         generatedTypes.push(generatedInterface);
       } else if (item.kind === 'UNION') {
         const unionTypes = generateUnionType(item);
