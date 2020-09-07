@@ -108,6 +108,7 @@ function getMainSidebar() {
         '/options/codegen-react-hooks',
         '/options/codegen-vue-hooks',
         '/options/codegen-templates',
+        '/options/gen-fragments',
         '/options/compileToJs',
         '/options/customScalars',
         '/options/prefix',
