@@ -20,6 +20,8 @@
 [npm-total-downloads-src]: https://img.shields.io/npm/dt/simple-graphql-to-typescript.svg
 [npm-downloads-href]: https://www.npmjs.com/package/simple-graphql-to-typescript
 
+### Any help for writing test or adding options is greatly welcomed! 😁
+
 ## Usage
 
 Refer to the full [documentation](https://sgts.netlify.com) !
