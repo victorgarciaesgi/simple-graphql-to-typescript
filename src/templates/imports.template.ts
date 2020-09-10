@@ -1,20 +1,10 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
+import { ParametersStore } from 'src/store';
 
-interface DefineImportsArgs {
-  codegenMethods: boolean;
-  codegenReactHooks: boolean;
-  codegenTemplates: boolean;
-  codegenVueHooks: boolean;
-}
-
-export const defineImports = ({
-  codegenReactHooks,
-  codegenVueHooks,
-  codegenMethods,
-  codegenTemplates,
-}: DefineImportsArgs): string => {
+export const defineImports = (): string => {
   let template = '';
-  if (codegenReactHooks || codegenMethods || codegenTemplates || codegenVueHooks) {
+  const { isCodeGen, codegenMethods, codegenVueHooks, codegenReactHooks } = ParametersStore;
+  if (isCodeGen) {
     template = `
     import { OperationDefinitionNode } from 'graphql';
     ${guessFragmentTypeTemplate}

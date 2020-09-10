@@ -5,6 +5,7 @@ import { createMethods, generateFragments } from './builders';
 import { sharedTemplate } from './templates/shared.template';
 import { ParametersStore } from './store/parameters.store';
 import { defineImports } from './templates';
+import { SchemaStore } from './store';
 
 const generatedInterfaces = {
   codeGen: '',
@@ -45,6 +46,7 @@ export const generate = async ({
     suffix,
     genFragments,
   });
+  SchemaStore.setSchema(schema);
   transpile.start();
 
   try {
@@ -90,12 +92,6 @@ export const generate = async ({
   transpile.succeed(`📝 Schema transpiled to Typescript`);
 
   const signature = sharedTemplate;
-  const imports = defineImports({
-    codegenReactHooks: !!codegenReactHooks,
-    codegenVueHooks: !!codegenVueHooks,
-    codegenMethods: !!codegenMethods,
-    codegenTemplates: !!codegenTemplates,
-  });
 
   const modelsTemplate = `
       ${signature}

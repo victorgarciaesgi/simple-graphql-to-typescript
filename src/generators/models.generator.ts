@@ -1,4 +1,4 @@
-import { GraphQLJSONSchema, Field } from '../models';
+import { GraphQLJSONSchema, Field, TypeKind } from '../models';
 import {
   getObjectTSInterfaces,
   generateEnumType,
@@ -6,35 +6,23 @@ import {
   generateUnionType,
 } from './types.generator';
 import { retrieveQueriesList } from '../builders';
+import { SchemaStore } from 'src/store';
 
-const typesToParse = ['OBJECT', 'INTERFACE'];
+export function generateInterfaces(schema: GraphQLJSONSchema): string[] {
+  const { schemaTypes } = SchemaStore;
+  const OBJECT_TYPES = [TypeKind.OBJECT, TypeKind.INTERFACE, TypeKind.INPUT_OBJECT];
 
-export function generateInterfaces(schema: GraphQLJSONSchema) {
-  const schemaTypes = schema.__schema.types;
-  const generatedTypes: string[] = [];
-  const generatedEnums: string[] = [];
-
-  schemaTypes.forEach((item) => {
-    if (!/^_{1,2}/.test(item.name)) {
-      if (typesToParse.includes(item.kind)) {
-        const generatedInterface = getObjectTSInterfaces(item);
-        generatedTypes.push(generatedInterface);
-      } else if (item.kind === 'INPUT_OBJECT') {
-        const generatedInterface = getObjectTSInterfaces(item, true);
-        generatedTypes.push(generatedInterface);
-      } else if (item.kind === 'UNION') {
-        const unionTypes = generateUnionType(item);
-        generatedEnums.push(unionTypes);
-      } else if (item.kind === 'ENUM') {
-        const enumTypes = generateEnumType(item);
-        generatedEnums.push(enumTypes);
-      }
+  return schemaTypes.map((type) => {
+    let typeOutput = '';
+    if (OBJECT_TYPES.includes(type.kind)) {
+      typeOutput = getObjectTSInterfaces(type, type.kind === TypeKind.INPUT_OBJECT);
+    } else if (type.kind === TypeKind.UNION) {
+      typeOutput = generateUnionType(type);
+    } else if (type.kind === TypeKind.ENUM) {
+      typeOutput = generateEnumType(type);
     }
+    return typeOutput;
   });
-  return {
-    generatedTypes,
-    generatedEnums,
-  };
 }
 
 export function generateMethodsArgsTypes(schema: GraphQLJSONSchema) {

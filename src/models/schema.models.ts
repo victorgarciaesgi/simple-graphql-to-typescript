@@ -1,3 +1,13 @@
+export enum TypeKind {
+  'SCALAR' = 'SCALAR',
+  'OBJECT' = 'OBJECT',
+  'INTERFACE' = 'INTERFACE',
+  'UNION' = 'UNION',
+  'ENUM' = 'ENUM',
+  'INPUT_OBJECT' = 'INPUT_OBJECT',
+  'NON_NULL' = 'NON_NULL',
+}
+
 export interface QueryType {
   name: string;
 }
@@ -39,7 +49,7 @@ export interface EnumValue {
 }
 
 export interface Type {
-  kind: string;
+  kind: TypeKind;
   name: string;
   description: string;
   fields: Field[];
