@@ -106,11 +106,11 @@ export const createConfig = async (): Promise<void> => {
         return;
       }
     }
-    const codeGenDisplay = codeGen.codeGens.map((m) => `${m}: true,`);
+    const codeGenDisplay = codeGen.codeGens.map((m: string) => `${m}: true,`);
     const configValue = `module.exports = {
-  ${sourceType.type}: "${sourceValue.source}",
-  output: "${outputPath.ouput}",
-  ${codeGenDisplay.join('\n  ')}
+    ${sourceType.type}: "${sourceValue.source}",
+    output: "${outputPath.ouput}",
+    ${codeGenDisplay.join('\n  ')}
 }
     `;
     await fs.writeFileSync(configPath, configTemplate(configValue));

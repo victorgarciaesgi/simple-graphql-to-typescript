@@ -1,6 +1,6 @@
 import ora from 'ora';
 import { generateInterfaces, generateMethodsArgsTypes } from './generators';
-import { GraphQLJSONSchema, Field, CodeGenType, Schema } from './models';
+import { GraphQLJSONSchema, CodeGenType, Schema } from './models';
 import { createMethods, generateFragments } from './builders';
 import { sharedTemplate } from './templates/shared.template';
 import { ParametersStore } from './store/parameters.store';
@@ -16,17 +16,29 @@ const generatedInterfaces = {
 
 const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
 
-export const generate = async (
-  schema: GraphQLJSONSchema,
-  prefix?: string,
-  suffix?: string,
-  customScalars?: { [x: string]: string },
-  codegenMethods?: boolean,
-  codegenReactHooks?: boolean,
-  codegenVueHooks?: boolean,
-  codegenTemplates?: boolean,
-  genFragments?: boolean
-): Promise<string> => {
+type GenerateArgs = {
+  schema: GraphQLJSONSchema;
+  prefix?: string;
+  suffix?: string;
+  customScalars?: { [x: string]: string };
+  codegenMethods?: boolean;
+  codegenReactHooks?: boolean;
+  codegenVueHooks?: boolean;
+  codegenTemplates?: boolean;
+  genFragments?: boolean;
+};
+
+export const generate = async ({
+  schema,
+  codegenMethods,
+  codegenReactHooks,
+  codegenTemplates,
+  codegenVueHooks,
+  customScalars,
+  genFragments,
+  prefix,
+  suffix,
+}: GenerateArgs): Promise<string> => {
   ParametersStore.setParamaters({
     scalars: customScalars,
     prefix,

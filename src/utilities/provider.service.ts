@@ -4,7 +4,7 @@ import ora from 'ora';
 import * as query from 'querystringify';
 import { getIntrospectionQuery, printSchema } from 'graphql';
 import { buildClientSchema } from 'graphql/utilities/buildClientSchema';
-import { GraphQLJSONSchema } from '../models';
+import { GraphQLJSONSchema, ObjectLiteral } from '../models';
 import path from 'path';
 import fs from 'fs';
 
@@ -41,19 +41,15 @@ export const downloadSchema = async (endpoint: string, header?: string): Promise
   }
 };
 
-function getHeadersFromInput(header: any): { [key: string]: string } {
+function getHeadersFromInput(header?: string | ObjectLiteral): { [key: string]: string } {
   switch (typeof header) {
     case 'string': {
-      const keys = query.parse(header);
+      const keys = query.parse(header) as ObjectLiteral;
       const key = Object.keys(keys)[0];
       return { [key]: keys[key] };
     }
     case 'object': {
-      return header.map((header) => {
-        const keys = query.parse(header);
-        const key = Object.keys(keys)[0];
-        return { [key]: keys[key] };
-      });
+      return header;
     }
     default: {
       return {};
@@ -115,7 +111,7 @@ export async function fetchSchemas({
   try {
     if (endpoint) {
       const graphqlRegxp = /[^/]+(?=\/$|$)/;
-      const [result] = graphqlRegxp.exec(endpoint);
+      // const [result] = graphqlRegxp.exec(endpoint);
       const JSONschema = await downloadSchema(endpoint, header);
       if (download) {
         const outputfile = path.resolve(process.cwd(), download);

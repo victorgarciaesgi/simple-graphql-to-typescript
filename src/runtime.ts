@@ -13,31 +13,19 @@ export async function sgtsGenerate({
   output,
   customScalars,
   header,
-  prefix,
-  suffix,
   jsMode,
-  codegenMethods,
-  codegenReactHooks,
-  codegenVueHooks,
-  codegenTemplates,
   download,
-  genFragments,
+  ...rest
 }: SgtsConfig): Promise<string | undefined> {
   try {
     console.log(`\n Sgts v${require('../package.json').version}`);
     const schema = await fetchSchemas({ endpoint, header, json, download });
     if (schema) {
-      const generatedString = await generate(
+      const generatedString = await generate({
         schema,
-        prefix,
-        suffix,
         customScalars,
-        codegenMethods,
-        codegenReactHooks,
-        codegenVueHooks,
-        codegenTemplates,
-        genFragments
-      );
+        ...rest,
+      });
       return await saveFile(generatedString, output, jsMode);
     } else {
       console.warn(
