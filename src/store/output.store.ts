@@ -5,7 +5,7 @@ import { defineImports } from 'src/templates';
 class OutputConstructor {
   private signature = sharedTemplate;
 
-  getRenderedFileString(): string {
+  getRenderedFileString() {
     const IMPORTS = defineImports();
   }
 }
