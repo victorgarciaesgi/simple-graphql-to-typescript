@@ -33,17 +33,20 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
     extends Fragmentable<ExecutableQuery<T, A>>,
       WithArgs<T,A>,
       Executable<T, A>,
-      Abortable {}
+      Abortable,
+      Loadable {}
   export interface UnFragmentableQueryWithArgs<T, A>
     extends Fragmentable<QueryWithArgs<T, A>>,
       WithArgs<T,A>,
       Executable<T, A>,
-      Abortable {}
+      Abortable,
+      Loadable {}
   export interface UnFragmentableQueryWithOptionalArgs<T, A>
     extends Fragmentable<QueryWithOptionalArgs<T, A>>,
       WithArgs<T,A>,
       Executable<T, A>,
-      Abortable {}
+      Abortable,
+      Loadable {}
   
   
   export const apiProvider = (apolloClient: ApolloClient<any>) => {
