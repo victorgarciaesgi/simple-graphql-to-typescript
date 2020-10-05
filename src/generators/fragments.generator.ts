@@ -1,5 +1,6 @@
 import { Type, Field, OfType } from '../models';
 import { evaluateType } from '../utilities';
+import { range } from 'lodash';
 
 export const createConnectionFragment = (
   typeName: string,
@@ -37,21 +38,29 @@ export const createNormalFragment = (
   let foundType = allTypes.find((f) => f.name === type.name);
   if (foundType) {
     let outputFragment = '';
-    let nestedTypes: string[] = [foundType.name];
 
-    const createLines = (field: Field) => {
+    const createFragmentWithDeps = (field: Field, level: number) => {
       let { typeName, isScalar, isEnum } = evaluateType(field);
-      if (!isScalar && !isEnum && !nestedTypes.includes(typeName)) {
+      if (!isScalar && !isEnum) {
         outputFragment += `${field.name} {`;
         const type = allTypes.find((f) => f.name === typeName);
-        nestedTypes.push(typeName);
-        type?.fields?.forEach(createLines);
-        outputFragment += `} `;
-      } else if (!nestedTypes.includes(typeName)) {
+        if (level > 2 && type?.fields && type.fields.length < 7) {
+          type?.fields?.forEach((m) => createFragmentWithDeps(m, level + 1));
+          outputFragment += `} `;
+        } else {
+          type?.fields?.forEach((m) => createFragmentNoDeps(m, level + 1));
+        }
+      } else {
         outputFragment += `${field.name} `;
       }
     };
-    foundType.fields.map(createLines);
+    const createFragmentNoDeps = (field: Field, level: number) => {
+      let { typeName, isScalar, isEnum } = evaluateType(field);
+      if (isScalar || isEnum) {
+        outputFragment += `${field.name} `;
+      }
+    };
+    foundType.fields.map((m) => createFragmentWithDeps(m, 1));
     return {
       fragment: outputFragment,
       foundName: foundType.name,
