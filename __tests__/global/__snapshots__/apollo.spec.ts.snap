@@ -3618,7 +3618,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       };
     },
     /** Collection of all the possible media genres */
-    GenreCollection(): Query<string[]> {
+    GenreCollection(): ExecutableQuery<string[]> {
       const queryTemplate = sgtsQL\`
       query GenreCollection  {
         GenreCollection

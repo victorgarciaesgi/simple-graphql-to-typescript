@@ -33,34 +33,38 @@ export const createConnectionFragment = (
 
 export const createNormalFragment = (
   type: Type,
-  allTypes: Type[]
+  allTypes: Type[],
+  connection?: boolean
 ): { fragment: string; foundName: string } | null => {
   let foundType = allTypes.find((f) => f.name === type.name);
   if (foundType) {
     let outputFragment = '';
+    const THRESHOLD = connection ? 4 : 2;
 
     const createFragmentWithDeps = (field: Field, level: number) => {
-      let { typeName, isScalar, isEnum } = evaluateType(field);
+      let { typeName, isScalar, isEnum, isEdge } = evaluateType(field);
       if (!isScalar && !isEnum) {
-        outputFragment += `${field.name} {`;
         const type = allTypes.find((f) => f.name === typeName);
-        if (level > 2 && type?.fields && type.fields.length < 7) {
+        if (level < THRESHOLD) {
+          outputFragment += `${field.name} {`;
           type?.fields?.forEach((m) => createFragmentWithDeps(m, level + 1));
           outputFragment += `} `;
-        } else {
+        } else if (type?.fields && type.fields.length < 7) {
+          outputFragment += `${field.name} {`;
           type?.fields?.forEach((m) => createFragmentNoDeps(m, level + 1));
+          outputFragment += `} `;
         }
       } else {
         outputFragment += `${field.name} `;
       }
     };
     const createFragmentNoDeps = (field: Field, level: number) => {
-      let { typeName, isScalar, isEnum } = evaluateType(field);
+      let { isScalar, isEnum } = evaluateType(field);
       if (isScalar || isEnum) {
         outputFragment += `${field.name} `;
       }
     };
-    foundType.fields.map((m) => createFragmentWithDeps(m, 1));
+    foundType.fields.map((m) => createFragmentWithDeps(m, 0));
     return {
       fragment: outputFragment,
       foundName: foundType.name,
