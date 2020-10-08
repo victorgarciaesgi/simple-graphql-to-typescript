@@ -24,27 +24,22 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
   
   export interface ExecutableQuery<T> extends Abortable, Loadable, Executable<T> {}
   
-  export interface FragmentableQuery<T, A> extends Fragmentable<ExecutableQuery<T, A>> {}
+  export interface FragmentableQuery<T, A> extends Fragmentable<ExecutableQuery<T>> {}
   export interface FragmentableQueryWithArgs<T, A> extends Fragmentable<QueryWithArgs<T, A>> {}
   export interface FragmentableQueryWithOptionalArgs<T, A>
     extends Fragmentable<QueryWithOptionalArgs<T, A>> {}
   
-  export interface UnFragmentableQuery<T, A>
-    extends Fragmentable<ExecutableQuery<T, A>>,
-      WithArgs<T,A>,
-      Executable<T, A>,
+  export interface UnFragmentableQuery<T>
+    extends Fragmentable<ExecutableQuery<T>>,
+      Executable<T>,
       Abortable,
       Loadable {}
-  export interface UnFragmentableQueryWithArgs<T, A>
-    extends Fragmentable<QueryWithArgs<T, A>>,
-      WithArgs<T,A>,
-      Executable<T, A>,
-      Abortable,
-      Loadable {}
+  
+  export interface UnFragmentableQueryWithArgs<T, A> extends UnFragmentableQuery<T>, WithArgs<T, A> {}
   export interface UnFragmentableQueryWithOptionalArgs<T, A>
     extends Fragmentable<QueryWithOptionalArgs<T, A>>,
       WithArgs<T,A>,
-      Executable<T, A>,
+      Executable<T>,
       Abortable,
       Loadable {}
   
