@@ -7,7 +7,7 @@ export const generateEnumType = (object: Type): string => {
   const { prefix, suffix } = ParametersStore;
   let ObjectName: string = object.name;
   const generatedFields = object.enumValues.map((field) => field.name);
-  return `${object.description ? `/** ${object.description} */\n` : ''} export const enum ${
+  return `${object.description ? `/** ${object.description} */\n` : ''} export enum ${
     prefix ? prefix : ''
   }${ObjectName}${suffix ? suffix : ''} {
         ${generatedFields
