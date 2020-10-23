@@ -35,10 +35,15 @@ export const withMethodsTemplate = (queries: string[], mutations: string[]): str
       Abortable,
       Loadable {}
   
-  export interface UnFragmentableQueryWithArgs<T, A> extends UnFragmentableQuery<T>, WithArgs<T, A> {}
+  export interface UnFragmentableQueryWithArgs<T, A>
+    extends Fragmentable<QueryWithArgs<T, A>>,
+      WithArgs<T, A>,
+      Executable<T>,
+      Abortable,
+      Loadable {}
   export interface UnFragmentableQueryWithOptionalArgs<T, A>
     extends Fragmentable<QueryWithOptionalArgs<T, A>>,
-      WithArgs<T,A>,
+      WithArgs<T, A>,
       Executable<T>,
       Abortable,
       Loadable {}
