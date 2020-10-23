@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.8.8] - 2020-09-8
+
+### Added
+
+- Removed const enums
+
+## [0.8.0] - 2020-08-12
+
+### Added
+
+- `gen-fragments` option to auto-generate fragments
+- You can still add your own fragments with the optional `$fragment` method
+
 ## [0.7.0] - 2020-06-26
 
 ### Added
