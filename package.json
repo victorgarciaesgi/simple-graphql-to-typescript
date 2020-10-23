@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.8.0",
+  "version": "0.8.9",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -80,6 +80,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "inquirer": "^7.3.3",
     "jest": "^26.4.2",
+    "lodash": "^4.17.20",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.2.0",
     "vuepress": "^1.5.4",

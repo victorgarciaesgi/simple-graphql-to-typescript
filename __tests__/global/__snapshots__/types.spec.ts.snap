@@ -1993,7 +1993,7 @@ export interface IUserModDataModel {
 }
 
 /** User sort enums */
-export enum IUserSortModel {
+export const enum IUserSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Username = 'USERNAME',
@@ -2005,7 +2005,7 @@ export enum IUserSortModel {
   Search_match = 'SEARCH_MATCH',
 }
 /** The language the user wants to see media titles in */
-export enum IUserTitleLanguageModel {
+export const enum IUserTitleLanguageModel {
   Romaji = 'ROMAJI',
   English = 'ENGLISH',
   Native = 'NATIVE',
@@ -2014,7 +2014,7 @@ export enum IUserTitleLanguageModel {
   Native_stylised = 'NATIVE_STYLISED',
 }
 /** Notification type enum */
-export enum INotificationTypeModel {
+export const enum INotificationTypeModel {
   Activity_message = 'ACTIVITY_MESSAGE',
   Activity_reply = 'ACTIVITY_REPLY',
   Following = 'FOLLOWING',
@@ -2031,7 +2031,7 @@ export enum INotificationTypeModel {
   Related_media_addition = 'RELATED_MEDIA_ADDITION',
 }
 /** Media list scoring type */
-export enum IScoreFormatModel {
+export const enum IScoreFormatModel {
   Point_100 = 'POINT_100',
   Point_10_decimal = 'POINT_10_DECIMAL',
   Point_10 = 'POINT_10',
@@ -2039,12 +2039,12 @@ export enum IScoreFormatModel {
   Point_3 = 'POINT_3',
 }
 /** Media type enum, anime or manga. */
-export enum IMediaTypeModel {
+export const enum IMediaTypeModel {
   Anime = 'ANIME',
   Manga = 'MANGA',
 }
 /** The format the media was released in */
-export enum IMediaFormatModel {
+export const enum IMediaFormatModel {
   Tv = 'TV',
   Tv_short = 'TV_SHORT',
   Movie = 'MOVIE',
@@ -2057,20 +2057,20 @@ export enum IMediaFormatModel {
   One_shot = 'ONE_SHOT',
 }
 /** The current releasing status of the media */
-export enum IMediaStatusModel {
+export const enum IMediaStatusModel {
   Finished = 'FINISHED',
   Releasing = 'RELEASING',
   Not_yet_released = 'NOT_YET_RELEASED',
   Cancelled = 'CANCELLED',
 }
-export enum IMediaSeasonModel {
+export const enum IMediaSeasonModel {
   Winter = 'WINTER',
   Spring = 'SPRING',
   Summer = 'SUMMER',
   Fall = 'FALL',
 }
 /** Source type the media was adapted from */
-export enum IMediaSourceModel {
+export const enum IMediaSourceModel {
   Original = 'ORIGINAL',
   Manga = 'MANGA',
   Light_novel = 'LIGHT_NOVEL',
@@ -2082,7 +2082,7 @@ export enum IMediaSourceModel {
   Anime = 'ANIME',
 }
 /** Character sort enums */
-export enum ICharacterSortModel {
+export const enum ICharacterSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Role = 'ROLE',
@@ -2092,13 +2092,13 @@ export enum ICharacterSortModel {
   Favourites_desc = 'FAVOURITES_DESC',
 }
 /** The role the character plays in the media */
-export enum ICharacterRoleModel {
+export const enum ICharacterRoleModel {
   Main = 'MAIN',
   Supporting = 'SUPPORTING',
   Background = 'BACKGROUND',
 }
 /** Media sort enums */
-export enum IMediaSortModel {
+export const enum IMediaSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Title_romaji = 'TITLE_ROMAJI',
@@ -2138,7 +2138,7 @@ export enum IMediaSortModel {
   Favourites_desc = 'FAVOURITES_DESC',
 }
 /** The primary language of the voice actor */
-export enum IStaffLanguageModel {
+export const enum IStaffLanguageModel {
   Japanese = 'JAPANESE',
   English = 'ENGLISH',
   Korean = 'KOREAN',
@@ -2151,7 +2151,7 @@ export enum IStaffLanguageModel {
   Hungarian = 'HUNGARIAN',
 }
 /** Staff sort enums */
-export enum IStaffSortModel {
+export const enum IStaffSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Role = 'ROLE',
@@ -2163,7 +2163,7 @@ export enum IStaffSortModel {
   Favourites_desc = 'FAVOURITES_DESC',
 }
 /** Studio sort enums */
-export enum IStudioSortModel {
+export const enum IStudioSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Name = 'NAME',
@@ -2173,7 +2173,7 @@ export enum IStudioSortModel {
   Favourites_desc = 'FAVOURITES_DESC',
 }
 /** Media trend sort enums */
-export enum IMediaTrendSortModel {
+export const enum IMediaTrendSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Media_id = 'MEDIA_ID',
@@ -2190,12 +2190,12 @@ export enum IMediaTrendSortModel {
   Episode_desc = 'EPISODE_DESC',
 }
 /** The type of ranking */
-export enum IMediaRankTypeModel {
+export const enum IMediaRankTypeModel {
   Rated = 'RATED',
   Popular = 'POPULAR',
 }
 /** Media list watching/reading status enum. */
-export enum IMediaListStatusModel {
+export const enum IMediaListStatusModel {
   Current = 'CURRENT',
   Planning = 'PLANNING',
   Completed = 'COMPLETED',
@@ -2204,7 +2204,7 @@ export enum IMediaListStatusModel {
   Repeating = 'REPEATING',
 }
 /** Review sort enums */
-export enum IReviewSortModel {
+export const enum IReviewSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Score = 'SCORE',
@@ -2217,26 +2217,26 @@ export enum IReviewSortModel {
   Updated_at_desc = 'UPDATED_AT_DESC',
 }
 /** Review rating enums */
-export enum IReviewRatingModel {
+export const enum IReviewRatingModel {
   No_vote = 'NO_VOTE',
   Up_vote = 'UP_VOTE',
   Down_vote = 'DOWN_VOTE',
 }
 /** Recommendation sort enums */
-export enum IRecommendationSortModel {
+export const enum IRecommendationSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Rating = 'RATING',
   Rating_desc = 'RATING_DESC',
 }
 /** Recommendation rating enums */
-export enum IRecommendationRatingModel {
+export const enum IRecommendationRatingModel {
   No_rating = 'NO_RATING',
   Rate_up = 'RATE_UP',
   Rate_down = 'RATE_DOWN',
 }
 /** Type of relation media has to its parent. */
-export enum IMediaRelationModel {
+export const enum IMediaRelationModel {
   Adaptation = 'ADAPTATION',
   Prequel = 'PREQUEL',
   Sequel = 'SEQUEL',
@@ -2252,7 +2252,7 @@ export enum IMediaRelationModel {
   Contains = 'CONTAINS',
 }
 /** User statistics sort enum */
-export enum IUserStatisticsSortModel {
+export const enum IUserStatisticsSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Count = 'COUNT',
@@ -2263,7 +2263,7 @@ export enum IUserStatisticsSortModel {
   Mean_score_desc = 'MEAN_SCORE_DESC',
 }
 /** Media list sort enums */
-export enum IMediaListSortModel {
+export const enum IMediaListSortModel {
   Media_id = 'MEDIA_ID',
   Media_id_desc = 'MEDIA_ID_DESC',
   Score = 'SCORE',
@@ -2296,7 +2296,7 @@ export enum IMediaListSortModel {
   Media_popularity_desc = 'MEDIA_POPULARITY_DESC',
 }
 /** Airing schedule sort enums */
-export enum IAiringSortModel {
+export const enum IAiringSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Media_id = 'MEDIA_ID',
@@ -2323,7 +2323,7 @@ export type INotificationUnionModel =
   | ThreadLikeNotification
   | RelatedMediaAdditionNotification;
 /** Activity type enum. */
-export enum IActivityTypeModel {
+export const enum IActivityTypeModel {
   Text = 'TEXT',
   Anime_list = 'ANIME_LIST',
   Manga_list = 'MANGA_LIST',
@@ -2333,12 +2333,12 @@ export enum IActivityTypeModel {
 /** Activity union type */
 export type IActivityUnionModel = TextActivity | ListActivity | MessageActivity;
 /** Activity sort enums */
-export enum IActivitySortModel {
+export const enum IActivitySortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
 }
 /** Thread sort enums */
-export enum IThreadSortModel {
+export const enum IThreadSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
   Title = 'TITLE',
@@ -2357,19 +2357,19 @@ export enum IThreadSortModel {
   Search_match = 'SEARCH_MATCH',
 }
 /** Thread comments sort enums */
-export enum IThreadCommentSortModel {
+export const enum IThreadCommentSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
 }
 /** Types that can be liked */
-export enum ILikeableTypeModel {
+export const enum ILikeableTypeModel {
   Thread = 'THREAD',
   Thread_comment = 'THREAD_COMMENT',
   Activity = 'ACTIVITY',
   Activity_reply = 'ACTIVITY_REPLY',
 }
 /** Site trend sort enums */
-export enum ISiteTrendSortModel {
+export const enum ISiteTrendSortModel {
   Date = 'DATE',
   Date_desc = 'DATE_DESC',
   Count = 'COUNT',
@@ -2386,23 +2386,23 @@ export type ILikeableUnionModel =
   | Thread
   | ThreadComment;
 /** Submission status */
-export enum ISubmissionStatusModel {
+export const enum ISubmissionStatusModel {
   Pending = 'PENDING',
   Rejected = 'REJECTED',
   Partially_accepted = 'PARTIALLY_ACCEPTED',
   Accepted = 'ACCEPTED',
 }
 /** Submission sort enums */
-export enum ISubmissionSortModel {
+export const enum ISubmissionSortModel {
   Id = 'ID',
   Id_desc = 'ID_DESC',
 }
 /** Revision history actions */
-export enum IRevisionHistoryActionModel {
+export const enum IRevisionHistoryActionModel {
   Create = 'CREATE',
   Edit = 'EDIT',
 }
-export enum IModActionTypeModel {
+export const enum IModActionTypeModel {
   Note = 'NOTE',
   Ban = 'BAN',
   Delete = 'DELETE',

@@ -32,7 +32,7 @@ export const queryBuilder = ({
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${renderedFragmentInner}
         }
-      } \${isFragment? fragment: ''}
+      } \${isFragment ? fragment : ''}
       \``;
   } else {
     return `sgtsQL\`

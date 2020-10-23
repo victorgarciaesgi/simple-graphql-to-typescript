@@ -1,4 +1,5 @@
-import { GraphQLJSONSchema } from 'src/models';
+import { GraphQLJSONSchema } from '../models';
+import { isReturnTypeEdge } from '../utilities';
 import { getObjectTSInterfaces, createNormalFragment } from '../generators';
 
 const typesToParse = ['OBJECT', 'INTERFACE'];
@@ -12,7 +13,8 @@ export function generateFragments(schema: GraphQLJSONSchema) {
   schemaTypes.forEach((type) => {
     if (!/^_{1,2}/.test(type.name)) {
       if (typesToParse.includes(type.kind) && !forbiddenTypes.includes(type.name)) {
-        const fragment = createNormalFragment(type, ObjectTypes);
+        const isConnection = isReturnTypeEdge(ObjectTypes, type.name);
+        const fragment = createNormalFragment(type, ObjectTypes, isConnection);
         if (fragment) {
           const output = `export const ${fragment.foundName}Fragment = sgtsQL\` 
   fragment ${fragment.foundName}Fragment on ${fragment.foundName} {

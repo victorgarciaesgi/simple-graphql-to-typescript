@@ -89,7 +89,7 @@ export const createGraphQLFunction = ({
   if (isScalar) {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    ${methodName}(): Query${withArgs}<${returnedTypeDisplay}${
+    ${methodName}(): ${withArgs ? '' : 'Executable'}Query${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + methodArgsType : ''
     }> {
       const queryTemplate = ${Query}
