@@ -61,11 +61,18 @@ const runSgtsCLI = () => {
     init,
   } = program;
 
+  console.log(program.arguments);
+
+  // Generate using .sgtsrc.js config file
   if (generate) {
-    const env = typeof generate === 'boolean' ? 'development' : generate;
-    const config = getConfigParams(env);
-    if (config) generateUsingConfig(config);
-    else createConfig();
+    // Get `.env.{stage}` to load envirronements variables
+    const config = getConfigParams(generate);
+    if (config) {
+      generateUsingConfig(config);
+    } else {
+      // If no .sgtsrc.js file present, init it
+      createConfig();
+    }
   } else if (init) {
     createConfig();
   } else {

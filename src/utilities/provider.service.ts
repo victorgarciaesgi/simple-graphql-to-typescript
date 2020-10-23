@@ -8,7 +8,9 @@ import { GraphQLJSONSchema, ObjectLiteral } from '../models';
 import path from 'path';
 import fs from 'fs';
 
-export const downloadSchema = async (endpoint: string, header?: string): Promise<string> => {
+const possibleGraphQLSuffix = ['/graphql', '/api', '/__graphql', '/__api'];
+
+export async function downloadSchema(endpoint: string, header?: string): Promise<string> {
   const download = ora(`⬇️  Downloading schemas from ${chalk.blue(endpoint)}`).start();
   try {
     let formatedHeaders = getHeadersFromInput(header);
@@ -39,7 +41,7 @@ export const downloadSchema = async (endpoint: string, header?: string): Promise
       `
     );
   }
-};
+}
 
 function getHeadersFromInput(header?: string | ObjectLiteral): { [key: string]: string } {
   switch (typeof header) {
@@ -95,9 +97,7 @@ async function getRemoteSchema(
   }
 }
 
-const possibleGraphQLSuffix = ['/graphql', '/api', '/__graphql', '/__api'];
-
-export async function fetchSchemas({
+export async function retrieveIntrospectionSchema({
   endpoint,
   header,
   json,
@@ -110,7 +110,7 @@ export async function fetchSchemas({
 }): Promise<GraphQLJSONSchema | null> {
   try {
     if (endpoint) {
-      const graphqlRegxp = /[^/]+(?=\/$|$)/;
+      // const graphqlRegxp = /[^/]+(?=\/$|$)/;
       // const [result] = graphqlRegxp.exec(endpoint);
       const JSONschema = await downloadSchema(endpoint, header);
       if (download) {

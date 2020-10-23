@@ -17,4 +17,9 @@ export type SgtsConfig = {
   genFragments?: boolean;
 } & AtLeastOne<{ endpoint: string; json: string }>;
 
-export type CodeGenType = 'methods' | 'react-hooks' | 'vue-hooks' | 'template';
+export enum CodeGenType {
+  METHODS = 'methods',
+  REACT_HOOKS = 'react-hooks',
+  VUE_HOOKS = 'vue-hooks',
+  TEMPLATE = 'template',
+}

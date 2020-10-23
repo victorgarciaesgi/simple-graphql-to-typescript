@@ -6,6 +6,7 @@ export enum TypeKind {
   'ENUM' = 'ENUM',
   'INPUT_OBJECT' = 'INPUT_OBJECT',
   'NON_NULL' = 'NON_NULL',
+  'LIST' = 'LIST',
 }
 
 export interface QueryType {
@@ -50,7 +51,7 @@ export interface EnumValue {
 
 export interface Type {
   kind: TypeKind;
-  name: string;
+  name: string | MethodType;
   description: string;
   fields: Field[];
   inputFields: InputField[];

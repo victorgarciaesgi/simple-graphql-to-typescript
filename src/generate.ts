@@ -1,11 +1,9 @@
 import ora from 'ora';
-import { generateInterfaces, generateMethodsArgsTypes } from './generators';
-import { GraphQLJSONSchema, CodeGenType, Schema } from './models';
-import { createMethods, generateFragments } from './builders';
-import { sharedTemplate } from './templates/shared.template';
-import { ParametersStore } from './store/parameters.store';
-import { defineImports } from './templates';
-import { SchemaStore } from './store';
+import { generateMethodsArgsTypes } from '@generators';
+import { GraphQLJSONSchema, CodeGenType, Schema } from '@models';
+import { createMethods, generateFragments, buildSchemaTypes } from '@builders';
+import { sharedTemplate } from '@templates';
+import { ParametersStore, SchemaStore } from '@store';
 
 const generatedInterfaces = {
   codeGen: '',
@@ -17,7 +15,7 @@ const generatedInterfaces = {
 
 const transpile = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
 
-type GenerateArgs = {
+interface GenerateArgs {
   schema: GraphQLJSONSchema;
   prefix?: string;
   suffix?: string;
@@ -27,30 +25,22 @@ type GenerateArgs = {
   codegenVueHooks?: boolean;
   codegenTemplates?: boolean;
   genFragments?: boolean;
-};
+}
 
 export const generate = async ({
   schema,
-  codegenMethods,
-  codegenReactHooks,
-  codegenTemplates,
-  codegenVueHooks,
   customScalars,
-  genFragments,
-  prefix,
-  suffix,
+  ...parameters
 }: GenerateArgs): Promise<string> => {
+  SchemaStore.setSchema(schema);
   ParametersStore.setParamaters({
     scalars: customScalars,
-    prefix,
-    suffix,
-    genFragments,
+    ...parameters,
   });
-  SchemaStore.setSchema(schema);
   transpile.start();
 
   try {
-    const { generatedEnums, generatedTypes } = generateInterfaces(schema);
+    const schemaTypes = buildSchemaTypes();
     const generatedMethodsArgs = generateMethodsArgsTypes(schema);
     generatedInterfaces.OBJECT = generatedTypes;
     generatedInterfaces.ENUM = generatedEnums;

@@ -1,4 +1,4 @@
-import { Dictionnary } from '../models';
+import { Dictionnary } from '@models';
 
 interface SetParametersArgs {
   scalars?: Dictionnary<string>;

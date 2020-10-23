@@ -1,26 +1,24 @@
-import { Field, MethodType } from '../models';
-import { createMethodsArgs } from './methods.generator';
-import { evaluateType } from '../utilities';
+import { Field, MethodType } from '@models';
+import { SchemaStore } from '@store';
 
 interface QueryBuilderArgs {
-  isScalar: boolean;
   field: Field;
-  type: MethodType;
-  renderedFragmentInner: string;
+  functionType: MethodType;
+  innerFragment: string;
   defaultFragmentName?: string;
 }
 
-export const queryBuilder = ({
-  isScalar,
+export function generateTemplateQuery({
   field,
-  type,
-  renderedFragmentInner,
+  functionType,
+  innerFragment,
   defaultFragmentName,
-}: QueryBuilderArgs): string => {
-  const { GQLArgs, GQLVariables } = createMethodsArgs(field);
+}: QueryBuilderArgs): string {
+  const { GQLArgs, GQLVariables } = SchemaStore.getFunctionFieldArgs(field);
+  const { isScalar } = SchemaStore.getFieldProps(field);
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
-  const typeNameLower = type;
+  const typeNameLower = functionType;
   if (isScalar) {
     return `sgtsQL\`
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
@@ -30,7 +28,7 @@ export const queryBuilder = ({
     return `sgtsQL\`
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
-          ${renderedFragmentInner}
+          ${innerFragment}
         }
       } \${isFragment ? fragment : ''}
       \``;
@@ -43,21 +41,21 @@ export const queryBuilder = ({
       } \${${defaultFragmentName}}
       \``;
   }
-};
+}
 
 interface CreateQueryFunctionArgs {
   field: Field;
-  type: MethodType;
-  renderedFragmentInner: string;
+  functionType: MethodType;
+  innerFragment: string;
 }
 
-export const createQueryFunction = ({
+export function generateQueryFunction({
   field,
-  type,
-  renderedFragmentInner,
-}: CreateQueryFunctionArgs) => {
-  const { isScalar } = evaluateType(field);
-  const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
+  functionType,
+  innerFragment,
+}: CreateQueryFunctionArgs) {
+  const { isScalar } = SchemaStore.getFieldProps(field);
+  const Query = generateTemplateQuery({ field, innerFragment, functionType });
 
   if (isScalar) {
     return `export const ${field.name}GQLNode = (): DocumentNode =>  {
@@ -69,4 +67,4 @@ export const createQueryFunction = ({
       return ${Query};
     }`;
   }
-};
+}

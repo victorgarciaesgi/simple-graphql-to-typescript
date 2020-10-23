@@ -1,6 +1,7 @@
 import { Field, InputField, Arg, Type } from '../models';
-import { evaluateType, capitalizeAllWord } from '../utilities';
+import { capitalizeAllWord } from '../utilities';
 import { ParametersStore } from '../store/parameters.store';
+import { SchemaStore } from '@store';
 
 // Generate Enum type (ex: export enum Gender { M = 'M', F = 'F'})
 export const generateEnumType = (object: Type): string => {
@@ -30,10 +31,10 @@ export const generateUnionType = (object: Type): string => {
 /** Get the ts type from a Field (ex: 'string[]') */
 export const getOneTSTypeDisplay = ({ field }: { field: Field | InputField | Arg }): string => {
   const { prefix, suffix, listScalars } = ParametersStore;
-  const { isScalar, typeName, isArray } = evaluateType(field);
+  const { isScalar, fieldName, isArray } = SchemaStore.getFieldProps(field);
   const returnedName = isScalar
-    ? listScalars[typeName]
-    : `${prefix ? prefix : ''}${typeName}${suffix ? suffix : ''}`;
+    ? listScalars[fieldName]
+    : `${prefix ? prefix : ''}${fieldName}${suffix ? suffix : ''}`;
 
   return returnedName + (isArray ? '[]' : '');
 };
@@ -42,7 +43,7 @@ export const getOneTSTypeDisplay = ({ field }: { field: Field | InputField | Arg
 export const generatedTsFields = (fields: (Field | InputField)[], isInput?: boolean): string[] => {
   return fields.map((field) => {
     let propertyName = field.name;
-    const { isRequired } = evaluateType(field);
+    const { isRequired } = SchemaStore.getFieldProps(field);
     const TStypeName = getOneTSTypeDisplay({ field });
     return `${field.description ? `/** ${field.description}*/\n` : ''} ${propertyName}${
       isRequired ? '' : isInput ? '?' : ''
@@ -52,16 +53,16 @@ export const generatedTsFields = (fields: (Field | InputField)[], isInput?: bool
 
 /** Generate GQL queries and mutations args (ex: $args: Args[], $where: WhereInput!) */
 export const generateQGLArg = (field: Arg): string => {
-  const { isArray, isArrayRequired, isRequired, typeName } = evaluateType(field);
-  return `${isArray ? '[' : ''}${typeName}${isArrayRequired ? '!' : ''}${isArray ? ']' : ''}${
+  const { isArray, isArrayRequired, isRequired, fieldName } = SchemaStore.getFieldProps(field);
+  return `${isArray ? '[' : ''}${fieldName}${isArrayRequired ? '!' : ''}${isArray ? ']' : ''}${
     isRequired ? '!' : ''
   }`;
 };
 
 /** Generates TS interface of a given GraphqlType (ex: interface User {name: string, role?: UserRole}) */
 export const getObjectTSInterfaces = (object: Type, isInput?: boolean): string => {
-  let fieldsKey = isInput ? 'inputFields' : 'fields';
-  const generatedFields = generatedTsFields(object[fieldsKey], isInput);
+  let fields = isInput ? object.inputFields : object.fields;
+  const generatedFields = generatedTsFields(fields, isInput);
   return buildTsInterfaceString(object, generatedFields);
 };
 

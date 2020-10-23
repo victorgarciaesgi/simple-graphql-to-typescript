@@ -1,40 +1,41 @@
-import { Field, MethodType, Type } from '../models';
-import { createMethodsArgs } from './methods.generator';
-import { evaluateType, areAllArgsOptional, capitalizeFirstLetter } from '../utilities';
+import { Field, MethodType, Type } from '@models';
+import { capitalizeFirstLetter } from '@utilities';
 import { getOneTSTypeDisplay } from './types.generator';
-import { queryBuilder } from './templates.generator';
+import { generateQueryFunction } from './templates.generator';
+import { SchemaStore } from '@store';
 
 interface GraphQLFunctionArgs {
   field: Field;
-  type: MethodType;
-  renderedFragmentInner: string;
+  functionType: MethodType;
+  innerFragment: string;
 }
 
 export const createReactApolloHook = ({
   field,
-  type,
-  renderedFragmentInner,
+  functionType,
+  innerFragment,
 }: GraphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
 
-  const { methodArgsType } = createMethodsArgs(field);
-  const { isScalar } = evaluateType(field);
+  const { functionArgsTypeName } = SchemaStore.getFunctionFieldArgs(field);
+  const { isScalar } = SchemaStore.getFieldProps(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({
     field,
   });
 
-  const typeNameLower = type;
-  const typeNameUpper = capitalizeFirstLetter(type);
+  const typeNameLower = functionType;
+  const typeNameUpper = capitalizeFirstLetter(functionType);
 
-  const Query = queryBuilder({
+  const Query = generateQueryFunction({
     field,
-    isScalar,
-    renderedFragmentInner,
-    type,
+    innerFragment,
+    functionType,
   });
 
-  const TOptions = `{${methodName}: ${returnedTypeDisplay}}${hasArgs ? ', ' + methodArgsType : ''}`;
+  const TOptions = `{${methodName}: ${returnedTypeDisplay}}${
+    hasArgs ? ', ' + functionArgsTypeName : ''
+  }`;
 
   let useHookOutput = `return use${typeNameUpper}<${TOptions}>(${typeNameLower}, options);`;
 
@@ -64,33 +65,34 @@ export const createReactApolloHook = ({
 
 export const createVueApolloHook = ({
   field,
-  type,
-  renderedFragmentInner,
+  functionType,
+  innerFragment,
 }: GraphQLFunctionArgs): string => {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
 
-  const { methodArgsType } = createMethodsArgs(field);
-  const { isScalar } = evaluateType(field);
+  const { functionArgsTypeName } = SchemaStore.getFunctionFieldArgs(field);
+  const { isScalar } = SchemaStore.getFieldProps(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({
     field,
   });
 
-  const typeNameLower = type;
-  const typeNameUpper = capitalizeFirstLetter(type);
+  const typeNameLower = functionType;
+  const typeNameUpper = capitalizeFirstLetter(functionType);
 
-  const Query = queryBuilder({
+  const Query = generateQueryFunction({
     field,
-    isScalar,
-    renderedFragmentInner,
-    type,
+    innerFragment,
+    functionType,
   });
 
-  const TOptions = `{${methodName}: ${returnedTypeDisplay}${hasArgs ? ', ' + methodArgsType : ''}}`;
+  const TOptions = `{${methodName}: ${returnedTypeDisplay}${
+    hasArgs ? ', ' + functionArgsTypeName : ''
+  }}`;
   const TOptionsArgs = `Use${typeNameUpper}Options<${TOptions}>`;
   const vueApolloParams = `${
     hasArgs
-      ? `variables?: ${methodArgsType} | Ref<${methodArgsType}> | ReactiveFunction<${methodArgsType}>,`
+      ? `variables?: ${functionArgsTypeName} | Ref<${functionArgsTypeName}> | ReactiveFunction<${functionArgsTypeName}>,`
       : ''
   } options?: ${TOptionsArgs} | Ref<${TOptionsArgs}> | ReactiveFunction<${TOptionsArgs}>`;
 

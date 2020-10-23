@@ -30,7 +30,15 @@
       "es2017.object",
       "es7"
     ],
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "paths": {
+      "@store": ["src/store"],
+      "@generators": ["src/generators"],
+      "@models": ["src/models"],
+      "@templates": ["src/templates"],
+      "@builders": ["src/builders"],
+      "@utilities": ["src/utilities"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts"]

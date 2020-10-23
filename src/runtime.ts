@@ -1,6 +1,6 @@
 import { generate } from './generate';
 import chalk from 'chalk';
-import { fetchSchemas } from './utilities';
+import { retrieveIntrospectionSchema } from './utilities';
 import { saveFile } from './save';
 import { SgtsConfig } from './models';
 
@@ -17,12 +17,18 @@ export async function sgtsGenerate({
   download,
   ...rest
 }: SgtsConfig): Promise<string | undefined> {
+  console.log(`\n Sgts v${require('../package.json').version}`);
+
   try {
-    console.log(`\n Sgts v${require('../package.json').version}`);
-    const schema = await fetchSchemas({ endpoint, header, json, download });
-    if (schema) {
+    const introspectionSchema = await retrieveIntrospectionSchema({
+      endpoint,
+      header,
+      json,
+      download,
+    });
+    if (introspectionSchema) {
       const generatedString = await generate({
-        schema,
+        schema: introspectionSchema,
         customScalars,
         ...rest,
       });

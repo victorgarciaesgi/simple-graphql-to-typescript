@@ -1,96 +1,51 @@
-import { Field, Type, Arg, MethodType, CodeGenType } from '../models';
-import { getOneTSTypeDisplay, generateQGLArg } from './types.generator';
-import {
-  evaluateType,
-  isReturnTypeEdge,
-  areAllArgsOptional,
-  capitalizeAllWord,
-  capitalizeFirstLetter,
-} from '../utilities';
-import { createConnectionFragment } from './fragments.generator';
-import { queryBuilder, createQueryFunction } from './templates.generator';
+import { Field, MethodType, CodeGenType } from '../models';
+import { getOneTSTypeDisplay } from './types.generator';
+import { generateConnectionFragment } from './fragments.generator';
+import { generateQueryFunction, generateTemplateQuery } from './templates.generator';
 import { createReactApolloHook, createVueApolloHook } from './hooks.generator';
-import { ParametersStore } from '../store';
-
-export const createMethodsArgs = (
-  field: Field
-): {
-  GQLVariables: string[];
-  GQLArgs: string[];
-  methodArgsType: string;
-} => {
-  const { prefix, suffix } = ParametersStore;
-  const { GQLVariables, GQLArgs } = field.args.reduce(
-    (acc, arg) => {
-      const argName = arg.name;
-      const type = generateQGLArg(arg);
-      acc.GQLVariables.push(`$${argName}: ${type}`);
-      acc.GQLArgs.push(`${argName}: $${argName}`);
-      return acc;
-    },
-    {
-      GQLVariables: [] as string[],
-      GQLArgs: [] as string[],
-    }
-  );
-  let methodArgsType = '';
-  if (field.args.length) {
-    const parsedSuffix = (suffix ? suffix : '') + 'Args';
-    methodArgsType = `${prefix ? prefix : ''}${field.name}${parsedSuffix}`;
-  }
-  return {
-    GQLArgs,
-    GQLVariables,
-    methodArgsType,
-  };
-};
+import { ParametersStore, SchemaStore } from '../store';
 
 interface GraphQLFunctionArgs {
   field: Field;
-  type: MethodType;
-  renderedFragmentInner: string;
+  functionType: MethodType;
+  innerFragment: string;
 }
 
-export const createGraphQLFunction = ({
+export function createGraphQLFunction({
   field,
-  type,
-  renderedFragmentInner,
-}: GraphQLFunctionArgs): string => {
+  functionType,
+  innerFragment,
+}: GraphQLFunctionArgs): string {
   const hasArgs = field.args.length > 0;
   const methodName = field.name;
 
-  const { methodArgsType } = createMethodsArgs(field);
-  const { isScalar, typeName } = evaluateType(field);
+  const { functionArgsTypeName } = SchemaStore.getFunctionFieldArgs(field);
+  const { isScalar, fieldName } = SchemaStore.getFieldProps(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({ field });
 
   const { genFragments } = ParametersStore;
 
-  const Query = queryBuilder({ field, isScalar, renderedFragmentInner, type });
+  const Query = generateQueryFunction({ field, innerFragment, functionType });
   let defaultQuery: string | null = null;
 
   if (genFragments) {
-    defaultQuery = queryBuilder({
+    defaultQuery = generateTemplateQuery({
       field,
-      isScalar,
-      renderedFragmentInner,
-      type,
-      defaultFragmentName: `${typeName}Fragment`,
+      innerFragment,
+      functionType,
+      defaultFragmentName: `${fieldName}Fragment`,
     });
   }
 
-  const argsOptional = hasArgs ? areAllArgsOptional(field.args) : false;
+  const argsOptional = hasArgs ? SchemaStore.areFieldArgsAllOptional(field) : false;
 
-  const withArgs = hasArgs
-    ? areAllArgsOptional(field.args)
-      ? 'WithOptionalArgs'
-      : 'WithArgs'
-    : '';
+  const withArgs = hasArgs ? (argsOptional ? 'WithOptionalArgs' : 'WithArgs') : '';
 
   if (isScalar) {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
     ${methodName}(): ${withArgs ? '' : 'Executable'}Query${withArgs}<${returnedTypeDisplay}${
-      hasArgs ? ',' + methodArgsType : ''
+      hasArgs ? ',' + functionArgsTypeName : ''
     }> {
       const queryTemplate = ${Query}
       return abortableQuery(queryTemplate, ${hasArgs}, ${argsOptional});
@@ -101,7 +56,9 @@ export const createGraphQLFunction = ({
     ${field.description ? `/** ${field.description} */` : ''}
     ${methodName}(): ${
       genFragments ? 'Un' : ''
-    }FragmentableQuery${withArgs}<${returnedTypeDisplay}${hasArgs ? ',' + methodArgsType : ''}> {
+    }FragmentableQuery${withArgs}<${returnedTypeDisplay}${
+      hasArgs ? ',' + functionArgsTypeName : ''
+    }> {
       ${genFragments ? `const defaultQuery = ${defaultQuery};` : ''}
     return {
       $fragment: (fragment: string | DocumentNode) => {
@@ -114,34 +71,31 @@ export const createGraphQLFunction = ({
       }
   ,`;
   }
-};
+}
 
-export type buildMethodsArgs = {
+type generateFunctionArgs = {
   field: Field;
-  type: MethodType;
-  ObjectTypes: Type[];
+  functionType: MethodType;
   mode?: CodeGenType;
 };
 
-export const buildMethod = ({ field, type, ObjectTypes, mode }: buildMethodsArgs) => {
-  const { isScalar, isEnum, typeName } = evaluateType(field);
+export function generateFunction({ field, functionType, mode }: generateFunctionArgs): string {
+  const { isScalar, isEnum, fieldName } = SchemaStore.getFieldProps(field);
 
-  let renderedFragmentInner = `\${isString ? fragment : '...' + fragmentName}`;
+  let innerFragment = `\${isString ? fragment : '...' + fragmentName}`;
 
-  if (!isScalar && !isEnum && isReturnTypeEdge(ObjectTypes, typeName)) {
-    renderedFragmentInner =
-      createConnectionFragment(typeName, ObjectTypes, renderedFragmentInner) ??
-      renderedFragmentInner;
+  if (!isScalar && !isEnum && SchemaStore.isTypeConnection(field.name)) {
+    innerFragment = generateConnectionFragment(fieldName, innerFragment) ?? innerFragment;
   }
-  const createParams = { field, type, renderedFragmentInner };
+  const createParams = { field, functionType, innerFragment };
 
-  if (mode === 'template') {
-    return createQueryFunction(createParams);
-  } else if (mode === 'react-hooks') {
+  if (mode === CodeGenType.METHODS) {
+    return createGraphQLFunction(createParams);
+  } else if (mode === CodeGenType.REACT_HOOKS) {
     return createReactApolloHook(createParams);
-  } else if (mode === 'vue-hooks') {
+  } else if (mode === CodeGenType.VUE_HOOKS) {
     return createVueApolloHook(createParams);
   } else {
     return createGraphQLFunction(createParams);
   }
-};
+}

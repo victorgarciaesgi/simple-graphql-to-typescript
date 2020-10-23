@@ -1,12 +1,19 @@
-import { Dictionnary } from '../models';
-import { sharedTemplate } from 'src/templates/shared.template';
-import { defineImports } from 'src/templates';
+import { defineImports, sharedTemplate } from '@templates';
+import {
+  buildCodeGenFunctions,
+  buildFragments,
+  buildMethodsArgsTypes,
+  buildSchemaTypes,
+} from '@builders';
 
 class OutputConstructor {
   private signature = sharedTemplate;
+  private interfaces: string[] = [];
 
   getRenderedFileString() {
     const IMPORTS = defineImports();
+    const INTERFACES = buildSchemaTypes();
+    const FUNCTION_ARGS = buildMethodsArgsTypes();
   }
 }
 
