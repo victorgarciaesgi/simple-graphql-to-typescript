@@ -96,6 +96,6 @@ export function generateFunction({ field, functionType, mode }: generateFunction
   } else if (mode === CodeGenType.VUE_HOOKS) {
     return createVueApolloHook(createParams);
   } else {
-    return createGraphQLFunction(createParams);
+    return generateQueryFunction(createParams);
   }
 }

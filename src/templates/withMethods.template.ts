@@ -1,6 +1,6 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
 
-export const withMethodsTemplate = (queries: string[], mutations: string[]): string => {
+export const withFunctionsTemplate = (queries: string[], mutations: string[]): string => {
   return `
 
   interface Abortable {

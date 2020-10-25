@@ -1,7 +1,7 @@
 import { Field, MethodType, Type } from '@models';
 import { capitalizeFirstLetter } from '@utilities';
 import { getOneTSTypeDisplay } from './types.generator';
-import { generateQueryFunction } from './templates.generator';
+import { generateQueryFunction, generateTemplateQuery } from './templates.generator';
 import { SchemaStore } from '@store';
 
 interface GraphQLFunctionArgs {
@@ -27,7 +27,7 @@ export const createReactApolloHook = ({
   const typeNameLower = functionType;
   const typeNameUpper = capitalizeFirstLetter(functionType);
 
-  const Query = generateQueryFunction({
+  const Query = generateTemplateQuery({
     field,
     innerFragment,
     functionType,
@@ -80,7 +80,7 @@ export const createVueApolloHook = ({
   const typeNameLower = functionType;
   const typeNameUpper = capitalizeFirstLetter(functionType);
 
-  const Query = generateQueryFunction({
+  const Query = generateTemplateQuery({
     field,
     innerFragment,
     functionType,

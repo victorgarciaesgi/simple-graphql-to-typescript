@@ -3,7 +3,7 @@ import { CodeGenType, MethodType } from '@models';
 import { SchemaStore } from '@store';
 import {
   withDefinitionsTemplate,
-  withMethodsTemplate,
+  withFunctionsTemplate,
   withReactHooksTemplate,
   withVueHooksTemplate,
 } from '@templates';
@@ -11,8 +11,8 @@ import ora from 'ora';
 
 const MessageMode = {
   [CodeGenType.METHODS]: '🧬 queries, mutations and subscriptions',
-  [CodeGenType.REACT_HOOKS]: '⚛️ React hooks',
-  [CodeGenType.VUE_HOOKS]: '🅅 Vue 3 Hooks',
+  [CodeGenType.REACT_HOOKS]: '⚛️  React hooks',
+  [CodeGenType.VUE_HOOKS]: '🅅  Vue 3 Hooks',
   [CodeGenType.TEMPLATE]: 'GraphQL templates',
 };
 
@@ -41,7 +41,7 @@ export function buildCodeGenFunctions(mode: CodeGenType): string {
     } else if (mode === CodeGenType.VUE_HOOKS) {
       return withVueHooksTemplate(allFunctions);
     } else if (mode === CodeGenType.METHODS) {
-      return withMethodsTemplate(generatedQueries, generatedMutations);
+      return withFunctionsTemplate(generatedQueries, generatedMutations);
     } else {
       return withDefinitionsTemplate(allFunctions);
     }

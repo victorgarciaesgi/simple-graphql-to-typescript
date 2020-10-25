@@ -140,6 +140,18 @@ export interface IPageInfoModel {
   hasNextPage: Maybe<boolean>;
 }
 
+/** User sort enums */
+export enum IUserSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Username = 'USERNAME',
+  Username_desc = 'USERNAME_DESC',
+  Watched_time = 'WATCHED_TIME',
+  Watched_time_desc = 'WATCHED_TIME_DESC',
+  Chapters_read = 'CHAPTERS_READ',
+  Chapters_read_desc = 'CHAPTERS_READ_DESC',
+  Search_match = 'SEARCH_MATCH',
+}
 /** A user */
 export interface IUserModel {
   /** The id of the user*/
@@ -205,6 +217,15 @@ export interface IUserOptionsModel {
   notificationOptions: Maybe<INotificationOptionModel[]>;
 }
 
+/** The language the user wants to see media titles in */
+export enum IUserTitleLanguageModel {
+  Romaji = 'ROMAJI',
+  English = 'ENGLISH',
+  Native = 'NATIVE',
+  Romaji_stylised = 'ROMAJI_STYLISED',
+  English_stylised = 'ENGLISH_STYLISED',
+  Native_stylised = 'NATIVE_STYLISED',
+}
 /** Notification option */
 export interface INotificationOptionModel {
   /** The type of notification*/
@@ -213,6 +234,23 @@ export interface INotificationOptionModel {
   enabled: Maybe<boolean>;
 }
 
+/** Notification type enum */
+export enum INotificationTypeModel {
+  Activity_message = 'ACTIVITY_MESSAGE',
+  Activity_reply = 'ACTIVITY_REPLY',
+  Following = 'FOLLOWING',
+  Activity_mention = 'ACTIVITY_MENTION',
+  Thread_comment_mention = 'THREAD_COMMENT_MENTION',
+  Thread_subscribed = 'THREAD_SUBSCRIBED',
+  Thread_comment_reply = 'THREAD_COMMENT_REPLY',
+  Airing = 'AIRING',
+  Activity_like = 'ACTIVITY_LIKE',
+  Activity_reply_like = 'ACTIVITY_REPLY_LIKE',
+  Thread_like = 'THREAD_LIKE',
+  Thread_comment_like = 'THREAD_COMMENT_LIKE',
+  Activity_reply_subscribed = 'ACTIVITY_REPLY_SUBSCRIBED',
+  Related_media_addition = 'RELATED_MEDIA_ADDITION',
+}
 /** A user's list options */
 export interface IMediaListOptionsModel {
   /** The score format the user is using for media lists*/
@@ -231,6 +269,14 @@ export interface IMediaListOptionsModel {
   sharedThemeEnabled: Maybe<boolean>;
 }
 
+/** Media list scoring type */
+export enum IScoreFormatModel {
+  Point_100 = 'POINT_100',
+  Point_10_decimal = 'POINT_10_DECIMAL',
+  Point_10 = 'POINT_10',
+  Point_5 = 'POINT_5',
+  Point_3 = 'POINT_3',
+}
 /** A user's list options for anime or manga lists */
 export interface IMediaListTypeOptionsModel {
   /** The order each list should be displayed in*/
@@ -410,6 +456,31 @@ export interface IMediaTitleModel {
   userPreferred: Maybe<string>;
 }
 
+/** Media type enum, anime or manga. */
+export enum IMediaTypeModel {
+  Anime = 'ANIME',
+  Manga = 'MANGA',
+}
+/** The format the media was released in */
+export enum IMediaFormatModel {
+  Tv = 'TV',
+  Tv_short = 'TV_SHORT',
+  Movie = 'MOVIE',
+  Special = 'SPECIAL',
+  Ova = 'OVA',
+  Ona = 'ONA',
+  Music = 'MUSIC',
+  Manga = 'MANGA',
+  Novel = 'NOVEL',
+  One_shot = 'ONE_SHOT',
+}
+/** The current releasing status of the media */
+export enum IMediaStatusModel {
+  Finished = 'FINISHED',
+  Releasing = 'RELEASING',
+  Not_yet_released = 'NOT_YET_RELEASED',
+  Cancelled = 'CANCELLED',
+}
 /** Date object that allows for incomplete date values (fuzzy) */
 export interface IFuzzyDateModel {
   /** Numeric Year (2017)*/
@@ -420,6 +491,25 @@ export interface IFuzzyDateModel {
   day: Maybe<number>;
 }
 
+export enum IMediaSeasonModel {
+  Winter = 'WINTER',
+  Spring = 'SPRING',
+  Summer = 'SUMMER',
+  Fall = 'FALL',
+}
+
+/** Source type the media was adapted from */
+export enum IMediaSourceModel {
+  Original = 'ORIGINAL',
+  Manga = 'MANGA',
+  Light_novel = 'LIGHT_NOVEL',
+  Visual_novel = 'VISUAL_NOVEL',
+  Video_game = 'VIDEO_GAME',
+  Other = 'OTHER',
+  Novel = 'NOVEL',
+  Doujinshi = 'DOUJINSHI',
+  Anime = 'ANIME',
+}
 /** Media trailer or advertisement */
 export interface IMediaTrailerModel {
   /** The trailer video id*/
@@ -461,6 +551,22 @@ export interface IMediaTagModel {
   isAdult: Maybe<boolean>;
 }
 
+/** Character sort enums */
+export enum ICharacterSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Role = 'ROLE',
+  Role_desc = 'ROLE_DESC',
+  Search_match = 'SEARCH_MATCH',
+  Favourites = 'FAVOURITES',
+  Favourites_desc = 'FAVOURITES_DESC',
+}
+/** The role the character plays in the media */
+export enum ICharacterRoleModel {
+  Main = 'MAIN',
+  Supporting = 'SUPPORTING',
+  Background = 'BACKGROUND',
+}
 export interface ICharacterConnectionModel {
   edges: Maybe<ICharacterEdgeModel[]>;
   nodes: Maybe<ICharacterModel[]>;
@@ -527,6 +633,71 @@ export interface ICharacterImageModel {
   medium: Maybe<string>;
 }
 
+/** Media sort enums */
+export enum IMediaSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Title_romaji = 'TITLE_ROMAJI',
+  Title_romaji_desc = 'TITLE_ROMAJI_DESC',
+  Title_english = 'TITLE_ENGLISH',
+  Title_english_desc = 'TITLE_ENGLISH_DESC',
+  Title_native = 'TITLE_NATIVE',
+  Title_native_desc = 'TITLE_NATIVE_DESC',
+  Type = 'TYPE',
+  Type_desc = 'TYPE_DESC',
+  Format = 'FORMAT',
+  Format_desc = 'FORMAT_DESC',
+  Start_date = 'START_DATE',
+  Start_date_desc = 'START_DATE_DESC',
+  End_date = 'END_DATE',
+  End_date_desc = 'END_DATE_DESC',
+  Score = 'SCORE',
+  Score_desc = 'SCORE_DESC',
+  Popularity = 'POPULARITY',
+  Popularity_desc = 'POPULARITY_DESC',
+  Trending = 'TRENDING',
+  Trending_desc = 'TRENDING_DESC',
+  Episodes = 'EPISODES',
+  Episodes_desc = 'EPISODES_DESC',
+  Duration = 'DURATION',
+  Duration_desc = 'DURATION_DESC',
+  Status = 'STATUS',
+  Status_desc = 'STATUS_DESC',
+  Chapters = 'CHAPTERS',
+  Chapters_desc = 'CHAPTERS_DESC',
+  Volumes = 'VOLUMES',
+  Volumes_desc = 'VOLUMES_DESC',
+  Updated_at = 'UPDATED_AT',
+  Updated_at_desc = 'UPDATED_AT_DESC',
+  Search_match = 'SEARCH_MATCH',
+  Favourites = 'FAVOURITES',
+  Favourites_desc = 'FAVOURITES_DESC',
+}
+/** The primary language of the voice actor */
+export enum IStaffLanguageModel {
+  Japanese = 'JAPANESE',
+  English = 'ENGLISH',
+  Korean = 'KOREAN',
+  Italian = 'ITALIAN',
+  Spanish = 'SPANISH',
+  Portuguese = 'PORTUGUESE',
+  French = 'FRENCH',
+  German = 'GERMAN',
+  Hebrew = 'HEBREW',
+  Hungarian = 'HUNGARIAN',
+}
+/** Staff sort enums */
+export enum IStaffSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Role = 'ROLE',
+  Role_desc = 'ROLE_DESC',
+  Language = 'LANGUAGE',
+  Language_desc = 'LANGUAGE_DESC',
+  Search_match = 'SEARCH_MATCH',
+  Favourites = 'FAVOURITES',
+  Favourites_desc = 'FAVOURITES_DESC',
+}
 /** Voice actors or production staff */
 export interface IStaffModel {
   /** The id of the staff member*/
@@ -601,6 +772,16 @@ export interface IStaffEdgeModel {
   favouriteOrder: Maybe<number>;
 }
 
+/** Studio sort enums */
+export enum IStudioSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Name = 'NAME',
+  Name_desc = 'NAME_DESC',
+  Search_match = 'SEARCH_MATCH',
+  Favourites = 'FAVOURITES',
+  Favourites_desc = 'FAVOURITES_DESC',
+}
 export interface IStudioConnectionModel {
   edges: Maybe<IStudioEdgeModel[]>;
   nodes: Maybe<IStudioModel[]>;
@@ -667,6 +848,23 @@ export interface IAiringScheduleEdgeModel {
   id: Maybe<number>;
 }
 
+/** Media trend sort enums */
+export enum IMediaTrendSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Media_id = 'MEDIA_ID',
+  Media_id_desc = 'MEDIA_ID_DESC',
+  Date = 'DATE',
+  Date_desc = 'DATE_DESC',
+  Score = 'SCORE',
+  Score_desc = 'SCORE_DESC',
+  Popularity = 'POPULARITY',
+  Popularity_desc = 'POPULARITY_DESC',
+  Trending = 'TRENDING',
+  Trending_desc = 'TRENDING_DESC',
+  Episode = 'EPISODE',
+  Episode_desc = 'EPISODE_DESC',
+}
 export interface IMediaTrendConnectionModel {
   edges: Maybe<IMediaTrendEdgeModel[]>;
   nodes: Maybe<IMediaTrendModel[]>;
@@ -743,6 +941,11 @@ export interface IMediaRankModel {
   context: string;
 }
 
+/** The type of ranking */
+export enum IMediaRankTypeModel {
+  Rated = 'RATED',
+  Popular = 'POPULAR',
+}
 /** List of anime or manga */
 export interface IMediaListModel {
   /** The id of the list entry*/
@@ -785,6 +988,29 @@ export interface IMediaListModel {
   user: Maybe<IUserModel>;
 }
 
+/** Media list watching/reading status enum. */
+export enum IMediaListStatusModel {
+  Current = 'CURRENT',
+  Planning = 'PLANNING',
+  Completed = 'COMPLETED',
+  Dropped = 'DROPPED',
+  Paused = 'PAUSED',
+  Repeating = 'REPEATING',
+}
+
+/** Review sort enums */
+export enum IReviewSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Score = 'SCORE',
+  Score_desc = 'SCORE_DESC',
+  Rating = 'RATING',
+  Rating_desc = 'RATING_DESC',
+  Created_at = 'CREATED_AT',
+  Created_at_desc = 'CREATED_AT_DESC',
+  Updated_at = 'UPDATED_AT',
+  Updated_at_desc = 'UPDATED_AT_DESC',
+}
 export interface IReviewConnectionModel {
   edges: Maybe<IReviewEdgeModel[]>;
   nodes: Maybe<IReviewModel[]>;
@@ -833,6 +1059,19 @@ export interface IReviewModel {
   media: Maybe<IMediaModel>;
 }
 
+/** Review rating enums */
+export enum IReviewRatingModel {
+  No_vote = 'NO_VOTE',
+  Up_vote = 'UP_VOTE',
+  Down_vote = 'DOWN_VOTE',
+}
+/** Recommendation sort enums */
+export enum IRecommendationSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Rating = 'RATING',
+  Rating_desc = 'RATING_DESC',
+}
 export interface IRecommendationConnectionModel {
   edges: Maybe<IRecommendationEdgeModel[]>;
   nodes: Maybe<IRecommendationModel[]>;
@@ -861,6 +1100,12 @@ export interface IRecommendationModel {
   user: Maybe<IUserModel>;
 }
 
+/** Recommendation rating enums */
+export enum IRecommendationRatingModel {
+  No_rating = 'NO_RATING',
+  Rate_up = 'RATE_UP',
+  Rate_down = 'RATE_DOWN',
+}
 /** A media's statistics */
 export interface IMediaStatsModel {
   scoreDistribution: Maybe<IScoreDistributionModel[]>;
@@ -893,6 +1138,22 @@ export interface IAiringProgressionModel {
   watching: Maybe<number>;
 }
 
+/** Type of relation media has to its parent. */
+export enum IMediaRelationModel {
+  Adaptation = 'ADAPTATION',
+  Prequel = 'PREQUEL',
+  Sequel = 'SEQUEL',
+  Parent = 'PARENT',
+  Side_story = 'SIDE_STORY',
+  Character = 'CHARACTER',
+  Summary = 'SUMMARY',
+  Alternative = 'ALTERNATIVE',
+  Spin_off = 'SPIN_OFF',
+  Other = 'OTHER',
+  Source = 'SOURCE',
+  Compilation = 'COMPILATION',
+  Contains = 'CONTAINS',
+}
 export interface IUserStatisticTypesModel {
   anime: Maybe<IUserStatisticsModel>;
   manga: Maybe<IUserStatisticsModel>;
@@ -920,6 +1181,17 @@ export interface IUserStatisticsModel {
   studios: Maybe<IUserStudioStatisticModel[]>;
 }
 
+/** User statistics sort enum */
+export enum IUserStatisticsSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Count = 'COUNT',
+  Count_desc = 'COUNT_DESC',
+  Progress = 'PROGRESS',
+  Progress_desc = 'PROGRESS_DESC',
+  Mean_score = 'MEAN_SCORE',
+  Mean_score_desc = 'MEAN_SCORE_DESC',
+}
 export interface IUserFormatStatisticModel {
   count: number;
   meanScore: number;
@@ -1117,6 +1389,66 @@ export interface IFormatStatsModel {
   amount: Maybe<number>;
 }
 
+/** Media list sort enums */
+export enum IMediaListSortModel {
+  Media_id = 'MEDIA_ID',
+  Media_id_desc = 'MEDIA_ID_DESC',
+  Score = 'SCORE',
+  Score_desc = 'SCORE_DESC',
+  Status = 'STATUS',
+  Status_desc = 'STATUS_DESC',
+  Progress = 'PROGRESS',
+  Progress_desc = 'PROGRESS_DESC',
+  Progress_volumes = 'PROGRESS_VOLUMES',
+  Progress_volumes_desc = 'PROGRESS_VOLUMES_DESC',
+  Repeat = 'REPEAT',
+  Repeat_desc = 'REPEAT_DESC',
+  Priority = 'PRIORITY',
+  Priority_desc = 'PRIORITY_DESC',
+  Started_on = 'STARTED_ON',
+  Started_on_desc = 'STARTED_ON_DESC',
+  Finished_on = 'FINISHED_ON',
+  Finished_on_desc = 'FINISHED_ON_DESC',
+  Added_time = 'ADDED_TIME',
+  Added_time_desc = 'ADDED_TIME_DESC',
+  Updated_time = 'UPDATED_TIME',
+  Updated_time_desc = 'UPDATED_TIME_DESC',
+  Media_title_romaji = 'MEDIA_TITLE_ROMAJI',
+  Media_title_romaji_desc = 'MEDIA_TITLE_ROMAJI_DESC',
+  Media_title_english = 'MEDIA_TITLE_ENGLISH',
+  Media_title_english_desc = 'MEDIA_TITLE_ENGLISH_DESC',
+  Media_title_native = 'MEDIA_TITLE_NATIVE',
+  Media_title_native_desc = 'MEDIA_TITLE_NATIVE_DESC',
+  Media_popularity = 'MEDIA_POPULARITY',
+  Media_popularity_desc = 'MEDIA_POPULARITY_DESC',
+}
+/** Airing schedule sort enums */
+export enum IAiringSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Media_id = 'MEDIA_ID',
+  Media_id_desc = 'MEDIA_ID_DESC',
+  Time = 'TIME',
+  Time_desc = 'TIME_DESC',
+  Episode = 'EPISODE',
+  Episode_desc = 'EPISODE_DESC',
+}
+/** Notification union type */
+export type INotificationUnionModel =
+  | AiringNotification
+  | FollowingNotification
+  | ActivityMessageNotification
+  | ActivityMentionNotification
+  | ActivityReplyNotification
+  | ActivityReplySubscribedNotification
+  | ActivityLikeNotification
+  | ActivityReplyLikeNotification
+  | ThreadCommentMentionNotification
+  | ThreadCommentReplyNotification
+  | ThreadCommentSubscribedNotification
+  | ThreadCommentLikeNotification
+  | ThreadLikeNotification
+  | RelatedMediaAdditionNotification;
 /** Notification for when an episode of anime airs */
 export interface IAiringNotificationModel {
   /** The id of the Notification*/
@@ -1209,6 +1541,14 @@ export interface IMessageActivityModel {
   likes: Maybe<IUserModel[]>;
 }
 
+/** Activity type enum. */
+export enum IActivityTypeModel {
+  Text = 'TEXT',
+  Anime_list = 'ANIME_LIST',
+  Manga_list = 'MANGA_LIST',
+  Message = 'MESSAGE',
+  Media_list = 'MEDIA_LIST',
+}
 /** Replay to an activity item */
 export interface IActivityReplyModel {
   /** The id of the reply*/
@@ -1251,6 +1591,8 @@ export interface IActivityMentionNotificationModel {
   user: Maybe<IUserModel>;
 }
 
+/** Activity union type */
+export type IActivityUnionModel = TextActivity | ListActivity | MessageActivity;
 /** User text activity */
 export interface ITextActivityModel {
   /** The id of the activity*/
@@ -1611,6 +1953,42 @@ export interface IRelatedMediaAdditionNotificationModel {
   media: Maybe<IMediaModel>;
 }
 
+/** Activity sort enums */
+export enum IActivitySortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+}
+/** Thread sort enums */
+export enum IThreadSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+  Title = 'TITLE',
+  Title_desc = 'TITLE_DESC',
+  Created_at = 'CREATED_AT',
+  Created_at_desc = 'CREATED_AT_DESC',
+  Updated_at = 'UPDATED_AT',
+  Updated_at_desc = 'UPDATED_AT_DESC',
+  Replied_at = 'REPLIED_AT',
+  Replied_at_desc = 'REPLIED_AT_DESC',
+  Reply_count = 'REPLY_COUNT',
+  Reply_count_desc = 'REPLY_COUNT_DESC',
+  View_count = 'VIEW_COUNT',
+  View_count_desc = 'VIEW_COUNT_DESC',
+  Is_sticky = 'IS_STICKY',
+  Search_match = 'SEARCH_MATCH',
+}
+/** Thread comments sort enums */
+export enum IThreadCommentSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+}
+/** Types that can be liked */
+export enum ILikeableTypeModel {
+  Thread = 'THREAD',
+  Thread_comment = 'THREAD_COMMENT',
+  Activity = 'ACTIVITY',
+  Activity_reply = 'ACTIVITY_REPLY',
+}
 /** List of anime or manga */
 export interface IMediaListCollectionModel {
   /** Grouped media list entries*/
@@ -1657,6 +2035,15 @@ export interface ISiteStatisticsModel {
   reviews: Maybe<ISiteTrendConnectionModel>;
 }
 
+/** Site trend sort enums */
+export enum ISiteTrendSortModel {
+  Date = 'DATE',
+  Date_desc = 'DATE_DESC',
+  Count = 'COUNT',
+  Count_desc = 'COUNT_DESC',
+  Change = 'CHANGE',
+  Change_desc = 'CHANGE_DESC',
+}
 export interface ISiteTrendConnectionModel {
   edges: Maybe<ISiteTrendEdgeModel[]>;
   nodes: Maybe<ISiteTrendModel[]>;
@@ -1775,6 +2162,14 @@ export interface IDeletedModel {
   deleted: Maybe<boolean>;
 }
 
+/** Likeable union type */
+export type ILikeableUnionModel =
+  | ListActivity
+  | TextActivity
+  | MessageActivity
+  | ActivityReply
+  | Thread
+  | ThreadComment;
 export interface IAniChartHighlightInputModel {
   mediaId?: number;
   highlight?: string;
@@ -1810,6 +2205,18 @@ export interface IInternalPageModel {
   likes: Maybe<IUserModel[]>;
 }
 
+/** Submission status */
+export enum ISubmissionStatusModel {
+  Pending = 'PENDING',
+  Rejected = 'REJECTED',
+  Partially_accepted = 'PARTIALLY_ACCEPTED',
+  Accepted = 'ACCEPTED',
+}
+/** Submission sort enums */
+export enum ISubmissionSortModel {
+  Id = 'ID',
+  Id_desc = 'ID_DESC',
+}
 /** Media submission */
 export interface IMediaSubmissionModel {
   /** The id of the submission*/
@@ -1926,6 +2333,11 @@ export interface IRevisionHistoryModel {
   createdAt: Maybe<number>;
 }
 
+/** Revision history actions */
+export enum IRevisionHistoryActionModel {
+  Create = 'CREATE',
+  Edit = 'EDIT',
+}
 export interface IReportModel {
   id: number;
   reporter: Maybe<IUserModel>;
@@ -1947,6 +2359,16 @@ export interface IModActionModel {
   createdAt: number;
 }
 
+export enum IModActionTypeModel {
+  Note = 'NOTE',
+  Ban = 'BAN',
+  Delete = 'DELETE',
+  Edit = 'EDIT',
+  Expire = 'EXPIRE',
+  Report = 'REPORT',
+  Reset = 'RESET',
+  Anon = 'ANON',
+}
 /** The official titles of the media in various languages */
 export interface IMediaTitleInputModel {
   /** The romanization of the native language title*/
@@ -2023,426 +2445,6 @@ export interface IUserModDataModel {
   counts: Maybe<string>;
 }
 
-/** User sort enums */
-export const enum IUserSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Username = 'USERNAME',
-  Username_desc = 'USERNAME_DESC',
-  Watched_time = 'WATCHED_TIME',
-  Watched_time_desc = 'WATCHED_TIME_DESC',
-  Chapters_read = 'CHAPTERS_READ',
-  Chapters_read_desc = 'CHAPTERS_READ_DESC',
-  Search_match = 'SEARCH_MATCH',
-}
-/** The language the user wants to see media titles in */
-export const enum IUserTitleLanguageModel {
-  Romaji = 'ROMAJI',
-  English = 'ENGLISH',
-  Native = 'NATIVE',
-  Romaji_stylised = 'ROMAJI_STYLISED',
-  English_stylised = 'ENGLISH_STYLISED',
-  Native_stylised = 'NATIVE_STYLISED',
-}
-/** Notification type enum */
-export const enum INotificationTypeModel {
-  Activity_message = 'ACTIVITY_MESSAGE',
-  Activity_reply = 'ACTIVITY_REPLY',
-  Following = 'FOLLOWING',
-  Activity_mention = 'ACTIVITY_MENTION',
-  Thread_comment_mention = 'THREAD_COMMENT_MENTION',
-  Thread_subscribed = 'THREAD_SUBSCRIBED',
-  Thread_comment_reply = 'THREAD_COMMENT_REPLY',
-  Airing = 'AIRING',
-  Activity_like = 'ACTIVITY_LIKE',
-  Activity_reply_like = 'ACTIVITY_REPLY_LIKE',
-  Thread_like = 'THREAD_LIKE',
-  Thread_comment_like = 'THREAD_COMMENT_LIKE',
-  Activity_reply_subscribed = 'ACTIVITY_REPLY_SUBSCRIBED',
-  Related_media_addition = 'RELATED_MEDIA_ADDITION',
-}
-/** Media list scoring type */
-export const enum IScoreFormatModel {
-  Point_100 = 'POINT_100',
-  Point_10_decimal = 'POINT_10_DECIMAL',
-  Point_10 = 'POINT_10',
-  Point_5 = 'POINT_5',
-  Point_3 = 'POINT_3',
-}
-/** Media type enum, anime or manga. */
-export const enum IMediaTypeModel {
-  Anime = 'ANIME',
-  Manga = 'MANGA',
-}
-/** The format the media was released in */
-export const enum IMediaFormatModel {
-  Tv = 'TV',
-  Tv_short = 'TV_SHORT',
-  Movie = 'MOVIE',
-  Special = 'SPECIAL',
-  Ova = 'OVA',
-  Ona = 'ONA',
-  Music = 'MUSIC',
-  Manga = 'MANGA',
-  Novel = 'NOVEL',
-  One_shot = 'ONE_SHOT',
-}
-/** The current releasing status of the media */
-export const enum IMediaStatusModel {
-  Finished = 'FINISHED',
-  Releasing = 'RELEASING',
-  Not_yet_released = 'NOT_YET_RELEASED',
-  Cancelled = 'CANCELLED',
-}
-export const enum IMediaSeasonModel {
-  Winter = 'WINTER',
-  Spring = 'SPRING',
-  Summer = 'SUMMER',
-  Fall = 'FALL',
-}
-/** Source type the media was adapted from */
-export const enum IMediaSourceModel {
-  Original = 'ORIGINAL',
-  Manga = 'MANGA',
-  Light_novel = 'LIGHT_NOVEL',
-  Visual_novel = 'VISUAL_NOVEL',
-  Video_game = 'VIDEO_GAME',
-  Other = 'OTHER',
-  Novel = 'NOVEL',
-  Doujinshi = 'DOUJINSHI',
-  Anime = 'ANIME',
-}
-/** Character sort enums */
-export const enum ICharacterSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Role = 'ROLE',
-  Role_desc = 'ROLE_DESC',
-  Search_match = 'SEARCH_MATCH',
-  Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC',
-}
-/** The role the character plays in the media */
-export const enum ICharacterRoleModel {
-  Main = 'MAIN',
-  Supporting = 'SUPPORTING',
-  Background = 'BACKGROUND',
-}
-/** Media sort enums */
-export const enum IMediaSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Title_romaji = 'TITLE_ROMAJI',
-  Title_romaji_desc = 'TITLE_ROMAJI_DESC',
-  Title_english = 'TITLE_ENGLISH',
-  Title_english_desc = 'TITLE_ENGLISH_DESC',
-  Title_native = 'TITLE_NATIVE',
-  Title_native_desc = 'TITLE_NATIVE_DESC',
-  Type = 'TYPE',
-  Type_desc = 'TYPE_DESC',
-  Format = 'FORMAT',
-  Format_desc = 'FORMAT_DESC',
-  Start_date = 'START_DATE',
-  Start_date_desc = 'START_DATE_DESC',
-  End_date = 'END_DATE',
-  End_date_desc = 'END_DATE_DESC',
-  Score = 'SCORE',
-  Score_desc = 'SCORE_DESC',
-  Popularity = 'POPULARITY',
-  Popularity_desc = 'POPULARITY_DESC',
-  Trending = 'TRENDING',
-  Trending_desc = 'TRENDING_DESC',
-  Episodes = 'EPISODES',
-  Episodes_desc = 'EPISODES_DESC',
-  Duration = 'DURATION',
-  Duration_desc = 'DURATION_DESC',
-  Status = 'STATUS',
-  Status_desc = 'STATUS_DESC',
-  Chapters = 'CHAPTERS',
-  Chapters_desc = 'CHAPTERS_DESC',
-  Volumes = 'VOLUMES',
-  Volumes_desc = 'VOLUMES_DESC',
-  Updated_at = 'UPDATED_AT',
-  Updated_at_desc = 'UPDATED_AT_DESC',
-  Search_match = 'SEARCH_MATCH',
-  Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC',
-}
-/** The primary language of the voice actor */
-export const enum IStaffLanguageModel {
-  Japanese = 'JAPANESE',
-  English = 'ENGLISH',
-  Korean = 'KOREAN',
-  Italian = 'ITALIAN',
-  Spanish = 'SPANISH',
-  Portuguese = 'PORTUGUESE',
-  French = 'FRENCH',
-  German = 'GERMAN',
-  Hebrew = 'HEBREW',
-  Hungarian = 'HUNGARIAN',
-}
-/** Staff sort enums */
-export const enum IStaffSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Role = 'ROLE',
-  Role_desc = 'ROLE_DESC',
-  Language = 'LANGUAGE',
-  Language_desc = 'LANGUAGE_DESC',
-  Search_match = 'SEARCH_MATCH',
-  Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC',
-}
-/** Studio sort enums */
-export const enum IStudioSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Name = 'NAME',
-  Name_desc = 'NAME_DESC',
-  Search_match = 'SEARCH_MATCH',
-  Favourites = 'FAVOURITES',
-  Favourites_desc = 'FAVOURITES_DESC',
-}
-/** Media trend sort enums */
-export const enum IMediaTrendSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Media_id = 'MEDIA_ID',
-  Media_id_desc = 'MEDIA_ID_DESC',
-  Date = 'DATE',
-  Date_desc = 'DATE_DESC',
-  Score = 'SCORE',
-  Score_desc = 'SCORE_DESC',
-  Popularity = 'POPULARITY',
-  Popularity_desc = 'POPULARITY_DESC',
-  Trending = 'TRENDING',
-  Trending_desc = 'TRENDING_DESC',
-  Episode = 'EPISODE',
-  Episode_desc = 'EPISODE_DESC',
-}
-/** The type of ranking */
-export const enum IMediaRankTypeModel {
-  Rated = 'RATED',
-  Popular = 'POPULAR',
-}
-/** Media list watching/reading status enum. */
-export const enum IMediaListStatusModel {
-  Current = 'CURRENT',
-  Planning = 'PLANNING',
-  Completed = 'COMPLETED',
-  Dropped = 'DROPPED',
-  Paused = 'PAUSED',
-  Repeating = 'REPEATING',
-}
-/** Review sort enums */
-export const enum IReviewSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Score = 'SCORE',
-  Score_desc = 'SCORE_DESC',
-  Rating = 'RATING',
-  Rating_desc = 'RATING_DESC',
-  Created_at = 'CREATED_AT',
-  Created_at_desc = 'CREATED_AT_DESC',
-  Updated_at = 'UPDATED_AT',
-  Updated_at_desc = 'UPDATED_AT_DESC',
-}
-/** Review rating enums */
-export const enum IReviewRatingModel {
-  No_vote = 'NO_VOTE',
-  Up_vote = 'UP_VOTE',
-  Down_vote = 'DOWN_VOTE',
-}
-/** Recommendation sort enums */
-export const enum IRecommendationSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Rating = 'RATING',
-  Rating_desc = 'RATING_DESC',
-}
-/** Recommendation rating enums */
-export const enum IRecommendationRatingModel {
-  No_rating = 'NO_RATING',
-  Rate_up = 'RATE_UP',
-  Rate_down = 'RATE_DOWN',
-}
-/** Type of relation media has to its parent. */
-export const enum IMediaRelationModel {
-  Adaptation = 'ADAPTATION',
-  Prequel = 'PREQUEL',
-  Sequel = 'SEQUEL',
-  Parent = 'PARENT',
-  Side_story = 'SIDE_STORY',
-  Character = 'CHARACTER',
-  Summary = 'SUMMARY',
-  Alternative = 'ALTERNATIVE',
-  Spin_off = 'SPIN_OFF',
-  Other = 'OTHER',
-  Source = 'SOURCE',
-  Compilation = 'COMPILATION',
-  Contains = 'CONTAINS',
-}
-/** User statistics sort enum */
-export const enum IUserStatisticsSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Count = 'COUNT',
-  Count_desc = 'COUNT_DESC',
-  Progress = 'PROGRESS',
-  Progress_desc = 'PROGRESS_DESC',
-  Mean_score = 'MEAN_SCORE',
-  Mean_score_desc = 'MEAN_SCORE_DESC',
-}
-/** Media list sort enums */
-export const enum IMediaListSortModel {
-  Media_id = 'MEDIA_ID',
-  Media_id_desc = 'MEDIA_ID_DESC',
-  Score = 'SCORE',
-  Score_desc = 'SCORE_DESC',
-  Status = 'STATUS',
-  Status_desc = 'STATUS_DESC',
-  Progress = 'PROGRESS',
-  Progress_desc = 'PROGRESS_DESC',
-  Progress_volumes = 'PROGRESS_VOLUMES',
-  Progress_volumes_desc = 'PROGRESS_VOLUMES_DESC',
-  Repeat = 'REPEAT',
-  Repeat_desc = 'REPEAT_DESC',
-  Priority = 'PRIORITY',
-  Priority_desc = 'PRIORITY_DESC',
-  Started_on = 'STARTED_ON',
-  Started_on_desc = 'STARTED_ON_DESC',
-  Finished_on = 'FINISHED_ON',
-  Finished_on_desc = 'FINISHED_ON_DESC',
-  Added_time = 'ADDED_TIME',
-  Added_time_desc = 'ADDED_TIME_DESC',
-  Updated_time = 'UPDATED_TIME',
-  Updated_time_desc = 'UPDATED_TIME_DESC',
-  Media_title_romaji = 'MEDIA_TITLE_ROMAJI',
-  Media_title_romaji_desc = 'MEDIA_TITLE_ROMAJI_DESC',
-  Media_title_english = 'MEDIA_TITLE_ENGLISH',
-  Media_title_english_desc = 'MEDIA_TITLE_ENGLISH_DESC',
-  Media_title_native = 'MEDIA_TITLE_NATIVE',
-  Media_title_native_desc = 'MEDIA_TITLE_NATIVE_DESC',
-  Media_popularity = 'MEDIA_POPULARITY',
-  Media_popularity_desc = 'MEDIA_POPULARITY_DESC',
-}
-/** Airing schedule sort enums */
-export const enum IAiringSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Media_id = 'MEDIA_ID',
-  Media_id_desc = 'MEDIA_ID_DESC',
-  Time = 'TIME',
-  Time_desc = 'TIME_DESC',
-  Episode = 'EPISODE',
-  Episode_desc = 'EPISODE_DESC',
-}
-/** Notification union type */
-export type INotificationUnionModel =
-  | AiringNotification
-  | FollowingNotification
-  | ActivityMessageNotification
-  | ActivityMentionNotification
-  | ActivityReplyNotification
-  | ActivityReplySubscribedNotification
-  | ActivityLikeNotification
-  | ActivityReplyLikeNotification
-  | ThreadCommentMentionNotification
-  | ThreadCommentReplyNotification
-  | ThreadCommentSubscribedNotification
-  | ThreadCommentLikeNotification
-  | ThreadLikeNotification
-  | RelatedMediaAdditionNotification;
-/** Activity type enum. */
-export const enum IActivityTypeModel {
-  Text = 'TEXT',
-  Anime_list = 'ANIME_LIST',
-  Manga_list = 'MANGA_LIST',
-  Message = 'MESSAGE',
-  Media_list = 'MEDIA_LIST',
-}
-/** Activity union type */
-export type IActivityUnionModel = TextActivity | ListActivity | MessageActivity;
-/** Activity sort enums */
-export const enum IActivitySortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-}
-/** Thread sort enums */
-export const enum IThreadSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-  Title = 'TITLE',
-  Title_desc = 'TITLE_DESC',
-  Created_at = 'CREATED_AT',
-  Created_at_desc = 'CREATED_AT_DESC',
-  Updated_at = 'UPDATED_AT',
-  Updated_at_desc = 'UPDATED_AT_DESC',
-  Replied_at = 'REPLIED_AT',
-  Replied_at_desc = 'REPLIED_AT_DESC',
-  Reply_count = 'REPLY_COUNT',
-  Reply_count_desc = 'REPLY_COUNT_DESC',
-  View_count = 'VIEW_COUNT',
-  View_count_desc = 'VIEW_COUNT_DESC',
-  Is_sticky = 'IS_STICKY',
-  Search_match = 'SEARCH_MATCH',
-}
-/** Thread comments sort enums */
-export const enum IThreadCommentSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-}
-/** Types that can be liked */
-export const enum ILikeableTypeModel {
-  Thread = 'THREAD',
-  Thread_comment = 'THREAD_COMMENT',
-  Activity = 'ACTIVITY',
-  Activity_reply = 'ACTIVITY_REPLY',
-}
-/** Site trend sort enums */
-export const enum ISiteTrendSortModel {
-  Date = 'DATE',
-  Date_desc = 'DATE_DESC',
-  Count = 'COUNT',
-  Count_desc = 'COUNT_DESC',
-  Change = 'CHANGE',
-  Change_desc = 'CHANGE_DESC',
-}
-/** Likeable union type */
-export type ILikeableUnionModel =
-  | ListActivity
-  | TextActivity
-  | MessageActivity
-  | ActivityReply
-  | Thread
-  | ThreadComment;
-/** Submission status */
-export const enum ISubmissionStatusModel {
-  Pending = 'PENDING',
-  Rejected = 'REJECTED',
-  Partially_accepted = 'PARTIALLY_ACCEPTED',
-  Accepted = 'ACCEPTED',
-}
-/** Submission sort enums */
-export const enum ISubmissionSortModel {
-  Id = 'ID',
-  Id_desc = 'ID_DESC',
-}
-/** Revision history actions */
-export const enum IRevisionHistoryActionModel {
-  Create = 'CREATE',
-  Edit = 'EDIT',
-}
-export const enum IModActionTypeModel {
-  Note = 'NOTE',
-  Ban = 'BAN',
-  Delete = 'DELETE',
-  Edit = 'EDIT',
-  Expire = 'EXPIRE',
-  Report = 'REPORT',
-  Reset = 'RESET',
-  Anon = 'ANON',
-}
 export interface IPageModelArgs {
   /** The page number*/
   page?: number;
@@ -3402,7 +3404,12 @@ export interface UnFragmentableQuery<T>
     Abortable,
     Loadable {}
 
-export interface UnFragmentableQueryWithArgs<T, A> extends UnFragmentableQuery<T>, WithArgs<T, A> {}
+export interface UnFragmentableQueryWithArgs<T, A>
+  extends Fragmentable<QueryWithArgs<T, A>>,
+    WithArgs<T, A>,
+    Executable<T>,
+    Abortable,
+    Loadable {}
 export interface UnFragmentableQueryWithOptionalArgs<T, A>
   extends Fragmentable<QueryWithOptionalArgs<T, A>>,
     WithArgs<T, A>,
@@ -3479,122 +3486,119 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
   };
 
   return {
-    Page(): FragmentableQueryWithOptionalArgs<IPageModel, IPageModelArgs> {
+    Page(): FragmentableQueryWithArgs<IPageModel, IPageModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Page ($page: Int,$perPage: Int) {
+      Query Page ($page: Int,$perPage: Int) {
         Page(page: $page,perPage: $perPage) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Media query */
-    Media(): FragmentableQueryWithOptionalArgs<IMediaModel, IMediaModelArgs> {
+    Media(): FragmentableQueryWithArgs<IMediaModel, IMediaModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$idMal_not: Int,$idMal_in: [Int],$idMal_not_in: [Int],$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat],$format_not: MediaFormat,$format_not_in: [MediaFormat],$status_in: [MediaStatus],$status_not: MediaStatus,$status_not_in: [MediaStatus],$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String],$genre_not_in: [String],$tag_in: [String],$tag_not_in: [String],$tagCategory_in: [String],$tagCategory_not_in: [String],$licensedBy_in: [String],$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource],$sort: [MediaSort]) {
+      Query Media ($id: Int,$idMal: Int,$startDate: FuzzyDateInt,$endDate: FuzzyDateInt,$season: MediaSeason,$seasonYear: Int,$type: MediaType,$format: MediaFormat,$status: MediaStatus,$episodes: Int,$duration: Int,$chapters: Int,$volumes: Int,$isAdult: Boolean,$genre: String,$tag: String,$minimumTagRank: Int,$tagCategory: String,$onList: Boolean,$licensedBy: String,$averageScore: Int,$popularity: Int,$source: MediaSource,$countryOfOrigin: CountryCode,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$idMal_not: Int,$idMal_in: [Int],$idMal_not_in: [Int],$startDate_greater: FuzzyDateInt,$startDate_lesser: FuzzyDateInt,$startDate_like: String,$endDate_greater: FuzzyDateInt,$endDate_lesser: FuzzyDateInt,$endDate_like: String,$format_in: [MediaFormat],$format_not: MediaFormat,$format_not_in: [MediaFormat],$status_in: [MediaStatus],$status_not: MediaStatus,$status_not_in: [MediaStatus],$episodes_greater: Int,$episodes_lesser: Int,$duration_greater: Int,$duration_lesser: Int,$chapters_greater: Int,$chapters_lesser: Int,$volumes_greater: Int,$volumes_lesser: Int,$genre_in: [String],$genre_not_in: [String],$tag_in: [String],$tag_not_in: [String],$tagCategory_in: [String],$tagCategory_not_in: [String],$licensedBy_in: [String],$averageScore_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$popularity_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$source_in: [MediaSource],$sort: [MediaSort]) {
         Media(id: $id,idMal: $idMal,startDate: $startDate,endDate: $endDate,season: $season,seasonYear: $seasonYear,type: $type,format: $format,status: $status,episodes: $episodes,duration: $duration,chapters: $chapters,volumes: $volumes,isAdult: $isAdult,genre: $genre,tag: $tag,minimumTagRank: $minimumTagRank,tagCategory: $tagCategory,onList: $onList,licensedBy: $licensedBy,averageScore: $averageScore,popularity: $popularity,source: $source,countryOfOrigin: $countryOfOrigin,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,idMal_not: $idMal_not,idMal_in: $idMal_in,idMal_not_in: $idMal_not_in,startDate_greater: $startDate_greater,startDate_lesser: $startDate_lesser,startDate_like: $startDate_like,endDate_greater: $endDate_greater,endDate_lesser: $endDate_lesser,endDate_like: $endDate_like,format_in: $format_in,format_not: $format_not,format_not_in: $format_not_in,status_in: $status_in,status_not: $status_not,status_not_in: $status_not_in,episodes_greater: $episodes_greater,episodes_lesser: $episodes_lesser,duration_greater: $duration_greater,duration_lesser: $duration_lesser,chapters_greater: $chapters_greater,chapters_lesser: $chapters_lesser,volumes_greater: $volumes_greater,volumes_lesser: $volumes_lesser,genre_in: $genre_in,genre_not_in: $genre_not_in,tag_in: $tag_in,tag_not_in: $tag_not_in,tagCategory_in: $tagCategory_in,tagCategory_not_in: $tagCategory_not_in,licensedBy_in: $licensedBy_in,averageScore_not: $averageScore_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,popularity_not: $popularity_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,source_in: $source_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Media Trend query */
-    MediaTrend(): FragmentableQueryWithOptionalArgs<IMediaTrendModel, IMediaTrendModelArgs> {
+    MediaTrend(): FragmentableQueryWithArgs<IMediaTrendModel, IMediaTrendModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]) {
+      Query MediaTrend ($mediaId: Int,$date: Int,$trending: Int,$averageScore: Int,$popularity: Int,$episode: Int,$releasing: Boolean,$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$date_greater: Int,$date_lesser: Int,$trending_greater: Int,$trending_lesser: Int,$trending_not: Int,$averageScore_greater: Int,$averageScore_lesser: Int,$averageScore_not: Int,$popularity_greater: Int,$popularity_lesser: Int,$popularity_not: Int,$episode_greater: Int,$episode_lesser: Int,$episode_not: Int,$sort: [MediaTrendSort]) {
         MediaTrend(mediaId: $mediaId,date: $date,trending: $trending,averageScore: $averageScore,popularity: $popularity,episode: $episode,releasing: $releasing,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,date_greater: $date_greater,date_lesser: $date_lesser,trending_greater: $trending_greater,trending_lesser: $trending_lesser,trending_not: $trending_not,averageScore_greater: $averageScore_greater,averageScore_lesser: $averageScore_lesser,averageScore_not: $averageScore_not,popularity_greater: $popularity_greater,popularity_lesser: $popularity_lesser,popularity_not: $popularity_not,episode_greater: $episode_greater,episode_lesser: $episode_lesser,episode_not: $episode_not,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Airing schedule query */
-    AiringSchedule(): FragmentableQueryWithOptionalArgs<
-      IAiringScheduleModel,
-      IAiringScheduleModelArgs
-    > {
+    AiringSchedule(): FragmentableQueryWithArgs<IAiringScheduleModel, IAiringScheduleModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$episode_not: Int,$episode_in: [Int],$episode_not_in: [Int],$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]) {
+      Query AiringSchedule ($id: Int,$mediaId: Int,$episode: Int,$airingAt: Int,$notYetAired: Boolean,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$episode_not: Int,$episode_in: [Int],$episode_not_in: [Int],$episode_greater: Int,$episode_lesser: Int,$airingAt_greater: Int,$airingAt_lesser: Int,$sort: [AiringSort]) {
         AiringSchedule(id: $id,mediaId: $mediaId,episode: $episode,airingAt: $airingAt,notYetAired: $notYetAired,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,episode_not: $episode_not,episode_in: $episode_in,episode_not_in: $episode_not_in,episode_greater: $episode_greater,episode_lesser: $episode_lesser,airingAt_greater: $airingAt_greater,airingAt_lesser: $airingAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Character query */
-    Character(): FragmentableQueryWithOptionalArgs<ICharacterModel, ICharacterModelArgs> {
+    Character(): FragmentableQueryWithArgs<ICharacterModel, ICharacterModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [CharacterSort]) {
+      Query Character ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [CharacterSort]) {
         Character(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Staff query */
-    Staff(): FragmentableQueryWithOptionalArgs<IStaffModel, IStaffModelArgs> {
+    Staff(): FragmentableQueryWithArgs<IStaffModel, IStaffModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StaffSort]) {
+      Query Staff ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StaffSort]) {
         Staff(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Media list query */
-    MediaList(): FragmentableQueryWithOptionalArgs<IMediaListModel, IMediaListModelArgs> {
+    MediaList(): FragmentableQueryWithArgs<IMediaListModel, IMediaListModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int],$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$mediaId_in: [Int],$mediaId_not_in: [Int],$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
+      Query MediaList ($id: Int,$userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$mediaId: Int,$isFollowing: Boolean,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$compareWithAuthList: Boolean,$userId_in: [Int],$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$mediaId_in: [Int],$mediaId_not_in: [Int],$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaList(id: $id,userId: $userId,userName: $userName,type: $type,status: $status,mediaId: $mediaId,isFollowing: $isFollowing,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,compareWithAuthList: $compareWithAuthList,userId_in: $userId_in,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Media list collection query, provides list pre-grouped by status & custom lists. User ID and Media Type arguments required. */
-    MediaListCollection(): FragmentableQueryWithOptionalArgs<
+    MediaListCollection(): FragmentableQueryWithArgs<
       IMediaListCollectionModel,
       IMediaListCollectionModelArgs
     > {
@@ -3602,26 +3606,26 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
+      Query MediaListCollection ($userId: Int,$userName: String,$type: MediaType,$status: MediaListStatus,$notes: String,$startedAt: FuzzyDateInt,$completedAt: FuzzyDateInt,$forceSingleCompletedList: Boolean,$chunk: Int,$perChunk: Int,$status_in: [MediaListStatus],$status_not_in: [MediaListStatus],$status_not: MediaListStatus,$notes_like: String,$startedAt_greater: FuzzyDateInt,$startedAt_lesser: FuzzyDateInt,$startedAt_like: String,$completedAt_greater: FuzzyDateInt,$completedAt_lesser: FuzzyDateInt,$completedAt_like: String,$sort: [MediaListSort]) {
         MediaListCollection(userId: $userId,userName: $userName,type: $type,status: $status,notes: $notes,startedAt: $startedAt,completedAt: $completedAt,forceSingleCompletedList: $forceSingleCompletedList,chunk: $chunk,perChunk: $perChunk,status_in: $status_in,status_not_in: $status_not_in,status_not: $status_not,notes_like: $notes_like,startedAt_greater: $startedAt_greater,startedAt_lesser: $startedAt_lesser,startedAt_like: $startedAt_like,completedAt_greater: $completedAt_greater,completedAt_lesser: $completedAt_lesser,completedAt_like: $completedAt_like,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Collection of all the possible media genres */
     GenreCollection(): ExecutableQuery<string[]> {
       const queryTemplate = sgtsQL\`
-      query GenreCollection  {
+      Query GenreCollection  {
         GenreCollection
       }\`;
       return abortableQuery(queryTemplate, false, false);
     },
     /** Collection of all the possible media tags */
-    MediaTagCollection(): FragmentableQueryWithOptionalArgs<
+    MediaTagCollection(): FragmentableQueryWithArgs<
       IMediaTagModel[],
       IMediaTagCollectionModelArgs
     > {
@@ -3629,29 +3633,29 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query MediaTagCollection ($status: Int) {
+      Query MediaTagCollection ($status: Int) {
         MediaTagCollection(status: $status) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** User query */
-    User(): FragmentableQueryWithOptionalArgs<IUserModel, IUserModelArgs> {
+    User(): FragmentableQueryWithArgs<IUserModel, IUserModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
+      Query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
         User(id: $id,name: $name,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
@@ -3661,7 +3665,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Viewer  {
+      Query Viewer  {
         Viewer {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3672,88 +3676,82 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       };
     },
     /** Notification query */
-    Notification(): FragmentableQueryWithOptionalArgs<
-      INotificationUnionModel,
-      INotificationModelArgs
-    > {
+    Notification(): FragmentableQueryWithArgs<INotificationUnionModel, INotificationModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]) {
+      Query Notification ($type: NotificationType,$resetNotificationCount: Boolean,$type_in: [NotificationType]) {
         Notification(type: $type,resetNotificationCount: $resetNotificationCount,type_in: $type_in) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Studio query */
-    Studio(): FragmentableQueryWithOptionalArgs<IStudioModel, IStudioModelArgs> {
+    Studio(): FragmentableQueryWithArgs<IStudioModel, IStudioModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StudioSort]) {
+      Query Studio ($id: Int,$search: String,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$sort: [StudioSort]) {
         Studio(id: $id,search: $search,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Review query */
-    Review(): FragmentableQueryWithOptionalArgs<IReviewModel, IReviewModelArgs> {
+    Review(): FragmentableQueryWithArgs<IReviewModel, IReviewModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]) {
+      Query Review ($id: Int,$mediaId: Int,$userId: Int,$mediaType: MediaType,$sort: [ReviewSort]) {
         Review(id: $id,mediaId: $mediaId,userId: $userId,mediaType: $mediaType,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Activity query */
-    Activity(): FragmentableQueryWithOptionalArgs<IActivityUnionModel, IActivityModelArgs> {
+    Activity(): FragmentableQueryWithArgs<IActivityUnionModel, IActivityModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$userId_not: Int,$userId_in: [Int],$userId_not_in: [Int],$messengerId_not: Int,$messengerId_in: [Int],$messengerId_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$type_not: ActivityType,$type_in: [ActivityType],$type_not_in: [ActivityType],$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]) {
+      Query Activity ($id: Int,$userId: Int,$messengerId: Int,$mediaId: Int,$type: ActivityType,$isFollowing: Boolean,$hasReplies: Boolean,$hasRepliesOrTypeText: Boolean,$createdAt: Int,$id_not: Int,$id_in: [Int],$id_not_in: [Int],$userId_not: Int,$userId_in: [Int],$userId_not_in: [Int],$messengerId_not: Int,$messengerId_in: [Int],$messengerId_not_in: [Int],$mediaId_not: Int,$mediaId_in: [Int],$mediaId_not_in: [Int],$type_not: ActivityType,$type_in: [ActivityType],$type_not_in: [ActivityType],$createdAt_greater: Int,$createdAt_lesser: Int,$sort: [ActivitySort]) {
         Activity(id: $id,userId: $userId,messengerId: $messengerId,mediaId: $mediaId,type: $type,isFollowing: $isFollowing,hasReplies: $hasReplies,hasRepliesOrTypeText: $hasRepliesOrTypeText,createdAt: $createdAt,id_not: $id_not,id_in: $id_in,id_not_in: $id_not_in,userId_not: $userId_not,userId_in: $userId_in,userId_not_in: $userId_not_in,messengerId_not: $messengerId_not,messengerId_in: $messengerId_in,messengerId_not_in: $messengerId_not_in,mediaId_not: $mediaId_not,mediaId_in: $mediaId_in,mediaId_not_in: $mediaId_not_in,type_not: $type_not,type_in: $type_in,type_not_in: $type_not_in,createdAt_greater: $createdAt_greater,createdAt_lesser: $createdAt_lesser,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Activity reply query */
-    ActivityReply(): FragmentableQueryWithOptionalArgs<
-      IActivityReplyModel,
-      IActivityReplyModelArgs
-    > {
+    ActivityReply(): FragmentableQueryWithArgs<IActivityReplyModel, IActivityReplyModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query ActivityReply ($id: Int,$activityId: Int) {
+      Query ActivityReply ($id: Int,$activityId: Int) {
         ActivityReply(id: $id,activityId: $activityId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
@@ -3763,7 +3761,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Following ($userId: Int!,$sort: [UserSort]) {
+      Query Following ($userId: Int!,$sort: [UserSort]) {
         Following(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3779,7 +3777,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Follower ($userId: Int!,$sort: [UserSort]) {
+      Query Follower ($userId: Int!,$sort: [UserSort]) {
         Follower(userId: $userId,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3790,83 +3788,13 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       };
     },
     /** Thread query */
-    Thread(): FragmentableQueryWithOptionalArgs<IThreadModel, IThreadModelArgs> {
+    Thread(): FragmentableQueryWithArgs<IThreadModel, IThreadModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int],$sort: [ThreadSort]) {
+      Query Thread ($id: Int,$userId: Int,$replyUserId: Int,$subscribed: Boolean,$categoryId: Int,$mediaCategoryId: Int,$search: String,$id_in: [Int],$sort: [ThreadSort]) {
         Thread(id: $id,userId: $userId,replyUserId: $replyUserId,subscribed: $subscribed,categoryId: $categoryId,mediaCategoryId: $mediaCategoryId,search: $search,id_in: $id_in,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(queryTemplate, true, true);
-        },
-      };
-    },
-    /** Comment query */
-    ThreadComment(): FragmentableQueryWithOptionalArgs<
-      IThreadCommentModel[],
-      IThreadCommentModelArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const queryTemplate = sgtsQL\`
-      query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]) {
-        ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(queryTemplate, true, true);
-        },
-      };
-    },
-    /** Recommendation query */
-    Recommendation(): FragmentableQueryWithOptionalArgs<
-      IRecommendationModel,
-      IRecommendationModelArgs
-    > {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const queryTemplate = sgtsQL\`
-      query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]) {
-        Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(queryTemplate, true, true);
-        },
-      };
-    },
-    /** Like query */
-    Like(): FragmentableQueryWithOptionalArgs<IUserModel, ILikeModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const queryTemplate = sgtsQL\`
-      query Like ($likeableId: Int,$type: LikeableType) {
-        Like(likeableId: $likeableId,type: $type) {
-          \${isString ? fragment : '...' + fragmentName}
-        }
-      } \${isFragment ? fragment : ''}
-      \`;
-          return abortableQuery(queryTemplate, true, true);
-        },
-      };
-    },
-    /** Provide AniList markdown to be converted to html (Requires auth) */
-    Markdown(): FragmentableQueryWithArgs<IParsedMarkdownModel, IMarkdownModelArgs> {
-      return {
-        $fragment: (fragment: string | DocumentNode) => {
-          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-          const queryTemplate = sgtsQL\`
-      query Markdown ($markdown: String!) {
-        Markdown(markdown: $markdown) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
@@ -3875,12 +3803,76 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         },
       };
     },
+    /** Comment query */
+    ThreadComment(): FragmentableQueryWithArgs<IThreadCommentModel[], IThreadCommentModelArgs> {
+      return {
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const queryTemplate = sgtsQL\`
+      Query ThreadComment ($id: Int,$threadId: Int,$userId: Int,$sort: [ThreadCommentSort]) {
+        ThreadComment(id: $id,threadId: $threadId,userId: $userId,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+          return abortableQuery(queryTemplate, true, false);
+        },
+      };
+    },
+    /** Recommendation query */
+    Recommendation(): FragmentableQueryWithArgs<IRecommendationModel, IRecommendationModelArgs> {
+      return {
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const queryTemplate = sgtsQL\`
+      Query Recommendation ($id: Int,$mediaId: Int,$mediaRecommendationId: Int,$userId: Int,$rating: Int,$onList: Boolean,$rating_greater: Int,$rating_lesser: Int,$sort: [RecommendationSort]) {
+        Recommendation(id: $id,mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,userId: $userId,rating: $rating,onList: $onList,rating_greater: $rating_greater,rating_lesser: $rating_lesser,sort: $sort) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+          return abortableQuery(queryTemplate, true, false);
+        },
+      };
+    },
+    /** Like query */
+    Like(): FragmentableQueryWithArgs<IUserModel, ILikeModelArgs> {
+      return {
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const queryTemplate = sgtsQL\`
+      Query Like ($likeableId: Int,$type: LikeableType) {
+        Like(likeableId: $likeableId,type: $type) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+          return abortableQuery(queryTemplate, true, false);
+        },
+      };
+    },
+    /** Provide AniList markdown to be converted to html (Requires auth) */
+    Markdown(): FragmentableQueryWithOptionalArgs<IParsedMarkdownModel, IMarkdownModelArgs> {
+      return {
+        $fragment: (fragment: string | DocumentNode) => {
+          const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
+          const queryTemplate = sgtsQL\`
+      Query Markdown ($markdown: String!) {
+        Markdown(markdown: $markdown) {
+          \${isString ? fragment : '...' + fragmentName}
+        }
+      } \${isFragment ? fragment : ''}
+      \`;
+          return abortableQuery(queryTemplate, true, true);
+        },
+      };
+    },
     AniChartUser(): FragmentableQuery<IAniChartUserModel> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query AniChartUser  {
+      Query AniChartUser  {
         AniChartUser {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3896,7 +3888,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      query SiteStatistics  {
+      Query SiteStatistics  {
         SiteStatistics {
           \${isString ? fragment : '...' + fragmentName}
         }
@@ -3906,42 +3898,39 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         },
       };
     },
-    UpdateUser(): FragmentableQueryWithOptionalArgs<IUserModel, IUpdateUserModelArgs> {
+    UpdateUser(): FragmentableQueryWithArgs<IUserModel, IUpdateUserModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput],$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
+      Mutation UpdateUser ($about: String,$titleLanguage: UserTitleLanguage,$displayAdultContent: Boolean,$airingNotifications: Boolean,$scoreFormat: ScoreFormat,$rowOrder: String,$profileColor: String,$donatorBadge: String,$notificationOptions: [NotificationOptionInput],$animeListOptions: MediaListOptionsInput,$mangaListOptions: MediaListOptionsInput) {
         UpdateUser(about: $about,titleLanguage: $titleLanguage,displayAdultContent: $displayAdultContent,airingNotifications: $airingNotifications,scoreFormat: $scoreFormat,rowOrder: $rowOrder,profileColor: $profileColor,donatorBadge: $donatorBadge,notificationOptions: $notificationOptions,animeListOptions: $animeListOptions,mangaListOptions: $mangaListOptions) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update a media list entry */
-    SaveMediaListEntry(): FragmentableQueryWithOptionalArgs<
-      IMediaListModel,
-      ISaveMediaListEntryModelArgs
-    > {
+    SaveMediaListEntry(): FragmentableQueryWithArgs<IMediaListModel, ISaveMediaListEntryModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String],$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
+      Mutation SaveMediaListEntry ($id: Int,$mediaId: Int,$status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$customLists: [String],$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput) {
         SaveMediaListEntry(id: $id,mediaId: $mediaId,status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,customLists: $customLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Update multiple media list entries to the same values */
-    UpdateMediaListEntries(): FragmentableQueryWithOptionalArgs<
+    UpdateMediaListEntries(): FragmentableQueryWithArgs<
       IMediaListModel[],
       IUpdateMediaListEntriesModelArgs
     > {
@@ -3949,18 +3938,18 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]) {
+      Mutation UpdateMediaListEntries ($status: MediaListStatus,$score: Float,$scoreRaw: Int,$progress: Int,$progressVolumes: Int,$repeat: Int,$priority: Int,$private: Boolean,$notes: String,$hiddenFromStatusLists: Boolean,$advancedScores: [Float],$startedAt: FuzzyDateInput,$completedAt: FuzzyDateInput,$ids: [Int]) {
         UpdateMediaListEntries(status: $status,score: $score,scoreRaw: $scoreRaw,progress: $progress,progressVolumes: $progressVolumes,repeat: $repeat,priority: $priority,private: $private,notes: $notes,hiddenFromStatusLists: $hiddenFromStatusLists,advancedScores: $advancedScores,startedAt: $startedAt,completedAt: $completedAt,ids: $ids) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete a media list entry */
-    DeleteMediaListEntry(): FragmentableQueryWithOptionalArgs<
+    DeleteMediaListEntry(): FragmentableQueryWithArgs<
       IDeletedModel,
       IDeleteMediaListEntryModelArgs
     > {
@@ -3968,56 +3957,50 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteMediaListEntry ($id: Int) {
+      Mutation DeleteMediaListEntry ($id: Int) {
         DeleteMediaListEntry(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete a custom list and remove the list entries from it */
-    DeleteCustomList(): FragmentableQueryWithOptionalArgs<
-      IDeletedModel,
-      IDeleteCustomListModelArgs
-    > {
+    DeleteCustomList(): FragmentableQueryWithArgs<IDeletedModel, IDeleteCustomListModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteCustomList ($customList: String,$type: MediaType) {
+      Mutation DeleteCustomList ($customList: String,$type: MediaType) {
         DeleteCustomList(customList: $customList,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update text activity for the currently authenticated user */
-    SaveTextActivity(): FragmentableQueryWithOptionalArgs<
-      ITextActivityModel,
-      ISaveTextActivityModelArgs
-    > {
+    SaveTextActivity(): FragmentableQueryWithArgs<ITextActivityModel, ISaveTextActivityModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
+      Mutation SaveTextActivity ($id: Int,$text: String,$locked: Boolean) {
         SaveTextActivity(id: $id,text: $text,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update message activity for the currently authenticated user */
-    SaveMessageActivity(): FragmentableQueryWithOptionalArgs<
+    SaveMessageActivity(): FragmentableQueryWithArgs<
       IMessageActivityModel,
       ISaveMessageActivityModelArgs
     > {
@@ -4025,53 +4008,50 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
+      Mutation SaveMessageActivity ($id: Int,$message: String,$recipientId: Int,$private: Boolean,$locked: Boolean,$asMod: Boolean) {
         SaveMessageActivity(id: $id,message: $message,recipientId: $recipientId,private: $private,locked: $locked,asMod: $asMod) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Update list activity (Mod Only) */
-    SaveListActivity(): FragmentableQueryWithOptionalArgs<
-      IListActivityModel,
-      ISaveListActivityModelArgs
-    > {
+    SaveListActivity(): FragmentableQueryWithArgs<IListActivityModel, ISaveListActivityModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveListActivity ($id: Int,$locked: Boolean) {
+      Mutation SaveListActivity ($id: Int,$locked: Boolean) {
         SaveListActivity(id: $id,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete an activity item of the authenticated users */
-    DeleteActivity(): FragmentableQueryWithOptionalArgs<IDeletedModel, IDeleteActivityModelArgs> {
+    DeleteActivity(): FragmentableQueryWithArgs<IDeletedModel, IDeleteActivityModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteActivity ($id: Int) {
+      Mutation DeleteActivity ($id: Int) {
         DeleteActivity(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Toggle the subscription of an activity item */
-    ToggleActivitySubscription(): FragmentableQueryWithOptionalArgs<
+    ToggleActivitySubscription(): FragmentableQueryWithArgs<
       IActivityUnionModel,
       IToggleActivitySubscriptionModelArgs
     > {
@@ -4079,18 +4059,18 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
+      Mutation ToggleActivitySubscription ($activityId: Int,$subscribe: Boolean) {
         ToggleActivitySubscription(activityId: $activityId,subscribe: $subscribe) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update an activity reply */
-    SaveActivityReply(): FragmentableQueryWithOptionalArgs<
+    SaveActivityReply(): FragmentableQueryWithArgs<
       IActivityReplyModel,
       ISaveActivityReplyModelArgs
     > {
@@ -4098,105 +4078,99 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
+      Mutation SaveActivityReply ($id: Int,$activityId: Int,$text: String,$asMod: Boolean) {
         SaveActivityReply(id: $id,activityId: $activityId,text: $text,asMod: $asMod) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete an activity reply of the authenticated users */
-    DeleteActivityReply(): FragmentableQueryWithOptionalArgs<
-      IDeletedModel,
-      IDeleteActivityReplyModelArgs
-    > {
+    DeleteActivityReply(): FragmentableQueryWithArgs<IDeletedModel, IDeleteActivityReplyModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteActivityReply ($id: Int) {
+      Mutation DeleteActivityReply ($id: Int) {
         DeleteActivityReply(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Add or remove a like from a likeable type.
                           Returns all the users who liked the same model */
-    ToggleLike(): FragmentableQueryWithOptionalArgs<IUserModel[], IToggleLikeModelArgs> {
+    ToggleLike(): FragmentableQueryWithArgs<IUserModel[], IToggleLikeModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation ToggleLike ($id: Int,$type: LikeableType) {
+      Mutation ToggleLike ($id: Int,$type: LikeableType) {
         ToggleLike(id: $id,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Add or remove a like from a likeable type. */
-    ToggleLikeV2(): FragmentableQueryWithOptionalArgs<ILikeableUnionModel, IToggleLikeV2ModelArgs> {
+    ToggleLikeV2(): FragmentableQueryWithArgs<ILikeableUnionModel, IToggleLikeV2ModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
+      Mutation ToggleLikeV2 ($id: Int,$type: LikeableType) {
         ToggleLikeV2(id: $id,type: $type) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Toggle the un/following of a user */
-    ToggleFollow(): FragmentableQueryWithOptionalArgs<IUserModel, IToggleFollowModelArgs> {
+    ToggleFollow(): FragmentableQueryWithArgs<IUserModel, IToggleFollowModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation ToggleFollow ($userId: Int) {
+      Mutation ToggleFollow ($userId: Int) {
         ToggleFollow(userId: $userId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Favourite or unfavourite an anime, manga, character, staff member, or studio */
-    ToggleFavourite(): FragmentableQueryWithOptionalArgs<
-      IFavouritesModel,
-      IToggleFavouriteModelArgs
-    > {
+    ToggleFavourite(): FragmentableQueryWithArgs<IFavouritesModel, IToggleFavouriteModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
+      Mutation ToggleFavourite ($animeId: Int,$mangaId: Int,$characterId: Int,$staffId: Int,$studioId: Int) {
         ToggleFavourite(animeId: $animeId,mangaId: $mangaId,characterId: $characterId,staffId: $staffId,studioId: $studioId) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Update the order favourites are displayed in */
-    UpdateFavouriteOrder(): FragmentableQueryWithOptionalArgs<
+    UpdateFavouriteOrder(): FragmentableQueryWithArgs<
       IFavouritesModel,
       IUpdateFavouriteOrderModelArgs
     > {
@@ -4204,66 +4178,66 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation UpdateFavouriteOrder ($animeIds: [Int],$mangaIds: [Int],$characterIds: [Int],$staffIds: [Int],$studioIds: [Int],$animeOrder: [Int],$mangaOrder: [Int],$characterOrder: [Int],$staffOrder: [Int],$studioOrder: [Int]) {
+      Mutation UpdateFavouriteOrder ($animeIds: [Int],$mangaIds: [Int],$characterIds: [Int],$staffIds: [Int],$studioIds: [Int],$animeOrder: [Int],$mangaOrder: [Int],$characterOrder: [Int],$staffOrder: [Int],$studioOrder: [Int]) {
         UpdateFavouriteOrder(animeIds: $animeIds,mangaIds: $mangaIds,characterIds: $characterIds,staffIds: $staffIds,studioIds: $studioIds,animeOrder: $animeOrder,mangaOrder: $mangaOrder,characterOrder: $characterOrder,staffOrder: $staffOrder,studioOrder: $studioOrder) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update a review */
-    SaveReview(): FragmentableQueryWithOptionalArgs<IReviewModel, ISaveReviewModelArgs> {
+    SaveReview(): FragmentableQueryWithArgs<IReviewModel, ISaveReviewModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
+      Mutation SaveReview ($id: Int,$mediaId: Int,$body: String,$summary: String,$score: Int,$private: Boolean) {
         SaveReview(id: $id,mediaId: $mediaId,body: $body,summary: $summary,score: $score,private: $private) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete a review */
-    DeleteReview(): FragmentableQueryWithOptionalArgs<IDeletedModel, IDeleteReviewModelArgs> {
+    DeleteReview(): FragmentableQueryWithArgs<IDeletedModel, IDeleteReviewModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteReview ($id: Int) {
+      Mutation DeleteReview ($id: Int) {
         DeleteReview(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Rate a review */
-    RateReview(): FragmentableQueryWithOptionalArgs<IReviewModel, IRateReviewModelArgs> {
+    RateReview(): FragmentableQueryWithArgs<IReviewModel, IRateReviewModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
+      Mutation RateReview ($reviewId: Int,$rating: ReviewRating) {
         RateReview(reviewId: $reviewId,rating: $rating) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Recommendation a media */
-    SaveRecommendation(): FragmentableQueryWithOptionalArgs<
+    SaveRecommendation(): FragmentableQueryWithArgs<
       IRecommendationModel,
       ISaveRecommendationModelArgs
     > {
@@ -4271,50 +4245,50 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
+      Mutation SaveRecommendation ($mediaId: Int,$mediaRecommendationId: Int,$rating: RecommendationRating) {
         SaveRecommendation(mediaId: $mediaId,mediaRecommendationId: $mediaRecommendationId,rating: $rating) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update a forum thread */
-    SaveThread(): FragmentableQueryWithOptionalArgs<IThreadModel, ISaveThreadModelArgs> {
+    SaveThread(): FragmentableQueryWithArgs<IThreadModel, ISaveThreadModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int],$mediaCategories: [Int],$sticky: Boolean,$locked: Boolean) {
+      Mutation SaveThread ($id: Int,$title: String,$body: String,$categories: [Int],$mediaCategories: [Int],$sticky: Boolean,$locked: Boolean) {
         SaveThread(id: $id,title: $title,body: $body,categories: $categories,mediaCategories: $mediaCategories,sticky: $sticky,locked: $locked) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete a thread */
-    DeleteThread(): FragmentableQueryWithOptionalArgs<IDeletedModel, IDeleteThreadModelArgs> {
+    DeleteThread(): FragmentableQueryWithArgs<IDeletedModel, IDeleteThreadModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteThread ($id: Int) {
+      Mutation DeleteThread ($id: Int) {
         DeleteThread(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Toggle the subscription of a forum thread */
-    ToggleThreadSubscription(): FragmentableQueryWithOptionalArgs<
+    ToggleThreadSubscription(): FragmentableQueryWithArgs<
       IThreadModel,
       IToggleThreadSubscriptionModelArgs
     > {
@@ -4322,18 +4296,18 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
+      Mutation ToggleThreadSubscription ($threadId: Int,$subscribe: Boolean) {
         ToggleThreadSubscription(threadId: $threadId,subscribe: $subscribe) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Create or update a thread comment */
-    SaveThreadComment(): FragmentableQueryWithOptionalArgs<
+    SaveThreadComment(): FragmentableQueryWithArgs<
       IThreadCommentModel,
       ISaveThreadCommentModelArgs
     > {
@@ -4341,48 +4315,45 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
+      Mutation SaveThreadComment ($id: Int,$threadId: Int,$parentCommentId: Int,$comment: String) {
         SaveThreadComment(id: $id,threadId: $threadId,parentCommentId: $parentCommentId,comment: $comment) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
     /** Delete a thread comment */
-    DeleteThreadComment(): FragmentableQueryWithOptionalArgs<
-      IDeletedModel,
-      IDeleteThreadCommentModelArgs
-    > {
+    DeleteThreadComment(): FragmentableQueryWithArgs<IDeletedModel, IDeleteThreadCommentModelArgs> {
       return {
         $fragment: (fragment: string | DocumentNode) => {
           const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
           const queryTemplate = sgtsQL\`
-      mutation DeleteThreadComment ($id: Int) {
+      Mutation DeleteThreadComment ($id: Int) {
         DeleteThreadComment(id: $id) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
       \`;
-          return abortableQuery(queryTemplate, true, true);
+          return abortableQuery(queryTemplate, true, false);
         },
       };
     },
-    UpdateAniChartSettings(): QueryWithOptionalArgs<string, IUpdateAniChartSettingsModelArgs> {
+    UpdateAniChartSettings(): QueryWithArgs<string, IUpdateAniChartSettingsModelArgs> {
       const queryTemplate = sgtsQL\`
-      mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
+      Mutation UpdateAniChartSettings ($titleLanguage: String,$outgoingLinkProvider: String,$theme: String,$sort: String) {
         UpdateAniChartSettings(titleLanguage: $titleLanguage,outgoingLinkProvider: $outgoingLinkProvider,theme: $theme,sort: $sort)
       }\`;
-      return abortableQuery(queryTemplate, true, true);
+      return abortableQuery(queryTemplate, true, false);
     },
-    UpdateAniChartHighlights(): QueryWithOptionalArgs<string, IUpdateAniChartHighlightsModelArgs> {
+    UpdateAniChartHighlights(): QueryWithArgs<string, IUpdateAniChartHighlightsModelArgs> {
       const queryTemplate = sgtsQL\`
-      mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]) {
+      Mutation UpdateAniChartHighlights ($highlights: [AniChartHighlightInput]) {
         UpdateAniChartHighlights(highlights: $highlights)
       }\`;
-      return abortableQuery(queryTemplate, true, true);
+      return abortableQuery(queryTemplate, true, false);
     },
   };
 };

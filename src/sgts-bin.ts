@@ -61,8 +61,6 @@ const runSgtsCLI = () => {
     init,
   } = program;
 
-  console.log(program.arguments);
-
   // Generate using .sgtsrc.js config file
   if (generate) {
     // Get `.env.{stage}` to load envirronements variables
