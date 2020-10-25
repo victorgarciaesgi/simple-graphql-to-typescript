@@ -15,7 +15,7 @@ const runSgtsCLI = () => {
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
     .option(
-      '--codegen-methods',
+      '--codegen-functions',
       'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
     .option('--codegen-react-hooks', 'Generate useMutation and useQuery React hooks typed')
@@ -51,7 +51,7 @@ const runSgtsCLI = () => {
     header,
     prefix,
     suffix,
-    codegenMethods,
+    codegenFunctions,
     jsMode,
     codegenReactHooks,
     codegenVueHooks,
@@ -95,7 +95,7 @@ const runSgtsCLI = () => {
       header,
       prefix,
       suffix,
-      codegenMethods,
+      codegenFunctions,
       jsMode,
       codegenReactHooks,
       codegenVueHooks,

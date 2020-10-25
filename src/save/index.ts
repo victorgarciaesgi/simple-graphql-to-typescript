@@ -69,7 +69,7 @@ async function writeOutput(path: string, content: string, jsMode?: boolean): Pro
       try {
         TypescriptCompile([path], {
           module: ts.ModuleKind.CommonJS,
-          target: ts.ScriptTarget.ESNext,
+          target: ts.ScriptTarget.ES2018,
           moduleResolution: ts.ModuleResolutionKind.NodeJs,
           allowSyntheticDefaultImports: true,
           experimentalDecorators: true,

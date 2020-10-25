@@ -9,7 +9,7 @@ class SchemaConstructor {
 
   /** Returns the list of types contained in the schema */
   public get schemaTypes(): Type[] {
-    return this.schema?.__schema.types.filter((type) => regexFilter(type));
+    return this.schema?.__schema.types.filter(regexFilter);
   }
 
   public get schemaObjectTypes(): Type[] {

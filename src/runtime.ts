@@ -1,8 +1,9 @@
-import { generate } from './generate';
+require('module-alias/register');
 import chalk from 'chalk';
 import { retrieveIntrospectionSchema } from './utilities';
 import { saveFile } from './save';
 import { SgtsConfig } from './models';
+import { SchemaStore, OutputStore, ParametersStore } from './store';
 
 /**
  * Returns the transpiled file string
@@ -27,11 +28,12 @@ export async function sgtsGenerate({
       download,
     });
     if (introspectionSchema) {
-      const generatedString = await generate({
-        schema: introspectionSchema,
-        customScalars,
+      SchemaStore.setSchema(introspectionSchema);
+      ParametersStore.setParamaters({
+        scalars: customScalars,
         ...rest,
       });
+      const generatedString = OutputStore.getRenderedFileString();
       return await saveFile(generatedString, output, jsMode);
     } else {
       console.warn(

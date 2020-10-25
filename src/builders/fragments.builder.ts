@@ -15,10 +15,10 @@ export function buildFragments(): string[] {
         const fragment = generateNormalFragment(type, isConnection);
         if (fragment) {
           return `export const ${type.name}Fragment = sgtsQL\` 
-                  fragment ${type.name}Fragment on ${type.name} {
-                    ${fragment}
-                  }
-              \`;`;
+  fragment ${type.name}Fragment on ${type.name} {
+    ${fragment}
+  }
+\`;`;
         }
       }
     })

@@ -2,7 +2,7 @@
 
 ### Type: `boolean`
 
-In the same way as `codegen-methods`, but generate React apollo hooks instead
+In the same way as `codegen-functions`, but generate React apollo hooks instead
 
 **Supports Subscriptions since `0.6.4`**
 
@@ -79,6 +79,6 @@ const Login = () => {
 
 **Also, Sgts will generate all `pageInfo` fragment for pagination**
 
-See `codegen-methods` for exemple
+See `codegen-functions` for exemple
 
 :::

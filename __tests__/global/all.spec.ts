@@ -9,7 +9,7 @@ describe('Test all generations from different sources', () => {
       codegenReactHooks: true,
       codegenTemplates: true,
       codegenVueHooks: true,
-      codegenMethods: true,
+      codegenFunctions: true,
       ...sharedOptions,
     });
     expect(result).toMatchSnapshot();

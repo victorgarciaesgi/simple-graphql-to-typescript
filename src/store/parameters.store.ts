@@ -5,7 +5,7 @@ interface SetParametersArgs {
   prefix?: string;
   suffix?: string;
   genFragments?: boolean;
-  codegenMethods?: boolean;
+  codegenFunctions?: boolean;
   codegenReactHooks?: boolean;
   codegenTemplates?: boolean;
   codegenVueHooks?: boolean;
@@ -24,14 +24,17 @@ class ParametersConstructor {
   public prefix = '';
   public suffix = '';
   public genFragments = false;
-  public codegenMethods = false;
+  public codegenFunctions = false;
   public codegenReactHooks = false;
   public codegenTemplates = false;
   public codegenVueHooks = false;
 
   get isCodeGen(): boolean {
     return (
-      this.codegenReactHooks || this.codegenMethods || this.codegenTemplates || this.codegenVueHooks
+      this.codegenReactHooks ||
+      this.codegenFunctions ||
+      this.codegenTemplates ||
+      this.codegenVueHooks
     );
   }
 
@@ -46,7 +49,11 @@ class ParametersConstructor {
     if (data.scalars) this.addScalars(data.scalars);
     if (data.prefix != null) this.prefix = data.prefix;
     if (data.suffix != null) this.suffix = data.suffix;
-    if (data.genFragments) this.genFragments = data.genFragments;
+    this.genFragments = !!data.genFragments;
+    this.codegenFunctions = !!data.codegenFunctions;
+    this.codegenReactHooks = !!data.codegenReactHooks;
+    this.codegenVueHooks = !!data.codegenVueHooks;
+    this.codegenTemplates = !!data.codegenTemplates;
   }
 
   get listScalars() {

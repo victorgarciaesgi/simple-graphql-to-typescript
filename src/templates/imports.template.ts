@@ -1,9 +1,9 @@
 import { guessFragmentTypeTemplate } from './fragmentType.template';
-import { ParametersStore } from 'src/store';
+import { ParametersStore } from '@store';
 
 export const defineImports = (): string => {
   let template = '';
-  const { isCodeGen, codegenMethods, codegenVueHooks, codegenReactHooks } = ParametersStore;
+  const { isCodeGen, codegenFunctions, codegenVueHooks, codegenReactHooks } = ParametersStore;
   if (isCodeGen) {
     template = `
     import { OperationDefinitionNode } from 'graphql';
@@ -21,7 +21,7 @@ export const defineImports = (): string => {
       export type ReactiveFunction<TParam> = () => TParam;
       `;
     }
-    if (codegenMethods) {
+    if (codegenFunctions) {
       template += `
       import ApolloClient, { QueryOptions, OperationVariables, MutationOptions, ObservableQuery } from 'apollo-client';
       import { execute } from 'apollo-link';

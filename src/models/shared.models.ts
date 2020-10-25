@@ -10,7 +10,7 @@ export type SgtsConfig = {
   suffix?: string;
   jsMode?: boolean;
   download?: string;
-  codegenMethods?: boolean;
+  codegenFunctions?: boolean;
   codegenReactHooks?: boolean;
   codegenVueHooks?: boolean;
   codegenTemplates?: boolean;

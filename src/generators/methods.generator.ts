@@ -25,7 +25,7 @@ export function createGraphQLFunction({
 
   const { genFragments } = ParametersStore;
 
-  const Query = generateQueryFunction({ field, innerFragment, functionType });
+  const Query = generateTemplateQuery({ field, innerFragment, functionType });
   let defaultQuery: string | null = null;
 
   if (genFragments) {

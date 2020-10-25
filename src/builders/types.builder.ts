@@ -8,14 +8,14 @@ export function buildSchemaTypes(): string[] {
   const { schemaTypes } = SchemaStore;
 
   return schemaTypes.map((type) => {
-    let typeOutput = '';
     if (OBJECT_TYPES.includes(type.kind)) {
-      typeOutput = getObjectTSInterfaces(type, type.kind === TypeKind.INPUT_OBJECT);
+      return getObjectTSInterfaces(type, type.kind === TypeKind.INPUT_OBJECT);
     } else if (type.kind === TypeKind.UNION) {
-      typeOutput = generateUnionType(type);
+      return generateUnionType(type);
     } else if (type.kind === TypeKind.ENUM) {
-      typeOutput = generateEnumType(type);
+      return generateEnumType(type);
+    } else {
+      return '';
     }
-    return typeOutput;
   });
 }

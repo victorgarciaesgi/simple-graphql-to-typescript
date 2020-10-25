@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.9.0] - 2020-10-25
+
+### Breaking change
+
+- renamed `codegen-methods` to `codegen-functions`
+- cleaned up the code
+
 ## [0.8.8] - 2020-09-8
 
 ### Added

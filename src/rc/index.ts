@@ -77,7 +77,7 @@ export const createConfig = async (): Promise<void> => {
           new inquirer.Separator('------'),
           {
             name: 'Vanilla es6 helpers functions',
-            value: 'codegenMethods',
+            value: 'codegenFunctions',
           },
           {
             name: 'Apollo React Hooks',
