@@ -18,7 +18,7 @@ For the detail of each options, refer to the [options](/options) page!
   endpoint?: string;
   json?: string;
   output?: string;
-  codegenMethods?: boolean;
+  codegenFunctions?: boolean;
   codegenReactHooks?: boolean;
   codegenVueHooks?: boolean;
   codegenTemplates?: boolean;

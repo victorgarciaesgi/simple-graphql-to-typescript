@@ -1,6 +1,6 @@
 export type Dictionnary<T = any> = { [x: string]: T };
 export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
-
+export type ObjectLiteral<K extends string = string, V = any> = Record<K, V>;
 export type SgtsConfig = {
   generate?: string;
   output?: string;
@@ -10,11 +10,16 @@ export type SgtsConfig = {
   suffix?: string;
   jsMode?: boolean;
   download?: string;
-  codegenMethods?: boolean;
+  codegenFunctions?: boolean;
   codegenReactHooks?: boolean;
   codegenVueHooks?: boolean;
   codegenTemplates?: boolean;
   genFragments?: boolean;
 } & AtLeastOne<{ endpoint: string; json: string }>;
 
-export type CodeGenType = 'methods' | 'react-hooks' | 'vue-hooks' | 'template';
+export enum CodeGenType {
+  METHODS = 'methods',
+  REACT_HOOKS = 'react-hooks',
+  VUE_HOOKS = 'vue-hooks',
+  TEMPLATE = 'template',
+}

@@ -52,6 +52,6 @@ console.log(query);
 
 **Also, Sgts will generate all `pageInfo` fragment for pagination**
 
-See `codegen-methods` for exemple
+See `codegen-functions` for exemple
 
 :::

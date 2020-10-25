@@ -1,8 +1,9 @@
-import { generate } from './generate';
+require('module-alias/register');
 import chalk from 'chalk';
-import { fetchSchemas } from './utilities';
+import { retrieveIntrospectionSchema } from './utilities';
 import { saveFile } from './save';
 import { SgtsConfig } from './models';
+import { SchemaStore, OutputStore, ParametersStore } from './store';
 
 /**
  * Returns the transpiled file string
@@ -13,31 +14,26 @@ export async function sgtsGenerate({
   output,
   customScalars,
   header,
-  prefix,
-  suffix,
   jsMode,
-  codegenMethods,
-  codegenReactHooks,
-  codegenVueHooks,
-  codegenTemplates,
   download,
-  genFragments,
+  ...rest
 }: SgtsConfig): Promise<string | undefined> {
+  console.log(`\n Sgts v${require('../package.json').version}`);
+
   try {
-    console.log(`\n Sgts v${require('../package.json').version}`);
-    const schema = await fetchSchemas({ endpoint, header, json, download });
-    if (schema) {
-      const generatedString = await generate(
-        schema,
-        prefix,
-        suffix,
-        customScalars,
-        codegenMethods,
-        codegenReactHooks,
-        codegenVueHooks,
-        codegenTemplates,
-        genFragments
-      );
+    const introspectionSchema = await retrieveIntrospectionSchema({
+      endpoint,
+      header,
+      json,
+      download,
+    });
+    if (introspectionSchema) {
+      SchemaStore.setSchema(introspectionSchema);
+      ParametersStore.setParamaters({
+        scalars: customScalars,
+        ...rest,
+      });
+      const generatedString = OutputStore.getRenderedFileString();
       return await saveFile(generatedString, output, jsMode);
     } else {
       console.warn(

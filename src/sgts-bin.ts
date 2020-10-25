@@ -15,7 +15,7 @@ const runSgtsCLI = () => {
     .option('-j, --json <json>', 'Json file of your GraphQL Api schema')
     .option('-o, --output <output>', 'Output path of your generated file')
     .option(
-      '--codegen-methods',
+      '--codegen-functions',
       'Generate all your graphQL methods fully typed (Inspired by Prisma)'
     )
     .option('--codegen-react-hooks', 'Generate useMutation and useQuery React hooks typed')
@@ -51,7 +51,7 @@ const runSgtsCLI = () => {
     header,
     prefix,
     suffix,
-    codegenMethods,
+    codegenFunctions,
     jsMode,
     codegenReactHooks,
     codegenVueHooks,
@@ -61,11 +61,16 @@ const runSgtsCLI = () => {
     init,
   } = program;
 
+  // Generate using .sgtsrc.js config file
   if (generate) {
-    const env = typeof generate === 'boolean' ? 'development' : generate;
-    const config = getConfigParams(env);
-    if (config) generateUsingConfig(config);
-    else createConfig();
+    // Get `.env.{stage}` to load envirronements variables
+    const config = getConfigParams(generate);
+    if (config) {
+      generateUsingConfig(config);
+    } else {
+      // If no .sgtsrc.js file present, init it
+      createConfig();
+    }
   } else if (init) {
     createConfig();
   } else {
@@ -88,7 +93,7 @@ const runSgtsCLI = () => {
       header,
       prefix,
       suffix,
-      codegenMethods,
+      codegenFunctions,
       jsMode,
       codegenReactHooks,
       codegenVueHooks,

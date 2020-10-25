@@ -31,6 +31,7 @@ debug
 dist
 types
 schema.json
+gql.json
 
 # Bower dependency directory (https://bower.io/)
 bower_components

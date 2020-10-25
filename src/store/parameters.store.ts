@@ -1,10 +1,14 @@
-import { Dictionnary } from '../models';
+import { Dictionnary } from '@models';
 
 interface SetParametersArgs {
   scalars?: Dictionnary<string>;
   prefix?: string;
   suffix?: string;
   genFragments?: boolean;
+  codegenFunctions?: boolean;
+  codegenReactHooks?: boolean;
+  codegenTemplates?: boolean;
+  codegenVueHooks?: boolean;
 }
 
 class ParametersConstructor {
@@ -20,6 +24,19 @@ class ParametersConstructor {
   public prefix = '';
   public suffix = '';
   public genFragments = false;
+  public codegenFunctions = false;
+  public codegenReactHooks = false;
+  public codegenTemplates = false;
+  public codegenVueHooks = false;
+
+  get isCodeGen(): boolean {
+    return (
+      this.codegenReactHooks ||
+      this.codegenFunctions ||
+      this.codegenTemplates ||
+      this.codegenVueHooks
+    );
+  }
 
   addScalars(scalars: Dictionnary<string>): void {
     this.defaultScalars = {
@@ -28,11 +45,15 @@ class ParametersConstructor {
     };
   }
 
-  setParamaters({ prefix, suffix, scalars, genFragments }: SetParametersArgs): void {
-    if (scalars) this.addScalars(scalars);
-    if (prefix != null) this.prefix = prefix;
-    if (suffix != null) this.suffix = suffix;
-    if (genFragments) this.genFragments = genFragments;
+  setParamaters(data: SetParametersArgs): void {
+    if (data.scalars) this.addScalars(data.scalars);
+    if (data.prefix != null) this.prefix = data.prefix;
+    if (data.suffix != null) this.suffix = data.suffix;
+    this.genFragments = !!data.genFragments;
+    this.codegenFunctions = !!data.codegenFunctions;
+    this.codegenReactHooks = !!data.codegenReactHooks;
+    this.codegenVueHooks = !!data.codegenVueHooks;
+    this.codegenTemplates = !!data.codegenTemplates;
   }
 
   get listScalars() {

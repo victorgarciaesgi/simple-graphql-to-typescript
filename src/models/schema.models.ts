@@ -1,3 +1,14 @@
+export enum TypeKind {
+  'SCALAR' = 'SCALAR',
+  'OBJECT' = 'OBJECT',
+  'INTERFACE' = 'INTERFACE',
+  'UNION' = 'UNION',
+  'ENUM' = 'ENUM',
+  'INPUT_OBJECT' = 'INPUT_OBJECT',
+  'NON_NULL' = 'NON_NULL',
+  'LIST' = 'LIST',
+}
+
 export interface QueryType {
   name: string;
 }
@@ -39,8 +50,8 @@ export interface EnumValue {
 }
 
 export interface Type {
-  kind: string;
-  name: string;
+  kind: TypeKind;
+  name: string | MethodType;
   description: string;
   fields: Field[];
   inputFields: InputField[];
@@ -69,7 +80,7 @@ export interface GraphQLJSONSchema {
 }
 
 export enum MethodType {
-  Query = 'query',
-  Mutation = 'mutation',
-  Subscription = 'subscription',
+  Query = 'Query',
+  Mutation = 'Mutation',
+  Subscription = 'Subscription',
 }

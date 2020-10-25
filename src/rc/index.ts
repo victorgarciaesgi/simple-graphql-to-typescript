@@ -8,10 +8,13 @@ import { configTemplate } from '../templates';
 
 require('dotenv').config();
 
-export function getConfigParams(env: string): SgtsConfig | null {
-  require('custom-env').env(env);
+export function getConfigParams(generate: boolean | string): SgtsConfig | null {
+  const stageEnv = typeof generate === 'boolean' ? 'development' : (generate as string);
+  require('custom-env').env(stageEnv);
   const configPath = path.resolve(process.cwd(), '.sgtsrc.js');
-  if (fs.existsSync(configPath)) return require(path.resolve(process.cwd(), '.sgtsrc.js'));
+  if (fs.existsSync(configPath)) {
+    return require(path.resolve(process.cwd(), '.sgtsrc.js'));
+  }
   return null;
 }
 
@@ -74,7 +77,7 @@ export const createConfig = async (): Promise<void> => {
           new inquirer.Separator('------'),
           {
             name: 'Vanilla es6 helpers functions',
-            value: 'codegenMethods',
+            value: 'codegenFunctions',
           },
           {
             name: 'Apollo React Hooks',
@@ -106,11 +109,11 @@ export const createConfig = async (): Promise<void> => {
         return;
       }
     }
-    const codeGenDisplay = codeGen.codeGens.map((m) => `${m}: true,`);
+    const codeGenDisplay = codeGen.codeGens.map((m: string) => `${m}: true,`);
     const configValue = `module.exports = {
-  ${sourceType.type}: "${sourceValue.source}",
-  output: "${outputPath.ouput}",
-  ${codeGenDisplay.join('\n  ')}
+    ${sourceType.type}: "${sourceValue.source}",
+    output: "${outputPath.ouput}",
+    ${codeGenDisplay.join('\n  ')}
 }
     `;
     await fs.writeFileSync(configPath, configTemplate(configValue));

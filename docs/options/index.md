@@ -5,7 +5,7 @@
 | --endpoint `<endpoint>`     | -e           | string(url)                                  | [See doc](/options/endpoint)            |
 | --json `<path to json>`     | -j           | string(path)                                 | [See doc](/options/json)                |
 | --output `<path>`           | -o           | string(path) <br> _default_ `./generated.ts` | [See doc](/options/output)              |
-| --codegen-methods           |              | boolean                                      | [See doc](/options/codegen-methods)     |
+| --codegen-functions         |              | boolean                                      | [See doc](/options/codegen-functions)   |
 | --codegen-react-hooks       |              | boolean                                      | [See doc](/options/codegen-react-hooks) |
 | --codegen-vue-hooks         |              | boolean                                      | [See doc](/options/codegen-vue-hooks)   |
 | --codegen-templates         |              | boolean                                      | [See doc](/options/withGqlQueries)      |

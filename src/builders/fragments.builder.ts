@@ -1,30 +1,26 @@
-import { GraphQLJSONSchema } from '../models';
-import { isReturnTypeEdge } from '../utilities';
-import { getObjectTSInterfaces, createNormalFragment } from '../generators';
+import { MethodType, TypeKind } from '@models';
+import { generateNormalFragment } from '@generators';
+import { SchemaStore } from '@store';
 
-const typesToParse = ['OBJECT', 'INTERFACE'];
-const forbiddenTypes = ['Query', 'Mutation', 'Subscription'];
+const TYPES_TO_PARSE = [TypeKind.OBJECT, TypeKind.INTERFACE];
+const forbiddenTypes = [MethodType.Query, MethodType.Mutation, MethodType.Subscription];
 
-export function generateFragments(schema: GraphQLJSONSchema) {
-  const schemaTypes = schema.__schema.types;
-  const generatedFragments: string[] = [];
-  const ObjectTypes = schema.__schema.types.filter((f) => f.kind === 'OBJECT');
+export function buildFragments(): string[] {
+  const { schemaTypes } = SchemaStore;
 
-  schemaTypes.forEach((type) => {
-    if (!/^_{1,2}/.test(type.name)) {
-      if (typesToParse.includes(type.kind) && !forbiddenTypes.includes(type.name)) {
-        const isConnection = isReturnTypeEdge(ObjectTypes, type.name);
-        const fragment = createNormalFragment(type, ObjectTypes, isConnection);
+  return schemaTypes
+    .map((type) => {
+      if (TYPES_TO_PARSE.includes(type.kind) && !forbiddenTypes.includes(type.name as MethodType)) {
+        const isConnection = SchemaStore.isTypeConnection(type.name);
+        const fragment = generateNormalFragment(type, isConnection);
         if (fragment) {
-          const output = `export const ${fragment.foundName}Fragment = sgtsQL\` 
-  fragment ${fragment.foundName}Fragment on ${fragment.foundName} {
-    ${fragment.fragment}
+          return `export const ${type.name}Fragment = sgtsQL\` 
+  fragment ${type.name}Fragment on ${type.name} {
+    ${fragment}
   }
 \`;`;
-          generatedFragments.push(output);
         }
       }
-    }
-  });
-  return generatedFragments;
+    })
+    .filter((value): value is string => !!value);
 }

@@ -104,7 +104,7 @@ function getMainSidebar() {
         '/options/endpoint',
         '/options/json',
         '/options/output',
-        '/options/codegen-methods',
+        '/options/codegen-functions',
         '/options/codegen-react-hooks',
         '/options/codegen-vue-hooks',
         '/options/codegen-templates',

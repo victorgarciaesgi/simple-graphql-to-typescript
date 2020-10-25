@@ -2,7 +2,7 @@
 
 ### Type: `boolean`
 
-In the same way as `codegen-methods`, but generate `@vue/apollo-composable` hooks instead
+In the same way as `codegen-functions`, but generate `@vue/apollo-composable` hooks instead
 
 **Supports Subscriptions since `0.6.4`**
 
@@ -108,6 +108,6 @@ export default createComponent({
 
 **Also, Sgts will generate all `pageInfo` fragment for pagination**
 
-See `codegen-methods` for exemple
+See `codegen-functions` for exemple
 
 :::
