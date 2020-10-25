@@ -80,7 +80,7 @@ export interface GraphQLJSONSchema {
 }
 
 export enum MethodType {
-  Query = 'Query',
-  Mutation = 'Mutation',
-  Subscription = 'Subscription',
+  Query = 'query',
+  Mutation = 'mutation',
+  Subscription = 'subscription',
 }

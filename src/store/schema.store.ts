@@ -2,7 +2,8 @@ import { generateQGLArg } from '@generators';
 import { Arg, Field, GraphQLJSONSchema, InputField, OfType, Type, TypeKind } from '@models';
 import { ParametersStore } from './parameters.store';
 
-const regexFilter = (field: Field | Type) => !/^_{1,2}/.test(field.name);
+const regexFilter = (field: Field | Type) =>
+  !/(^_{1,2})|Query|Mutation|Subscription/.test(field.name);
 
 class SchemaConstructor {
   private schema!: GraphQLJSONSchema;
