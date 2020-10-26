@@ -21,8 +21,8 @@ class SchemaConstructor {
   public get schemaFunctions(): [Field[], Field[], Field[]] {
     const _schema = this.schema.__schema;
     const QueryType = _schema.queryType.name;
-    const MutationType = _schema.mutationType?.name ?? '';
-    const SubscriptionType = _schema.subscriptionType?.name ?? '';
+    const MutationType = _schema.mutationType?.name ?? null;
+    const SubscriptionType = _schema.subscriptionType?.name ?? null;
     let listQueries = _schema.types.find((type) => type.name === QueryType)?.fields ?? [];
     let listMutations: Field[] = [];
     let listSubscription: Field[] = [];
@@ -49,7 +49,7 @@ class SchemaConstructor {
   /** Returns true if the return type of a Type is a `Connection` */
   public isTypeConnection(typeName: string): boolean {
     const type = this.findType(typeName);
-    if (type) {
+    if (type && type.fields) {
       return type.fields.map(this.getFieldProps).some(({ isConnection }) => isConnection);
     }
     return false;

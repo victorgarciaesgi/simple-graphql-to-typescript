@@ -12,4 +12,9 @@ module.exports = {
   roots: ['<rootDir>'],
   moduleDirectories: ['.', 'src', 'node_modules'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  globals: {
+    'ts-jest': {
+      compiler: 'ttypescript',
+    },
+  },
 };

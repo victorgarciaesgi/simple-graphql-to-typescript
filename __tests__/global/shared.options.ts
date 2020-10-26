@@ -7,4 +7,5 @@ export const sharedOptions: Partial<SgtsConfig> = {
     DateTime: 'Date',
   },
   header: 'Authorization=JWT blahblahblah',
+  genFragments: true,
 };

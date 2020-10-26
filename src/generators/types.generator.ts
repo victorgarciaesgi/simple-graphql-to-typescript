@@ -12,7 +12,7 @@ export const generateEnumType = (object: Type): string => {
     prefix ? prefix : ''
   }${ObjectName}${suffix ? suffix : ''} {
         ${generatedFields
-          .map((enumType) => `${capitalizeAllWord(enumType)} = "${enumType}"`)
+          ?.map((enumType) => `${capitalizeAllWord(enumType)} = "${enumType}"`)
           .join(',\n')}
   }`;
 };
