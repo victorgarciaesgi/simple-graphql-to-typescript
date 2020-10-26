@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "target": "es2018",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -20,6 +20,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "outDir": "./dist",
+
     "lib": [
       "esnext",
       "scripthost",
@@ -38,7 +39,11 @@
       "@templates": ["src/templates"],
       "@builders": ["src/builders"],
       "@utilities": ["src/utilities"]
-    }
+    },
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["**/*.spec.ts"]

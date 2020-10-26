@@ -102,7 +102,7 @@ class SchemaConstructor {
     let isConnection = false;
     let isScalar = false;
     let isEnum = false;
-    let fieldName = '';
+    let typeName = '';
 
     if (propertyName === 'edges') isConnection = true;
 
@@ -116,7 +116,7 @@ class SchemaConstructor {
       else {
         if (type.kind === TypeKind.SCALAR) isScalar = true;
         else if (type.kind === TypeKind.ENUM) isEnum = true;
-        fieldName = type.name;
+        typeName = type.name;
       }
       return null;
     }
@@ -128,7 +128,7 @@ class SchemaConstructor {
       isArrayRequired,
       isConnection,
       isScalar,
-      fieldName,
+      typeName,
       isEnum,
     };
   }

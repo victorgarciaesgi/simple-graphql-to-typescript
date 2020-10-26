@@ -9,13 +9,13 @@ export function generateConnectionFragment(typeName: string, fragment: string): 
 
     const generateLines = (field: Field): void => {
       outputFragment += `${field.name} `;
-      const { fieldName, isScalar } = SchemaStore.getFieldProps(field);
+      const { typeName, isScalar } = SchemaStore.getFieldProps(field);
       if (!isScalar) {
         if (field.name === 'node') {
           outputFragment += `{${fragment}} `;
         } else {
           outputFragment += `{ `;
-          const type = SchemaStore.findType(fieldName);
+          const type = SchemaStore.findType(typeName);
           type?.fields?.forEach(generateLines);
           outputFragment += `} `;
         }
@@ -33,9 +33,9 @@ export function generateNormalFragment(type: Type, connection?: boolean): string
   const THRESHOLD = connection ? 4 : 2;
 
   const createFragmentWithDeps = (field: Field, level: number): void => {
-    let { fieldName, isScalar, isEnum } = SchemaStore.getFieldProps(field);
+    let { typeName, isScalar, isEnum } = SchemaStore.getFieldProps(field);
     if (!isScalar && !isEnum) {
-      const type = SchemaStore.findType(fieldName);
+      const type = SchemaStore.findType(typeName);
       if (level < THRESHOLD) {
         outputFragment += `${field.name} {`;
         type?.fields?.forEach((field) => createFragmentWithDeps(field, level + 1));

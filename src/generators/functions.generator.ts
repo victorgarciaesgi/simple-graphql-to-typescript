@@ -20,7 +20,7 @@ export function createGraphQLFunction({
   const methodName = field.name;
 
   const { functionArgsTypeName } = SchemaStore.getFunctionFieldArgs(field);
-  const { isScalar, fieldName } = SchemaStore.getFieldProps(field);
+  const { isScalar, typeName } = SchemaStore.getFieldProps(field);
   const returnedTypeDisplay = getOneTSTypeDisplay({ field });
 
   const { genFragments } = ParametersStore;
@@ -33,7 +33,7 @@ export function createGraphQLFunction({
       field,
       innerFragment,
       functionType,
-      defaultFragmentName: `${fieldName}Fragment`,
+      defaultFragmentName: `${typeName}Fragment`,
     });
   }
 
@@ -54,20 +54,18 @@ export function createGraphQLFunction({
   } else {
     return `
     ${field.description ? `/** ${field.description} */` : ''}
-    ${methodName}(): ${
-      genFragments ? 'Un' : ''
-    }FragmentableQuery${withArgs}<${returnedTypeDisplay}${
+    ${methodName}(fragment${
+      genFragments ? '?' : ''
+    }: string | DocumentNode): ExecutableQuery${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + functionArgsTypeName : ''
     }> {
+      let isString: string, isFragment:string, fragmentName:string;
+      if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment))
+
       ${genFragments ? `const defaultQuery = ${defaultQuery};` : ''}
-    return {
-      $fragment: (fragment: string | DocumentNode) => {
-        const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-        const queryTemplate = ${Query}
-        return abortableQuery(queryTemplate, ${hasArgs}, ${argsOptional});
-      },
-      ${genFragments ? `...abortableQuery(defaultQuery, ${hasArgs}, ${argsOptional})` : ''}
-    }
+      ${genFragments ? `const queryTemplate = fragment ? ${Query} : defaultQuery` : Query}
+
+      return abortableQuery(queryTemplate, ${hasArgs}, ${argsOptional});
       }
   ,`;
   }
@@ -80,12 +78,12 @@ type generateFunctionArgs = {
 };
 
 export function generateFunction({ field, functionType, mode }: generateFunctionArgs): string {
-  const { isScalar, isEnum, fieldName } = SchemaStore.getFieldProps(field);
+  const { isScalar, isEnum, typeName } = SchemaStore.getFieldProps(field);
 
   let innerFragment = `\${isString ? fragment : '...' + fragmentName}`;
 
-  if (!isScalar && !isEnum && SchemaStore.isTypeConnection(field.name)) {
-    innerFragment = generateConnectionFragment(fieldName, innerFragment) ?? innerFragment;
+  if (!isScalar && !isEnum && SchemaStore.isTypeConnection(typeName)) {
+    innerFragment = generateConnectionFragment(typeName, innerFragment) ?? innerFragment;
   }
   const createParams = { field, functionType, innerFragment };
 

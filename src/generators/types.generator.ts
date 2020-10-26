@@ -31,10 +31,10 @@ export const generateUnionType = (object: Type): string => {
 /** Get the ts type from a Field (ex: 'string[]') */
 export const getOneTSTypeDisplay = ({ field }: { field: Field | InputField | Arg }): string => {
   const { prefix, suffix, listScalars } = ParametersStore;
-  const { isScalar, fieldName, isArray } = SchemaStore.getFieldProps(field);
+  const { isScalar, typeName, isArray } = SchemaStore.getFieldProps(field);
   const returnedName = isScalar
-    ? listScalars[fieldName]
-    : `${prefix ? prefix : ''}${fieldName}${suffix ? suffix : ''}`;
+    ? listScalars[typeName]
+    : `${prefix ? prefix : ''}${typeName}${suffix ? suffix : ''}`;
 
   return returnedName + (isArray ? '[]' : '');
 };
@@ -45,16 +45,30 @@ export const generatedTsFields = (fields: (Field | InputField)[], isInput?: bool
     let propertyName = field.name;
     const { isRequired } = SchemaStore.getFieldProps(field);
     const TStypeName = getOneTSTypeDisplay({ field });
-    return `${field.description ? `/** ${field.description}*/\n` : ''} ${propertyName}${
-      isRequired ? '' : isInput ? '?' : ''
-    }: ${isRequired || isInput ? TStypeName : `Maybe<${TStypeName}>`};`;
+    const hasDescription =
+      field.description ||
+      ('isDeprecated' in field && field.isDeprecated) ||
+      ('defaultValue' in field && field.defaultValue);
+    return `${
+      hasDescription
+        ? `/** ${
+            'isDeprecated' in field && field.isDeprecated
+              ? `@deprecated ${field.deprecationReason}`
+              : 'defaultValue' in field && field.defaultValue
+              ? `@default ${field.defaultValue}`
+              : ''
+          }${field.description ? field.description : ''}*/\n`
+        : ''
+    } ${propertyName}${isRequired ? '' : isInput ? '?' : ''}: ${
+      isRequired || isInput ? TStypeName : `Maybe<${TStypeName}>`
+    };`;
   });
 };
 
 /** Generate GQL queries and mutations args (ex: $args: Args[], $where: WhereInput!) */
 export const generateQGLArg = (field: Arg): string => {
-  const { isArray, isArrayRequired, isRequired, fieldName } = SchemaStore.getFieldProps(field);
-  return `${isArray ? '[' : ''}${fieldName}${isArrayRequired ? '!' : ''}${isArray ? ']' : ''}${
+  const { isArray, isArrayRequired, isRequired, typeName } = SchemaStore.getFieldProps(field);
+  return `${isArray ? '[' : ''}${typeName}${isArrayRequired ? '!' : ''}${isArray ? ']' : ''}${
     isRequired ? '!' : ''
   }`;
 };
