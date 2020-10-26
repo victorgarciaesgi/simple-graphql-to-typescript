@@ -19,59 +19,6 @@ exports[`Test simple type generation from different sources Generates types corr
 export type Maybe<T> = T | null;
 import sgtsQL, { DocumentNode } from 'graphql-tag';
 
-export interface IQueryModel {
-  Page: Maybe<IPageModel>;
-  /** Media query*/
-  Media: Maybe<IMediaModel>;
-  /** Media Trend query*/
-  MediaTrend: Maybe<IMediaTrendModel>;
-  /** Airing schedule query*/
-  AiringSchedule: Maybe<IAiringScheduleModel>;
-  /** Character query*/
-  Character: Maybe<ICharacterModel>;
-  /** Staff query*/
-  Staff: Maybe<IStaffModel>;
-  /** Media list query*/
-  MediaList: Maybe<IMediaListModel>;
-  /** Media list collection query, provides list pre-grouped by status & custom lists. User ID and Media Type arguments required.*/
-  MediaListCollection: Maybe<IMediaListCollectionModel>;
-  /** Collection of all the possible media genres*/
-  GenreCollection: Maybe<string[]>;
-  /** Collection of all the possible media tags*/
-  MediaTagCollection: Maybe<IMediaTagModel[]>;
-  /** User query*/
-  User: Maybe<IUserModel>;
-  /** Get the currently authenticated user*/
-  Viewer: Maybe<IUserModel>;
-  /** Notification query*/
-  Notification: Maybe<INotificationUnionModel>;
-  /** Studio query*/
-  Studio: Maybe<IStudioModel>;
-  /** Review query*/
-  Review: Maybe<IReviewModel>;
-  /** Activity query*/
-  Activity: Maybe<IActivityUnionModel>;
-  /** Activity reply query*/
-  ActivityReply: Maybe<IActivityReplyModel>;
-  /** Follow query*/
-  Following: Maybe<IUserModel>;
-  /** Follow query*/
-  Follower: Maybe<IUserModel>;
-  /** Thread query*/
-  Thread: Maybe<IThreadModel>;
-  /** Comment query*/
-  ThreadComment: Maybe<IThreadCommentModel[]>;
-  /** Recommendation query*/
-  Recommendation: Maybe<IRecommendationModel>;
-  /** Like query*/
-  Like: Maybe<IUserModel>;
-  /** Provide AniList markdown to be converted to html (Requires auth)*/
-  Markdown: Maybe<IParsedMarkdownModel>;
-  AniChartUser: Maybe<IAniChartUserModel>;
-  /** Site statistics query*/
-  SiteStatistics: Maybe<ISiteStatisticsModel>;
-}
-
 /** Page of data */
 export interface IPageModel {
   /** The pagination information*/
@@ -160,7 +107,7 @@ export interface IUserModel {
   moderatorStatus: Maybe<string>;
   /** When the user's data was last updated*/
   updatedAt: Maybe<number>;
-  /** The user's statistics*/
+  /** @deprecated Deprecated. Replaced with statistics field.The user's statistics*/
   stats: Maybe<IUserStatsModel>;
 }
 
@@ -232,9 +179,9 @@ export interface IMediaListOptionsModel {
   animeList: Maybe<IMediaListTypeOptionsModel>;
   /** The user's manga list options*/
   mangaList: Maybe<IMediaListTypeOptionsModel>;
-  /** The list theme options for both lists*/
+  /** @deprecated No longer usedThe list theme options for both lists*/
   sharedTheme: Maybe<string>;
-  /** If the shared theme should be used instead of the individual list themes*/
+  /** @deprecated No longer usedIf the shared theme should be used instead of the individual list themes*/
   sharedThemeEnabled: Maybe<boolean>;
 }
 
@@ -252,7 +199,7 @@ export interface IMediaListTypeOptionsModel {
   sectionOrder: Maybe<string[]>;
   /** If the completed sections of the list should be separated by format*/
   splitCompletedSectionByFormat: Maybe<boolean>;
-  /** The list theme options*/
+  /** @deprecated This field has not yet been fully implemented and may change without warningThe list theme options*/
   theme: Maybe<string>;
   /** The names of the user's custom lists*/
   customLists: Maybe<string[]>;
@@ -574,6 +521,7 @@ export interface ICharacterModel {
   siteUrl: Maybe<string>;
   /** Media that includes the character*/
   media: Maybe<IMediaConnectionModel>;
+  /** @deprecated No data available*/
   updatedAt: Maybe<number>;
   /** The amount of user's who have favourited the character*/
   favourites: Maybe<number>;
@@ -687,6 +635,7 @@ export interface IStaffModel {
   staffMedia: Maybe<IMediaConnectionModel>;
   /** Characters voiced by the actor*/
   characters: Maybe<ICharacterConnectionModel>;
+  /** @deprecated No data available*/
   updatedAt: Maybe<number>;
   /** Staff member that the submission is referencing*/
   staff: Maybe<IStaffModel>;
@@ -1079,6 +1028,7 @@ export enum IRecommendationRatingModel {
 export interface IMediaStatsModel {
   scoreDistribution: Maybe<IScoreDistributionModel[]>;
   statusDistribution: Maybe<IStatusDistributionModel[]>;
+  /** @deprecated Replaced by MediaTrends*/
   airingProgression: Maybe<IAiringProgressionModel[]>;
 }
 
@@ -1966,9 +1916,9 @@ export interface IMediaListCollectionModel {
   user: Maybe<IUserModel>;
   /** If there is another chunk*/
   hasNextChunk: Maybe<boolean>;
-  /** A map of media list entry arrays grouped by status*/
+  /** @deprecated Not GraphQL spec compliant, use lists field instead.A map of media list entry arrays grouped by status*/
   statusLists: Maybe<IMediaListModel[]>;
-  /** A map of media list entry arrays grouped by custom lists*/
+  /** @deprecated Not GraphQL spec compliant, use lists field instead.A map of media list entry arrays grouped by custom lists*/
   customLists: Maybe<IMediaListModel[]>;
 }
 
@@ -2032,63 +1982,6 @@ export interface ISiteTrendModel {
   count: number;
   /** The change from yesterday*/
   change: number;
-}
-
-export interface IMutationModel {
-  UpdateUser: Maybe<IUserModel>;
-  /** Create or update a media list entry*/
-  SaveMediaListEntry: Maybe<IMediaListModel>;
-  /** Update multiple media list entries to the same values*/
-  UpdateMediaListEntries: Maybe<IMediaListModel[]>;
-  /** Delete a media list entry*/
-  DeleteMediaListEntry: Maybe<IDeletedModel>;
-  /** Delete a custom list and remove the list entries from it*/
-  DeleteCustomList: Maybe<IDeletedModel>;
-  /** Create or update text activity for the currently authenticated user*/
-  SaveTextActivity: Maybe<ITextActivityModel>;
-  /** Create or update message activity for the currently authenticated user*/
-  SaveMessageActivity: Maybe<IMessageActivityModel>;
-  /** Update list activity (Mod Only)*/
-  SaveListActivity: Maybe<IListActivityModel>;
-  /** Delete an activity item of the authenticated users*/
-  DeleteActivity: Maybe<IDeletedModel>;
-  /** Toggle the subscription of an activity item*/
-  ToggleActivitySubscription: Maybe<IActivityUnionModel>;
-  /** Create or update an activity reply*/
-  SaveActivityReply: Maybe<IActivityReplyModel>;
-  /** Delete an activity reply of the authenticated users*/
-  DeleteActivityReply: Maybe<IDeletedModel>;
-  /** Add or remove a like from a likeable type.
-                          Returns all the users who liked the same model*/
-  ToggleLike: Maybe<IUserModel[]>;
-  /** Add or remove a like from a likeable type.*/
-  ToggleLikeV2: Maybe<ILikeableUnionModel>;
-  /** Toggle the un/following of a user*/
-  ToggleFollow: Maybe<IUserModel>;
-  /** Favourite or unfavourite an anime, manga, character, staff member, or studio*/
-  ToggleFavourite: Maybe<IFavouritesModel>;
-  /** Update the order favourites are displayed in*/
-  UpdateFavouriteOrder: Maybe<IFavouritesModel>;
-  /** Create or update a review*/
-  SaveReview: Maybe<IReviewModel>;
-  /** Delete a review*/
-  DeleteReview: Maybe<IDeletedModel>;
-  /** Rate a review*/
-  RateReview: Maybe<IReviewModel>;
-  /** Recommendation a media*/
-  SaveRecommendation: Maybe<IRecommendationModel>;
-  /** Create or update a forum thread*/
-  SaveThread: Maybe<IThreadModel>;
-  /** Delete a thread*/
-  DeleteThread: Maybe<IDeletedModel>;
-  /** Toggle the subscription of a forum thread*/
-  ToggleThreadSubscription: Maybe<IThreadModel>;
-  /** Create or update a thread comment*/
-  SaveThreadComment: Maybe<IThreadCommentModel>;
-  /** Delete a thread comment*/
-  DeleteThreadComment: Maybe<IDeletedModel>;
-  UpdateAniChartSettings: Maybe<string>;
-  UpdateAniChartHighlights: Maybe<string>;
 }
 
 /** Notification option input */
@@ -3153,14 +3046,6 @@ export interface IDeleteActivityModelArgs {
   id?: number;
 }
 
-/** Toggle the subscription of an activity item */
-export interface IToggleActivitySubscriptionModelArgs {
-  /** The id of the activity to un/subscribe*/
-  activityId?: number;
-  /** Whether to subscribe or unsubscribe from the activity*/
-  subscribe?: boolean;
-}
-
 /** Create or update an activity reply */
 export interface ISaveActivityReplyModelArgs {
   /** The activity reply id, required for updating*/
@@ -3302,14 +3187,6 @@ export interface ISaveThreadModelArgs {
 export interface IDeleteThreadModelArgs {
   /** The id of the thread to delete*/
   id?: number;
-}
-
-/** Toggle the subscription of a forum thread */
-export interface IToggleThreadSubscriptionModelArgs {
-  /** The id of the forum thread to un/subscribe*/
-  threadId?: number;
-  /** Whether to subscribe or unsubscribe from the forum thread*/
-  subscribe?: boolean;
 }
 
 /** Create or update a thread comment */
