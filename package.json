@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -20,15 +20,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://victorgarciaesgi@github.com/victorgarciaesgi/simple-graphql-to-typescript.git"
-  },
-  "_moduleAliases": {
-    "@root": ".",
-    "@store": "dist/store/index.js",
-    "@generators": "dist/generators/index.js",
-    "@models": "dist/models/index.js",
-    "@templates": "dist/templates/index.js",
-    "@builders": "dist/builders/index.js",
-    "@utilities": "dist/utilities/index.js"
   },
   "files": [
     "dist",
@@ -84,6 +75,7 @@
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "@vuepress/plugin-google-analytics": "^1.5.4",
+    "@zerollup/ts-transform-paths": "^1.7.18",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -93,7 +85,6 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.2.0",
     "ttypescript": "^1.5.12",
-    "typescript-transform-paths": "^2.0.2",
     "vuepress": "^1.5.4",
     "vuepress-plugin-autometa": "^0.1.13"
   },
@@ -106,7 +97,6 @@
     "figlet": "^1.5.0",
     "graphql": "^15.3.0",
     "mkdirp": "^1.0.4",
-    "module-alias": "^2.2.2",
     "node-fetch": "^2.6.1",
     "ora": "^5.1.0",
     "prettier": "^2.1.2",

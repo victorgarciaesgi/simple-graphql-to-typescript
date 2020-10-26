@@ -1,4 +1,3 @@
-require('module-alias/register');
 import chalk from 'chalk';
 import { retrieveIntrospectionSchema } from './utilities';
 import { saveFile } from './save';

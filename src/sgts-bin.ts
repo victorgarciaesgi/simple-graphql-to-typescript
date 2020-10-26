@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-require('module-alias/register');
 import program from 'commander';
 import { sgtsGenerate } from './runtime';
 import chalk from 'chalk';

@@ -1,4 +1,4 @@
-import { Field, MethodType } from "../models/index";
+import { Field, MethodType } from "../models";
 interface GraphQLFunctionArgs {
     field: Field;
     functionType: MethodType;
