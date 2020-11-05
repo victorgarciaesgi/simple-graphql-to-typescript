@@ -1,4 +1,4 @@
-export * from './withMethods.template';
+export * from './withFunctions.template';
 export * from './withDefinitions.template';
 export * from './withReactHooksTemplate';
 export * from './withVueHooks.template';
