@@ -57,7 +57,7 @@ class SchemaConstructor {
 
   /** Returns true if all the arguments of a Field are optional */
   public areFieldArgsAllOptional(field: Field): boolean {
-    return field.args.map(this.getFieldProps).every(({ isRequired }) => isRequired);
+    return field.args.map(this.getFieldProps).every(({ isRequired }) => !isRequired);
   }
 
   public getFunctionFieldArgs(
