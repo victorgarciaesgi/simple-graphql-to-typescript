@@ -46,6 +46,7 @@ export function buildCodeGenFunctions(mode: CodeGenType): string {
       return withDefinitionsTemplate(allFunctions);
     }
   } catch (e) {
+    console.log(e);
     oraMethods.fail(`${message} generation failed`);
     return e;
   }

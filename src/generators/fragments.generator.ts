@@ -6,18 +6,20 @@ export function generateConnectionFragment(typeName: string, fragment: string): 
   const foundType = SchemaStore.findType(typeName);
   if (foundType) {
     let outputFragment = '';
-
+    const containsNode = !!foundType.fields.find((field) => field.name === 'node');
     const generateLines = (field: Field): void => {
       outputFragment += `${field.name} `;
       const { typeName, isScalar } = SchemaStore.getFieldProps(field);
       if (!isScalar) {
         if (field.name === 'node') {
           outputFragment += `{${fragment}} `;
-        } else {
+        } else if (containsNode) {
           outputFragment += `{ `;
           const type = SchemaStore.findType(typeName);
           type?.fields?.forEach(generateLines);
           outputFragment += `} `;
+        } else {
+          outputFragment += `{${fragment}} `;
         }
       }
     };
@@ -33,20 +35,24 @@ export function generateNormalFragment(type: Type, connection?: boolean): string
   const THRESHOLD = connection ? 4 : 2;
 
   const createFragmentWithDeps = (field: Field, level: number): void => {
-    let { typeName, isScalar, isEnum } = SchemaStore.getFieldProps(field);
-    if (!isScalar && !isEnum) {
-      const type = SchemaStore.findType(typeName);
-      if (level < THRESHOLD) {
-        outputFragment += `${field.name} {`;
-        type?.fields?.forEach((field) => createFragmentWithDeps(field, level + 1));
-        outputFragment += `} `;
-      } else if (type?.fields && type.fields.length < 7) {
-        outputFragment += `${field.name} {`;
-        type?.fields?.forEach((field) => createFragmentNoDeps(field));
-        outputFragment += `} `;
+    try {
+      let { typeName, isScalar, isEnum } = SchemaStore.getFieldProps(field);
+      if (!isScalar && !isEnum) {
+        const type = SchemaStore.findType(typeName);
+        if (level < THRESHOLD) {
+          outputFragment += `${field.name} {`;
+          type?.fields?.forEach((field) => createFragmentWithDeps(field, level + 1));
+          outputFragment += `} `;
+        } else if (type?.fields && type.fields.length < 7) {
+          outputFragment += `${field.name} {`;
+          type?.fields?.forEach((field) => createFragmentNoDeps(field));
+          outputFragment += `} `;
+        }
+      } else {
+        outputFragment += `${field.name} `;
       }
-    } else {
-      outputFragment += `${field.name} `;
+    } catch (e) {
+      new Error(e);
     }
   };
   const createFragmentNoDeps = (field: Field) => {
