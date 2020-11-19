@@ -64,7 +64,7 @@ async function writeOutput(path: string, content: string, jsMode?: boolean): Pro
   try {
     saveModels = ora('Saving models file...').start();
     await fs.writeFileSync(path, content);
-    saveModels.succeed(`🎉 Output saved at ${chalk.bold(`${path}`)}`);
+    saveModels.succeed(`🎉 Output saved at ${chalk.blue(chalk.bold(`${path}`))}`);
     if (jsMode) {
       try {
         TypescriptCompile([path], {
