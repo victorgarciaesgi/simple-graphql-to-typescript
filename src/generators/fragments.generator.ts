@@ -7,23 +7,21 @@ export function generateConnectionFragment(typeName: string, fragment: string): 
   if (foundType) {
     let outputFragment = '';
     const containsNode = !!foundType.fields.find((field) => field.name === 'node');
-    const generateLines = (field: Field): void => {
+    const generateLines = (field: Field, level: number): void => {
       outputFragment += `${field.name} `;
       const { typeName, isScalar } = SchemaStore.getFieldProps(field);
       if (!isScalar) {
         if (field.name === 'node') {
           outputFragment += `{${fragment}} `;
-        } else if (containsNode) {
+        } else if (level < 4) {
           outputFragment += `{ `;
           const type = SchemaStore.findType(typeName);
-          type?.fields?.forEach(generateLines);
+          type?.fields?.forEach((f) => generateLines(f, level + 1));
           outputFragment += `} `;
-        } else {
-          outputFragment += `{${fragment}} `;
         }
       }
     };
-    foundType.fields.map(generateLines);
+    foundType.fields.map((m) => generateLines(m, 0));
     return outputFragment;
   }
   return null;
