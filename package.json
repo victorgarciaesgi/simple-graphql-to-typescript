@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.9.9",
+  "version": "0.10.0",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -68,15 +68,15 @@
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.10",
     "@types/mkdirp": "^1.0.1",
-    "@types/node": "^14.14.7",
+    "@types/node": "^14.14.9",
     "@types/node-fetch": "^2.5.7",
     "@types/prettier": "^2.0.2",
     "@types/querystringify": "^2.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.8.0",
-    "@typescript-eslint/parser": "^4.8.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
     "@vuepress/plugin-google-analytics": "^1.5.4",
     "@zerollup/ts-transform-paths": "^1.7.18",
-    "eslint": "^7.13.0",
+    "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "inquirer": "^7.3.3",
@@ -89,9 +89,9 @@
     "vuepress-plugin-autometa": "^0.1.13"
   },
   "dependencies": {
-    "apollo-client": "^2.6.10",
+    "@apollo/client": "^3.2.7",
     "chalk": "^4.1.0",
-    "commander": "^4.0.1",
+    "commander": "^6.2.0",
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",
     "figlet": "^1.5.0",
@@ -99,8 +99,8 @@
     "mkdirp": "^1.0.4",
     "node-fetch": "^2.6.1",
     "ora": "^5.1.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.2.0",
     "querystringify": "^2.2.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.1.2"
   }
 }

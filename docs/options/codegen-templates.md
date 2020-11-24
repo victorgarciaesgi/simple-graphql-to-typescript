@@ -19,7 +19,7 @@ sgts -e https://json-placeholder-graphql.herokuapp.com/graphql --codegen-templat
 ```ts
 export const usersGQLNode = (fragment: string | DocumentNode) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  return sgtsQL`
+  return gql`
       query users  {
         users {
           ${isString ? fragment : '...' + fragmentName}

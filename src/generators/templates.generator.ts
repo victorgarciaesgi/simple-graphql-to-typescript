@@ -20,12 +20,12 @@ export function generateTemplateQuery({
   const methodName = field.name;
   const typeNameLower = functionType;
   if (isScalar) {
-    return `sgtsQL\`
+    return `gql\`
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''}
       }\``;
   } else if (!defaultFragmentName) {
-    return `sgtsQL\`
+    return `gql\`
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ${innerFragment}
@@ -33,7 +33,7 @@ export function generateTemplateQuery({
       } \${isFragment ? fragment : ''}
       \``;
   } else {
-    return `sgtsQL\`
+    return `gql\`
       ${typeNameLower} ${methodName} ${hasArgs ? `(${GQLVariables.join(',')})` : ''} {
         ${methodName}${hasArgs ? `(${GQLArgs.join(',')})` : ''} {
           ...${defaultFragmentName}

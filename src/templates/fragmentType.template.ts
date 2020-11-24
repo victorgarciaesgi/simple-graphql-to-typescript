@@ -11,10 +11,9 @@ const guessFragmentType = (fragment: string | DocumentNode) => {
     if (definition.kind === 'FragmentDefinition') {
       fragmentName = definition.name.value;
     } else {
-      console.error(
+      throw new Error(
         \`The argument passed is not a fragment definition, got \${definition.kind} instead\`
       );
-      return;
     }
   }
   return { isString, isFragment, fragmentName };

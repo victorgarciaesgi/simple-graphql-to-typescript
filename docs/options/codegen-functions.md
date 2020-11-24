@@ -25,7 +25,7 @@ You just need to pass yout apolloClient instance to the root constructor of sgts
     return {
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-        const query = sgtsQL`
+        const query = gql`
           query posts ($userId: Int) {
             posts(userId: $userId) {
               ${isString ? fragment : '...' + fragmentName}
@@ -92,26 +92,43 @@ Sgts handle the fragment generation,
 _Exemple from generated project in production_
 
 ```typescript
-export const ReportConnectionFragment = sgtsQL` 
+export const ReportConnectionFragment = gql`
   fragment ReportConnectionFragment on ReportConnection {
-    edges { node { uuid category status } cursor } aggregate { count } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } 
+    edges {
+      node {
+        uuid
+        category
+        status
+      }
+      cursor
+    }
+    aggregate {
+      count
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
   }
 `;
 
 return {
   /** Get list of reports */
   reports(): FragmentableQueryWithArgs<ReportConnection, reportsArgs> {
-    const defaultQuery = sgtsQL`
-        query reports ($where: ReportWhereInput!,$first: Int,$after: ID) {
-          reports(where: $where,first: $first,after: $after) {
-            ...ReportConnectionFragment
-          }
-        } ${ReportConnectionFragment}
-      `;
+    const defaultQuery = gql`
+      query reports($where: ReportWhereInput!, $first: Int, $after: ID) {
+        reports(where: $where, first: $first, after: $after) {
+          ...ReportConnectionFragment
+        }
+      }
+      ${ReportConnectionFragment}
+    `;
     return {
       $fragment: (fragment: string | DocumentNode) => {
         const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-        const query = sgtsQL`
+        const query = gql`
             query reports ($where: ReportWhereInput!,$first: Int,$after: ID) {
               reports(where: $where,first: $first,after: $after) {
                 edges { node {${

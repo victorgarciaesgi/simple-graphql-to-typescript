@@ -8,8 +8,8 @@ import { configTemplate } from '../templates';
 
 require('dotenv').config();
 
-export function getConfigParams(generate: boolean | string): SgtsConfig | null {
-  const stageEnv = typeof generate === 'boolean' ? 'development' : (generate as string);
+export function getConfigParams(generate?: string): SgtsConfig | null {
+  const stageEnv = !generate ? 'development' : (generate as string);
   require('custom-env').env(stageEnv);
   const configPath = path.resolve(process.cwd(), '.sgtsrc.js');
   if (fs.existsSync(configPath)) {

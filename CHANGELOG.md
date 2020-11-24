@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.10.0] - 2020-10-25
+
+- Breaking change: Sgts is now using `@apollo/client` v3 for function generation
+
 ## [0.9.7] - 2020-10-25
 
 - Fix edge case where Connection didn't have the `node` property

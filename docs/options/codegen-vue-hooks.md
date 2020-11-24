@@ -24,7 +24,7 @@ export const usePosts = (
     | ReactiveFunction<UseQueryOptions<{ posts: IPostModel[]; IpostsModelArgs }>>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL`
+  const query = gql`
       query posts ($userId: Int) {
         posts(userId: $userId) {
           ${isString ? fragment : '...' + fragmentName}

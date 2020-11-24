@@ -59,7 +59,7 @@ export function createGraphQLFunction({
     }: string | DocumentNode): ExecutableQuery${withArgs}<${returnedTypeDisplay}${
       hasArgs ? ',' + functionArgsTypeName : ''
     }> {
-      let isString: string, isFragment:string, fragmentName:string;
+      let isString: string = '', isFragment: boolean = false, fragmentName: string = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment))
 
       ${genFragments ? `const defaultQuery = ${defaultQuery};` : ''}

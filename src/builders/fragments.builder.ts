@@ -14,7 +14,7 @@ export function buildFragments(): string[] {
         const isConnection = SchemaStore.isTypeConnection(type.name);
         const fragment = generateNormalFragment(type, isConnection);
         if (fragment) {
-          return `export const ${type.name}Fragment = sgtsQL\` 
+          return `export const ${type.name}Fragment = gql\` 
   fragment ${type.name}Fragment on ${type.name} {
     ${fragment}
   }

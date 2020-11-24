@@ -20,7 +20,7 @@ export const usePosts = (
   options?: QueryHookOptions<{ posts: Post[] }, postsArgs>
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
-  const query = sgtsQL`
+  const query = gql`
       query posts ($userId: Int) {
         posts(userId: $userId) {
           ${isString ? fragment : '...' + fragmentName}
