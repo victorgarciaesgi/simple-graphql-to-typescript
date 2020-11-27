@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -68,7 +68,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.10",
     "@types/mkdirp": "^1.0.1",
-    "@types/node": "^14.14.9",
+    "@types/node": "^14.14.10",
     "@types/node-fetch": "^2.5.7",
     "@types/prettier": "^2.0.2",
     "@types/querystringify": "^2.0.0",
@@ -89,7 +89,7 @@
     "vuepress-plugin-autometa": "^0.1.13"
   },
   "dependencies": {
-    "@apollo/client": "^3.2.7",
+    "@apollo/client": "^3.2.9",
     "chalk": "^4.1.0",
     "commander": "^6.2.0",
     "custom-env": "^2.0.1",

@@ -48,11 +48,11 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
               query,
               variables,
             }).subscribe({
-              next: ({ data }) => {
+              next: ({ data, errors }) => {
                 if (data && queryName && data[queryName]) {
                   resolve(data[queryName]);
                 } else {
-                  reject();
+                  reject(errors);
                 }
               },
               error: (error) => reject(error),
