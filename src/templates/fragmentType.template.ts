@@ -1,7 +1,7 @@
 export const guessFragmentTypeTemplate = `
 const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
+  let isString = false;
+  let isFragment = false;
   let fragmentName = '';
   if (typeof fragment === 'string') {
     isString = true;

@@ -62,7 +62,7 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
             });
           });
         }
-        function $args(args) {
+        function $args(args: Record<string, any>) {
           variables = args;
           return {
             $abort,

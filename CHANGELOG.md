@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.10.2] - 2020-11-28
+
+- Fixed `NoImplicitAny` ts errors
+
 ## [0.10.1] - 2020-11-27
 
 - Fixed `codegen-functions` reject errors

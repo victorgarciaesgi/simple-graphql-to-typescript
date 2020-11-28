@@ -1,6 +1,6 @@
 {
   "name": "simple-graphql-to-typescript",
-  "version": "0.10.1",
+  "version": "0.10.3",
   "description": "Simple Typescript interface generator from GraphQL Schemas",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -47,9 +47,6 @@
     "graphql-ts-generator",
     "graphql-to-typescript"
   ],
-  "resolutions": {
-    "graphql": "^15.3.0"
-  },
   "author": {
     "name": "Victor Garcia",
     "url": "https://github.com/victorgarciaesgi"
@@ -62,7 +59,11 @@
   "bin": {
     "sgts": "./dist/sgts-bin.js"
   },
+  "resolutions": {
+    "graphql": "^15.3.0"
+  },
   "devDependencies": {
+    "@apollo/client": "^3.2.9",
     "@types/figlet": "^1.2.0",
     "@types/graphql": "^14.5.0",
     "@types/inquirer": "^7.3.1",
@@ -89,7 +90,6 @@
     "vuepress-plugin-autometa": "^0.1.13"
   },
   "dependencies": {
-    "@apollo/client": "^3.2.9",
     "chalk": "^4.1.0",
     "commander": "^6.2.0",
     "custom-env": "^2.0.1",
@@ -99,7 +99,7 @@
     "mkdirp": "^1.0.4",
     "node-fetch": "^2.6.1",
     "ora": "^5.1.0",
-    "prettier": "^2.2.0",
+    "prettier": "^2.2.1",
     "querystringify": "^2.2.0",
     "typescript": "^4.1.2"
   }
