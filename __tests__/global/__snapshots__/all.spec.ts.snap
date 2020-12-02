@@ -19,8 +19,8 @@ export type Maybe<T> = T | null;
 import { OperationDefinitionNode } from 'graphql';
 
 const guessFragmentType = (fragment: string | DocumentNode) => {
-  let isString,
-    isFragment = false;
+  let isString = false;
+  let isFragment = false;
   let fragmentName = '';
   if (typeof fragment === 'string') {
     isString = true;
@@ -4836,13 +4836,18 @@ interface Pendable {
 interface Executable<T> {
   $fetch(): Promise<T>;
 }
+interface Nameble {
+  __name: string;
+}
 
-export interface QueryWithArgs<T, A> extends WithArgs<T, A>, Abortable, Pendable {}
+export interface QueryWithArgs<T, A> extends WithArgs<T, A>, Abortable, Pendable, Nameble {}
 export interface QueryWithOptionalArgs<T, A> extends QueryWithArgs<T, A>, Executable<T> {}
 
-export interface ExecutableQuery<T> extends Abortable, Pendable, Executable<T> {}
-export interface ExecutableQueryWithArgs<T, A> extends QueryWithArgs<T, A> {}
-export interface ExecutableQueryWithOptionalArgs<T, A> extends QueryWithOptionalArgs<T, A> {}
+export interface ExecutableQuery<T> extends Abortable, Pendable, Nameble, Executable<T> {}
+export type ExecutableQueryWithArgs<T, A> = QueryWithArgs<T, A>;
+export interface ExecutableQueryWithOptionalArgs<T, A>
+  extends QueryWithOptionalArgs<T, A>,
+    Executable<T> {}
 
 export const apiProvider = (apolloClient: ApolloClient<any>) => {
   const abortableQuery = <T, A = null>(
@@ -4857,12 +4862,12 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       let variables: { [x: string]: any } = {};
       let pending = false;
 
-      function $abort() {
+      const $abort = () => {
         if (observableQuery && !observableQuery.closed) {
           observableQuery.unsubscribe();
         }
-      }
-      async function $fetch() {
+      };
+      const $fetch = async () => {
         pending = true;
         return new Promise<T>((resolve, reject) => {
           observableQuery = execute(apolloClient.link, {
@@ -4882,20 +4887,22 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
             },
           });
         });
-      }
-      function $args(args) {
+      };
+      const $args = (args: Record<string, any>) => {
         variables = args;
         return {
           $abort,
           $fetch,
           pending,
+          __name: queryName,
         };
-      }
+      };
       if (args && !optionalArgs) {
         return {
           $abort,
           $args,
           pending,
+          __name: queryName,
         } as any;
       } else if (optionalArgs) {
         return {
@@ -4903,12 +4910,14 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
           $args,
           $fetch,
           pending,
+          __name: queryName,
         } as any;
       } else {
         return {
           $abort,
           $fetch,
           pending,
+          __name: queryName,
         } as any;
       }
     } else {
@@ -4920,9 +4929,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Page(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IPageModel, IPageModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -4949,9 +4958,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Media(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaModel, IMediaModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5112,9 +5121,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     MediaTrend(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaTrendModel, IMediaTrendModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5193,9 +5202,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     AiringSchedule(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IAiringScheduleModel, IAiringScheduleModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5262,9 +5271,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Character(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<ICharacterModel, ICharacterModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5305,9 +5314,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Staff(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IStaffModel, IStaffModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5348,9 +5357,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     MediaList(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaListModel, IMediaListModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5429,9 +5438,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     MediaListCollection(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaListCollectionModel, IMediaListCollectionModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5511,9 +5520,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     MediaTagCollection(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaTagModel[], IMediaTagCollectionModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5540,9 +5549,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     User(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IUserModel, IUserModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5567,9 +5576,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     },
     /** Get the currently authenticated user */
     Viewer(fragment?: string | DocumentNode): ExecutableQuery<IUserModel> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5596,9 +5605,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Notification(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<INotificationUnionModel, INotificationModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5633,9 +5642,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Studio(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IStudioModel, IStudioModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5676,9 +5685,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Review(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IReviewModel, IReviewModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5711,9 +5720,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Activity(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IActivityUnionModel, IActivityModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5796,9 +5805,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     ActivityReply(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IActivityReplyModel, IActivityReplyModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5825,9 +5834,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Following(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithArgs<IUserModel, IFollowingModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5854,9 +5863,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Follower(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithArgs<IUserModel, IFollowerModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5883,9 +5892,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Thread(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IThreadModel, IThreadModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5932,9 +5941,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     ThreadComment(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IThreadCommentModel[], IThreadCommentModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -5961,9 +5970,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Recommendation(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IRecommendationModel, IRecommendationModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6010,9 +6019,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Like(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IUserModel, ILikeModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6039,9 +6048,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     Markdown(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithArgs<IParsedMarkdownModel, IMarkdownModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6065,9 +6074,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       return abortableQuery(queryTemplate, true, false);
     },
     AniChartUser(fragment?: string | DocumentNode): ExecutableQuery<IAniChartUserModel> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6092,9 +6101,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     },
     /** Site statistics query */
     SiteStatistics(fragment?: string | DocumentNode): ExecutableQuery<ISiteStatisticsModel> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6120,9 +6129,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     UpdateUser(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IUserModel, IUpdateUserModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6173,9 +6182,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveMediaListEntry(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaListModel, ISaveMediaListEntryModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6236,9 +6245,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     UpdateMediaListEntries(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMediaListModel[], IUpdateMediaListEntriesModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6295,9 +6304,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteMediaListEntry(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteMediaListEntryModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6324,9 +6333,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteCustomList(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteCustomListModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6353,9 +6362,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveTextActivity(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<ITextActivityModel, ISaveTextActivityModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6382,9 +6391,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveMessageActivity(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IMessageActivityModel, ISaveMessageActivityModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6425,9 +6434,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveListActivity(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IListActivityModel, ISaveListActivityModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6454,9 +6463,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteActivity(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteActivityModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6483,9 +6492,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveActivityReply(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IActivityReplyModel, ISaveActivityReplyModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6512,9 +6521,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteActivityReply(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteActivityReplyModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6542,9 +6551,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     ToggleLike(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IUserModel[], IToggleLikeModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6571,9 +6580,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     ToggleLikeV2(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<ILikeableUnionModel, IToggleLikeV2ModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6600,9 +6609,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     ToggleFollow(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IUserModel, IToggleFollowModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6629,9 +6638,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     ToggleFavourite(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IFavouritesModel, IToggleFavouriteModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6670,9 +6679,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     UpdateFavouriteOrder(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IFavouritesModel, IUpdateFavouriteOrderModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6721,9 +6730,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveReview(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IReviewModel, ISaveReviewModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6764,9 +6773,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteReview(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteReviewModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6793,9 +6802,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     RateReview(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IReviewModel, IRateReviewModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6822,9 +6831,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveRecommendation(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IRecommendationModel, ISaveRecommendationModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6859,9 +6868,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveThread(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IThreadModel, ISaveThreadModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6904,9 +6913,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteThread(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteThreadModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6933,9 +6942,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     SaveThreadComment(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IThreadCommentModel, ISaveThreadCommentModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
@@ -6972,9 +6981,9 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
     DeleteThreadComment(
       fragment?: string | DocumentNode
     ): ExecutableQueryWithOptionalArgs<IDeletedModel, IDeleteThreadCommentModelArgs> {
-      let isString: string = '',
-        isFragment: boolean = false,
-        fragmentName: string = '';
+      let isString = false;
+      let isFragment = false;
+      let fragmentName = '';
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`

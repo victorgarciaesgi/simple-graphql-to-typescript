@@ -15,13 +15,16 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
   interface Executable<T> {
     $fetch(): Promise<T>;
   }
+  interface Nameble {
+    __name: string;
+  }
   
-  export interface QueryWithArgs<T, A> extends WithArgs<T, A>, Abortable, Pendable {}
+  export interface QueryWithArgs<T, A> extends WithArgs<T, A>, Abortable, Pendable, Nameble {}
   export interface QueryWithOptionalArgs<T, A> extends QueryWithArgs<T, A>, Executable<T> {}
   
-  export interface ExecutableQuery<T> extends Abortable, Pendable, Executable<T> {}
-  export interface ExecutableQueryWithArgs<T, A> extends QueryWithArgs<T, A> {}
-  export interface ExecutableQueryWithOptionalArgs<T, A> extends QueryWithOptionalArgs<T, A> {}
+  export interface ExecutableQuery<T> extends Abortable, Pendable, Nameble, Executable<T> {}
+  export type ExecutableQueryWithArgs<T, A> = QueryWithArgs<T, A>
+  export interface ExecutableQueryWithOptionalArgs<T, A> extends QueryWithOptionalArgs<T, A>, Executable<T> {}
   
   export const apiProvider = (apolloClient: ApolloClient<any>) => {
     const abortableQuery = <T, A = null>(
@@ -36,12 +39,12 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
         let variables: { [x: string]: any } = {};
         let pending = false;
   
-        function $abort() {
+        const $abort = () => {
           if (observableQuery && !observableQuery.closed) {
             observableQuery.unsubscribe();
           }
         }
-        async function $fetch() {
+        const $fetch = async () => {
           pending = true;
           return new Promise<T>((resolve, reject) => {
             observableQuery = execute(apolloClient.link, {
@@ -62,12 +65,13 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
             });
           });
         }
-        function $args(args: Record<string, any>) {
+        const $args = (args: Record<string, any>) => {
           variables = args;
           return {
             $abort,
             $fetch,
             pending,
+            __name: queryName
           };
         }
         if (args && !optionalArgs) {
@@ -75,6 +79,7 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
             $abort,
             $args,
             pending,
+            __name: queryName
           } as any;
         } else if (optionalArgs) {
           return {
@@ -82,12 +87,14 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
             $args,
             $fetch,
             pending,
+            __name: queryName
           } as any;
         } else {
           return {
             $abort,
             $fetch,
             pending,
+            __name: queryName
           } as any;
         }
       } else {
