@@ -55,7 +55,7 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
                 if (data && queryName && data[queryName]) {
                   resolve(data[queryName]);
                 } else {
-                  reject(errors);
+                  reject({ gqlErrors: errors, variables, query: queryName });
                 }
               },
               error: (error) => reject(error),
