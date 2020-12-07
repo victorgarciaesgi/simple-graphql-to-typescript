@@ -4878,7 +4878,7 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
               if (data && queryName && data[queryName]) {
                 resolve(data[queryName]);
               } else {
-                reject(errors);
+                reject({ gqlErrors: errors, variables, query: queryName });
               }
             },
             error: (error) => reject(error),
