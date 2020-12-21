@@ -58,7 +58,7 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
                   reject({ gqlErrors: errors, variables, query: queryName });
                 }
               },
-              error: (error) => reject(error),
+              error: (error) => reject({ gqlErrors: [error], variables, query: queryName }),
               complete: () => {
                 pending = false;
               },
