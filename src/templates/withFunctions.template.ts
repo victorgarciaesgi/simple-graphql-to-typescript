@@ -52,7 +52,7 @@ export const withFunctionsTemplate = (queries: string[], mutations: string[]): s
               variables,
             }).subscribe({
               next: ({ data, errors }) => {
-                if (data && queryName && data[queryName]) {
+                if (data && queryName && data[queryName] != null) {
                   resolve(data[queryName]);
                 } else {
                   reject({ gqlErrors: errors, variables, query: queryName });
