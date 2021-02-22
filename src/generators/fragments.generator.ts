@@ -38,13 +38,34 @@ export function generateNormalFragment(type: Type, connection?: boolean): string
       if (!isScalar && !isEnum) {
         const type = SchemaStore.findType(typeName);
         if (level < THRESHOLD) {
-          outputFragment += `${field.name} {`;
-          type?.fields?.forEach((field) => createFragmentWithDeps(field, level + 1));
-          outputFragment += `} `;
+          const allChildrenFragmentable = type?.fields.some((s) => {
+            if (level + 1 >= THRESHOLD) {
+              const { isEnum, isScalar } = SchemaStore.getFieldProps(s);
+              return isEnum || isScalar;
+            } else {
+              return true;
+            }
+          });
+          if (allChildrenFragmentable) {
+            outputFragment += `${field.name} {`;
+
+            type?.fields?.forEach((field) => createFragmentWithDeps(field, level + 1));
+            outputFragment += `} `;
+          }
         } else if (type?.fields && type.fields.length < 7) {
-          outputFragment += `${field.name} {`;
-          type?.fields?.forEach((field) => createFragmentNoDeps(field));
-          outputFragment += `} `;
+          const allChildrenFragmentable = type?.fields.some((s) => {
+            if (level + 1 >= THRESHOLD) {
+              const { isEnum, isScalar } = SchemaStore.getFieldProps(s);
+              return isEnum || isScalar;
+            } else {
+              return true;
+            }
+          });
+          if (allChildrenFragmentable) {
+            outputFragment += `${field.name} {`;
+            type?.fields?.forEach((field) => createFragmentNoDeps(field));
+            outputFragment += `} `;
+          }
         }
       } else {
         outputFragment += `${field.name} `;
