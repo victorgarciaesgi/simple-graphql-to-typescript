@@ -56,6 +56,9 @@ API_URL=http://localhost:4000/graphql
 `.sgtsrc.js`
 
 ```javascript
+/**
+ * @type { import("simple-graphql-to-typescript").SgtsConfig }
+ */
 module.exports = {
   endpoint: process.env.API_URL,
   output: './generated.ts',

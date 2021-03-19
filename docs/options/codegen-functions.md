@@ -66,7 +66,7 @@ const commentFragment = gql`
     body
   }
 `
-// OR a simple string
+// Or a simple string
 
 const commentFragment = `
   id
@@ -74,9 +74,12 @@ const commentFragment = `
   body
 `
 
-const commentsQuery = sgts.comments().$fragment(commentFragment);
+const commentsQuery = sgts.comments(commentFragment);
+// Or
+const commentsQuery = sgts.comments(); // This will take the auto-generated fragment by default
 
-commentsQuery.$args({postId: 5}).$fetch().then(data => console.log(data))
+
+const result = await commentsQuery.$args({postId: 5}).$fetch();
 
 // You can cancel your request any time
 
