@@ -70,11 +70,8 @@ export const createConfig = async (): Promise<void> => {
         choices: [
           new inquirer.Separator('------'),
           {
-            name: 'Typescript definitions',
-            checked: true,
-            disabled: 'Sgts will always generate definitions by default',
+            name: 'Only Typescript definitions (sgts will always generate definitions by default)',
           },
-          new inquirer.Separator('------'),
           {
             name: 'Vanilla es6 helpers functions',
             value: 'codegenFunctions',
@@ -88,7 +85,7 @@ export const createConfig = async (): Promise<void> => {
             value: 'codegenVueHooks',
           },
           {
-            name: 'Only GraphQL string templates',
+            name: 'GraphQL string templates',
             value: 'codegenTemplates',
           },
         ],

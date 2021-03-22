@@ -9,6 +9,8 @@
 | --codegen-react-hooks       |              | boolean                                      | [See doc](/options/codegen-react-hooks) |
 | --codegen-vue-hooks         |              | boolean                                      | [See doc](/options/codegen-vue-hooks)   |
 | --codegen-templates         |              | boolean                                      | [See doc](/options/withGqlQueries)      |
+| --apolloVersion             |              | number                                       | [See doc](/options/apolloVersion)       |
+| --gen-fragments             |              | boolean                                      | [See doc](/options/gen-fragments)       |
 | --customScalars `<scalars>` |              | {"myScalar": "MyType"}                       | [See doc](/options/customScalars)       |
 | --prefix `<prefix>`         | -p           | string <br> _default_ `null`                 | [See doc](/options/prefix)              |
 | --suffix `<suffix>`         | -s           | string <br> _default_ `null`                 | [See doc](/options/suffix)              |

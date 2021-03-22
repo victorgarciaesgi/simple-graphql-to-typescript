@@ -25,6 +25,10 @@ const runSgtsCLI = () => {
       'Provide your custum scalars in format {"myScalar": "MyType"...}'
     )
     .option(
+      '--apolloVersion <apolloVersion>',
+      'Specify your apollo client version (supported: 2 & 3)'
+    )
+    .option(
       '-p, --prefix <prefix>',
       'Add prefix to all your types (ex: User becomes IUser with --suffix I)'
     )
@@ -53,6 +57,7 @@ const runSgtsCLI = () => {
         codegenTemplates,
         download,
         genFragments,
+        apolloVersion = 3,
       }) => {
         // Generate using .sgtsrc.js config file
         if (customScalars) {
@@ -80,6 +85,7 @@ const runSgtsCLI = () => {
           codegenTemplates,
           download,
           genFragments,
+          apolloVersion,
         });
       }
     );

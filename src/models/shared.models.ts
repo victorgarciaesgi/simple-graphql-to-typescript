@@ -15,6 +15,7 @@ export type SgtsConfig = {
   codegenVueHooks?: boolean;
   codegenTemplates?: boolean;
   genFragments?: boolean;
+  apolloVersion?: 2 | 3;
 } & AtLeastOne<{ endpoint: string; json: string }>;
 
 export enum CodeGenType {
