@@ -43,21 +43,11 @@ const runSgtsCLI = () => {
     )
     .action(
       ({
-        endpoint,
-        json,
         output = './__generated.ts',
         customScalars,
-        header,
-        prefix,
-        suffix,
-        codegenFunctions,
-        jsMode,
-        codegenReactHooks,
-        codegenVueHooks,
-        codegenTemplates,
-        download,
-        genFragments,
+
         apolloVersion = 3,
+        ...rest
       }) => {
         // Generate using .sgtsrc.js config file
         if (customScalars) {
@@ -71,21 +61,10 @@ const runSgtsCLI = () => {
           }
         }
         generateUsingConfig({
-          endpoint,
-          json,
           output,
           customScalars,
-          header,
-          prefix,
-          suffix,
-          codegenFunctions,
-          jsMode,
-          codegenReactHooks,
-          codegenVueHooks,
-          codegenTemplates,
-          download,
-          genFragments,
           apolloVersion,
+          ...rest,
         });
       }
     );
