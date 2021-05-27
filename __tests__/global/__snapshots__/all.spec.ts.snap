@@ -148,12 +148,14 @@ export interface IUserModel {
   donatorTier: Maybe<number>;
   /** Custom donation badge text*/
   donatorBadge: Maybe<string>;
-  /** If the user is a moderator or data moderator*/
-  moderatorStatus: Maybe<string>;
+  /** The user's moderator roles if they are a site moderator*/
+  moderatorRoles: Maybe<IModRoleModel[]>;
   /** When the user's data was last updated*/
   updatedAt: Maybe<number>;
   /** @deprecated Deprecated. Replaced with statistics field.The user's statistics*/
   stats: Maybe<IUserStatsModel>;
+  /** @deprecated Deprecated. Replaced with moderatorRoles field.If the user is a moderator or data moderator*/
+  moderatorStatus: Maybe<string>;
 }
 
 /** A user's avatars */
@@ -1326,6 +1328,22 @@ export interface IUserStudioStatisticModel {
   studio: Maybe<IStudioModel>;
 }
 
+/** Mod role enums */
+export enum IModRoleModel {
+  Admin = 'ADMIN',
+  Lead_developer = 'LEAD_DEVELOPER',
+  Developer = 'DEVELOPER',
+  Lead_community = 'LEAD_COMMUNITY',
+  Community = 'COMMUNITY',
+  Discord_community = 'DISCORD_COMMUNITY',
+  Lead_anime_data = 'LEAD_ANIME_DATA',
+  Anime_data = 'ANIME_DATA',
+  Lead_manga_data = 'LEAD_MANGA_DATA',
+  Manga_data = 'MANGA_DATA',
+  Lead_social_media = 'LEAD_SOCIAL_MEDIA',
+  Social_media = 'SOCIAL_MEDIA',
+  Retired = 'RETIRED',
+}
 /** A user's statistics */
 export interface IUserStatsModel {
   /** The amount of anime the user has watched in minutes*/
@@ -2424,6 +2442,7 @@ export interface IUserModDataModel {
   bans: Maybe<string>;
   ip: Maybe<string>;
   counts: Maybe<string>;
+  email: Maybe<string>;
 }
 
 export interface IPageModelArgs {
@@ -2816,6 +2835,8 @@ export interface IUserModelArgs {
   id?: number;
   /** Filter by the name of the user*/
   name?: string;
+  /** Filter to moderators only if true*/
+  isModerator?: boolean;
   /** Filter by search query*/
   search?: string;
   /** The order the results will be returned in*/
@@ -3406,7 +3427,7 @@ export const PageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -3482,6 +3503,7 @@ export const PageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     media {
       id
@@ -3735,8 +3757,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -3875,8 +3898,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     airingSchedules {
@@ -4108,7 +4132,7 @@ export const PageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -4184,6 +4208,7 @@ export const PageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     following {
       id
@@ -4237,7 +4262,7 @@ export const PageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -4313,6 +4338,7 @@ export const PageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     activityReplies {
       id
@@ -4339,8 +4365,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -4359,8 +4386,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     threads {
@@ -4397,8 +4425,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -4417,8 +4446,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -4437,8 +4467,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -4576,8 +4607,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -4596,8 +4628,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -4633,8 +4666,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       media {
         id
@@ -4898,8 +4932,9 @@ export const PageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     likes {
@@ -4954,7 +4989,7 @@ export const PageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -5030,6 +5065,7 @@ export const PageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -5044,7 +5080,7 @@ export const PageInfoFragment = gql\`
 \`;
 export const UserFragment = gql\` 
   fragment UserFragment on User {
-    id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } 
+    id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus 
   }
 \`;
 export const UserAvatarFragment = gql\`
@@ -6005,8 +6041,9 @@ export const MediaConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
         }
         reviews {
@@ -6588,8 +6625,9 @@ export const MediaConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
           submissionStatus
           submissionNotes
@@ -6648,7 +6686,7 @@ export const MediaConnectionFragment = gql\`
           siteUrl
           donatorTier
           donatorBadge
-          moderatorStatus
+          moderatorRoles
           updatedAt
           stats {
             watchedTime
@@ -6724,6 +6762,7 @@ export const MediaConnectionFragment = gql\`
               amount
             }
           }
+          moderatorStatus
         }
         submissionStatus
         submissionNotes
@@ -6825,8 +6864,9 @@ export const MediaConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
           submissionStatus
           submissionNotes
@@ -7529,8 +7569,9 @@ export const MediaConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
           submissionStatus
           submissionNotes
@@ -8157,7 +8198,7 @@ export const MediaConnectionFragment = gql\`
           siteUrl
           donatorTier
           donatorBadge
-          moderatorStatus
+          moderatorRoles
           updatedAt
           stats {
             watchedTime
@@ -8233,6 +8274,7 @@ export const MediaConnectionFragment = gql\`
               amount
             }
           }
+          moderatorStatus
         }
       }
       reviews {
@@ -8286,8 +8328,9 @@ export const MediaConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
           media {
             id
@@ -8567,8 +8610,9 @@ export const MediaConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
         }
         pageInfo {
@@ -8870,8 +8914,9 @@ export const MediaEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -9492,8 +9537,9 @@ export const MediaFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     reviews {
@@ -10116,8 +10162,9 @@ export const CharacterConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
           submissionStatus
           submissionNotes
@@ -10176,7 +10223,7 @@ export const CharacterConnectionFragment = gql\`
           siteUrl
           donatorTier
           donatorBadge
-          moderatorStatus
+          moderatorRoles
           updatedAt
           stats {
             watchedTime
@@ -10252,6 +10299,7 @@ export const CharacterConnectionFragment = gql\`
               amount
             }
           }
+          moderatorStatus
         }
         submissionStatus
         submissionNotes
@@ -10353,8 +10401,9 @@ export const CharacterConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
           submissionStatus
           submissionNotes
@@ -10929,8 +10978,9 @@ export const CharacterConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
         }
         reviews {
@@ -11456,8 +11506,9 @@ export const CharacterEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -12172,8 +12223,9 @@ export const StaffFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -12232,7 +12284,7 @@ export const StaffFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -12308,6 +12360,7 @@ export const StaffFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     submissionStatus
     submissionNotes
@@ -12427,8 +12480,9 @@ export const StaffRoleTypeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -12441,7 +12495,7 @@ export const StaffRoleTypeFragment = gql\`
 \`;
 export const StaffConnectionFragment = gql\` 
   fragment StaffConnectionFragment on StaffConnection {
-    edges {node {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } submissionStatus submissionNotes favourites modNotes } id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {node {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } id relationType isMainStudio characters {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } characterRole characterName roleNotes dubGroup staffRole voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {node {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } id role name voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } voiceActorRoles {roleNotes dubGroup } media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } favouriteOrder } nodes {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {node {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } id relationType isMainStudio characters {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } characterRole characterName roleNotes dubGroup staffRole voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } 
+    edges {node {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } submissionStatus submissionNotes favourites modNotes } id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {node {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } id relationType isMainStudio characters {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } characterRole characterName roleNotes dubGroup staffRole voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {node {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } id role name voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } voiceActorRoles {roleNotes dubGroup } media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } favouriteOrder } nodes {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {node {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } id relationType isMainStudio characters {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } characterRole characterName roleNotes dubGroup staffRole voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } 
   }
 \`;
 export const StaffEdgeFragment = gql\`
@@ -12540,8 +12594,9 @@ export const StaffEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -13960,8 +14015,9 @@ export const AiringScheduleConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
         }
         reviews {
@@ -14841,8 +14897,9 @@ export const MediaTrendConnectionFragment = gql\`
             siteUrl
             donatorTier
             donatorBadge
-            moderatorStatus
+            moderatorRoles
             updatedAt
+            moderatorStatus
           }
         }
         reviews {
@@ -15383,7 +15440,7 @@ export const MediaListFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -15459,12 +15516,13 @@ export const MediaListFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
 export const ReviewConnectionFragment = gql\` 
   fragment ReviewConnectionFragment on ReviewConnection {
-    edges {node {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } } nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } relations {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } staff {edges {id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } studios {edges {id isMain favouriteOrder } nodes {id name isAnimationStudio siteUrl isFavourite favourites } pageInfo {total perPage currentPage lastPage hasNextPage } } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } airingSchedule {edges {node {id airingAt timeUntilAiring episode mediaId } id } nodes {id airingAt timeUntilAiring episode mediaId } pageInfo {total perPage currentPage lastPage hasNextPage } } trends {nodes {mediaId date trending averageScore popularity inProgress releasing episode } pageInfo {total perPage currentPage lastPage hasNextPage } } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } } reviews {nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt } pageInfo {total perPage currentPage lastPage hasNextPage } } recommendations {nodes {id rating userRating } pageInfo {total perPage currentPage lastPage hasNextPage } } stats {scoreDistribution {score amount } statusDistribution {status amount } airingProgression {episode score watching } } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } pageInfo {total perPage currentPage lastPage hasNextPage } 
+    edges {node {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } } nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } relations {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } staff {edges {id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } studios {edges {id isMain favouriteOrder } nodes {id name isAnimationStudio siteUrl isFavourite favourites } pageInfo {total perPage currentPage lastPage hasNextPage } } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } airingSchedule {edges {node {id airingAt timeUntilAiring episode mediaId } id } nodes {id airingAt timeUntilAiring episode mediaId } pageInfo {total perPage currentPage lastPage hasNextPage } } trends {nodes {mediaId date trending averageScore popularity inProgress releasing episode } pageInfo {total perPage currentPage lastPage hasNextPage } } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } } reviews {nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt } pageInfo {total perPage currentPage lastPage hasNextPage } } recommendations {nodes {id rating userRating } pageInfo {total perPage currentPage lastPage hasNextPage } } stats {scoreDistribution {score amount } statusDistribution {status amount } airingProgression {episode score watching } } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } pageInfo {total perPage currentPage lastPage hasNextPage } 
   }
 \`;
 export const ReviewEdgeFragment = gql\`
@@ -15501,8 +15559,9 @@ export const ReviewEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       media {
         id
@@ -15655,7 +15714,7 @@ export const ReviewFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -15731,6 +15790,7 @@ export const ReviewFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     media {
       id
@@ -15864,7 +15924,7 @@ export const ReviewFragment = gql\`
 \`;
 export const RecommendationConnectionFragment = gql\` 
   fragment RecommendationConnectionFragment on RecommendationConnection {
-    edges {node {id rating userRating media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } mediaRecommendation {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } } } nodes {id rating userRating media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } relations {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } staff {edges {id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } studios {edges {id isMain favouriteOrder } nodes {id name isAnimationStudio siteUrl isFavourite favourites } pageInfo {total perPage currentPage lastPage hasNextPage } } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } airingSchedule {edges {node {id airingAt timeUntilAiring episode mediaId } id } nodes {id airingAt timeUntilAiring episode mediaId } pageInfo {total perPage currentPage lastPage hasNextPage } } trends {nodes {mediaId date trending averageScore popularity inProgress releasing episode } pageInfo {total perPage currentPage lastPage hasNextPage } } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } } reviews {nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt } pageInfo {total perPage currentPage lastPage hasNextPage } } recommendations {nodes {id rating userRating } pageInfo {total perPage currentPage lastPage hasNextPage } } stats {scoreDistribution {score amount } statusDistribution {status amount } airingProgression {episode score watching } } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } mediaRecommendation {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } relations {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } staff {edges {id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } studios {edges {id isMain favouriteOrder } nodes {id name isAnimationStudio siteUrl isFavourite favourites } pageInfo {total perPage currentPage lastPage hasNextPage } } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } airingSchedule {edges {node {id airingAt timeUntilAiring episode mediaId } id } nodes {id airingAt timeUntilAiring episode mediaId } pageInfo {total perPage currentPage lastPage hasNextPage } } trends {nodes {mediaId date trending averageScore popularity inProgress releasing episode } pageInfo {total perPage currentPage lastPage hasNextPage } } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } } reviews {nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt } pageInfo {total perPage currentPage lastPage hasNextPage } } recommendations {nodes {id rating userRating } pageInfo {total perPage currentPage lastPage hasNextPage } } stats {scoreDistribution {score amount } statusDistribution {status amount } airingProgression {episode score watching } } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } } pageInfo {total perPage currentPage lastPage hasNextPage } 
+    edges {node {id rating userRating media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } mediaRecommendation {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } } } nodes {id rating userRating media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } relations {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } staff {edges {id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } studios {edges {id isMain favouriteOrder } nodes {id name isAnimationStudio siteUrl isFavourite favourites } pageInfo {total perPage currentPage lastPage hasNextPage } } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } airingSchedule {edges {node {id airingAt timeUntilAiring episode mediaId } id } nodes {id airingAt timeUntilAiring episode mediaId } pageInfo {total perPage currentPage lastPage hasNextPage } } trends {nodes {mediaId date trending averageScore popularity inProgress releasing episode } pageInfo {total perPage currentPage lastPage hasNextPage } } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } } reviews {nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt } pageInfo {total perPage currentPage lastPage hasNextPage } } recommendations {nodes {id rating userRating } pageInfo {total perPage currentPage lastPage hasNextPage } } stats {scoreDistribution {score amount } statusDistribution {status amount } airingProgression {episode score watching } } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } mediaRecommendation {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites tags {id name description category rank isGeneralSpoiler isMediaSpoiler isAdult } relations {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } staff {edges {id role favouriteOrder } nodes {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } studios {edges {id isMain favouriteOrder } nodes {id name isAnimationStudio siteUrl isFavourite favourites } pageInfo {total perPage currentPage lastPage hasNextPage } } isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } } airingSchedule {edges {node {id airingAt timeUntilAiring episode mediaId } id } nodes {id airingAt timeUntilAiring episode mediaId } pageInfo {total perPage currentPage lastPage hasNextPage } } trends {nodes {mediaId date trending averageScore popularity inProgress releasing episode } pageInfo {total perPage currentPage lastPage hasNextPage } } externalLinks {id url site } streamingEpisodes {title thumbnail url site } rankings {id rank type format year season allTime context } mediaListEntry {id userId mediaId status score progress progressVolumes repeat priority private notes hiddenFromStatusLists customLists advancedScores startedAt {year month day } completedAt {year month day } updatedAt createdAt media {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } } reviews {nodes {id userId mediaId mediaType summary body rating ratingAmount userRating score private siteUrl createdAt updatedAt } pageInfo {total perPage currentPage lastPage hasNextPage } } recommendations {nodes {id rating userRating } pageInfo {total perPage currentPage lastPage hasNextPage } } stats {scoreDistribution {score amount } statusDistribution {status amount } airingProgression {episode score watching } } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } user {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } } pageInfo {total perPage currentPage lastPage hasNextPage } 
   }
 \`;
 export const RecommendationEdgeFragment = gql\`
@@ -16050,8 +16110,9 @@ export const RecommendationEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
   }
@@ -16369,7 +16430,7 @@ export const RecommendationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -16445,6 +16506,7 @@ export const RecommendationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -17096,8 +17158,9 @@ export const UserVoiceActorStatisticFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -17208,8 +17271,9 @@ export const UserStaffStatisticFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -17545,8 +17609,9 @@ export const StaffStatsFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -17783,7 +17848,7 @@ export const FollowingNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -17859,6 +17924,7 @@ export const FollowingNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -17901,8 +17967,9 @@ export const ActivityMessageNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       messenger {
         id
@@ -17921,8 +17988,9 @@ export const ActivityMessageNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replies {
         id
@@ -17950,8 +18018,9 @@ export const ActivityMessageNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     user {
@@ -18006,7 +18075,7 @@ export const ActivityMessageNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18082,6 +18151,7 @@ export const ActivityMessageNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -18152,7 +18222,7 @@ export const MessageActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18228,6 +18298,7 @@ export const MessageActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     messenger {
       id
@@ -18281,7 +18352,7 @@ export const MessageActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18357,6 +18428,7 @@ export const MessageActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     replies {
       id
@@ -18383,8 +18455,9 @@ export const MessageActivityFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -18403,8 +18476,9 @@ export const MessageActivityFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     likes {
@@ -18459,7 +18533,7 @@ export const MessageActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18535,6 +18609,7 @@ export const MessageActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -18599,7 +18674,7 @@ export const ActivityReplyFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18675,6 +18750,7 @@ export const ActivityReplyFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     likes {
       id
@@ -18728,7 +18804,7 @@ export const ActivityReplyFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18804,6 +18880,7 @@ export const ActivityReplyFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -18867,7 +18944,7 @@ export const ActivityMentionNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -18943,6 +19020,7 @@ export const ActivityMentionNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -19011,7 +19089,7 @@ export const TextActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -19087,6 +19165,7 @@ export const TextActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     replies {
       id
@@ -19113,8 +19192,9 @@ export const TextActivityFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -19133,8 +19213,9 @@ export const TextActivityFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     likes {
@@ -19189,7 +19270,7 @@ export const TextActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -19265,6 +19346,7 @@ export const TextActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -19334,7 +19416,7 @@ export const ListActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -19410,6 +19492,7 @@ export const ListActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     media {
       id
@@ -19564,8 +19647,9 @@ export const ListActivityFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -19584,8 +19668,9 @@ export const ListActivityFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     likes {
@@ -19640,7 +19725,7 @@ export const ListActivityFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -19716,6 +19801,7 @@ export const ListActivityFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -19779,7 +19865,7 @@ export const ActivityReplyNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -19855,6 +19941,7 @@ export const ActivityReplyNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -19918,7 +20005,7 @@ export const ActivityReplySubscribedNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -19994,6 +20081,7 @@ export const ActivityReplySubscribedNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -20057,7 +20145,7 @@ export const ActivityLikeNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -20133,6 +20221,7 @@ export const ActivityLikeNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -20196,7 +20285,7 @@ export const ActivityReplyLikeNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -20272,6 +20361,7 @@ export const ActivityReplyLikeNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -20317,8 +20407,9 @@ export const ThreadCommentMentionNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -20337,8 +20428,9 @@ export const ThreadCommentMentionNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -20357,8 +20449,9 @@ export const ThreadCommentMentionNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -20496,8 +20589,9 @@ export const ThreadCommentMentionNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -20516,8 +20610,9 @@ export const ThreadCommentMentionNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -20573,7 +20668,7 @@ export const ThreadCommentMentionNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -20649,6 +20744,7 @@ export const ThreadCommentMentionNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -20722,7 +20818,7 @@ export const ThreadFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -20798,6 +20894,7 @@ export const ThreadFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     replyUser {
       id
@@ -20851,7 +20948,7 @@ export const ThreadFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -20927,6 +21024,7 @@ export const ThreadFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     likes {
       id
@@ -20980,7 +21078,7 @@ export const ThreadFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -21056,6 +21154,7 @@ export const ThreadFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     siteUrl
     categories {
@@ -21243,8 +21342,9 @@ export const ThreadCommentFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -21263,8 +21363,9 @@ export const ThreadCommentFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -21283,8 +21384,9 @@ export const ThreadCommentFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -21424,7 +21526,7 @@ export const ThreadCommentFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -21500,6 +21602,7 @@ export const ThreadCommentFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     likes {
       id
@@ -21553,7 +21656,7 @@ export const ThreadCommentFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -21629,6 +21732,7 @@ export const ThreadCommentFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     childComments
   }
@@ -21675,8 +21779,9 @@ export const ThreadCommentReplyNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -21695,8 +21800,9 @@ export const ThreadCommentReplyNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -21715,8 +21821,9 @@ export const ThreadCommentReplyNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -21854,8 +21961,9 @@ export const ThreadCommentReplyNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -21874,8 +21982,9 @@ export const ThreadCommentReplyNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -21931,7 +22040,7 @@ export const ThreadCommentReplyNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -22007,6 +22116,7 @@ export const ThreadCommentReplyNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -22052,8 +22162,9 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -22072,8 +22183,9 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -22092,8 +22204,9 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -22231,8 +22344,9 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -22251,8 +22365,9 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -22308,7 +22423,7 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -22384,6 +22499,7 @@ export const ThreadCommentSubscribedNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -22429,8 +22545,9 @@ export const ThreadCommentLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -22449,8 +22566,9 @@ export const ThreadCommentLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -22469,8 +22587,9 @@ export const ThreadCommentLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -22608,8 +22727,9 @@ export const ThreadCommentLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -22628,8 +22748,9 @@ export const ThreadCommentLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -22685,7 +22806,7 @@ export const ThreadCommentLikeNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -22761,6 +22882,7 @@ export const ThreadCommentLikeNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -22806,8 +22928,9 @@ export const ThreadLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -22826,8 +22949,9 @@ export const ThreadLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -22846,8 +22970,9 @@ export const ThreadLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -22985,8 +23110,9 @@ export const ThreadLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -23005,8 +23131,9 @@ export const ThreadLikeNotificationFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -23062,7 +23189,7 @@ export const ThreadLikeNotificationFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -23138,6 +23265,7 @@ export const ThreadLikeNotificationFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -23366,7 +23494,7 @@ export const MediaListCollectionFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -23442,6 +23570,7 @@ export const MediaListCollectionFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     hasNextChunk
     statusLists {
@@ -23568,8 +23697,9 @@ export const MediaListCollectionFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     customLists {
@@ -23696,8 +23826,9 @@ export const MediaListCollectionFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
   }
@@ -23828,8 +23959,9 @@ export const MediaListGroupFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     name
@@ -23897,7 +24029,7 @@ export const AniChartUserFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -23973,6 +24105,7 @@ export const AniChartUserFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     settings
     highlights
@@ -24145,8 +24278,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       status
       submitterStats
@@ -24396,8 +24530,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       status
       notes
@@ -24505,8 +24640,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       status
       notes
@@ -24534,8 +24670,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       media {
         id
@@ -24708,8 +24845,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       reported {
         id
@@ -24728,8 +24866,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       reason
       createdAt
@@ -24753,8 +24892,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       mod {
         id
@@ -24773,8 +24913,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       type
       objectId
@@ -24841,7 +24982,7 @@ export const InternalPageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -24917,6 +25058,7 @@ export const InternalPageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     media {
       id
@@ -25170,8 +25312,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -25310,8 +25453,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     airingSchedules {
@@ -25543,7 +25687,7 @@ export const InternalPageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -25619,6 +25763,7 @@ export const InternalPageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     following {
       id
@@ -25672,7 +25817,7 @@ export const InternalPageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -25748,6 +25893,7 @@ export const InternalPageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     activityReplies {
       id
@@ -25774,8 +25920,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -25794,8 +25941,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     threads {
@@ -25832,8 +25980,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       replyUser {
         id
@@ -25852,8 +26001,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -25872,8 +26022,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       siteUrl
       categories {
@@ -26011,8 +26162,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       likes {
         id
@@ -26031,8 +26183,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       childComments
     }
@@ -26068,8 +26221,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       media {
         id
@@ -26333,8 +26487,9 @@ export const InternalPageFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
     }
     likes {
@@ -26389,7 +26544,7 @@ export const InternalPageFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -26465,6 +26620,7 @@ export const InternalPageFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
   }
 \`;
@@ -26523,7 +26679,7 @@ export const MediaSubmissionFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -26599,6 +26755,7 @@ export const MediaSubmissionFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     status
     submitterStats
@@ -27708,8 +27865,9 @@ export const MediaSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -27810,8 +27968,9 @@ export const MediaSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -27912,8 +28071,9 @@ export const MediaSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -28014,8 +28174,9 @@ export const MediaSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -28291,8 +28452,9 @@ export const MediaCharacterFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -28416,7 +28578,7 @@ export const CharacterSubmissionFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -28492,6 +28654,7 @@ export const CharacterSubmissionFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     status
     notes
@@ -28596,8 +28759,9 @@ export const StaffSubmissionFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -28698,8 +28862,9 @@ export const StaffSubmissionFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -28758,7 +28923,7 @@ export const StaffSubmissionFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -28834,6 +28999,7 @@ export const StaffSubmissionFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     status
     notes
@@ -28898,7 +29064,7 @@ export const RevisionHistoryFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -28974,6 +29140,7 @@ export const RevisionHistoryFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     media {
       id
@@ -29227,8 +29394,9 @@ export const RevisionHistoryFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -29301,7 +29469,7 @@ export const ReportFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -29377,6 +29545,7 @@ export const ReportFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     reported {
       id
@@ -29430,7 +29599,7 @@ export const ReportFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -29506,6 +29675,7 @@ export const ReportFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     reason
     createdAt
@@ -29566,7 +29736,7 @@ export const ModActionFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -29642,6 +29812,7 @@ export const ModActionFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     mod {
       id
@@ -29695,7 +29866,7 @@ export const ModActionFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -29771,6 +29942,7 @@ export const ModActionFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     type
     objectId
@@ -29781,7 +29953,7 @@ export const ModActionFragment = gql\`
 \`;
 export const CharacterSubmissionConnectionFragment = gql\` 
   fragment CharacterSubmissionConnectionFragment on CharacterSubmissionConnection {
-    edges {node {id character {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } submission {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } status notes source createdAt } role voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } submissionStatus submissionNotes favourites modNotes } submittedVoiceActors {id staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } submissionStatus submissionNotes favourites modNotes } submission {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } status notes source createdAt } } nodes {id character {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl media {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt favourites modNotes } submission {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl media {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorStatus updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } } status notes source createdAt } pageInfo {total perPage currentPage lastPage hasNextPage } 
+    edges {node {id character {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } submission {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } status notes source createdAt } role voiceActors {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl staffMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characters {edges {id role name voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl updatedAt favourites modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } characterMedia {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } submissionStatus submissionNotes favourites modNotes } submittedVoiceActors {id staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } submissionStatus submissionNotes favourites modNotes } submission {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt staff {id name {first middle last full native alternative } language languageV2 image {large medium } description primaryOccupations gender dateOfBirth {year month day } dateOfDeath {year month day } age yearsActive homeTown isFavourite isFavouriteBlocked siteUrl updatedAt submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt moderatorStatus } submissionStatus submissionNotes favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } status notes source createdAt } } nodes {id character {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl media {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt favourites modNotes } submission {id name {first middle last full native alternative alternativeSpoiler } image {large medium } description gender dateOfBirth {year month day } age isFavourite isFavouriteBlocked siteUrl media {edges {id relationType isMainStudio characterRole characterName roleNotes dubGroup staffRole voiceActorRoles {roleNotes dubGroup } favouriteOrder } nodes {id idMal title {romaji english native userPreferred } type format status description startDate {year month day } endDate {year month day } season seasonYear seasonInt episodes duration chapters volumes countryOfOrigin isLicensed source hashtag trailer {id site thumbnail } updatedAt coverImage {extraLarge large medium color } bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isFavourite isAdult nextAiringEpisode {id airingAt timeUntilAiring episode mediaId } externalLinks {id url site } streamingEpisodes {title thumbnail url site } siteUrl autoCreateForumThread isRecommendationBlocked modNotes } pageInfo {total perPage currentPage lastPage hasNextPage } } updatedAt favourites modNotes } submitter {id name about avatar {large medium } bannerImage isFollowing isFollower isBlocked bans options {titleLanguage displayAdultContent airingNotifications profileColor notificationOptions {type enabled } timezone activityMergeTime } mediaListOptions {scoreFormat rowOrder useLegacyLists animeList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } mangaList {sectionOrder splitCompletedSectionByFormat theme customLists advancedScoring advancedScoringEnabled } sharedTheme sharedThemeEnabled } favourites {} statistics {anime {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } manga {count meanScore standardDeviation minutesWatched episodesWatched chaptersRead volumesRead formats {count meanScore minutesWatched chaptersRead mediaIds format } statuses {count meanScore minutesWatched chaptersRead mediaIds status } scores {count meanScore minutesWatched chaptersRead mediaIds score } lengths {count meanScore minutesWatched chaptersRead mediaIds length } releaseYears {count meanScore minutesWatched chaptersRead mediaIds releaseYear } startYears {count meanScore minutesWatched chaptersRead mediaIds startYear } genres {count meanScore minutesWatched chaptersRead mediaIds genre } tags {count meanScore minutesWatched chaptersRead mediaIds } countries {count meanScore minutesWatched chaptersRead mediaIds country } staff {count meanScore minutesWatched chaptersRead mediaIds } studios {count meanScore minutesWatched chaptersRead mediaIds } } } unreadNotificationCount siteUrl donatorTier donatorBadge moderatorRoles updatedAt stats {watchedTime chaptersRead activityHistory {date amount level } animeStatusDistribution {status amount } mangaStatusDistribution {status amount } animeScoreDistribution {score amount } mangaScoreDistribution {score amount } animeListScores {meanScore standardDeviation } mangaListScores {meanScore standardDeviation } favouredGenresOverview {genre amount meanScore timeWatched } favouredGenres {genre amount meanScore timeWatched } favouredTags {amount meanScore timeWatched } favouredActors {amount meanScore timeWatched } favouredStaff {amount meanScore timeWatched } favouredStudios {amount meanScore timeWatched } favouredYears {year amount meanScore } favouredFormats {format amount } } moderatorStatus } status notes source createdAt } pageInfo {total perPage currentPage lastPage hasNextPage } 
   }
 \`;
 export const CharacterSubmissionEdgeFragment = gql\`
@@ -29847,8 +30019,9 @@ export const CharacterSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       status
       notes
@@ -29950,8 +30123,9 @@ export const CharacterSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       submissionStatus
       submissionNotes
@@ -30059,8 +30233,9 @@ export const CharacterSubmissionEdgeFragment = gql\`
         siteUrl
         donatorTier
         donatorBadge
-        moderatorStatus
+        moderatorRoles
         updatedAt
+        moderatorStatus
       }
       status
       notes
@@ -30123,7 +30298,7 @@ export const UserModDataFragment = gql\`
       siteUrl
       donatorTier
       donatorBadge
-      moderatorStatus
+      moderatorRoles
       updatedAt
       stats {
         watchedTime
@@ -30199,10 +30374,12 @@ export const UserModDataFragment = gql\`
           amount
         }
       }
+      moderatorStatus
     }
     bans
     ip
     counts
+    email
   }
 \`;
 
@@ -30941,8 +31118,14 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment));
 
       const defaultQuery = gql\`
-        query User($id: Int, $name: String, $search: String, $sort: [UserSort]) {
-          User(id: $id, name: $name, search: $search, sort: $sort) {
+        query User(
+          $id: Int
+          $name: String
+          $isModerator: Boolean
+          $search: String
+          $sort: [UserSort]
+        ) {
+          User(id: $id, name: $name, isModerator: $isModerator, search: $search, sort: $sort) {
             ...UserFragment
           }
         }
@@ -30950,8 +31133,8 @@ export const apiProvider = (apolloClient: ApolloClient<any>) => {
       \`;
       const queryTemplate = fragment
         ? gql\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
-        User(id: $id,name: $name,search: $search,sort: $sort) {
+      query User ($id: Int,$name: String,$isModerator: Boolean,$search: String,$sort: [UserSort]) {
+        User(id: $id,name: $name,isModerator: $isModerator,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
@@ -32606,8 +32789,8 @@ export const useUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = gql\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
-        User(id: $id,name: $name,search: $search,sort: $sort) {
+      query User ($id: Int,$name: String,$isModerator: Boolean,$search: String,$sort: [UserSort]) {
+        User(id: $id,name: $name,isModerator: $isModerator,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
@@ -33679,8 +33862,8 @@ export const useUser = (
 ) => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   const query = gql\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
-        User(id: $id,name: $name,search: $search,sort: $sort) {
+      query User ($id: Int,$name: String,$isModerator: Boolean,$search: String,$sort: [UserSort]) {
+        User(id: $id,name: $name,isModerator: $isModerator,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
@@ -34950,8 +35133,8 @@ export const MediaTagCollectionGQLNode = (fragment: string | DocumentNode): Docu
 export const UserGQLNode = (fragment: string | DocumentNode): DocumentNode => {
   const { isString, isFragment, fragmentName } = guessFragmentType(fragment);
   return gql\`
-      query User ($id: Int,$name: String,$search: String,$sort: [UserSort]) {
-        User(id: $id,name: $name,search: $search,sort: $sort) {
+      query User ($id: Int,$name: String,$isModerator: Boolean,$search: String,$sort: [UserSort]) {
+        User(id: $id,name: $name,isModerator: $isModerator,search: $search,sort: $sort) {
           \${isString ? fragment : '...' + fragmentName}
         }
       } \${isFragment ? fragment : ''}
