@@ -1,5 +1,3 @@
-import { Type, TypeKind } from '@models';
-import { defineImports, sharedTemplate } from '@templates';
 import { InterfaceHistory } from 'src/models/history.models';
 
 class HistoryConstructor {

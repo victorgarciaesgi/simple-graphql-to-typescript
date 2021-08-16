@@ -10,7 +10,7 @@ import { CodeGenType } from '@models';
 import ora from 'ora';
 
 class OutputConstructor {
-  private signature = sharedTemplate;
+  private signature = '';
   private loader = ora('🔄 Transpiling GraphQL schema to Typescript interfaces');
 
   getRenderedFileString(): string {
@@ -26,6 +26,7 @@ class OutputConstructor {
       const IMPORTS = defineImports();
       const INTERFACES = buildSchemaTypes();
       const FUNCTION_ARGS = buildMethodsArgsTypes();
+      this.signature = sharedTemplate();
 
       let FRAGMENTS: string[] = [];
       let CODEGEN_FUNCTIONS = '';

@@ -1,5 +1,10 @@
-export const sharedTemplate = `
+import { ParametersStore } from '@store';
+
+export const sharedTemplate = () => {
+  const { tsCheck } = ParametersStore;
+  return `
  /* eslint-disable */
+ ${tsCheck ? '' : '// @ts-nocheck'}
  // *******************************************************
  // *******************************************************
  //
@@ -14,3 +19,4 @@ export const sharedTemplate = `
  
  export type Maybe<T> = T | null;
  `;
+};

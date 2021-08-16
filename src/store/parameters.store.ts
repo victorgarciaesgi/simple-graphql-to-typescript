@@ -10,6 +10,7 @@ interface SetParametersArgs {
   codegenTemplates?: boolean;
   codegenVueHooks?: boolean;
   apolloVersion?: 2 | 3;
+  tsCheck?: boolean;
 }
 
 class ParametersConstructor {
@@ -30,6 +31,7 @@ class ParametersConstructor {
   public codegenTemplates = false;
   public codegenVueHooks = false;
   public apolloVersion = 3;
+  public tsCheck = true;
 
   get isCodeGen(): boolean {
     return (
@@ -57,6 +59,7 @@ class ParametersConstructor {
     this.codegenVueHooks = !!data.codegenVueHooks;
     this.codegenTemplates = !!data.codegenTemplates;
     this.apolloVersion = data.apolloVersion ?? 3;
+    this.tsCheck = data.tsCheck ?? true;
   }
 
   get listScalars() {
