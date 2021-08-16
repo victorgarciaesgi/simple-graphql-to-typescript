@@ -11,6 +11,7 @@ interface SetParametersArgs {
   codegenVueHooks?: boolean;
   apolloVersion?: 2 | 3;
   tsCheck?: boolean;
+  disableConnectionFragment?: boolean;
 }
 
 class ParametersConstructor {
@@ -32,6 +33,7 @@ class ParametersConstructor {
   public codegenVueHooks = false;
   public apolloVersion = 3;
   public tsCheck = true;
+  public disableConnectionFragment = false;
 
   get isCodeGen(): boolean {
     return (
@@ -60,6 +62,7 @@ class ParametersConstructor {
     this.codegenTemplates = !!data.codegenTemplates;
     this.apolloVersion = data.apolloVersion ?? 3;
     this.tsCheck = data.tsCheck ?? true;
+    this.disableConnectionFragment = data.disableConnectionFragment ?? false;
   }
 
   get listScalars() {

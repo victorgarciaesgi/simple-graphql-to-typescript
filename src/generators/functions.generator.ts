@@ -63,7 +63,7 @@ export function createGraphQLFunction({
       if (fragment) ({ isString, isFragment, fragmentName } = guessFragmentType(fragment))
 
       ${genFragments ? `const defaultQuery = ${defaultQuery};` : ''}
-      ${genFragments ? `const queryTemplate = fragment ? ${Query} : defaultQuery` : Query}
+      const queryTemplate = ${genFragments ? `fragment ? ${Query} : defaultQuery` : Query}
 
       return abortableQuery(queryTemplate, ${hasArgs}, ${argsOptional});
       }
@@ -79,10 +79,16 @@ type generateFunctionArgs = {
 
 export function generateFunction({ field, functionType, mode }: generateFunctionArgs): string {
   const { isScalar, isEnum, typeName } = SchemaStore.getFieldProps(field);
+  const { disableConnectionFragment } = ParametersStore;
 
   let innerFragment = `\${isString ? fragment : '...' + fragmentName}`;
 
-  if (!isScalar && !isEnum && SchemaStore.isTypeConnection(typeName)) {
+  if (
+    !isScalar &&
+    !isEnum &&
+    SchemaStore.isTypeConnection(typeName) &&
+    !disableConnectionFragment
+  ) {
     innerFragment = generateConnectionFragment(typeName, innerFragment) ?? innerFragment;
   }
   const createParams = { field, functionType, innerFragment };

@@ -17,6 +17,7 @@ export type SgtsConfig = {
   genFragments?: boolean;
   apolloVersion?: 2 | 3;
   tsCheck?: boolean;
+  disableConnectionFragment?: boolean;
 } & AtLeastOne<{ endpoint: string; json: string }>;
 
 export enum CodeGenType {
